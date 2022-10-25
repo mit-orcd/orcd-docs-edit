@@ -73,8 +73,8 @@ html_context = {
     'vcs_pageview_mode': 'edit',
     'display_github': True,
     'github_user': 'mit-orcd', # Username
-    'github_repo': 'docs', # Repo name
-    'github_version': 'master', # Version
+    'github_repo': 'orcd-docs-edit', # Repo name
+    'github_version': 'main', # Version
     'conf_py_path': '/', # Path in the checkout to the docs root
 }
 
