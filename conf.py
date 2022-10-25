@@ -25,9 +25,9 @@ from sphinx.writers.html import HTMLTranslator
 
 # -- Project information -----------------------------------------------------
 
-project = 'MIT Satori User Documentation'
-copyright = '%s, MIT Satori Project' % dt.datetime.now().year
-author = 'MIT Satori Project Team'
+project = 'MIT ORCD User Documentation'
+copyright = '%s, MIT Office of Research Computing and Data' % dt.datetime.now().year
+author = 'MIT ORCD Project Team'
 
 
 # -- General configuration ---------------------------------------------------
