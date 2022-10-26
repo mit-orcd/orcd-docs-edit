@@ -69,6 +69,8 @@ html_theme = 'sphinx_rtd_theme'
 ##CNH#     'js/custom.js',
 ##CNH# ]
 
+html_logo = 'images/orcd-logo.png'
+
 html_context = {
     'vcs_pageview_mode': 'edit',
     'display_github': True,
