@@ -65,9 +65,9 @@ html_theme = 'sphinx_rtd_theme'
 ##CNH#     'css/theme_overrides.css',
 ##CNH# ]
 
-##CNH# html_js_files = [
-##CNH#     'js/custom.js',
-##CNH# ]
+html_js_files = [
+  'js/custom.js',
+]
 
 html_logo = 'images/orcd-logo.png'
 
