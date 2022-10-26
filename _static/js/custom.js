@@ -3,7 +3,7 @@ $( document ).ready(function() {
   // Create link and text for navigation back to the ORCD home page
   var orcd_link = document.createElement("a");
   var orcd_text = document.createTextNode("ORCD Home Page");
-  orcd_link.appendChild(olcf_text);
+  orcd_link.appendChild(orcd_text);
   orcd_link.setAttribute("href", "https://orcd.mit.edu");
 
   // Open ORCD home page in new tab when clicked
