@@ -1,5 +1,4 @@
-ORCD Systems
-============
+ORCD operates a number of cluster computer systems available to all researchers.
 
 .. toctree::
    :maxdepth: 2
