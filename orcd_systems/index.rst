@@ -1,4 +1,8 @@
-ORCD operates a number of cluster computer systems available to all researchers.
+ORCD Systems
+============
+
+ORCD operates a number of cluster computer systems available to all researchers. They all run with a Slurm scheduler 
+and most have a web portal for interactive computing. These are Engaging, SuperCloud, and Satori.
 
 .. toctree::
    :maxdepth: 2
