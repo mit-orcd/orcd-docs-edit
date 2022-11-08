@@ -46,7 +46,7 @@
 
 ## Previewing a PR
 
-When a PR is submitted or updated a Github action step will automaticallt try and buid the PR. The action will prduce an _artifact_ zip file 
+When a PR is submitted or updated a Github action step will automatically try and build the PR. The action will produce an _artifact_ zip file 
 that holds the built site. The zip file can be downloaded and unpacked locally. Opening the top-level index.html in the zip file in a browser
 will provide a browsable view of the updated document.
 
@@ -55,7 +55,7 @@ Within a PR the _artifact_ zip file can be accessed by selecting the following s
    * Details
    * Summary
 
-the artifact zip file will be named _orcd-docs-edit_PRnnn_preview-artifact_ . It can be downloded by clicking on the icon or name.
+the artifact zip file will be named _orcd-docs-edit_PRnnn_preview-artifact_ . It can be downloaded by clicking on the icon or name.
 
 ## Notes on setting up to build locally on OSX
 
