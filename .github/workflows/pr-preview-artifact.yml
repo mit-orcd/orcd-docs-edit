@@ -53,5 +53,8 @@ jobs:
           REPOSITORY_NAME: mit-orcd/orcd-docs-previews
           ACCESS_TOKEN: ${{ secrets.PREVIEW_WEB_PAGE_DEPLOY }}
           TARGET_FOLDER: PR/PR${{ github.event.number }}
-
+          
+      - name: add URL to sumary
+        run: |
+          echo "URL added" >> $GITHUB_STEP_SUMMARY
 
