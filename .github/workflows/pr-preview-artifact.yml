@@ -38,7 +38,7 @@ jobs:
           path: /home/runner/work/orcd-docs-edit/orcd-docs-edit/_build/html/
           
       - name: deploy
-        uses: JamesIves/github-pages-deploy-action@4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           GITHUB_TOKEN: ${{ secrets.PREVIEW_WEB_PAGE_DEPLOY }}
           SSH: true 
