@@ -30,3 +30,30 @@ Filesystems and File Transfer
    filesystems_and_file_transfer/index
 
 
+Basic software and package installation
+---------------------------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   basic_software_and_package_installation/index
+
+
+Running Jobs
+------------
+
+.. toctree::
+   :maxdepth: 2
+
+   running_jobs/index
+
+Specific Software
+-----------------
+
+.. toctree::
+   :maxdepth: 2
+
+   specific_software_howtos/index.rst
+
+
+
