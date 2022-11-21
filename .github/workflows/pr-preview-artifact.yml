@@ -56,5 +56,5 @@ jobs:
           
       - name: add URL to sumary
         run: |
-          echo "URL for preview <a href=https://github.com/mit-orcd/orcd-docs-previews/PR/PR${{ github.event.number }}>https://github.com/mit-orcd/orcd-docs-previews/PR/PR${{ github.event.number }}</a>" >> $GITHUB_STEP_SUMMARY
+          echo "URL for preview <a href=https://mit-orcd.github.io/orcd-docs-previews/PR/PR${{ github.event.number }}>https://mit-orcd.github.io/orcd-docs-previews/PR/PR${{ github.event.number }}</a>" >> $GITHUB_STEP_SUMMARY
 
