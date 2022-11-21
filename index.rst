@@ -30,3 +30,12 @@ Filesystems and File Transfer
    filesystems_and_file_transfer/index
 
 
+Basic software and package installation
+---------------------------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   basic_software_and_package_installation/index
+
+
