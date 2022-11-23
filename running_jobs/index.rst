@@ -9,4 +9,5 @@ This section provides examples of how to create and schedule Slurm scheduler job
    :maxdepth: 2
    
    scheduler_overview/index
+   slurm_partitions/index
    how_to_run_different_sorts_workloads/index
