@@ -1,4 +1,4 @@
-Scheduler Overview
+Scheduler overview
 ==================
 
 The Slurm scheduler is a tool that manages the allocation of 
