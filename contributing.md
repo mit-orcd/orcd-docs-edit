@@ -46,7 +46,21 @@
 
 ## Previewing a PR
 
-When a PR is submitted or updated a Github action step will automatically try and build the PR. The action will produce an _artifact_ zip file 
+When a PR is submitted or updated a Github action step will automatically try and build the PR. 
+
+The PR action will produces and online and a downloadable preview of the changes.
+
+#### Online preview
+An online preview is automatically produced for each PR at the location https://mit-orcd.github.io/orcd-docs-previews/PR/PR _nnnn_, where
+_nnnn_ is the number of the PR. Within a PR the preview link can be accssed by selecting the following sections
+   * Show all checks
+   * Details
+   * Summary
+
+the preview location URL is shown next to the text `URL for preview` in the Github action summary.
+
+#### Downloadable preview
+A downloadable PR preview is generted as an _artifact_ zip file 
 that holds the built site. The zip file can be downloaded and unpacked locally. Opening the top-level index.html in the zip file in a browser
 will provide a browsable view of the updated document.
 
