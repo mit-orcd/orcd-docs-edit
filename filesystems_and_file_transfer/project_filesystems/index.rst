@@ -7,18 +7,15 @@ by the group through MIT Web Moira, https://groups.mit.edu/webmoira/ (see below 
 
 Current pricing for storage is
 
-.. list-table:: Purchased Storage Options
-   :widths: 25 25 50
-   :header-rows: 1
 
-   * - Storage Type
-     - Pricing
-     - Duration
-     - Backup
-   * - NESE disk       
-     - $2.50/month with 50TB minimum and 10TB increments.
-     - 12 month minimum term
-     - No automated backup
+   +------------------------+------------------+----------+--------------+
+   | Storage Type           | Pricing          | Duration | Backup       |
+   |                        |                  |          |              |
+   +========================+==================+==========+==============+
+   | NESE disk              | $2.50/month      | 12 month | No automated |
+   |                        | 50TB minimum,    | minimum. | backup.      |
+   |                        | 10TB increments. |          |              |
+   +------------------------+------------------+----------+--------------+
 
 Managing access using MIT Web Moira
 -----------------------------------
