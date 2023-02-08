@@ -19,3 +19,9 @@ Current pricing for storage is
 
 Managing access using MIT Web Moira
 -----------------------------------
+
+Individual group storage is configured so that access is limited to a set
+of accounts belonging to a web moira list defined for the group
+store. The owner and administrators of group storage can modify the 
+membership of th group by accessing the members list for
+the group under https://groups.mit.edu/webmoira/list/.
