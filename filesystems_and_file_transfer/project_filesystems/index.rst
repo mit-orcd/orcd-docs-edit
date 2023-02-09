@@ -21,6 +21,8 @@ The NESE encrypted at rest disk uses a large centrally managed storage cloud at 
 facility. Any shared ORCD cluster at the MGHPCC can access this storage. Data on NESE disk
 is transparently encrypted at rest. 
 
+To purchase storage please send an email to `orcd-help@mit.edu <mailto:orcd-help@mit.edu>`_
+
 Managing access using MIT Web Moira
 -----------------------------------
 
