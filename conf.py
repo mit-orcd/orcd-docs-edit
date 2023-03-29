@@ -69,7 +69,8 @@ html_js_files = [
   'js/custom.js',
 ]
 
-html_logo = 'images/orcd-logo.png'
+# html_logo = 'images/orcd-logo.png'
+html_logo = 'images/logo-orcd.svg'
 
 html_context = {
     'vcs_pageview_mode': 'edit',
