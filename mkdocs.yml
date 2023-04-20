@@ -6,9 +6,11 @@ nav:
 #theme: readthedocs
 theme: 
   name: material
-  logo: images/logo-orcd.svg
+  logo: images/ORCD_logo_icononly.png
   features:
     - content.code.copy
+  palette:
+    primary: blue grey
 markdown_extensions:
     - toc:
         permalink: 
