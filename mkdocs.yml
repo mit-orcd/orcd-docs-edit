@@ -2,6 +2,8 @@ site_name: ORCD Docs
 site_url: https://orcd.mit.edu
 nav:
   - Home: index.md
+  - ORCD Systems: orcd-systems.md
+  - Data Security and Privacy: data-security.md
 
 #theme: readthedocs
 theme: 
