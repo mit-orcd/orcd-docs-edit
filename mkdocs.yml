@@ -1,0 +1,54 @@
+site_name: ORCD Docs
+site_url: https://orcd.mit.edu
+nav:
+  - Home: index.md
+  - ORCD Systems: orcd-systems.md
+  - Filesystems and File Transfer:
+#    - General Use Shared Filesystems:  filesystems-file-transfer/page1.md
+    - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
+#    - Transferring Files:  filesystems-file-transfer/transferring-files.md
+#    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
+  - Data Security and Privacy: data-security.md
+#  - Basic software and package installation:
+#    - Environment Modules: software/page1.md
+#    - Installing packages/libraries in Julia, Python, R: software/page2.md
+#    - Other software installs/requests: software/page3.md
+#  - Running Jobs:
+#    - Scheduler Overview: running/page1.md
+#    - Slurm Partitions: running/page2.md
+#    - How To Run Different Workloads: running/page3.md
+#  - How Tos:
+#    - howto/page1.md
+#    - howto/page2.md
+#  - Specific Software How Tos:
+#    - software-howto/page1.md
+#    - software-howto/page2.md
+
+
+#theme: readthedocs
+theme: 
+  name: material
+  logo: images/ORCD_logo_icononly.png
+  features:
+    - content.code.copy
+  palette:
+    primary: blue grey
+markdown_extensions:
+    - toc:
+        permalink: 
+plugins:
+  - search
+#  - tags:
+#      tags_file: tags.md
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true 
+  - admonition
+  - pymdownx.details
