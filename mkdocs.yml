@@ -3,6 +3,19 @@ site_url: https://orcd.mit.edu
 nav:
   - Home: index.md
   - ORCD Systems: orcd-systems.md
+  - Filesystems and File Transfer:
+#    - General Use Shared Filesystems: files/page1.md
+    - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
+#    - Transferring Files: files/transferring-files.md
+#    - Best Practices: files/filesystem-best-practices.md
+#  - Basic software and package installation:
+#    - Environment Modules: software/page1.md
+#    - Installing packages/libraries in Julia, Python, R: software/page2.md
+#    - Other software installs/requests: software/page3.md
+#  - Running Jobs:
+#    - Environment Modules: software/page1.md
+#    - Installing packages/libraries in Julia, Python, R: software/page2.md
+#    - Other software installs/requests: software/page3.md
   - Data Security and Privacy: data-security.md
 
 #theme: readthedocs
