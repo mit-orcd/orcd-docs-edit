@@ -4,19 +4,26 @@ nav:
   - Home: index.md
   - ORCD Systems: orcd-systems.md
   - Filesystems and File Transfer:
-#    - General Use Shared Filesystems: files/page1.md
+#    - General Use Shared Filesystems:  filesystems-file-transfer/page1.md
     - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
-#    - Transferring Files: files/transferring-files.md
-#    - Best Practices: files/filesystem-best-practices.md
+#    - Transferring Files:  filesystems-file-transfer/transferring-files.md
+#    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
+  - Data Security and Privacy: data-security.md
 #  - Basic software and package installation:
 #    - Environment Modules: software/page1.md
 #    - Installing packages/libraries in Julia, Python, R: software/page2.md
 #    - Other software installs/requests: software/page3.md
 #  - Running Jobs:
-#    - Environment Modules: software/page1.md
-#    - Installing packages/libraries in Julia, Python, R: software/page2.md
-#    - Other software installs/requests: software/page3.md
-  - Data Security and Privacy: data-security.md
+#    - Scheduler Overview: running/page1.md
+#    - Slurm Partitions: running/page2.md
+#    - How To Run Different Workloads: running/page3.md
+#  - How Tos:
+#    - howto/page1.md
+#    - howto/page2.md
+#  - Specific Software How Tos:
+#    - software-howto/page1.md
+#    - software-howto/page2.md
+
 
 #theme: readthedocs
 theme: 
