@@ -23,6 +23,7 @@ nav:
 #  - How Tos:
 #    - howto/page1.md
 #    - howto/page2.md
+  - Index: tags.md
 
 
 
@@ -39,8 +40,8 @@ markdown_extensions:
         permalink: 
 plugins:
   - search
-#  - tags:
-#      tags_file: tags.md
+  - tags:
+      tags_file: tags.md
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
