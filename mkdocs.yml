@@ -25,9 +25,6 @@ nav:
 #    - howto/page2.md
   - Index: tags.md
 
-
-
-#theme: readthedocs
 theme: 
   name: material
   logo: images/ORCD_logo_icononly.png
@@ -54,3 +51,4 @@ markdown_extensions:
       alternate_style: true 
   - admonition
   - pymdownx.details
+copyright: <a href="https://accessibility.mit.edu/">Accessibility</a>
