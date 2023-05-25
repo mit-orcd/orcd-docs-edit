@@ -1,28 +1,32 @@
-# Installing and Using Mujoco
+# Installing and Using MuJoCo
 
-Whether you are installing on Engaging, SuperCloud, or Satori, you’ll first have to install the Mujoco binaries. This process is the same on all systems.
+MuJoCo is a free and open source physics engine that aims to facilitate research and development in robotics, biomechanics, graphics and animation, and other areas where fast and accurate simulation is needed.
 
-## Install the Mujoco Binaries
+You can learn about MuJoCo here: [https://mujoco.org](https://mujoco.org).
 
-First, install Mujoco itself somewhere in your home directory. This is as simple as downloading the Mujoco binaries, which can be found on their web page. For the release that you want, select the file that ends with “linux-x86_64.tar.gz”, for example for 2.3.0 select [mujoco-2.3.0-linux-x86_64.tar.gz](https://github.com/deepmind/mujoco/releases/download/2.3.0/mujoco-2.3.0-linux-x86_64.tar.gz). Right click, and copy the link address. Then you can download on one of the login nodes with the “wget” command, and untar:
+Whether you are installing on Engaging or SuperCloud, you’ll first have to install the MuJoCo binaries. This process is the same on all systems.
+
+## Install the MuJoCo Binaries
+
+First, install MuJoCo itself somewhere in your home directory. This is as simple as downloading the MuJoCo binaries, which can be found on their web page. For the release that you want, select the file that ends with “linux-x86_64.tar.gz”, for example for 2.3.0 select [mujoco-2.3.0-linux-x86_64.tar.gz](https://github.com/deepmind/mujoco/releases/download/2.3.0/mujoco-2.3.0-linux-x86_64.tar.gz). Right click, and copy the link address. Then you can download on one of the login nodes with the “wget” command, and untar:
 
 ```bash
 wget https://github.com/deepmind/mujoco/releases/download/2.3.0/mujoco-2.3.0-linux-x86_64.tar.gz
 tar -xzf mujoco-2.3.0-linux-x86_64.tar.gz
 ```
 
-In order for mujoco-py to find the Mujoco binaries, set the following paths:
+In order for mujoco-py to find the MuJoCo binaries, set the following paths:
 
 ```bash
 export MUJOCO_PY_MUJOCO_PATH=$HOME/path/to/mujoco230/
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MUJOCO_PY_MUJOCO_PATH/bin
 ```
 
-## Mujoco on Engaging
+## MuJoCo on Engaging
 
 ### Install Dependency
 
-On Engaging, Mujoco requires an additional dependency, patchelf, that is very straightforward to install. First select a version on [this page](https://github.com/NixOS/patchelf/releases), right click the link that includes “-x86_64.tar.gz” and select “Copy link address” or similar. In this example I am using version 0.17.0. Then in a terminal on Engaging, create and go to the directory where you want to put the dependency and download the software with the wget or curl command and untar the download:
+On Engaging, MuJoCo requires an additional dependency, patchelf, that is very straightforward to install. First select a version on [this page](https://github.com/NixOS/patchelf/releases), right click the link that includes “-x86_64.tar.gz” and select “Copy link address” or similar. In this example I am using version 0.17.0. Then in a terminal on Engaging, create and go to the directory where you want to put the dependency and download the software with the wget or curl command and untar the download:
 
 ```bash
 cd path/to/mujoco/deps
@@ -83,9 +87,9 @@ sim.step()
 print(sim.data.qpos)
 ```
 
-### Using Mujoco in a Job
+### Using MuJoCo in a Job
 
-To use Mujoco you’ll need to first load the same Python or Anaconda module you used to install mujoco-py. If you installed it into a conda environment or python virtual environment, load that environment as well. We recommend you do this in your job submission script rather than in your .bashrc or at the command line before you submit the job. This way you know your job is configured properly every time it runs. You can use the following test scripts to test your Mujoco setup in a job environment, and as a starting point for your own job:
+To use MuJoCo you’ll need to first load the same Python or Anaconda module you used to install mujoco-py. If you installed it into a conda environment or python virtual environment, load that environment as well. We recommend you do this in your job submission script rather than in your .bashrc or at the command line before you submit the job. This way you know your job is configured properly every time it runs. You can use the following test scripts to test your MuJoCo setup in a job environment, and as a starting point for your own job:
 
 ``` py title="mujoco_test.py"
 import mujoco_py
@@ -111,13 +115,13 @@ module load python/3.8.3
 python mujoco_test.py
 ```
 
-## Mujoco on SuperCloud
+## MuJoCo on SuperCloud
 
-Mujoco, particularly mujoco-py, can be tricky to install on SuperCloud as it uses file locking during the install and whenever the package is loaded. File locking is disabled on the SuperCloud shared filesystem performance reasons, but is available on the local disk of each node. Therefore, one workaround is to install mujoco-py on the local disk of one of the login nodes and then copy the install to your home directory. To load the package, the install then needs to be copied to the local disk.
+MuJoCo, particularly mujoco-py, can be tricky to install on SuperCloud as it uses file locking during the install and whenever the package is loaded. File locking is disabled on the SuperCloud shared filesystem performance reasons, but is available on the local disk of each node. Therefore, one workaround is to install mujoco-py on the local disk of one of the login nodes and then copy the install to your home directory. To load the package, the install then needs to be copied to the local disk.
 
 We’ve found the most success by doing this with a python virtual environment. By using a python virtual environment you can install any additional packages you need with mujoco-py, and they can be used along with packages in our anaconda module, unlike conda environments.
 
-If you haven't already, first follow the instructions above to [install the Mujoco binaries](#install-the-mujoco-binaries).
+If you haven't already, first follow the instructions above to [install the MuJoCo binaries](#install-the-mujoco-binaries).
 
 ### Create the Virtual Environment
 
@@ -131,7 +135,7 @@ source /state/partition1/user/$USER/mujoco_env/bin/activate
 pip install 'mujoco-py<2.2,>=2.1'
 ```
 
-Now install any other packages you need to run your Mujoco jobs. With virtual environments you won’t see any of the packages you’ve previously installed with `pip install --user` or what you may have installed in another environment. You should still be able to use any of the packages in the anaconda module you’ve loaded, so no need to install any of those.
+Now install any other packages you need to run your MuJoCo jobs. With virtual environments you won’t see any of the packages you’ve previously installed with `pip install --user` or what you may have installed in another environment. You should still be able to use any of the packages in the anaconda module you’ve loaded, so no need to install any of those.
 
 ``` bash
 pip install pkgname1
