@@ -31,43 +31,24 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MUJOCO_PY_MUJOCO_PATH/bin
 
 ## MuJoCo on Engaging
 
-### Install Dependency
-
-On Engaging, MuJoCo requires an additional dependency, patchelf, that is very straightforward to install. First select a version on [this page](https://github.com/NixOS/patchelf/releases), right click the link that includes “-x86_64.tar.gz” and select “Copy link address” or similar. In this example I am using version 0.17.0. Then in a terminal on Engaging, create and go to the directory where you want to put the dependency and download the software with the wget or curl command and untar the download:
-
-```bash
-cd path/to/mujoco/deps
-wget https://github.com/NixOS/patchelf/releases/download/0.17.0/patchelf-0.17.0-x86_64.tar.gz
-tar -xzf patchelf-0.17.0-x86_64.tar.gz
-```
-
-If you are using a different version the URL and tar file name will be different.
-
-Once you’ve run this command you should see a “bin” directory. Put the full path to this bin directory on your `PATH` environment variable:
-
-```bash
-export PATH=$HOME/path/to/mujoco/deps/bin:$PATH
-```
-
 ### Install Mujoco-Py
 
-First, make sure the `MUJOCO_PY_MUJOCO_PATH` and `LD_LIBRARY_PATH` environment variables are set pointing to your mujoco installation, and your PATH environment variable includes the path to the patchelf bin directory. You can use the “echo” command to do this:
+First, make sure the `MUJOCO_PY_MUJOCO_PATH` and `LD_LIBRARY_PATH` environment variables are set pointing to your mujoco installation. You can use the “echo” command to do this:
 
 ```bash
 echo MUJOCO_PY_MUJOCO_PATH
 echo LD_LIBRARY_PATH
-echo PATH
 ```
 
-If any of these are not set properly you can set them as described above (see [here for MUJOCO_PY_MUJOCO_PATH, LD_LIBRARY_PATH](#install-the-mujoco-binaries), and [here for patchelf](#install-dependency)).
+If any of these are not set properly you can set them as described above (see [here for MUJOCO_PY_MUJOCO_PATH, LD_LIBRARY_PATH](#install-the-mujoco-binaries).
 
-Next load either a Python or Anaconda module. In this example I loaded the python/3.8.3 module:
+Next load either a Python or Anaconda module. In this example I loaded the latest anaconda3 module (run `module avail anaconda` to see the current list of available anaconda modules):
 
 ```bash
-module load python/3.8.3
+module load anaconda3/2022.10
 ```
 
-From here on you can follow the [standard instructions to install mujoco-py](https://github.com/openai/mujoco-py), using the `--user` flag where appropriate to install in your home directory, or install in an anaconda or virtual environment. Here I am installing in my home directory with `--user`:
+From here on you can follow the [standard instructions to install mujoco-py](https://github.com/openai/mujoco-py), using the `--user` flag where appropriate to install in your home directory, or install in an anaconda or virtual environment (do not use the `--user` flag if you want to install in a conda or virtual environment). Here I am installing in my home directory with `--user`:
 
 ```bash
 pip install --user 'mujoco-py<2.2,>=2.1'
