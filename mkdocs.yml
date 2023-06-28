@@ -39,6 +39,8 @@ plugins:
   - search
   - tags:
       tags_file: tags.md
+        plugins:
+  - git-revision-date-localized
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
