@@ -6,8 +6,11 @@ tags:
 ---
 # Getting started on 8-way H100 nodes on Satori
 
-A first set of H100 GPU systems has been added to Satori 
+A first set of H100 GPU systems has been added to Satori.
 These are for priority use by IBM Watson AI Lab research collaborators.
+They are also available for general opportunistic use when they are idle.
+
+
 Currently ( 2023-06-19 ) there are 4 H100 systems installed. 
 Each system has 8 H100 GPU cards, two Intel 8468 CPUs each with
 48 physical cores and 1TiB of main memory.
@@ -17,13 +20,13 @@ Below are some instructions for getting started with these systems.
 
 ## Access to the nodes
 
-To access the nodes you need your satori login id to be listed in the Webmoira 
+To access the nodes in the priority group you need your satori login id to be listed in the Webmoira 
 group [https://groups.mit.edu/webmoira/list/sched_oliva](https://groups.mit.edu/webmoira/list/sched_oliva). 
 Either Alex Andonian and Vincent Sitzmann are able to add accounts to the `sched_oliva` moira list.
 
 ## Interactive access through Slurm
 
-To an entire node through Slurm the command below can be used from the satori login node
+To access an entire node through Slurm, the command below can be used from the satori login node
 
 ```bash
 srun -p sched_oliva --gres=gpu:8 -N 1 --mem=0 -c 192 --time 1:00:00 --pty /bin/bash
@@ -34,8 +37,10 @@ From this shell the NVidia status command
 ```bash
 nvidia-smi
 ```
-should list 8 H100 GPUs as available. Single node, multi-gpu training examples (for example
-[https://github.com/artidoro/qlora](https://github.com/artidoro/qlora) ) should be able to run 
+should list 8 H100 GPUs as available. 
+
+Single node, multi-gpu training examples (for example
+[https://github.com/artidoro/qlora](https://github.com/artidoro/qlora) ) should run 
 on all 8 GPUs. 
 
 To use a single GPU interactively the following command can be used
@@ -43,10 +48,10 @@ To use a single GPU interactively the following command can be used
 srun -p sched_oliva --gres=gpu:1 --mem=128 -c 24 --time 1:00:00 --pty /bin/bash
 ```
 
-this will request a single GPU and will allow other slurm sessions to run on other GPUs 
+this will request a single GPU. This request will allow other Slurm sessions to run on other GPUs 
 simultaneously with this session.
 
-## Running a pytorch example with a freash miniconda and pytorch
+## Running a nightly build pytorch example with a freash miniconda and pytorch
 
 A miniconda environment can be used to run the latest nightly build pytorch code on these 
 systems. To do this, first create a software install directory and install the needed pytorch software
@@ -114,7 +119,7 @@ path to a directory where you have already installed a conda environment in a su
 
 nvidia-smi
 
-RUNDIR=/nobackup/users/cnh/h100-testing/minic
+RUNDIR=/nobackup/users/${USER}/h100-testing/minic
 cd ${RUNDIR}
 
 . ./minic/bin/activate
