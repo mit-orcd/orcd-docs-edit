@@ -46,7 +46,7 @@ srun -p sched_oliva --gres=gpu:1 --mem=128 -c 24 --time 1:00:00 --pty /bin/bash
 this will request a single GPU and will allow other slurm sessions to run on other GPUs 
 simultaneously with this session.
 
-## Running a pytorch example
+## Running a pytorch example with a freash miniconda and pytorch
 
 A miniconda environment can be used to run the latest nightly build pytorch code on these 
 systems. To do this, first create a software install directory and install the needed pytorch software
@@ -90,5 +90,60 @@ EOF
 
 python test.py
 ```
+
+To exit the Slurm srun session enter the command
+```bash
+exit
+```
+
+
+### Running a simple batch script using an installed miniconda environment
+
+To run a batch script on one of the sched_oliva H100 nodes first type the following into
+a slurm script file called, for example, `test_script.slurm`.
+
+```
+#!/bin/bash
+#
+#SBATCH --gres=gpu:8
+#SBATCH --partition=sched_oliva
+#SBATCH --time=1:00:00
+#SBATCH --mem=0
+#
+
+nvidia-smi
+
+cd /nobackup/users/cnh/h100-testing/minic
+
+. ./minic/bin/activate
+
+conda activate pytorch_test
+
+cat > mytest.py <<'EOF'
+import torch
+device_id = torch.cuda.current_device()
+gpu_properties = torch.cuda.get_device_properties(device_id)
+print("Found %d GPUs available. Using GPU %d (%s) of compute capability %d.%d with "
+          "%.1fGb total memory.\n" %
+          (torch.cuda.device_count(),
+          device_id,
+          gpu_properties.name,
+          gpu_properties.major,
+          gpu_properties.minor,
+          gpu_properties.total_memory / 1e9))
+EOF
+
+python mytest.py
+```
+
+This script can then be submitted to Slrum to run in a background batch node using the command
+
+```bash
+sbatch < test_scirpt.slurm
+```
+
+
+
+
 
 
