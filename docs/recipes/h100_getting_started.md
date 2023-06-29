@@ -99,8 +99,9 @@ exit
 
 ### Running a simple batch script using an installed miniconda environment
 
-To run a batch script on one of the sched_oliva H100 nodes first type the following into
-a slurm script file called, for example, `test_script.slurm`.
+To run a batch script on one of the H100 nodes in partition sched_oliva first type the following into
+a slurm script file called, for example, `test_script.slurm`. Change the RUNDIR setting to assign the 
+path to a directory where you have already installed a conda environment in a sub-directory called `minic`.
 
 ```
 #!/bin/bash
@@ -113,7 +114,8 @@ a slurm script file called, for example, `test_script.slurm`.
 
 nvidia-smi
 
-cd /nobackup/users/cnh/h100-testing/minic
+RUNDIR=/nobackup/users/cnh/h100-testing/minic
+cd ${RUNDIR}
 
 . ./minic/bin/activate
 
@@ -136,7 +138,7 @@ EOF
 python mytest.py
 ```
 
-This script can then be submitted to Slrum to run in a background batch node using the command
+This script can then be submitted to Slurm to run in a background batch node using the command.
 
 ```bash
 sbatch < test_scirpt.slurm
