@@ -6,6 +6,12 @@ tags:
 ---
 # Getting started on 8-way H100 nodes on Satori
 
+This page provides information on how to run a first job on the IBM Watson AI Lab H100 GPU nodes on Satori.
+The page describes how to request an access to the Slurm partition associated 
+with the H100 nodes and
+how to run a first example pytorch script on the systems. Please feel free to email [mailto:orcd-help@mit.edu](orcd-help@mit.edu)
+with questions if something is not clear o
+
 A first set of H100 GPU systems has been added to Satori.
 These are for priority use by IBM Watson AI Lab research collaborators.
 They are also available for general opportunistic use when they are idle.
@@ -153,4 +159,8 @@ sbatch < test_script.slurm
 
 
 
+### Getting help
+
+As always, please feel welcome to email [mailto:orcd-help@mit.edu](orcd-help@mit.edu)
+with questions, comments or suggestions. We would be happy to hear from you!
 
