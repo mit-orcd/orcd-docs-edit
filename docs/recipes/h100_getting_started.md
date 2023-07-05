@@ -159,7 +159,7 @@ sbatch < test_script.slurm
 
 
 
-### Getting help
+## Getting help
 
 As always, please feel welcome to email [mailto:orcd-help@mit.edu](orcd-help@mit.edu)
 with questions, comments or suggestions. We would be happy to hear from you!
