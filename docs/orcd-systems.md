@@ -86,5 +86,7 @@ To request a SuperCloud account follow the instructions on this page:
 
 ## OpenMind
 
+OpenMind is a Linux-based cluster with around 3.3 PBs of storage and 70 compute nodes, most of which are equipped with GPUs. Totally there are around 3500 CPU cores, 48 TB of RAM, and 330 GPUs, including 142 A100-80GB GPUs. 
+
 ### How to Get an Account on OpenMind
 
