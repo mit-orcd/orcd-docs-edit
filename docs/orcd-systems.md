@@ -86,3 +86,5 @@ To request a SuperCloud account follow the instructions on this page:
 
 ## OpenMind
 
+### How to Get an Account on OpenMind
+
