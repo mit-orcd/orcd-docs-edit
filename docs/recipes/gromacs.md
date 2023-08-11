@@ -6,7 +6,9 @@ tags:
 
 # Installing and Using GROMACS
 
-## Install GROMACS with MPI
+## GROMACS on Engaging
+
+### Install GROMACS
 
 Selet a version on the [GROMACS website](https://ftp.gromacs.org/pub/gromacs/). Then dowload and extract the tar ball.
 ```
@@ -45,3 +47,4 @@ Set up usage enviroenment,
 ```
 source ~/gromacs/2019.6/install/bin/GMXRC
 ```
+
