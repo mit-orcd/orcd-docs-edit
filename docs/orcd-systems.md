@@ -94,6 +94,7 @@ Accounts will be available for MIT users in 2024.
 ### OpenMind Quick Links
 
 - Documentation: [https://github.mit.edu/MGHPCC/OpenMind/wiki](https://github.mit.edu/MGHPCC/OpenMind/wiki)
-- Home Page (online course included): [https://openmind.mit.edu/](https://openmind.mit.edu/)
+- Home Page and online course: [https://openmind.mit.edu/](https://openmind.mit.edu/)
 - Help: Send email to [orcd-help-openmind@mit.edu](mailto:orcd-help-openmind@mit.edu)
 - Slack: [https://openmind-46.slack.com](https://openmind-46.slack.com)
+
