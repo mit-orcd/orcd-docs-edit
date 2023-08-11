@@ -36,7 +36,7 @@ Use `cmake` to configure compiling options,
 cmake ~/gromacs/gromacs-2019.6 -DGMX_MPI=ON -DCMAKE_INSTALL_PREFIX=~/gromacs/2019.6/install
 ```
 
-Compile, check and install it,
+Compile, check and install,
 ```
 make
 make check
