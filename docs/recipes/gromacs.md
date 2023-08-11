@@ -10,7 +10,7 @@ tags:
 
 ### Install GROMACS
 
-Selet a version on the [GROMACS website](https://ftp.gromacs.org/pub/gromacs/). Then dowload and extract the tar ball.
+Select a version on the [GROMACS website](https://ftp.gromacs.org/pub/gromacs/), then dowload and extract the tar ball.
 ```
 cd ~
 mkdir gromacs
