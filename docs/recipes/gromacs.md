@@ -1,14 +1,16 @@
---
+---
 tags:
  - Engaging
+ - SuperCloud
  - Howto Recipes
+ - Gromacs
 ---
 
 # Installing and Using GROMACS
 
 ## GROMACS on Engaging
 
-### Install GROMACS
+### Install GROMACS with MPI
 
 Select a version on the [GROMACS website](https://ftp.gromacs.org/pub/gromacs/), then dowload and extract the tar ball.
 ```
