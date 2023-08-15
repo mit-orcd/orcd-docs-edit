@@ -8,6 +8,10 @@ tags:
 
 # Installing and Using GROMACS
 
+GROMACS is a free and open-source software suite for high-performance molecular dynamics and output analysis.
+
+You can learn about GROMACS here: https://www.gromacs.org/.
+
 ## GROMACS on Engaging
 
 ### Install GROMACS with MPI
