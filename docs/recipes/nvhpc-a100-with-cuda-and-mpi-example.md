@@ -17,10 +17,14 @@ can be found [here](https://developer.nvidia.com/hpc-sdk).
 The aim of the nvhpc team is to provide up to date, preconfigured suites of compilers, libraries and tools that are 
 specifically optimized for NVidia GPU hardware. It supports single and multi-GPU execution.
 
-## Usage
+## Basic Usage
 
 The NVHPC environment is installed as a module and can be made visible in a session using the command
 
 ```bash
 module load nvhpc/2023_233/nvhpc/23.3
 ```
+
+this will add a specific version of the nvhpc software (version 23.3 released in 2023) to a shell or batch script. The
+software added includes
+
