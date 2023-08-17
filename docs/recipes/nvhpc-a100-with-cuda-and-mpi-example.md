@@ -26,5 +26,8 @@ module load nvhpc/2023_233/nvhpc/23.3
 ```
 
 this will add a specific version of the nvhpc software (version 23.3 released in 2023) to a shell or batch script. The
-software added includes
+software added includes compilers for C, C++ and Fortran; base GPU optimized numerical libraries for linear algebra, Fourier
+transforms and others; GPU optimized communication libraries supporting MPI, SHMEM and NCCL APIs.
 
+An environment variable, `NVHPC_ROOT`, is also set. This can be used in scripts to refernce the locations of libraries that
+when needed.
