@@ -17,7 +17,12 @@ can be found [here](https://developer.nvidia.com/hpc-sdk).
 The aim of the nvhpc team is to provide up to date, preconfigured suites of compilers, libraries and tools that are 
 specifically optimized for NVidia GPU hardware. It supports single and multi-GPU execution.
 
-## Basic Usage
+## Basic Usage Example
+
+This example shows steps for using NVHPC to run a simple test MPI program, written in C, that communicates between two GPUs.
+The steps are as follows:
+
+#### 1. Activate the relevant NVHPC module
 
 The NVHPC environment is installed as a module and can be made visible in a session using the command
 
