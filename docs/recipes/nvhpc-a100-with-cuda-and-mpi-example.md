@@ -132,7 +132,7 @@ as a location for finding CUDA functions the code utilizes.
 mpicc test.c -I${cuincdir} -L${culibdir} -lcudart
 ```
 
-#### 5. Exectue program
+#### 5. Execute program
 
 Once code has been compiled the `mpiexec` command that is part of the `nvhpc` module can be used to run the test program.
 The `nvhpc` module defaults to using its builtin version of OpneMPI. The OpenMPI option `btl_openib_warn_no_device_params_found`
@@ -152,4 +152,111 @@ Assigned GPU 0 to MPI rank 0 of 2.
 rBuf_h[0] = -1.000000
 Assigned GPU 0 to MPI rank 1 of 2.
 rBuf_h[0] = 1.000000
+```
+
+## Example of Slurm job file for excuting this example
+
+The job script file below will run all the steps described above. It can  be submitted to Slurm using the command `sbatch` followed by the filename
+holding the job script.
+
+```
+#!/bin/bash
+#SBATCH -p sched_system_all
+#SBATCH --constraint=rocky8
+#SBATCH -N 2
+#SBATCH -n 2
+#SBATCH --gres=gpu:2
+#SBATCH --time=00:02:00
+#
+# Basic slurm job that tests GPU aware MPI in the NVHPC tool stack.
+#
+#
+#   To submit through Slurm use:
+#
+#   $ sbatch test_cuda_and_mpi.sbatch
+#  
+#   in terminal.
+
+# Write a little log info
+echo "## Start time \""`date`"\""
+echo "## Slurm job running on nodes \"${SLURM_JOB_NODELIST}\""
+echo "## Slurm submit directory \"${SLURM_SUBMIT_DIR}\""
+echo "## Slurm submit host \"${SLURM_SUBMIT_HOST}\""
+echo " "
+
+
+module load nvhpc/2023_233/nvhpc/23.3
+culibdir=$NVHPC_ROOT/cuda/lib64
+cuincdir=$NVHPC_ROOT/cuda/include
+
+cat > test.c <<'EOFA'
+#include <stdio.h>
+#include <stdlib.h>
+#include <mpi.h>
+#include <cuda_runtime.h>
+int main(int argc, char *argv[])
+{
+  int myrank, mpi_nranks; 
+  int LBUF=1000000;
+  float *sBuf_h, *rBuf_h;
+  float *sBuf_d, *rBuf_d;
+  int bSize;
+  int i;
+
+  MPI_Init(&argc, &argv);
+  MPI_Comm_rank(MPI_COMM_WORLD, &myrank);                  // my MPI rank
+  MPI_Comm_size(MPI_COMM_WORLD, &mpi_nranks);
+
+  if ( mpi_nranks != 2 ) { printf("Program requires exactly 2 ranks\n");exit(-1); }
+
+  int deviceCount;
+  cudaGetDeviceCount(&deviceCount);               // How many GPUs?
+  printf("Number of GPUs found = %d\n",deviceCount);
+  int device_id = myrank % deviceCount;
+  cudaSetDevice(device_id);                       // Map MPI-process to a GPU
+  printf("Assigned GPU %d to MPI rank %d of %d.\n",device_id, myrank, mpi_nranks);
+
+  // Allocate buffers on each host and device
+  bSize = sizeof(float)*LBUF;
+  sBuf_h = malloc(bSize);
+  rBuf_h = malloc(bSize);
+  for (i=0;i<LBUF;++i){
+    sBuf_h[i]=(float)myrank;
+    rBuf_h[i]=-1.;
+  }
+  if ( myrank == 0 ) {
+   printf("rBuf_h[0] = %f\n",rBuf_h[0]);
+  }
+
+  cudaMalloc((void **)&sBuf_d,bSize);
+  cudaMalloc((void **)&rBuf_d,bSize);
+
+  cudaMemcpy(sBuf_d,sBuf_h,bSize,cudaMemcpyHostToDevice);
+
+  if ( myrank == 0 ) {
+   MPI_Recv(rBuf_d,LBUF,MPI_REAL,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+  } 
+  else if ( myrank == 1 ) {
+   MPI_Send(sBuf_d,LBUF,MPI_REAL,0,0,MPI_COMM_WORLD);
+  }
+  else
+  {
+   printf("Unexpected myrank value %d\n",myrank);
+   exit(-1);
+  }
+
+  cudaMemcpy(rBuf_h,rBuf_d,bSize,cudaMemcpyDeviceToHost);
+  if ( myrank == 0 ) {
+   printf("rBuf_h[0] = %f\n",rBuf_h[0]);
+  }
+
+  MPI_Barrier(MPI_COMM_WORLD);
+  MPI_Finalize();
+}
+EOFA
+
+mpicc test.c -I${cuincdir} -L${culibdir} -lcudart
+
+mpiexec --mca btl_openib_warn_no_device_params_found 0 -n 2 ./a.out 
+
 ```
