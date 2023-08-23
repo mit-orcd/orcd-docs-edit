@@ -120,3 +120,10 @@ int main(int argc, char *argv[])
 }
 EOFA
 ```
+
+#### 4. Compile program
+
+Here we use nvhpc MPI wrapper to compile. The two environment variables we set earlier ( `cuincdir` and `culibdir` ) are used to
+let the compile step know where to find the relevant CUDA header and library files.
+
+
