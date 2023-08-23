@@ -131,3 +131,25 @@ as a location for finding CUDA functions the code utilizes.
 ```bash
 mpicc test.c -I${cuincdir} -L${culibdir} -lcudart
 ```
+
+#### 5. Exectue program
+
+Once code has been compiled the `mpiexec` command that is part of the `nvhpc` module can be used to run the test program.
+The `nvhpc` module defaults to using its builtin version of OpneMPI. The OpenMPI option `btl_openib_warn_no_device_params_found`
+is passed into the OpenMPI runtime library. This option supresses a warning that OpenMPI can generate when it encounters
+a network device card that is not present in a built-in list that OpenMPI has historically included.
+
+```bash
+mpiexec --mca btl_openib_warn_no_device_params_found 0 -n 2 ./a.out 
+```
+
+Running this program using the command above should produce the following output.
+
+```
+Number of GPUs found = 1
+Number of GPUs found = 1
+Assigned GPU 0 to MPI rank 0 of 2.
+rBuf_h[0] = -1.000000
+Assigned GPU 0 to MPI rank 1 of 2.
+rBuf_h[0] = 1.000000
+```
