@@ -124,6 +124,10 @@ EOFA
 #### 4. Compile program
 
 Here we use nvhpc MPI wrapper to compile. The two environment variables we set earlier ( `cuincdir` and `culibdir` ) are used to
-let the compile step know where to find the relevant CUDA header and library files.
+let the compile step know where to find the relevant CUDA header and library files. The CUDA runtime library ( `cudart` ) is added
+as a location for finding CUDA functions the code utilizes.
 
 
+```bash
+mpicc test.c -I${cuincdir} -L${culibdir} -lcudart
+```
