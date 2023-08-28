@@ -10,8 +10,9 @@ nav:
 #    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
   - Data Security and Privacy: data-security.md
   - ORCD Recipes:
-    - recipes/mujoco.md
 #    - recipes/gurobi.md
+    - recipes/mujoco.md
+    - recipes/nvhpc-a100-with-cuda-and-mpi-example.md
 #  - Basic software and package installation:
 #    - Environment Modules: software/page1.md
 #    - Installing packages/libraries in Julia, Python, R: software/page2.md
