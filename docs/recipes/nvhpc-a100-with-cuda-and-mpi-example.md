@@ -6,6 +6,8 @@ tags:
  - mpi
  - cuda
  - cuda aware mpi
+ - GPU
+ - Rocky Linux
 ---
 
 # Example of a minimal program using the nvhpc stack with CUDA aware MPI
