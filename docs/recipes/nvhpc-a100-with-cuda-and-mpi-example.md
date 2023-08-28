@@ -1,6 +1,7 @@
 ---
 tags:
  - Engaging
+ - Satori
  - Howto Recipes
  - nvhpc
  - mpi
