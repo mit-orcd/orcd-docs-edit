@@ -13,7 +13,7 @@ tags:
 ## About NVHPC
 
 NVHPC is an integrated collection of software tools and libraries distributed by NVidia. An overview document describing nvhpc 
-can be found [here](https://developer.nvidia.com/hpc-sdk){:target="_blank"}.
+can be found [here](https://developer.nvidia.com/hpc-sdk){.new-tab}.
 The aim of the nvhpc team is to provide up to date, preconfigured suites of compilers, libraries and tools that are 
 specifically optimized for NVidia GPU hardware. It supports single and multi-GPU execution.
 
