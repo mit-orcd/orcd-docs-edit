@@ -50,11 +50,10 @@ cuincdir=$NVHPC_ROOT/cuda/include
 
 #### 3. Create a C program for that excutes some simple multi-node, multi-GPU test code.
 
-Here we create a file holding C code that uses MPI to send information between two GPUs 
-running in different processes.
+The next step is to create a file holding C code that uses MPI to send information between two GPUs 
+running in different processes. Paste the C code below into a file called `test.c`.
 
-```bash
-cat > test.c <<'EOFA'
+```c title="test.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
@@ -118,13 +117,12 @@ int main(int argc, char *argv[])
   MPI_Barrier(MPI_COMM_WORLD);
   MPI_Finalize();
 }
-EOFA
 ```
 
 #### 4. Compile program
 
-Here we use nvhpc MPI wrapper to compile. The two environment variables we set earlier ( `cuincdir` and `culibdir` ) are used to
-let the compile step know where to find the relevant CUDA header and library files. The CUDA runtime library ( `cudart` ) is added
+Here we use nvhpc MPI wrapper to compile. The two environment variables we set earlier (`cuincdir` and `culibdir`) are used to
+let the compile step know where to find the relevant CUDA header and library files. The CUDA runtime library (`cudart`) is added
 as a location for finding CUDA functions the code utilizes.
 
 
