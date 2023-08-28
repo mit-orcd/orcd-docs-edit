@@ -12,7 +12,7 @@ nav:
   - ORCD Recipes:
 #    - recipes/gurobi.md
     - recipes/mujoco.md
-    - recipes/nvhpc-a100-with-cuda-and-mpi-example.md
+    - 'NVHPC with CUDA aware MPI': recipes/nvhpc-a100-with-cuda-and-mpi-example.md
 #  - Basic software and package installation:
 #    - Environment Modules: software/page1.md
 #    - Installing packages/libraries in Julia, Python, R: software/page2.md
@@ -35,8 +35,9 @@ theme:
     primary: blue grey
 markdown_extensions:
     - toc:
-        permalink: 
+        permalink: True
     - attr_list
+    - admonition
 plugins:
   - search
   - tags:
