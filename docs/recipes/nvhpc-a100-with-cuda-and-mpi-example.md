@@ -23,6 +23,10 @@ This example shows steps for using NVHPC to run a simple test MPI program, writt
 The detailed steps, that can be executed in an interactive Slurm session, are explained 
 below.  A complete Slurm job example is shown at the end.
 
+!!! note "Prerequisites"
+
+ This example assumes you have access to a Slurm partition with GPU resources and are working with a Rocky Linux environment.
+
 #### 1. Activate the relevant NVHPC module
 
 The NVHPC environment is installed as a module and can be made visible in a session using the command
