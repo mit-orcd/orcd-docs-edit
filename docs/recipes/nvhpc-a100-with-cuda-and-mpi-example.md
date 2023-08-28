@@ -25,7 +25,7 @@ below.  A complete Slurm job example is shown at the end.
 
 !!! note "Prerequisites"
 
- This example assumes you have access to a Slurm partition with GPU resources and are working with a Rocky Linux environment.
+    This example assumes you have access to a Slurm partition with GPU resources and are working with a Rocky Linux environment.
 
 #### 1. Activate the relevant NVHPC module
 
