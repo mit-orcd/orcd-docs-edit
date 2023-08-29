@@ -40,6 +40,7 @@ plugins:
   - tags:
       tags_file: tags.md
   - git-revision-date-localized
+  - open-in-new-tab
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
