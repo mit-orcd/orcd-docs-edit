@@ -4,7 +4,7 @@ nav:
   - Home: index.md
   - ORCD Systems: orcd-systems.md
   - Filesystems and File Transfer:
-#    - General Use Shared Filesystems:  filesystems-file-transfer/page1.md
+    - General Use Filesystems:  filesystems-file-transfer/filesystems.md
     - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
 #    - Transferring Files:  filesystems-file-transfer/transferring-files.md
 #    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
