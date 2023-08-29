@@ -12,7 +12,7 @@ GROMACS is a free and open-source software suite for high-performance molecular 
 
 You can learn about GROMACS here: [https://www.gromacs.org/](https://www.gromacs.org/).
 
-## GROMACS on Engaging
+## GROMACS on Engaging 
 
 ### Install GROMACS with MPI
 
