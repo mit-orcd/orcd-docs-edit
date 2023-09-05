@@ -101,9 +101,9 @@ source ~/gromacs/2023.2/install/bin/GMXRC
 ### Run GROMACS
 
 
-First prepare for an input file. Refer to [file formats](https://manual.gromacs.org/documentation/5.1/user-guide/file-formats.html). Here shows an example with the input file `benchPEP-h.tpr` dowloaded from [this page](https://www.mpinat.mpg.de/grubmueller/bench).
+Firstly, prepare for an input file. Refer to [file formats](https://manual.gromacs.org/documentation/5.1/user-guide/file-formats.html). Here shows an example with an input file named `benchPEP-h.tpr` dowloaded from [this page](https://www.mpinat.mpg.de/grubmueller/bench).
 
-Edit a batch job script (for example, named `job.sh`) for 2 node with 4 CPU cores and 2 GPUs per node.
+Secondly, edit a batch job script, for example, named `job.sh`, requesting 2 node with 4 CPU cores and 2 GPUs per node.
 ```
 #!/bin/bash
 #SBATCH --nodes=2              # 2 nodes
@@ -113,7 +113,7 @@ Edit a batch job script (for example, named `job.sh`) for 2 node with 4 CPU core
 #SBATCH --time=01:00:00        # 1 hour
 
 
-# load the required modules
+# Load required modules
 module load cuda/11.8 mpi/openmpi-4.1.5
 
 # Allow GROMACS to see GPUs
@@ -134,10 +134,10 @@ which gmx_mpi
 mpirun gmx_mpi mdrun -s ~/gromacs/bench/benchPEP-h.tpr -ntomp ${SLURM_CPUS_PER_TASK} -pme gpu -update gpu -bonded gpu -npme 1
 ```
 
-Submit the job,
+Finally, submit the job,
 ```
 sbatch job.sh
 ```
 
-Refer to the [GROMACS user guide](https://manual.gromacs.org/documentation/5.1/user-guide/index.html) for more info.
+Refer to [GROMACS user guide](https://manual.gromacs.org/documentation/5.1/user-guide/index.html) for more info.
 
