@@ -27,7 +27,8 @@ Users each get a small home directory that is backed up and meant for important 
 
 | Storage Type      | Path | Quota | Backed up | Purpose/Notes |
 | ----------- | ----------- |----------- |----------- |----------- |
-| Home Directory | `/home/<username>` | FILL IN | FILL IN | FILL IN |
+| Home Directory | `/home/<username>` | 25GB | Backed up | Use for important files. Quota increase request to 100GB. |
+| GPFS           | `/nobackup/users/<username>` | 500GB | Not backed up | Scratch space. Quota increase request to 2TB. |
 
 ## OpenMind
 
