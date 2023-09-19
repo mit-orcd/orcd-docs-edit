@@ -36,7 +36,7 @@ OpenMind provides a number of different storage options. See the [OpenMind Docum
 
 | Storage Type      | Path | Quota | Backed up | Purpose/Notes |
 | ----------- | ----------- |----------- |----------- |----------- |
-| Home Directory | `/home/<username>` | 5 GB | Backed up | Use for very important files |
+| Home Directory | `/home/<username>` | 20 GB | Backed up | Use for very important files. Physically located on Vast. |
 | Weka |  `/om/user/<username>` (individual users) and `/om/<groupname>` (groups) | ?? | ?? | Fast internal storage |
 | Weka Scratch | `/om/scratch/<week-day>` | ?? | Not backed up <br> purged 3 weeks after creation | Scratch space |
 | Vast | `/om2/user/<username>` (individual users) and `/om2/<groupname>` (groups) | ?? | ?? | Fast internal storage |
