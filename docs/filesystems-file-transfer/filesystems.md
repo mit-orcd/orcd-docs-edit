@@ -37,11 +37,10 @@ OpenMind provides a number of different storage options. See the [OpenMind Docum
 | Storage Type      | Path | Quota | Backed up | Purpose/Notes |
 | ----------- | ----------- |----------- |----------- |----------- |
 | Home Directory | `/home/<username>` | 20 GB | Backed up | Use for very important files. Physically located on Vast. |
-| Weka |  `/om/user/<username>` (individual users) and `/om/<groupname>` (groups) | ?? | ?? | Fast internal storage |
-| Weka Scratch | `/om/scratch/<week-day>` | ?? | Not backed up <br> purged 3 weeks after creation | Scratch space |
-| Vast | `/om2/user/<username>` (individual users) and `/om2/<groupname>` (groups) | ?? | ?? | Fast internal storage |
-| Vast Scratch | `/om2/scratch/<week-day>` | ?? | Not backed up <br> purged 3 weeks after creation | Scratch space |
-| Lustre | `/nobackup1/` | ?? | Not backed up | Fast internal storage |
-| Lustre Scratch | `/nobackup/scratch/<week-day>` | ?? | Not backed up <br> purged 3 weeks after creation | Scratch space <br>  See [Lustre Best Practices](https://www.nas.nasa.gov/hecc/support/kb/lustre-best-practices_226.html) page |
-| NFS | `/om3`, `/om4`, `/om5` | ?? | ?? | Slow, internal long-term storage |
-| NESE | `/nese` | ?? | ?? | Slow, internal long-term storage |
+| Weka |  `/om/user/<username>` (individual users) and `/om/<groupname>` (groups) | Per group | Backed up | Fast internal storage |
+| Weka Scratch | `/om/scratch/<week-day>` | N/A | Not backed up <br> purged 3 weeks after creation | Scratch space |
+| Vast | `/om2/user/<username>` (individual users) and `/om2/<groupname>` (groups) | Per group | Backed up | Fast internal storage |
+| Vast Scratch | `/om2/scratch/<week-day>` | N/A | Not backed up <br> purged 2 weeks after creation | Scratch space |
+| Lustre Scratch | `/nobackup/scratch/<week-day>` | N/A | Not backed up <br> purged 3 weeks after creation | Scratch space <br>  See [Lustre Best Practices](https://www.nas.nasa.gov/hecc/support/kb/lustre-best-practices_226.html) page |
+| NFS | `/om3`, `/om4`, `/om5` | Per group | Backed up | Slow internal long-term storage |
+| NESE | `/nese` | Per group | Backed up | Slow, internal long-term storage |
