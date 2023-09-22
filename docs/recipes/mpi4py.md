@@ -1,8 +1,7 @@
 ---
 tags:
  - OpenMind
- - Engaging
- - SuperCloud
+ - mpi
  - Howto Recipes
 ---
 
@@ -18,14 +17,14 @@ You can learn about `mpi4py` here: [https://mpi4py.readthedocs.io/en/stable/](ht
 
 If you use an Anaconda module, no installation is required.
 
-If you want to use your own Python environment, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set up your own Anaconda, then intall MPI for Python, 
+If you want to use your own Anaconda, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then intall `mpi4py`, 
 ```
 conda install -c conda-forge mpi4py
 ```
 
 ### Run Mpi4py
 
-Prepare your Python codes. Example 1: save this code for send and recive a dictionary in a file named `p2p-send-recv.py`.
+Prepare your Python codes. Example 1: save this code for sending and reciving a dictionary in a file named `p2p-send-recv.py`.
 ```
 from mpi4py import MPI
 
@@ -41,9 +40,9 @@ elif rank == 1:
     print(rank,data)
 ``` 
 
-Example 2: save this code for send and recive an array in a file named `p2p-arraypy`.
+Example 2: save this code for sending and reciving an array in a file named `p2p-array.py`.
 ```
-rom mpi4py import MPI
+from mpi4py import MPI
 import numpy
 
 comm = MPI.COMM_WORLD
@@ -83,9 +82,9 @@ mpirun -np $SLURM_NTASKS python p2p-send-recv.py
 mpirun -np $SLURM_NTASKS python p2p-array.py
 ```
 
-> If you use your own Anaconda, do not load the module, activate your own Python environment instead. 
+> If you use your own Anaconda, do not load the Anaconda module. An Openmpi module is needed.
 
-Submit the job
+Finally submit the job,
 ```
 sbatch p2p-job.sh
 ```
