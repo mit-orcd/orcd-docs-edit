@@ -4,7 +4,7 @@ tags:
  - Satori
  - Howto Recipes
  - nvhpc
- - mpi
+ - MPI
  - cuda
  - cuda aware mpi
  - GPU

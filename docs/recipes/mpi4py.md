@@ -1,7 +1,8 @@
 ---
 tags:
  - OpenMind
- - mpi
+ - MPI
+ - Python
  - Howto Recipes
 ---
 

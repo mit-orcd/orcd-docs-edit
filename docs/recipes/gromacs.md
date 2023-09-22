@@ -2,7 +2,7 @@
 tags:
  - Engaging
  - SuperCloud
- - mpi
+ - MPI
  - GPU
  - GROMACS
  - Howto Recipes
