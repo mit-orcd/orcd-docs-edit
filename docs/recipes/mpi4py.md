@@ -17,14 +17,14 @@ You can learn about `mpi4py` here: [https://mpi4py.readthedocs.io/en/stable/](ht
 
 If you use an Anaconda module, no installation is required.
 
-If you want to use your own Anaconda, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then intall `mpi4py`, 
+If you want to use Anaconda in your directory, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then intall `mpi4py`, 
 ```
 conda install -c conda-forge mpi4py
 ```
 
 ### Run Mpi4py
 
-Prepare your Python codes. Example 1: The following is a code for sending and reciving a dictionary. Save it in a file named `p2p-send-recv.py`.
+Prepare your Python codes. Example 1: The following is a code for sending and receiving a dictionary. Save it in a file named `p2p-send-recv.py`.
 ```
 from mpi4py import MPI
 
@@ -40,7 +40,7 @@ elif rank == 1:
     print(rank,data)
 ``` 
 
-Example 2: The following is a code for sending and reciving an array. Save it in a file named `p2p-array.py`.
+Example 2: The following is a code for sending and receiving an array. Save it in a file named `p2p-array.py`.
 ```
 from mpi4py import MPI
 import numpy
@@ -82,7 +82,7 @@ mpirun -np $SLURM_NTASKS python p2p-send-recv.py
 mpirun -np $SLURM_NTASKS python p2p-array.py
 ```
 
-> If you use your own Anaconda, do not load the Anaconda module. An Openmpi module is needed.
+> An Openmpi module is needed. If you use Anaconda in your directory, do not load the Anaconda module. 
 
 Finally submit the job,
 ```
