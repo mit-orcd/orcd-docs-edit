@@ -24,7 +24,7 @@ conda install -c conda-forge mpi4py
 
 ### Run Mpi4py
 
-Prepare your Python codes. Example 1: save this code for sending and reciving a dictionary in a file named `p2p-send-recv.py`.
+Prepare your Python codes. Example 1: The following is a code for sending and reciving a dictionary. Save it in a file named `p2p-send-recv.py`.
 ```
 from mpi4py import MPI
 
@@ -40,7 +40,7 @@ elif rank == 1:
     print(rank,data)
 ``` 
 
-Example 2: save this code for sending and reciving an array in a file named `p2p-array.py`.
+Example 2: The following is a code for sending and reciving an array. Save it in a file named `p2p-array.py`.
 ```
 from mpi4py import MPI
 import numpy
@@ -69,7 +69,7 @@ elif rank == 1:
     print(rank,data)
 ```
 
-Prepare a job script. Save the following in a file named `p2p-job.sh`.
+Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`.
 ```
 #!/bin/bash -l
 #SBATCH -N 1
