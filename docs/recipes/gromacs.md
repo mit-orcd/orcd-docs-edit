@@ -2,8 +2,10 @@
 tags:
  - Engaging
  - SuperCloud
+ - MPI
+ - GPU
+ - GROMACS
  - Howto Recipes
- - Gromacs
 ---
 
 # Installing and Using GROMACS
