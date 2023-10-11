@@ -47,7 +47,7 @@ cd vasp.6.4.2
 
 ??? tip
 
-     For different versions of VASP, the directory name will be different so you may need to adjust the example commands accordingly.
+     For different versions of VASP, the download file name and directory name will be different. In that case, remember to adjust the example commands above accordingly.
 
 #### 2. Configure the compiler options file
 
