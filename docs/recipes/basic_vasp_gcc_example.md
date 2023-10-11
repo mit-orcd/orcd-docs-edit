@@ -152,3 +152,38 @@ The commands above can be combined into a single script as shown below. This exa
 shows a script that can either be run from the command line or submitted to Slrum 
 as a batch job.
 
+```bash
+#!/bin/bash
+#SBATCH --time=12:00:00
+#SBATCH --partition=sched_mit_nse_r8
+#SBATCH -N 1
+#SBATCH --mem=0
+
+cd /nobackup1c/users/${USER}
+tnam=`mktemp -d VASP__TEMP_XXXX`
+mkdir -p ${tnam}
+cd ${tnam}
+
+tar -xzvf /nobackup1c/users/${USER}/vasp.6.4.2.tgz
+cd vasp.6.4.2
+# cp arch/makefile.include.gnu makefile.include
+cp arch/makefile.include.gnu_omp makefile.include
+
+module load  gcc/12.2.0-x86_64
+module load openmpi/4.1.4-pmi-cuda-ucx-x86_64
+module load netlib-lapack/3.10.1-x86_64
+module load netlib-scalapack/2.2.0-x86_64
+module load fftw/3.3.10-x86_64
+module load openblas/0.3.21-x86_64
+
+SCALAPACK_ROOT=`module -t show  netlib-scalapack 2>&1 | grep CMAKE_PREFIX_PATH | awk -F, '{print $2}'  | awk -F\" '{print $2}'`
+FFTW_ROOT=`pkgconf --variable=prefix fftw3`
+OPENBLAS_ROOT=$(dirname `pkgconf --variable=libdir openblas`)
+
+make -j OPENBLAS_ROOT=$OPENBLAS_ROOT FFTW_ROOT=$FFTW_ROOT SCALAPACK_ROOT=$SCALAPACK_ROOT MODS=1 DEPS=1
+
+export LD_LIBRARY_PATH=${OPENBLAS_ROOT}/lib:${FFTW_ROOT}/lib:${SCALAPACK_ROOT}/lib
+
+./bin/vasp_std
+```
+
