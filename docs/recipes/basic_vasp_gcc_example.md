@@ -149,7 +149,7 @@ STOP 1
 ### 7. An example script to compile and run VASP
 
 The commands above can be combined into a single script as shown below. This example
-shows a script that can either be run from the command line or submitted to Slrum 
+shows a script that can either be run from the command line or submitted to Slurm 
 as a batch job.
 
 ```bash
@@ -166,7 +166,6 @@ cd ${tnam}
 
 tar -xzvf /nobackup1c/users/${USER}/vasp.6.4.2.tgz
 cd vasp.6.4.2
-# cp arch/makefile.include.gnu makefile.include
 cp arch/makefile.include.gnu_omp makefile.include
 
 module load  gcc/12.2.0-x86_64
