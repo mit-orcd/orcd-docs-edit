@@ -29,8 +29,8 @@ VASP using the GNU compiler stack. The recipe shows commands for a Rocky Linux s
 
 #### 1. Extract VASP source code files
 
-Once a licensed copy of VASP has been obtained the source code files must be extracted from the provided tar file that is
-distributed. The command
+Once a licensed copy of VASP has been obtained the source code files must be extracted from the tar file that can be
+downloaded by license holders from the [VASP portal site](https://www.vasp.at/sign_in/portal/). The command
 
 ```bash
 tar -xzvf vasp.6.4.2.tgz
