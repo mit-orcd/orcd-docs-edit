@@ -51,9 +51,10 @@ cd vasp.6.4.2
 
 #### 2. Configure the compiler options file
 
-The VASP software is distributed with multiple example compiler options file in the sub-directory `arch/`. For this example
-we will use the GNU compiler options file `makefile.include.gnu_omp`. We activate these options by copying file to the
-top-level VASP directory.
+The VASP software is distributed with multiple example compiler options files. 
+These are in the sub-directory `arch/`. 
+For this example we will use the GNU compiler options file `makefile.include.gnu_omp`. 
+To activate the chosen options, copy the options file into the top-level VASP directory.
 
 ```bash
 cp arch/makefile.include.gnu_omp makefile.include
@@ -61,10 +62,11 @@ cp arch/makefile.include.gnu_omp makefile.include
 
 #### 3. Activate the relevant modules
 
-To build the vasp program from the licensed source code several tools and libraries are needed. The modules below
-add the needed software. The `gcc` and `openmpi` modules provide compilers (gcc) and computational tools (openmpi) 
-needed for parallel computing with VASP. The `lapack`, `scalapack`, `fftw` and `openblas` toos are numerical libraries
-that VASP uses.
+To build the vasp program from the licensed source code several tools and libraries are needed. 
+The modules below add the needed software. 
+The `gcc` and `openmpi` modules provide compilers (gcc) and computational tools (openmpi) 
+needed for parallel computing with VASP. 
+The `lapack`, `scalapack`, `fftw` and `openblas` toos are numerical libraries that VASP uses.
 
 ```bash
 module load gcc/12.2.0-x86_64
@@ -77,6 +79,8 @@ module load openblas/0.3.21-x86_64
 
 #### 4. Set environment variables that are needed for compilation
 
+The compilation scripts that come with VASP include variables that must be set to
+the clusters local values. Here we set environment variables to hold those settings.
 
 ```bash
 SCALAPACK_ROOT=`module -t show  netlib-scalapack 2>&1 | grep CMAKE_PREFIX_PATH | awk -F, '{print $2}'  | awk -F\" '{print $2}'`
@@ -84,8 +88,16 @@ FFTW_ROOT=`pkgconf --variable=prefix fftw3`
 OPENBLAS_ROOT=$(dirname `pkgconf --variable=libdir openblas`)
 ```
 
-#### 5. Build the code
+#### 5. Compile the VASP code
+
+To compile the VASP code use the `make` program, passing it the environment variable settings as
+shown. The settings shown will also build the Fortran 90 modules that VASP includes. Typically th
 
 ```bash
 make -j OPENBLAS_ROOT=$OPENBLAS_ROOT FFTW_ROOT=$FFTW_ROOT SCALAPACK_ROOT=$SCALAPACK_ROOT MODS=1 DEPS=1
 ```
+
+### 6. Check the VASP executables
+
+The above commands should generate VASP executable programs `build/std/vasp`, `build/gam/vasp` and
+
