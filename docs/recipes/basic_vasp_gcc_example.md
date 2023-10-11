@@ -14,7 +14,7 @@ tags:
 
 ## About VASP
 
-VASP is a first principles simulation tool for electronic structure and quantum mechanical molelcular dynamics computations. The name VASP is an acronym of Vienna Ab-initio Simulation Package. The VASP software is used in quantum chemistry to simulate the properties and structure of atomic scale materials. VASP can compute
+[VASP](https://www.vasp.at) is a first principles simulation tool for electronic structure and quantum mechanical molelcular dynamics computations. The name VASP is an acronym of Vienna Ab-initio Simulation Package. The VASP software is used in quantum chemistry to simulate the properties and structure of atomic scale materials. VASP can compute
 detailed atomic structure of molecules, finding terms such as bond lengths and vibration frequencies.
 
 ## Building VASP software
@@ -44,6 +44,10 @@ Once the code has been extracted, switch to use the VASP directory for the remai
 ```bash
 cd vasp.6.4.2
 ```
+
+??? tip
+
+   For different versions of VASP, the directory name will be different so you may need to adjust the example commands accordingly.
 
 #### 2. Configure the compiler options file
 
