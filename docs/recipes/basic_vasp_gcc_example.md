@@ -24,11 +24,8 @@ VASP using the GNU compiler stack. The recipe shows commands for a Rocky Linux s
 
 !!! note "Prerequisites"
 
-    To use VASP a research group must obtain a license from the VASP team as described here [here](https://www.vasp.at/sign_in/registration_form/).
-
-!!! note "Prerequisites"
-
-    This example assumes you have access to a Slurm partition and are working with a Rocky Linux environment.
+    * To use VASP a research group must obtain a license from the VASP team as described here [here](https://www.vasp.at/sign_in/registration_form/).
+    * This example assumes you have access to a Slurm partition and are working with a Rocky Linux environment.
 
 #### 1. Extract VASP source code files
 
