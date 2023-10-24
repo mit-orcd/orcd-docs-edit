@@ -75,3 +75,16 @@ EOF
 
 source spack/share/spack/setup-env.sh
 ```
+
+
+#### 2. Check what extra software Spack will build for our LAMMPS install 
+
+Spack will download and compile extra software that it needs to compile LAMMPS. 
+It is good to check what software Spack selects to build to make sure that 
+the _upstream_ libraries are being used as epxected.
+
+To check the software Spack will build use the commad.
+
+```bash
+spack spec -I -L lammps%gcc@12.2.0 fftw_precision=single +intel ~kim +asphere +class2 +kspace +manybody +molecule +opt +replica +rigid +granular +openmp-package +openmp ^openmpi
+```
