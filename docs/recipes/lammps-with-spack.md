@@ -10,11 +10,11 @@ tags:
 # Example of building custom LAMMPS configuration using spack
 
 ## About LAMMPS
-LAMMPS is a fully open-source molecular dynamics simulator. Its name is an acronym from Large-scale Atomic/Molecular Massively Parallel Simulator.
+LAMMPS is a fully open-source molecular dynamics simulator. 
+Its name is an acronym from [Large-scale Atomic/Molecular Massively Parallel Simulator](https://www.lammps.org).
 It is widely used in materials research. LAMMPS is actively developed
 [here](https://github.com/lammps) by a team of collaborators led by researchers from Sandia National Laboratory and 
-Temple University.  
-LAMMPS has many different compilation options that can be used to activate different technical and scientific features.
+Temple University. LAMMPS has many different compilation options that can be used to activate different technical and scientific features.
 
 ## Compiling and running a custom LAMMPS using Spack
 
@@ -30,13 +30,20 @@ below.
 #### 1. Configure an instance of Spack in a directory under your account
 
 Spack is a tool for compiling programs in a uniform away. It is designed for use by regular accounts on a computer. It does not need any administrative privileges.
-Here it will be used to compile the LAMMPS software. The compilation example shows using Spack in a way that uses pre-existing Spack built software 
-from another location. This can be useful on a cluster computer where a central team may have already installed and configured some standard foundation software tools, 
-such as a compiler and high-performance tools for using GPUs and/or for parallel communication. Configuring these foundation software tools can involve seaprate
-testing and performance settings, so using a pre-installed foundation is generally useful.
+Here it will be used to compile the LAMMPS software. 
 
 A first step to using Spack is to download the software from its Github repository using the following command.
 
 ```bash
 git clone https://github.com/spack/spack.git
 ```
+
+Next we configure Spack, setting the it ot use standard tools that have already been built from a pre-exisiting location.
+
+??? note
+    The compilation example shows using Spack in a way that uses pre-existing Spack built software 
+    from another location. This can be useful on a cluster computer where a central team may have already installed and configured some standard foundation software tools, 
+    such as a compiler and high-performance tools for using GPUs and/or for parallel communication. Configuring these foundation software tools can involve seaprate
+    testing and performance settings, so using a pre-installed foundation is generally useful.
+
+To configure Spack use the following commands.
