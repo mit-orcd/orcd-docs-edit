@@ -41,9 +41,10 @@ git clone https://github.com/spack/spack.git
 Next we configure Spack, setting the it ot use standard tools that have already been built from a pre-exisiting location.
 
 ??? note
-    The compilation example shows using Spack in a way that uses pre-existing Spack built software 
+    The compilation example shows using Spack in a way that uses pre-existing _upstream_ Spack built software 
     from another location. This can be useful on a cluster computer where a central team may have already installed and configured some standard foundation software tools, 
     such as a compiler and high-performance tools for using GPUs and/or for parallel communication. Configuring these foundation software tools can involve seaprate
-    testing and performance settings, so using a pre-installed foundation is generally useful.
+    testing and performance settings, so using a pre-installed foundation is generally useful. To make a Spack _upstream_ work reliably we need to use the same tag of 
+    Spack as used in the upstream and provide a path name to the upstream isntallation.
 
 To configure Spack use the following commands.
