@@ -89,6 +89,14 @@ To check the software Spack will build use the commad.
 spack spec -I -L lammps%gcc@12.2.0 fftw_precision=single +intel ~kim +asphere +class2 +kspace +manybody +molecule +opt +replica +rigid +granular +openmp-package +openmp ^openmpi
 ```
 
+!!! example "Output from spack spec query"
+    ```
+    1 A block within an admonition
+    2 A block within an admonition
+    3 A block within an admonition
+    4 A block within an admonition
+    ```
+
 ```
 Input spec
 --------------------------------
