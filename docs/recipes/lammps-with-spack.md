@@ -183,4 +183,177 @@ spack spec install lammps%gcc@12.2.0 fftw_precision=single +intel ~kim +asphere 
 this command will produce output showing progress and generate an executable `lmp` program file when it 
 completes.
 
+#### 4. Running LAMMPS
 
+Once LAMMPS has been built, simulations can be carried out using the `lmp` program.
+The following script shows an example Slurm job that executes a simulation using the Spack LAMMPS installation shown.
+
+```bash
+#!/bin/bash
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -p sched_mit_orcd
+#SBATCH --exclusive
+#
+#
+
+echo "Start: "`date`
+hostname
+lscpu
+cd /nobackup1c/users/${USER}/lammps-testing
+export SPACK_USER_CONFIG_PATH=`pwd`/user_config
+
+source spack/share/spack/setup-env.sh
+
+spack load lammps
+which lmp
+
+/bin/rm in.rhodo.scaled
+/bin/rm data.rhodo
+wget https://raw.githubusercontent.com/lammps/lammps/develop/bench/in.rhodo.scaled
+wget https://raw.githubusercontent.com/lammps/lammps/develop/bench/data.rhodo
+
+export NP=$(nproc)
+mpirun -np ${NP} --map-by core --bind-to core lmp -var x 8 -var y 8 -var z 8 -in in.rhodo.scaled -sf omp -pk omp 1
+
+echo "End: "`date`
+```
+
+??? example Example LAMMPS output
+     LAMMPS (23 Jun 2022)
+     OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/src/comm.cpp:98)
+       using 1 OpenMP thread(s) per MPI task
+     using multi-threaded neighbor list subroutines
+     using multi-threaded neighbor list subroutines
+     Reading data file ...
+       orthogonal box = (-27.5 -38.5 -36.3646) to (27.5 38.5 36.3615)
+       4 by 8 by 4 MPI processor grid
+       reading atoms ...
+       32000 atoms
+       reading velocities ...
+       32000 velocities
+       scanning bonds ...
+       4 = max bonds/atom
+       scanning angles ...
+       8 = max angles/atom
+       scanning dihedrals ...
+       18 = max dihedrals/atom
+       scanning impropers ...
+       2 = max impropers/atom
+       reading bonds ...
+       27723 bonds
+       reading angles ...
+       40467 angles
+       reading dihedrals ...
+       56829 dihedrals
+       reading impropers ...
+       1034 impropers
+     Finding 1-2 1-3 1-4 neighbors ...
+       special bond factors lj:    0        0        0       
+       special bond factors coul:  0        0        0       
+          4 = max # of 1-2 neighbors
+         12 = max # of 1-3 neighbors
+         24 = max # of 1-4 neighbors
+         26 = max # of special neighbors
+       special bonds CPU = 0.011 seconds
+       read_data CPU = 2.852 seconds
+     Replicating atoms ...
+       orthogonal box = (-27.5 -38.5 -36.3646) to (412.5 577.5 545.4442)
+       4 by 8 by 4 MPI processor grid
+       16384000 atoms
+       14194176 bonds
+       20719104 angles
+       29096448 dihedrals
+       529408 impropers
+     Finding 1-2 1-3 1-4 neighbors ...
+       special bond factors lj:    0        0        0       
+       special bond factors coul:  0        0        0       
+          4 = max # of 1-2 neighbors
+         12 = max # of 1-3 neighbors
+         24 = max # of 1-4 neighbors
+         26 = max # of special neighbors
+       special bonds CPU = 0.414 seconds
+       replicate CPU = 1.160 seconds
+     Finding SHAKE clusters ...
+       827904 = # of size 2 clusters
+      1860096 = # of size 3 clusters
+       382464 = # of size 4 clusters
+      2167296 = # of frozen angles
+       find clusters CPU = 0.224 seconds
+     PPPM initialization ...
+       using 12-bit tables for long-range coulomb (src/src/kspace.cpp:342)
+       G vector (1/distance) = 0.24521748
+       grid = 192 250 240
+       stencil order = 5
+       estimated absolute RMS force accuracy = 0.042505564
+       estimated relative force accuracy = 0.00012800424
+       using single precision FFTW3
+       3d grid and FFT values/proc = 127465 96000
+     Generated 2278 of 2278 mixed pair_coeff terms from arithmetic mixing rule
+     Last active /omp style is kspace_style pppm/omp
+     Neighbor list info ...
+       update every 1 steps, delay 5 steps, check yes
+       max neighbors/atom: 2000, page size: 100000
+       master list distance cutoff = 12
+       ghost atom cutoff = 12
+       binsize = 6, bins = 74 103 97
+       1 neighbor lists, perpetual/occasional/extra = 1 0 0
+       (1) pair lj/charmm/coul/long/omp, perpetual
+           attributes: half, newton on, omp
+           pair build: half/bin/newton/omp
+           stencil: half/bin/3d
+           bin: standard
+     Setting up Verlet run ...
+       Unit style    : real
+       Current step  : 0
+       Time step     : 2
+     Per MPI rank memory allocation (min/avg/max) = 474.8 | 475.2 | 475.5 Mbytes
+     ------------ Step              0 ----- CPU =            0 (sec) -------------
+     TotEng   = -12982067.8140 KinEng   =  10979753.6175 Temp     =       299.0273 
+     PotEng   = -23961821.4315 E_bond   =   1299452.9334 E_angle  =   5591743.5948 
+     E_dihed  =   2668434.6878 E_impro  =    109317.9317 E_vdwl   =  -1181626.0687 
+     E_coul   = 103991193.7841 E_long   = -136440338.2946 Press    =      -148.6868 
+     Volume   = 157693457.1520
+     ------------ Step             50 ----- CPU =      71.9645 (sec) -------------
+     TotEng   = -12968333.4738 KinEng   =  11008585.3549 Temp     =       299.8125 
+     PotEng   = -23976918.8287 E_bond   =   1265564.5807 E_angle  =   5548389.0103 
+     E_dihed  =   2682753.7530 E_impro  =    116287.8102 E_vdwl   =  -1020413.6793 
+     E_coul   = 103874278.6508 E_long   = -136443778.9543 Press    =       238.7597 
+     Volume   = 157712315.3857
+     ------------ Step            100 ----- CPU =     146.7313 (sec) -------------
+     TotEng   = -12948011.3076 KinEng   =  11054762.8499 Temp     =       301.0701 
+     PotEng   = -24002774.1575 E_bond   =   1314890.4683 E_angle  =   5520457.6514 
+     E_dihed  =   2661664.1153 E_impro  =    110960.4410 E_vdwl   =   -972029.7085 
+     E_coul   = 103802332.6863 E_long   = -136441049.8112 Press    =        11.4791 
+     Volume   = 157765159.5585
+     Loop time of 146.731 on 128 procs for 100 steps with 16384000 atoms
+     
+     Performance: 0.118 ns/day, 203.794 hours/ns, 0.682 timesteps/s
+     98.5% CPU use with 128 MPI tasks x 1 OpenMP threads
+     
+     MPI task timing breakdown:
+     Section |  min time  |  avg time  |  max time  |%varavg| %total
+     ---------------------------------------------------------------
+     Pair    | 95.91      | 97.23      | 99.421     |   8.9 | 66.26
+     Bond    | 4.1898     | 4.4685     | 4.6336     |   3.5 |  3.05
+     Kspace  | 11.902     | 14.256     | 15.701     |  24.0 |  9.72
+     Neigh   | 19.24      | 19.289     | 19.34      |   0.5 | 13.15
+     Comm    | 1.9089     | 2.2363     | 2.8188     |  12.9 |  1.52
+     Output  | 0.0025599  | 0.0026735  | 0.0028835  |   0.1 |  0.00
+     Modify  | 7.4504     | 8.648      | 9.5588     |  15.0 |  5.89
+     Other   |            | 0.6015     |            |       |  0.41
+     
+     Nlocal:         128000 ave      128000 max      128000 min
+     Histogram: 128 0 0 0 0 0 0 0 0 0
+     Nghost:         109934 ave      109937 max      109930 min
+     Histogram: 32 0 32 0 0 0 0 32 0 32
+     Neighs:    4.81125e+07 ave 4.83216e+07 max  4.7899e+07 min
+     Histogram: 8 8 12 18 16 20 16 12 10 8
+     
+     Total # of neighbors = 6.1583993e+09
+     Ave neighs/atom = 375.87887
+     Ave special neighs/atom = 7.431875
+     Neighbor list builds = 11
+     Dangerous builds = 0
+     Total wall time: 0:02:36
+     End: Thu Oct 26 15:16:19 EDT 2023
