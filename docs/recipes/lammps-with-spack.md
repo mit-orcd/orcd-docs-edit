@@ -89,14 +89,15 @@ To check the software Spack will build use the commad.
 spack spec -I -L lammps%gcc@12.2.0 fftw_precision=single +intel ~kim +asphere +class2 +kspace +manybody +molecule +opt +replica +rigid +granular +openmp-package +openmp ^openmpi
 ```
 
-this command produces a large amount of output that is described below
+this command produces a large amount of output that is described below.
 
 
 ??? example "Output from spack spec -I -L query"
     The`spack spec -I -L` command produces a series of lines that show the versions of all the software packages that
     are needed for some software. The first column in these lines show symbols that denote whether an existing 
-    version will be used ( [^], or [e] ) or a new version needs to be downloaded and installed ( [+] ). If there
-    are many packages marked with the [+] it can be useful to check what options you have selected for the software
+    version will be used ( [^], or [e] ) or a new version needs to be downloaded and installed ( [+] ). 
+
+    If there are many packages marked with the [+] it can be useful to check what options you have selected for the software
     you are trying to build. Changing these options can affect how Spack decides which packages needs to be
     built frm scratch.
     ```
@@ -167,3 +168,12 @@ this command produces a large amount of output that is described below
     [^]  f36megz6i272yo6gqj2h72byzupu2u3f                          ^util-linux-uuid@2.38.1%gcc@12.2.0 build_system=autotools arch=linux-rocky8-x86_64
     [^]  omne2gv2jqp4wmdqfnb6wfozhda6mznn              ^xpmem@2.6.5-36%gcc@12.2.0+kernel-module build_system=autotools patches=1a2660a,6be8c5f,7529939 arch=linux-rocky8-x86_64
     ```
+
+Assuming the `spack spec` command does not show that a large number of unexpected dependencies will be 
+built then the command `spack install` can be used to build the software as follows
+
+```bash
+spack spec install lammps%gcc@12.2.0 fftw_precision=single +intel ~kim +asphere +class2 +kspace +manybody +molecule +opt +replica +rigid +granular +openmp-package +openmp ^openmpi
+```
+
+
