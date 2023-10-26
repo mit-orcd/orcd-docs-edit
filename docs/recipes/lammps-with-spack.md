@@ -172,7 +172,9 @@ this command produces a large amount of output that is described below.
 Assuming the `spack spec` command does not show that a large number of unexpected dependencies will be 
 built, then the command `spack install` can be used to build the software.
 
-#### 3. Check what extra software Spack will build for our LAMMPS install 
+#### 3. Compile and install LAMMPS
+
+To compile and build LAMMPS once the spack specification is 
 
 ```bash
 spack spec install lammps%gcc@12.2.0 fftw_precision=single +intel ~kim +asphere +class2 +kspace +manybody +molecule +opt +replica +rigid +granular +openmp-package +openmp ^openmpi
