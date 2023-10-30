@@ -91,7 +91,7 @@ OPENBLAS_ROOT=$(dirname `pkgconf --variable=libdir openblas`)
 #### 5. Compile the VASP code
 
 To compile the VASP code use the `make` program, passing it the environment variable settings as
-shown. The settings shown will also build the Fortran 90 modules that VASP includes. Typically th
+shown. The settings shown will also build the Fortran 90 modules that VASP includes.
 
 ```bash
 make -j OPENBLAS_ROOT=$OPENBLAS_ROOT FFTW_ROOT=$FFTW_ROOT SCALAPACK_ROOT=$SCALAPACK_ROOT MODS=1 DEPS=1
