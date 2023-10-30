@@ -146,11 +146,13 @@ VASP program can be run. The output shows an error because no input files have b
 STOP 1
 ```
 
-### 7. An example script to compile and run VASP
+### 7. Example scripts to compile and run VASP
 
-The commands above can be combined into a single script as shown below. This example
-shows a script that can either be run from the command line or submitted to Slurm 
+The commands above can be combined into scripts as shown below. This example
+scripts that can either be run from the command line or submitted to Slurm 
 as a batch job.
+
+The following script shows compiling VASP 
 
 ```bash
 #!/bin/bash
@@ -181,8 +183,35 @@ OPENBLAS_ROOT=$(dirname `pkgconf --variable=libdir openblas`)
 
 make -j OPENBLAS_ROOT=$OPENBLAS_ROOT FFTW_ROOT=$FFTW_ROOT SCALAPACK_ROOT=$SCALAPACK_ROOT MODS=1 DEPS=1
 
+```
+
+The following script shows running VASP  to check it has compiled correctly. To run a full VASP
+experiment problem specific inputs and parameters must be added to the script for running.
+
+```bash
+#!/bin/bash
+#SBATCH --time=12:00:00
+#SBATCH --partition=sched_mit_nse_r8
+#SBATCH -N 1
+#SBATCH --mem=0
+
+cd /nobackup1c/users/${USER}
+# 
+tnam=VASP__temp_
+cd ${tnam}
+
+module load  gcc/12.2.0-x86_64
+module load openmpi/4.1.4-pmi-cuda-ucx-x86_64
+module load netlib-lapack/3.10.1-x86_64
+module load netlib-scalapack/2.2.0-x86_64
+module load fftw/3.3.10-x86_64
+module load openblas/0.3.21-x86_64
+
+SCALAPACK_ROOT=`module -t show  netlib-scalapack 2>&1 | grep CMAKE_PREFIX_PATH | awk -F, '{print $2}'  | awk -F\" '{print $2}'`
+FFTW_ROOT=`pkgconf --variable=prefix fftw3`
+OPENBLAS_ROOT=$(dirname `pkgconf --variable=libdir openblas`)
+
 export LD_LIBRARY_PATH=${OPENBLAS_ROOT}/lib:${FFTW_ROOT}/lib:${SCALAPACK_ROOT}/lib
 
 ./bin/vasp_std
 ```
-
