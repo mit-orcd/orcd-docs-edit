@@ -51,7 +51,7 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
 
 === "OpenMind"   
     
-    See the [Logging into OpenMind](https://github.mit.edu/MGHPCC/OpenMind/wiki/Getting-started#login) page for full documentation.
+    See the [Logging into OpenMind](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-log-in-Openmind%3F) page for full documentation.
 
 ### Terminal with SSH
 
