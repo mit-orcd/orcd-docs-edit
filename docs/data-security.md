@@ -6,16 +6,19 @@ All ORCD current systems are only suitable for storing data with low-level secur
 
 The following data categories are appropriate for storing and analyzing on current ORCD systems:
 
-Open public data
-Low-sensitivity private research data
-Low-sensitivity research data are items such as drafts of papers and analyses derived from public data.
+- Open public data
+- Low-sensitivity private research data- items such as drafts of papers and analyses derived from public data
+
+<!--
+Section above and below seem to be saying the same thing, do we need both? Maybe keep the second one?
+-->
 
 The following data types are suitable for ORCD systems:
 
-- Anything in the low-risk category described at the [MIT IS&T information security pages](https://infoprotect.mit.edu/risk-classifications)
+- Anything in the low-risk category described at the [MIT IS&T data risk classification pages](https://infoprotect.mit.edu/risk-classifications)
 - Drafts of unpublished research papers and results that are based on low-risk data
 
-Anything else in the medium-risk or higher risk levels of the [MIT IS&T information security pages](https://infoprotect.mit.edu/risk-classifications) should not be stored or analyzed on current ORCD systems.
+Anything else in the medium-risk or higher risk levels of the [MIT IS&T data risk classification pages](https://infoprotect.mit.edu/risk-classifications) should not be stored or analyzed on current ORCD systems.
 
 If you have any questions about whether your data is appropriate for storing on ORCD systems please feel free to reach out to us at <orcd-help@mit.edu>. 
 
