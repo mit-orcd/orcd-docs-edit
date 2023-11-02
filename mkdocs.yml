@@ -10,6 +10,7 @@ nav:
 #    - Transferring Files:  filesystems-file-transfer/transferring-files.md
 #    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
   - Data Security and Privacy: data-security.md
+  - Acceptable Use and Code of Conduct: code-of-conduct.md
   - ORCD Recipes:
 #    - recipes/gurobi.md
     - MuJoCo: recipes/mujoco.md
