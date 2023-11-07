@@ -11,10 +11,11 @@ nav:
   - Data Security and Privacy: data-security.md
   - ORCD Recipes:
 #    - recipes/gurobi.md
-    - MuJoCo: recipes/mujoco.md
-    - 'NVHPC with CUDA aware MPI': recipes/nvhpc-a100-with-cuda-and-mpi-example.md
     - GROMACS: recipes/gromacs.md
     - MPI for Python: recipes/mpi4py.md
+    - MuJoCo: recipes/mujoco.md
+    - 'NVHPC with CUDA aware MPI': recipes/nvhpc-a100-with-cuda-and-mpi-example.md
+    - VASP: recipes/basic_vasp_gcc_example.md
 #  - Basic software and package installation:
 #    - Environment Modules: software/page1.md
 #    - Installing packages/libraries in Julia, Python, R: software/page2.md
