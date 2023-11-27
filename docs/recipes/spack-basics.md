@@ -94,7 +94,6 @@ $ spack find -p
 ```
 
 ??? example Example `spack find -p` output
-    ```
         -- linux-rocky8-x86_64 / gcc@8.5.0 ------------------------------
     anaconda3@2022.05                    /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-8.5.0/anaconda3-2022.05-auh4o3tsby7ze6q6v3stn2hhvvnpoy5f
     apptainer@1.1.7                      /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-8.5.0/apptainer-1.1.7-6nplh4eg7jbwvore6n64kqjuq3azwiuz
@@ -273,4 +272,3 @@ $ spack find -p
     yasm@1.3.0                           /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-12.2.0/yasm-1.3.0-up3oys25bdxvv5n2cdvhyaodk4pjm46t
     zlib@1.2.13                          /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-12.2.0/zlib-1.2.13-xzya3i6ni4zkbycrk2bnbwba3dtfjpag
     zstd@1.5.2                           /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-12.2.0/zstd-1.5.2-qsb6yicesijb5zudq2q6cmkrywv2axyc
-    ```
