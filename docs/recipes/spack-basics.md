@@ -94,6 +94,11 @@ $ spack find -p
 ```
 
 ??? example Example output
+     Does this even work
+
+
+
+??? example Example output
 
         linux-rocky8-x86_64 / gcc@8.5.0 ------------------------------
      anaconda3@2022.05                    /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-8.5.0/anaconda3-2022.05-auh4o3tsby7ze6q6v3stn2hhvvnpoy5f
