@@ -85,3 +85,5 @@ is dated and software in that directory is unchanged once published.
 
 #### 2. Test Spack settings
 
+Once Spack has been installed and configured to use the _upstream_ the setup can be checked with some basic Spack commands.
+
