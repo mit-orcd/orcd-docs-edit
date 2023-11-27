@@ -51,7 +51,7 @@ Next we configure Spack, setting the it to use standard tools that have already 
     from another location. This can be useful on a cluster computer where a central team may have already installed and configured some standard foundation software tools, 
     such as a compiler and high-performance tools for using GPUs and/or for parallel communication. Configuring these foundation software tools can involve seaprate
     testing and performance settings, so using a pre-installed foundation is generally useful. To make a Spack _upstream_ work reliably we need to use the same tag of 
-    Spack as used in the upstream and provide a path name to the upstream isntallation.
+    Spack as used in the upstream and provide a path name to the upstream installation.
 
 To configure Spack to use the following sequence of commands.
 
@@ -94,7 +94,8 @@ $ spack find -p
 ```
 
 ??? example Example output
-     -- linux-rocky8-x86_64 / gcc@8.5.0 ------------------------------
+
+        linux-rocky8-x86_64 / gcc@8.5.0 ------------------------------
      anaconda3@2022.05                    /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-8.5.0/anaconda3-2022.05-auh4o3tsby7ze6q6v3stn2hhvvnpoy5f
      apptainer@1.1.7                      /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-8.5.0/apptainer-1.1.7-6nplh4eg7jbwvore6n64kqjuq3azwiuz
      autoconf@2.69                        /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-8.5.0/autoconf-2.69-lh2icxcpszli5fqpmnnsm5ou3lsyzdrp
@@ -174,7 +175,7 @@ $ spack find -p
      zlib@1.2.13                          /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-8.5.0/zlib-1.2.13-dcpzngybj4fisn6ojapnels3yfwcxqgk
      zstd@1.5.2                           /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-8.5.0/zstd-1.5.2-p276rtd7imzam6ukdiq35iif3qmzpwd3
      
-     -- linux-rocky8-x86_64 / gcc@12.2.0 -----------------------------
+        linux-rocky8-x86_64 / gcc@12.2.0 -----------------------------
      alsa-lib@1.2.3.2                     /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-12.2.0/alsa-lib-1.2.3.2-da4dhnudfslxlganozpe6kgegttb5wqt
      apr@1.7.0                            /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-12.2.0/apr-1.7.0-jhqfvgatkd35nagfkfplcvledlilszlp
      autoconf@2.69                        /nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-12.2.0/autoconf-2.69-llmf6eoq46fjuega6mzjc6kjpeta2abx
