@@ -30,7 +30,7 @@ compilers, commincations and I/O libraries that have been been built and optimiz
 !!! note "Prerequisites"
 
     This example assumes you have access to a Slurm partition and are working with a Rocky Linux environment.
-    The example also uses git command, so some familiarity with git is useful.
+    The example also uses git command, so some familiarity with git will be useful.
 
 #### 1. Configure an instance of Spack in a working directory under your account
 
