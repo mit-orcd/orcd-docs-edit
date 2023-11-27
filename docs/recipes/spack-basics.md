@@ -30,6 +30,7 @@ compilers, commincations and I/O libraries that have been been built and optimiz
 !!! note "Prerequisites"
 
     This example assumes you have access to a Slurm partition and are working with a Rocky Linux environment.
+    The example also uses git command, so some familiarity with git is useful.
 
 #### 1. Configure an instance of Spack in a working directory under your account
 
@@ -61,14 +62,13 @@ cd /nobackup1/users/${USER}/spack-testing
 # Set any .spack files to be local to this test
 export SPACK_USER_CONFIG_PATH=`pwd`/user_config
 
-# Download spack and set version to match upstream Spack
-git clone https://github.com/spack/spack.git
+# Set checked out version of downloaded Spack to match upstream Spack version
 (
  cd spack
  git checkout -b v0.19.1 v0.19.1
 )
 
-# Set upstream and cp reference config files for upstream
+# Copy reference config files for upstream and set upstream location
 mkdir -p `pwd`/user_config
 cp /software/spack/etc/spack/*yaml user_config
 cat  > user_config/upstreams.yaml << EOF
