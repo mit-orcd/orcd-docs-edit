@@ -1,8 +1,8 @@
 # Contributing notes 
 
-   * [Current draft outline](contributing.md#draft-outine)
+   * [How to Contribute](#to-contribute)
    * [How to preview a PR](contributing.md#previewing-a-pr)
-   * [How to test build docs locally under OSX](contributing.md#notes-on-setting-up-to-build-locally-on-osx)
+   * [Building Locally](#building-locally)
 
 ## To Contribute
 
