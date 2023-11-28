@@ -11,10 +11,6 @@ tags:
  - Rocky Linux
 ---
 
-<!---
-TODO: Does this recipe work for Satori? May want to revisit some of these tags.
---->
-
 # Example of a minimal program using the nvhpc stack with CUDA aware MPI
 
 ## About NVHPC

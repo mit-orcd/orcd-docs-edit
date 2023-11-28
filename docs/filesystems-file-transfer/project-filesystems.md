@@ -22,7 +22,7 @@ Storage options include NESE encrypted at rest disk. The NESE encrypted at rest 
 facility. Any shared ORCD cluster at the MGHPCC can access this storage. Data on NESE disk
 is transparently encrypted at rest.
 
-For current storage options and pricing and to purchase storage please send an email to [orcd-help@mit.edu](mailto:orcd-help@mit.edu).
+For current storage options and pricing and to purchase storage please send an email to <orcd-help@mit.edu>.
 
 ## Managing access using MIT Web Moira
 
@@ -30,15 +30,9 @@ Individual group storage is configured so that access is limited to a set
 of accounts belonging to a web moira list that is defined for the group
 store. The owner and administrators of group storage can manage
 access themselves, by modifying the membership of an associated moira list
-under [https://groups.mit.edu/webmoira/list/](https://groups.mit.edu/webmoira/list/). The name of the
+under **https://groups.mit.edu/webmoira/list/[list_name]**. The name of the
 list corresponds to the UNIX group name associated with the ORCD shared 
 cluster storage.
-
-<!--
-Is https://groups.mit.edu/webmoira/list/ the actual URL people are supposed to use, or are they supposed to replace "list" with their list name? When I click on the link it takes me to a page that never finishes loading
-
-Should we give them the URL: https://groups.mit.edu/webmoira/list/<list_name> and not make it clickable? Or did we mean to link to https://groups.mit.edu/webmoira/, which does list all the lists you can administer?
--->
 
 ### Moira Web Interface Example
 
@@ -50,7 +44,3 @@ this group. MIT account IDs can be added and
 removed as needed from this list by the storage access administrators.
 
 ![Screen shot of Moira interface](moira-example.jpg)
-
-<!--
-Another question about what to do with this URL, not meant to be clicked, so make it bold?
--->
