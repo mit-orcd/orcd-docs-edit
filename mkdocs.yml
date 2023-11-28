@@ -3,18 +3,21 @@ site_url: https://orcd.mit.edu
 nav:
   - Home: index.md
   - ORCD Systems: orcd-systems.md
+  - Getting Started Tutorial: getting-started.md
   - Filesystems and File Transfer:
     - General Use Filesystems:  filesystems-file-transfer/filesystems.md
     - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
 #    - Transferring Files:  filesystems-file-transfer/transferring-files.md
 #    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
-  - Data Security and Privacy: data-security.md
   - ORCD Recipes:
 #    - recipes/gurobi.md
     - MuJoCo: recipes/mujoco.md
     - 'NVHPC with CUDA aware MPI': recipes/nvhpc-a100-with-cuda-and-mpi-example.md
     - GROMACS: recipes/gromacs.md
     - MPI for Python: recipes/mpi4py.md
+  - Acknowledging Us: acknowledgements.md
+  - Data Security and Privacy: data-security.md
+  - Acceptable Use and Code of Conduct: code-of-conduct.md
 #  - Basic software and package installation:
 #    - Environment Modules: software/page1.md
 #    - Installing packages/libraries in Julia, Python, R: software/page2.md
@@ -34,6 +37,7 @@ theme:
   logo: images/ORCD_logo_icononly.png
   features:
     - content.code.copy
+    - content.tabs.link
   palette:
     primary: blue grey
 markdown_extensions:
