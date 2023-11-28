@@ -11,8 +11,6 @@ tags:
 This example shows a basic example of using the Spack tool to create a custom software environment.
 The example illustrates configuring Spack to reuse libraries and software that are part of the core Spack setup on a cluster. 
 
-Testing actions
-
 
 ## About Spack
 
