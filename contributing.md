@@ -8,36 +8,37 @@
 
 1. Clone the [orcd-docs-edit](https://github.com/mit-orcd/orcd-docs-edit/tree/main) repository to your computer (you only need to do this once).
 2. You can view the web page locally [see below](#building-locally)
-3. If you've already cloned the repo and created a branch in the past (run git status to see what branch you are on), be sure to checkout the main branch and 
+3. If you've already cloned the repo and created a branch in the past (run git status to see what branch you are on), be sure to checkout the main branch and pull any changes before creating a new branch
 ```bash
-pull any changes before creating a new branch
 git checkout main
 git pull
 ```
 4. Create a branch for your changes. Use your initials in the branch name, for example: `git checkout -b lm/my_updates`
-  1. Push this branch to the remote repository (you only need to do this once for each branch): `git push --set-upstream origin lm/my_updates`
+    1. Push this branch to the remote repository (you only need to do this once for each branch): `git push --set-upstream origin lm/my_updates`
 5. Make the changes you want to make. Commit as needed and then push the branch to the repo in github:
+
 ```bash
 git add editedFile.md
 git commit -m "short description of update"
 git push
 ```
-  1. To preview locally you can run `mkdocs serve` at the command line in the top level of the repository. See [below](#building-locally) for more info.
+
+    1. To preview locally you can run `mkdocs serve` at the command line in the top level of the repository. See [below](#building-locally) for more info.
 6. Create a Pull Request
-  1. Go back to the supercloud-docs-edit repo in your browser.
-  2. If you just pushed the branch you'll see a link suggesting you create a PR, click it if it's there. If it's not there, click "Pull Requests" then "New pull request", click where it says "compare: main" and select your branch and then click "Create pull request".
-  3. Fill out the form with a short description of your changes and title
-  4. A few minutes after your PR is created a preview will be available. Given the PR number N, you can see the preview at https://mit-orcd.github.io/orcd-docs-preview/PR/PRN. For example, for PR1, the preview is at https://mit-orcd.github.io/orcd-docs-preview/PR/PR1.
+    1. Go back to the orcd-docs-edit repo in your browser.
+    2. If you just pushed the branch you'll see a link suggesting you create a PR, click it if it's there. If it's not there, click "Pull Requests" then "New pull request", click where it says "compare: main" and select your branch and then click "Create pull request".
+    3. Fill out the form with a short description of your changes and title
+    4. A few minutes after your PR is created a preview will be available. Given the PR number N, you can see the preview at https://mit-orcd.github.io/orcd-docs-preview/PR/PRN. For example, for PR1, the preview is at https://mit-orcd.github.io/orcd-docs-preview/PR/PR1.
 7. Once the changes have been approved the PR can be merged into the main branch. The web page will be updated automatically.
 
 If any changes have been merged into main in the meantime, you should merge these into your branch before merging it. You can do this at anytime to get any updates on the main branch.
 1. Check out the main branch: `git checkout main`
 2. Pull any changes from the repository: `git pull`
-  1. If there were no changes feel free to go back to your branch (`git checkout mybranch`) and skip the rest
+    1. If there were no changes feel free to go back to your branch (`git checkout mybranch`) and skip the rest
 3. Go back to your branch: `git checkout mybranch`
 4. Merge changes from main into your branch: `git merge main`
-  1. An editor will open (likely vi) with your commit message. Unless you want to change it you can keep the default message. Exit vi with `:wq`
-  2. If there are merge conflicts you'll get a message that there are conflicts. Resolve them as needed, if you need help ask!
+    1. An editor will open (likely vi) with your commit message. Unless you want to change it you can keep the default message. Exit vi with `:wq`
+    2. If there are merge conflicts you'll get a message that there are conflicts. Resolve them as needed, if you need help ask!
 5. This merge adds the commits to main to the end of your branch. Push them to repository with: `git push`
 
 ## Previewing a PR
