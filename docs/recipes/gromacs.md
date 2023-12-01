@@ -99,9 +99,11 @@ You can learn about GROMACS here: [https://www.gromacs.org/](https://www.gromacs
 
 Firstly, prepare for an input file. Refer to [file formats](https://manual.gromacs.org/documentation/5.1/user-guide/file-formats.html). Here shows an example with an input file named `benchPEP-h.tpr` downloaded from [this page](https://www.mpinat.mpg.de/grubmueller/bench). In these examples we have saved the input files in the `~/gromacs/bench/` directory.
 
-Secondly, create a batch job script, for example, named `job.sh`, requesting 2 node with 4 CPU cores and 2 GPUs per node. Here we show and example script for SuperCloud
+Secondly, create a batch job script, for example, named `job.sh`.
 
 === "Engaging"
+    This job script requests 2 nodes with a total of 8 CPU cores and 50GB of memory.
+    
     ```bash title="job.sh"
     #!/bin/bash
     #SBATCH --job-name="production run"
@@ -131,6 +133,8 @@ Secondly, create a batch job script, for example, named `job.sh`, requesting 2 n
     mpirun -np $SLURM_NTASKS $gmx_mpi mdrun -ntomp $ntomp -deffnm ~/gromacs/bench/benchPEP-h -v
     ```
 === "SuperCloud"
+    This job requests 2 nodes with 4 CPU cores and 2 GPUs per node.
+
     ```bash title="job.sh"
     #!/bin/bash
     #SBATCH --nodes=2              # 2 nodes
