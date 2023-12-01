@@ -102,7 +102,7 @@ Firstly, prepare for an input file. Refer to [file formats](https://manual.groma
 Secondly, create a batch job script, for example, named `job.sh`, requesting 2 node with 4 CPU cores and 2 GPUs per node. Here we show and example script for SuperCloud
 
 === "Engaging"
-    ```bash title job.sh
+    ```bash title="job.sh"
     #!/bin/bash
     #SBATCH --job-name="production run"
     #SBATCH --partition=sched_mit_hill
