@@ -97,32 +97,39 @@ You can learn about GROMACS here: [https://www.gromacs.org/](https://www.gromacs
 
 ## Run GROMACS
 
-Firstly, prepare for an input file. Refer to [file formats](https://manual.gromacs.org/documentation/5.1/user-guide/file-formats.html). Here shows an example with an input file named `benchPEP-h.tpr` downloaded from [this page](https://www.mpinat.mpg.de/grubmueller/bench).
+Firstly, prepare for an input file. Refer to [file formats](https://manual.gromacs.org/documentation/5.1/user-guide/file-formats.html). Here shows an example with an input file named `benchPEP-h.tpr` downloaded from [this page](https://www.mpinat.mpg.de/grubmueller/bench). In these examples we have saved the input files in the `~/gromacs/bench/` directory.
 
 Secondly, create a batch job script, for example, named `job.sh`, requesting 2 node with 4 CPU cores and 2 GPUs per node. Here we show and example script for SuperCloud
 
-<!-- === "Engaging"
-    ```bash title="job.sh"
+=== "Engaging"
+    ```bash title job.sh
     #!/bin/bash
-    #SBATCH --nodes=2              # 2 nodes
-    #SBATCH --ntasks-per-node=2    # 2 MPI tasks per node
-    #SBATCH --cpus-per-task=2      # 2 CPU cores per task
-    #SBATCH --time=01:00:00        # 1 hour
+    #SBATCH --job-name="production run"
+    #SBATCH --partition=sched_mit_hill
+    #SBATCH --constraint=centos7
+    #SBATCH --mem=50G
+    #SBATCH -N 2
+    #SBATCH --ntasks 8
+    #SBATCH --time=12:00:00
 
 
-    # Load required modules
-    module load engaging/openmpi/2.0.3
+    module purge
+    module load gromacs/2018.4
 
-    # Activate user install of GROMACS
-    source ~/gromacs/2019.6/install/bin/GMXRC
+    gmx_mpi=/home/software/gromacs/2018.4/bin/gmx_mpi
 
-    # Check MPI, GPU and GROMACS
-    mpirun hostname
-    which gmx_mpi
+    if [ -n "$SLURM_CPUS_PER_TASK" ]; then
+        ntomp="$SLURM_CPUS_PER_TASK"
+    else
+        ntomp="1"
+    fi
 
-    # Run GROMACS
-    mpirun gmx_mpi mdrun -s ~/gromacs/bench/benchPEP-h.tpr -ntomp ${SLURM_CPUS_PER_TASK} -npme 1
-    ``` -->
+
+    # setting OMP_NUM_THREADS to the value used for ntomp to avoid complaints from gromacs
+    export OMP_NUM_THREADS=$ntomp
+
+    mpirun -np $SLURM_NTASKS $gmx_mpi mdrun -ntomp $ntomp -deffnm ~/gromacs/bench/benchPEP-h -v
+    ```
 === "SuperCloud"
     ```bash title="job.sh"
     #!/bin/bash
