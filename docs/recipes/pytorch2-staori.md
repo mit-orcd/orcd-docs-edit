@@ -10,9 +10,9 @@ tags:
 Installing PyTorch version 2.0.1.
 
 ##Installation Steps:
-!!! Note Accessing Conda channel
+!!! Accessing Conda channel
 	There's a Conda channel provided by osuosl.org that hosts PyTorch version 2.0.1.
-	https://osuosl.org/services/powerdev/opence
+	URL: https://osuosl.org/services/powerdev/opence
 
 ####1. Setting up the Environment:
 Login to the designated node (e.g., satori-login-001).
