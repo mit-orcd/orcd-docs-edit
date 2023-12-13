@@ -56,7 +56,7 @@ make install
 
 It is all set for the installation.
 
-### Run RELION
+### Use RELION
 
 There is a nice Graphical User Interface (GUI) for RELION. To use the GUI, first log in Satori with x-forwardig,
 ```
@@ -118,3 +118,7 @@ time mpirun -np 1 --oversubscribe `which relion_align_symmetry` --i InitialModel
 touch InitialModel/job008/RELION_JOB_EXIT_SUCCESS
 ```
 
+Put the above lines in a file named `job.sh`, then submit the job,
+```
+sbatch job.sh
+```
