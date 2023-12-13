@@ -16,7 +16,7 @@ This recipe is for building and using RELION on x86 nodes on Satori. It is diffe
 
 > Note: The x86 nodes are available to some labs only. 
 
-### Install 
+### Install RELION
 
 Go to your directory and download RELION,
 ```
