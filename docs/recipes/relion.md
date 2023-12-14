@@ -58,9 +58,9 @@ It is all set for the installation.
 
 ### Use RELION
 
-There is a nice Graphical User Interface (GUI) for RELION. To use the GUI, first log in Satori with x-forwardig,
+There is a nice Graphical User Interface (GUI) for RELION. To use the GUI, first log in Satori with x-forwardig support,
 ```
-ssh <user>@satori-login-002.mit.edu
+ssh -Y <user>@satori-login-002.mit.edu
 ```
 
 Get an interactive session with GPU and x-forwarding support on x86 nodes of Satori,
@@ -68,7 +68,7 @@ Get an interactive session with GPU and x-forwarding support on x86 nodes of Sat
 srun --x11 -p sched_mit_mbathe --gres=gpu:1 -c 6 -t 60 --pty bash
 ```
 
-Load modules for compilers, mpi implementation and FFTW lib, 
+Set up environment for compilers, mpi implementation, FFTw, and RELION,
 ```
 module use /software/spack/share/spack/lmod/linux-rocky8-x86_64/Core
 module load gcc/12.2.0-x86_64  
@@ -80,14 +80,14 @@ export PATH=${RELION_HOME}/bin:$PATH
 export LD_LIBRARY_PATH=${RELION_HOME}/lib:$LD_LIBRARY_PATH
 ```
 
-Open the RELION GUI, 
+then open the RELION GUI, 
 ```
 relion &
 ```
 
-Users can se GUI to edit files or submit jobs. Alternatively, users can prepare a batch job script to submit jobs. Refer to details on [this page](https://hpc.nih.gov/apps/RELION/index.html).
+Users can use GUI to edit files or submit jobs. Refer to details on [this page](https://hpc.nih.gov/apps/RELION/index.html).
 
-Here is an exaple job script,
+Alternatively, users can prepare a batch job script to submit jobs. Here is an exaple job script,
 ```
 #!/bin/bash
 #SBATCH --partition=sched_mit_mbathe
