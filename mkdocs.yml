@@ -15,6 +15,7 @@ nav:
     - 'NVHPC with CUDA aware MPI': recipes/nvhpc-a100-with-cuda-and-mpi-example.md
     - GROMACS: recipes/gromacs.md
     - MPI for Python: recipes/mpi4py.md
+    - RELION: recipes/relion.md
 #  - Basic software and package installation:
 #    - Environment Modules: software/page1.md
 #    - Installing packages/libraries in Julia, Python, R: software/page2.md
