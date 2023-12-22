@@ -10,11 +10,11 @@ The current options for storage are:
 
 | Storage Type | Description | Encryption at Rest  | Backup  | Namespace |Notes | 
 | ----------- | ----------- |----------- |----------- |----------- |----------- |
-| Compute | Very frequent data access | No | No | Limited | Very fast access, special needs, high IO |
-| Data | Frequent data access | No | No |  Limited | Day to day research storage, active project, instrument data buffer, etc. |
-| Archival | Infrequent data access | Yes | No | Unlimited | Infrequently accessed data, unlimited namespace |
+| Compute | Very frequent data access | Optional | No | Limited | Very fast access, special needs, high IO |
+| Data | Frequent data access | Optional | No |  Limited | Day to day research storage, active projects, instrument data buffers, etc. |
+| Archival | Infrequent data access | Yes | No | Nearly Unlimited | Infrequently accessed data, unlimited namespace |
 
-Please note that all types of storage **are not backed up**.
+Please note that all types of storage **are not backed up by default**.
 
 Storage is charged at the start of each fiscal year. The first year is prorated by the number of months left in the current fiscal year. A purchase must be a minimum of 20 TiB and in increments of 20 TiB.
 
