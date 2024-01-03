@@ -40,6 +40,8 @@ module load openmpi/4.1.4-pmi-cuda-ucx-x86_64
 
 Build RELION with CUDA and FFTW features,
 ```
+cd ~
+mkdir relion
 cd relion
 git checkout master 
 cd ..
@@ -75,7 +77,7 @@ module load gcc/12.2.0-x86_64
 module load openmpi/4.1.4-pmi-cuda-ucx-x86_64 
 module load fftw/3.3.10-x86_64
 export LD_LIBRARY_PATH=/nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-12.2.0/fftw-3.3.10-qiaruimvw6zu2h4f5eolqom7tixem6vk/lib:$LD_LIBRARY_PATH
-export RELION_HOME=/home/shaohao/pkg/relion/4.0.1/install
+export RELION_HOME=/home/$USER/relion/4.0.1/install
 export PATH=${RELION_HOME}/bin:$PATH
 export LD_LIBRARY_PATH=${RELION_HOME}/lib:$LD_LIBRARY_PATH
 ```
@@ -85,40 +87,68 @@ then open the RELION GUI,
 relion &
 ```
 
-Users can use GUI to edit files or submit jobs. Refer to details on [this page](https://hpc.nih.gov/apps/RELION/index.html).
+Users can use GUI to edit files or submit jobs. Refer to details on [this page](https://hpc.nih.gov/apps/RELION/index.html). 
 
-Alternatively, users can prepare a batch job script to submit jobs. Here is an exaple job script,
+Alternatively, users can prepare a batch job script to submit jobs. 
+
+Download RELION benchmarks for testing, 
+```
+cd ~/relion
+wget ftp://ftp.mrc-lmb.cam.ac.uk/pub/scheres/relion_benchmark.tar.gz
+```
+then all benchmark files will be saved in a directory named `relion_benchmark`.
+
+Here is an exmaple job script,
 ```
 #!/bin/bash
 #SBATCH --partition=sched_mit_mbathe
+#SBATCH --time=12:00:00
 #SBATCH --nodes=1
-#SBATCH --time=24:00:00
-#SBATCH -n 96
-#SBATCH --mem=500000
+#SBATCH -n 20
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=10000
 #SBATCH --gres=gpu:4
-#SBATCH --nodelist=node2034
 #SBATCH --chdir='.'
 
-module use /software/spack/share/spack/lmod/linux-rocky8-x86_64/Core 
-module load gcc/12.2.0-x86_64  openmpi/4.1.4-pmi-cuda-ucx-x86_64 
+module use /software/spack/share/spack/lmod/linux-rocky8-x86_64/Core
+module load gcc/12.2.0-x86_64
+module load openmpi/4.1.4-pmi-cuda-ucx-x86_64
 export LD_LIBRARY_PATH=/nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-12.2.0/fftw-3.3.10-qiaruimvw6zu2h4f5eolqom7tixem6vk/lib:$LD_LIBRARY_PATH
-export RELION_HOME=/nobackup/users/bmp/software/relion_4.0.1_schedmitmbathe/relion/build
+export RELION_HOME="/home/$USER/relion/4.0.1/install"
 export PATH=${RELION_HOME}/bin:$PATH
 export LD_LIBRARY_PATH=${RELION_HOME}/lib:$LD_LIBRARY_PATH
 
-export RELION_QSUB_NRMPI='5'
-export RELION_QSUB_NRTHREADS='8'
-export RELION_QUEUE_NAME='sched_mit_mbathe'
-export RELION_QSUB_COMMAND='sbatch'
-export RELION_QSUB_TEMPLATE='/home/bmp/scripts/relion4.0.1_schedmitmbathe_base.sh'
+cd ~/relion/relion_benchmark
+mkdir output
 
-time mpirun -np 1 --oversubscribe `which relion_refine` --o InitialModel/job008/run --iter 200 --grad --denovo_3dref  --i Import/job004/Parameters.star --ctf --K 1 --sym C1  --flatten_solvent  --zero_mask  --dont_combine_weights_via_disc --preread_images  --pool 3 --pad 1  --particle_diameter 250 --oversampling 1  --healpix_order 1  --offset_range 6  --offset_step 2 --auto_sampling  --tau2_fudge 4 --j 1 --gpu ""  --pipeline_control InitialModel/job008/
-rm -f InitialModel/job008/RELION_JOB_EXIT_SUCCESS
-time mpirun -np 1 --oversubscribe `which relion_align_symmetry` --i InitialModel/job008/run_it200_model.star --o InitialModel/job008/initial_model.mrc --sym C1  --apply_sym --select_largest_class  --pipeline_control InitialModel/job008/
-touch InitialModel/job008/RELION_JOB_EXIT_SUCCESS
+mpirun -np 20 relion_refine_mpi \
+  --i Particles/shiny_2sets.star \
+  --o output \
+  --ref emd_2660.map:mrc \
+  --ini_high 60 \
+  --pool 100 \
+  --pad 2  \
+  --ctf \
+  --iter 25 \
+  --tau2_fudge 4 \
+  --particle_diameter 360 \
+  --K 4 \
+  --flatten_solvent \
+  --zero_mask \
+  --oversampling 1 \
+  --healpix_order 2 \
+  --offset_range 5 \
+  --offset_step 2 \
+  --sym C1 \
+  --norm \
+  --scale \
+  --j 1   \
+  --gpu "" \
+ --dont_combine_weights_via_disc \
+  --scratch_dir /tmp
 ```
 
-Put the above lines in a file named `job.sh`, then submit the job,
+Add the above lines in a file named `job.sh`, then submit the job,
 ```
 sbatch job.sh
 ```
