@@ -239,7 +239,7 @@ Finally, click on the box below for a list of Linux Commands. If you are new to 
         -   `less filename`: allows you to scroll through the file, forward
             and backward, using the arrow keys.
         -   `tail filename`: shows the last 10 lines of a file (useful when
-            you are monitoring a logfile or output file to see that the
+            you are monitoring a log file or output file to see that the
             values are correct)
             -   t`ail <number> filename`: show you the last &lt;number\>
                 lines of a file.

@@ -12,10 +12,10 @@ to be used to support commercial activities or for non-MIT related activities. I
 to be used for anything that might be construed as illegal or criminal. Datasets on
 the system must have been obtained legitimately and the system is not to be used
 for working with unanonymized data or data subject to ITAR or other national security 
-restrictions. If you are unsure about a planned use, please feel
-free to contact [orcd-help@mit.edu](mailto:orcd-help@mit.edu). 
+restrictions. See the [Data Security and Privacy page](data-security.md) for more information about data. If you are unsure about a planned use, please feel
+free to contact <orcd-help@mit.edu>. 
 
-All systems are covered by [MIT Institute wide policies for acceptable use of information technology](https://policies.mit.edu/policies-procedures/130-information-policies/132-policy-use-information-technology-resources#13.2.3). For data practices refer to our page on [Data Security and Privacy](data-security.md) and the links on that page, particularly MIT's page on [Information Protection](https://infoprotect.mit.edu/).
+All systems are covered by [MIT Institute wide policies for acceptable use of information technology](https://policies.mit.edu/policies-procedures/130-information-policies/132-policy-use-information-technology-resources#13.2.3), including the [MITnet Rules of Use](https://ist.mit.edu/network/rules). For data practices refer to our page on [Data Security and Privacy](data-security.md) and the links on that page, particularly MIT's page on [Information Protection](https://infoprotect.mit.edu/).
 
 Account holders should not share accounts and should take reasonable precautions to ensure 
 that credentials for accessing the system (passwords, ssh keys, etc.) are kept secure. 
