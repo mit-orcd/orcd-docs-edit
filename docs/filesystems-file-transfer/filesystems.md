@@ -14,10 +14,6 @@ Users each get a small home directory that is backed up and meant for important 
 
 ## Satori
 
-<!--
-Do we need a short intro paragraph? Other systems have them.
--->
-
 | Storage Type      | Path | Quota | Backed up | Purpose/Notes |
 | ----------- | ----------- |----------- |----------- |----------- |
 | Home Directory | `/home/<username>` | 25GB | Backed up | Use for important files. Quota increase request to 100GB. |

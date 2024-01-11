@@ -18,7 +18,7 @@ You can learn about `mpi4py` here: [https://mpi4py.readthedocs.io/en/stable/](ht
 
 If you use an Anaconda module, no installation is required.
 
-If you want to use Anaconda in your directory, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then intall `mpi4py`, 
+If you want to use Anaconda in your directory, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then install `mpi4py`, 
 ```
 conda install -c conda-forge mpi4py
 ```
@@ -26,7 +26,7 @@ conda install -c conda-forge mpi4py
 ### Run Mpi4py
 
 Prepare your Python codes. Example 1: The following is a code for sending and receiving a dictionary. Save it in a file named `p2p-send-recv.py`.
-```
+```python title="p2p-send-recv.py"
 from mpi4py import MPI
 
 comm = MPI.COMM_WORLD
@@ -42,7 +42,7 @@ elif rank == 1:
 ``` 
 
 Example 2: The following is a code for sending and receiving an array. Save it in a file named `p2p-array.py`.
-```
+```python title="p2p-array.py"
 from mpi4py import MPI
 import numpy
 
@@ -71,7 +71,7 @@ elif rank == 1:
 ```
 
 Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`.
-```
+```bash title="p2p-job.sh"
 #!/bin/bash -l
 #SBATCH -N 1
 #SBATCH -n 8
@@ -82,8 +82,8 @@ module load openmind/anaconda/3-2022.05
 mpirun -np $SLURM_NTASKS python p2p-send-recv.py
 mpirun -np $SLURM_NTASKS python p2p-array.py
 ```
-
-> An Openmpi module is needed. If you use Anaconda in your directory, do not load the Anaconda module. 
+!!! note
+    An OpenMPI module is needed. If you use Anaconda in your directory, do not load the Anaconda module. 
 
 Finally submit the job,
 ```
