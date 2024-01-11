@@ -14,10 +14,6 @@ Users each get a small home directory that is backed up and meant for important 
 
 ## Satori
 
-<!--
-Do we need a short intro paragraph? Other systems have them.
--->
-
 | Storage Type      | Path | Quota | Backed up | Purpose/Notes |
 | ----------- | ----------- |----------- |----------- |----------- |
 | Home Directory | `/home/<username>` | 25GB | Backed up | Use for important files. Quota increase request to 100GB. |
@@ -40,10 +36,10 @@ OpenMind provides a number of different storage options. See the [OpenMind Docum
 
 | Storage Type      | Path | Quota | Backed up | Purpose/Notes |
 | ----------- | ----------- |----------- |----------- |----------- |
-| Home Directory | `/home/<username>` | 20 GB | Backed up | Use for very important files. Physically located on Vast. |
-| Weka |  `/om/user/<username>` (individual users) and `/om/group/<groupname>` (groups) | Per group | Backed up | Fast internal storage |
-| Weka Scratch | `/om/scratch/<week-day>` | N/A | Not backed up <br> purged 3 weeks after creation | Scratch space |
-| Vast | `/om2/user/<username>` (individual users) and `/om2/group/<groupname>` (groups) | Per group | Backed up | Fast internal storage |
-| Vast Scratch | `/om2/scratch/<week-day>` | N/A | Not backed up <br> purged 2 weeks after creation | Scratch space |
+| Home Directory | `/home/<username>` | 20 GB | Backed up | Use for very important files. Physically located on Flash 2. |
+| Flash 1 |  `/om/user/<username>` (individual users) and `/om/group/<groupname>` (groups) | Per group | Backed up | Fast internal storage |
+| Flash 1 Scratch | `/om/scratch/<week-day>` | N/A | Not backed up <br> purged 3 weeks after creation | Scratch space |
+| Flash 2 | `/om2/user/<username>` (individual users) and `/om2/group/<groupname>` (groups) | Per group | Backed up | Fast internal storage |
+| Flash 2 Scratch | `/om2/scratch/<week-day>` | N/A | Not backed up <br> purged 2 weeks after creation | Scratch space |
 | NFS | `/om3`, `/om4`, `/om5` | Per group | Backed up | Slow internal long-term storage |
 | NESE | `/nese` | Per group | Backed up | Slow internal long-term storage |
