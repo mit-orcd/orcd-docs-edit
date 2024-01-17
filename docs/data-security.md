@@ -16,3 +16,7 @@ If you have any questions about whether your data is appropriate for storing on 
 ## Where can more sensitive data be processed and stored?
 
 The ORCD team is currently developing a system for more sensitive data. If you have sensitive data and would like to learn about our plans please feel free to get in touch at <orcd-help@mit.edu>.
+
+## Support team access to ORCD system accounts and resources
+
+Support staff may occasionally access accounts of other users to help debug and troubleshoot problems. All access will be limited to the minimum reasonably needed to address a problem. Staff will not share any data or contents beyond the needs for providing adequate systems support and ensuring stability and security of the systems. 
