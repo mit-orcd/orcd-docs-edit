@@ -1,0 +1,5 @@
+steps:
+  - command: "echo \"Hello world\""
+    label: "A basic test for GitHub Configuration"
+  - command: "echo \"Hello world 2\""
+    label: "A basic test for GitHub Configuration Part 2"
