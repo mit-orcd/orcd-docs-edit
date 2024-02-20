@@ -194,3 +194,8 @@ Here is what this might look like for Engaging:
 - Avoid running VSCode through RemoteSSH on the login nodes. If you are only editing files this might be okay, although it is not encouraged. Beyond editing files please use a compute node for VSCode, as described on this page.
 - Add the specific directories you need to your workspace. VSCode constantly scans all the files files and runs git commands on any local git repositories in your workspace, and it does this recursively. For this reason adding high-level directories to your workspace can slow things down quite a bit. For example, avoid adding your entire home directory or group storage to your VSCode session workspace.
 - If you are having trouble authenticating, particularly if you are prompted for a password or 2 Factor authentication options, you can set `"remote.SSH.showLoginTerminal": true` in your settings.json file. See [this page](https://code.visualstudio.com/docs/remote/troubleshooting#_enabling-alternate-ssh-authentication-methods) for more information.
+- If VSCode is slow to start up on an ORCD System, check to see whether you are activating a conda environment at login. If you are, run the command `conda config --set auto_activate_base false` to prevent this. You will only have to do this once.
+
+<!--
+TODO: Add link to Conda best practices once it is written.
+-->
