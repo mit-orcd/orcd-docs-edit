@@ -77,6 +77,7 @@ print(sim.data.qpos)
 <!-- --8<-- "filename.ext" -->
 ```python
 https://raw.githubusercontent.com/mit-orcd/orcd-examples/main/mujoco/mujoco_test.py
+```
 
 ### Using MuJoCo in a Job
 
