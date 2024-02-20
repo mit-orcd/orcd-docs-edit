@@ -9,6 +9,15 @@ tags:
 
 ORCD operates and provides support and training for a number of cluster computer systems available to all researchers. These systems all run with a Slurm scheduler and most have a web portal for interactive computing. These are Engaging, SuperCloud, Satori, and OpenMind.
 
+## Maintenance Schedule
+
+With the exception of SuperCloud, the maintenance schedule for all ORCD systems is:
+
+- Monthly downtimes on the 3rd Tuesday of the month lasting about a day.
+- Weekly restarts of login nodes Monday mornings starting at 6am for about 15 minutes. If Monday is a holiday this restart will occur on Tuesday.
+
+SuperCloud has monthly downtimes on the 2nd Tuesday of each month.
+
 ## Engaging Cluster
 
 <!--
