@@ -74,7 +74,7 @@ print(sim.data.qpos)
 sim.step()
 print(sim.data.qpos)
 ``` -->
-<!-- --8<-- "filename.ext" -->
+--8<-- "/Users/aquachat77/Downloads/orcd-examples-main/mujoco/mujoco_test.py"
 ```python
 https://raw.githubusercontent.com/mit-orcd/orcd-examples/main/mujoco/mujoco_test.py
 ```
