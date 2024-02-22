@@ -56,24 +56,6 @@ pip install --user 'mujoco-py<2.2,>=2.1'
 
 Start up python and import mujoco_py to complete the build process:
 
-<!-- ```bash
-python
-import mujoco_py
-```
-
-If you’d like you can run the few example lines listed on install section of the mujoco-py github page to verify the install went through properly:
-
-```python
-import mujoco_py
-import os
-mj_path = mujoco_py.utils.discover_mujoco()
-xml_path = os.path.join(mj_path, 'model', 'humanoid.xml')
-model = mujoco_py.load_model_from_path(xml_path)
-sim = mujoco_py.MjSim(model)
-print(sim.data.qpos)
-sim.step()
-print(sim.data.qpos)
-``` -->
 --8<-- "https://raw.githubusercontent.com/mit-orcd/orcd-examples/main/mujoco/mujoco_test.py"
 
 

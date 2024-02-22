@@ -32,24 +32,6 @@ module load anaconda3/2022.10</code></p>
 <p><code>bash
 pip install --user 'mujoco-py&lt;2.2,&gt;=2.1'</code></p>
 <p>Start up python and import mujoco_py to complete the build process:</p>
-<!-- ```bash
-python
-import mujoco_py
-```
-
-If you’d like you can run the few example lines listed on install section of the mujoco-py github page to verify the install went through properly:
-
-```python
-import mujoco_py
-import os
-mj_path = mujoco_py.utils.discover_mujoco()
-xml_path = os.path.join(mj_path, 'model', 'humanoid.xml')
-model = mujoco_py.load_model_from_path(xml_path)
-sim = mujoco_py.MjSim(model)
-print(sim.data.qpos)
-sim.step()
-print(sim.data.qpos)
-``` -->
 <p>import mujoco_py
 import os</p>
 <p>mj_path = mujoco_py.utils.discover_mujoco()
