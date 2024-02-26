@@ -2,6 +2,7 @@
 tags:
  - vscode
  - Howto Recipes
+ - Best Practices
 ---
 # Using VSCode on an ORCD System
 
