@@ -18,7 +18,29 @@ This page describes how to use the _ControlMaster_ feature.
 
 ## Mac/Linux use of SSH ControlMaster
 
-On a Mac or Linux system the simplest way to use th _ControlMaster_ option is to create an alias in the file `~/ssh/config` 
+On a Mac or Linux system the simplest way to use th _ControlMaster_ option is to create a section in the file `~/ssh/config` 
+that activates the _ControlMaster_ feature on the nodes you use to connect. An example section is show beloW 
+
+=== "Engaging"
+    ```yaml title="config"
+    Host eofe-login
+      Hostname eofe10.mit.edu
+      ControlMaster auto
+      ControlPath ~/.ssh/%r@%h:%p
+      User USERNAME
+    ```
+
+=== "Satori"
+    ```yaml title="config"
+    Host satori-login
+      Hostname satori-login-001.mit.edu
+      ControlMaster auto
+      ControlPath ~/.ssh/%r@%h:%p
+      User USERNAME
+    ```
+
+
+Replace `USERNAME` with your username on the system you are connecting to.
 
 ## Windows/PuTTY use of SSH ControlMaster
 
