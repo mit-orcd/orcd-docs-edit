@@ -1,3 +1,8 @@
+---
+tags:
+ - vscode
+ - Howto Recipes
+---
 # Using VSCode on an ORCD System
 
 VSCode is a convenient IDE for development, and one of its nicest features is its ability to run on a remote system using its RemoteSSH extension. This means you can have the VSCode window on your computer, while the files and anything you run will be on the remote system you are connected to.
