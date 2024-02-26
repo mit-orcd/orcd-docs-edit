@@ -26,7 +26,7 @@ that activates the _ControlMaster_ feature on the nodes you use to connect. An e
     Host eofe-login
       Hostname eofe10.mit.edu
       ControlMaster auto
-      ControlPath ~/.ssh/%r@%h:%p
+      ControlPath ~/.ssh/controlmaster/%r@%h:%p
       User USERNAME
     ```
 
@@ -35,7 +35,16 @@ that activates the _ControlMaster_ feature on the nodes you use to connect. An e
     Host satori-login
       Hostname satori-login-001.mit.edu
       ControlMaster auto
-      ControlPath ~/.ssh/%r@%h:%p
+      ControlPath ~/.ssh/controlmaster/%r@%h:%p
+      User USERNAME
+    ```
+
+=== "Satori"
+    ```yaml title="config"
+    Host om-login
+      Hostname openmind7.mit.edu
+      ControlMaster auto
+      ControlPath ~/.ssh/controlmaster/%r@%h:%p
       User USERNAME
     ```
 
