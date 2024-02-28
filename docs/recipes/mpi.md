@@ -188,7 +188,7 @@ module load gcc/6.2.0 openmpi/3.0.4
 export OMP_NUMB_THREADS=$SLURM_CPUS_PER_TASK
 mpirun -n $SLURM_NTASKS my_program
 ```
-In this case, the total number of cores is equal to `SLURM_NNODES * SLURM_NTASKS_PER_NODE * SLURM_CPUS_PER_TASK`, that is $$2 \times 2 \times 8 = 32$$. The job will run 4 MPI tasks (i.e. 2 tasks per node) and 8 threads per task. Equation (1) is satisfied as $4 \times 8 = 32$. 
+In this case, the total number of cores is equal to `SLURM_NNODES * SLURM_NTASKS_PER_NODE * SLURM_CPUS_PER_TASK`, that is `2 * 2 * 8 = 32`. The job will run 4 MPI tasks (i.e. 2 tasks per node) and 8 threads per task. Equation (1) is satisfied as `4 * 8 = 32`. 
 
 Simlar to the previous section, it is recommended to run testing cases to determine the values for the flags `-N`, `-n` and `-c` to obtain a better performance.
 
@@ -206,7 +206,7 @@ export OMP_NUMB_THREADS=8
 MPI_NTASKS=$((SLURM_NTASK / $OMP_NUMB_THREADS))
 mpirun -n $MPI_NTASKS my_program
 ```
-This job requests 16 CPU cores on 1 node and runs 2 MPI tasks with 8 threads per task, so equation (1) is satisfied as $2 \times 8 = 16$. In this case, users need to set the values for Slurm flag `-n` and the variable `OMP_NUMB_THREADS`.
+This job requests 16 CPU cores on 1 node and runs 2 MPI tasks with 8 threads per task, so equation (1) is satisfied as `2 * 8 = 16`. In this case, users need to set the values for Slurm flag `-n` and the variable `OMP_NUMB_THREADS`.
 
 
 ## MPI + GPU jobs
