@@ -151,8 +151,8 @@ Some programs are designed in a hybrid scheme such that MPI and OpenMP are combi
 (Number of MPI Tasks) * (Nubmer of Threads) = Total Number of Cores        (1)
 ```
 
-??? Side note: hyperthreads 
-    Assume hyperthread technique is not implemented here. If there are two hyerthreads per physical core, the right side the equation should be `2 * (Total Number of Cores)`.
+??? "Side note: hyperthreads" 
+    Assume hyperthread technique is not implemented here. If there are two hyerthreads per physical core, the right side of the equation should be `2 * (Total Number of Cores)` instead.
 
 One way to run hybrid progmrams in Slurm jobs is to use the `-n` flag for the number of MPI tasks and the `-c` flag for the number of threads. The follwing example shows a job script that runs a program with 2 MPI tasks and 8 threads per task on a node with 16 cores.  
 ```
@@ -188,9 +188,9 @@ module load gcc/6.2.0 openmpi/3.0.4
 export OMP_NUMB_THREADS=$SLURM_CPUS_PER_TASK
 mpirun -n $SLURM_NTASKS my_program
 ```
- In this case, the total number of cores is equal to `SLURM_NNODES * SLURM_NTASKS_PER_NODE * SLURM_CPUS_PER_TASK`, that is $2 * 2 * 8 = 32$. The job will run 4 MPI tasks (i.e. 2 tasks per node) and 8 threads per task, so equation (1) is satisfied as $4 * 8 = 32$. 
+In this case, the total number of cores is equal to `SLURM_NNODES * SLURM_NTASKS_PER_NODE * SLURM_CPUS_PER_TASK`, that is $2 \times 2 \times 8 = 32$. The job will run 4 MPI tasks (i.e. 2 tasks per node) and 8 threads per task. Equation (1) is satisfied as $4 \times 8 = 32$. 
 
-Simlar to the previous section, it is recommended to run test cases to determine the values for `-N`, `-n` and `-c` to get a better performance. Different programs may be different.
+Simlar to the previous section, it is recommended to run testing cases to determine the values for the flags `-N`, `-n` and `-c` to obtain a better performance.
 
 There is another way to submit jobs for hybrid programs, that is not to use the `-c` flag at all. For example, it also works like this,
 ```
@@ -206,7 +206,7 @@ export OMP_NUMB_THREADS=8
 MPI_NTASKS=$((SLURM_NTASK / $OMP_NUMB_THREADS))
 mpirun -n $MPI_NTASKS my_program
 ```
-This job requests 16 CPU cores on 1 node and runs 2 MPI tasks with 8 threads per task, so equation (1) is satisfied. In this case, users need to manually set the values for Slurm flag `-n` and the variable `OMP_NUMB_THREADS`.
+This job requests 16 CPU cores on 1 node and runs 2 MPI tasks with 8 threads per task, so equation (1) is satisfied as $2 \times 8 = 16$. In this case, users need to set the values for Slurm flag `-n` and the variable `OMP_NUMB_THREADS`.
 
 
 ## MPI + GPU jobs
