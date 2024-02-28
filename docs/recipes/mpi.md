@@ -39,20 +39,20 @@ All these modules have been tested and work well.
 
 This session will be focused on building MPI programs in C or Fortran. Python users can refer to [this page](https://orcd-docs.mit.edu/recipes/mpi4py/) for using the `mpi4py` package.
 
-Most MPI software need to be built from source codes. First, downloaded the package from the internet. A typycal building process is like this,
+Most MPI software should be built from source codes. First, downloaded the package from the internet. A typycal building process is like this,
 ```
 ./configure CC=mpicc CXX=mpicxx --prefix=</path/to/your/installation>
 make
 make install
 ```
-Create an install directory in and add its full path after `--prefix=`. This is where the binaries will be located in.
+Create an install directory and add its full path after `--prefix=`. This is where the binaries will be saved.
 
-This type of MPI sotware include `Gromacs`, `Lammps`, `NWchem`, `OpenFOAM` and many others. Eevery sofware is different. Refer to its offical instalation guide for details.
+Widely-used MPI sotware include `Gromacs`, `Lammps`, `NWchem`, `OpenFOAM` and many others. The building process of every sofware is not the same. Refer to its offical instalation guide for details.
 
 ??? "Side note"
-    Some MPI software are provided with prebuilt binaries only. In this case, download the binaries that are compatible with the `linux` OS and the `x86_64` CPU architecture. If possible, try to choose an OpenMPI version (that the binary was built with) as close as possible to that of a module on the cluser. This type of MPI sotware includes `ORCA`. 
+    Some MPI software are provided with prebuilt binaries only. In this case, download the binaries that are compatible with the `linux` OS and the `x86_64` CPU architecture. If possible, try to choose an OpenMPI version, that the binary was built with, as close as possible to that of a module on the cluser. This type of MPI sotware includes `ORCA`. 
 
-Spack is a popular tool to build many software packages systematically on clusters. It makes building processes easy in many cases. If you want to use Spack to build your software package on the cluster, refer to [this page](https://mit-orcd.github.io/orcd-docs-previews/PR/PR29/recipes/spack-basics/) for details. 
+Spack is a popular tool to build many software packages systematically on clusters. It makes building processes convinient in many cases. If you want to use Spack to build your software package on the cluster, refer to [this page](https://mit-orcd.github.io/orcd-docs-previews/PR/PR29/recipes/spack-basics/) for details. 
 
 If you develop your MPI codes, the codes can be compiled and linked like this
 ```
@@ -62,7 +62,7 @@ or
 ```
 mpif90 -O3 name.f90 -o my_program
 ```
-This will create an executable file named `my_program`. Users can write a `Makefile` to build programs with multiple source files. 
+This will create an executable file named `my_program`. Prepare a GNU Makefile to build programs with multiple source files. 
 
 
 ### MPI jobs 
@@ -82,18 +82,20 @@ srun hostname
 module load gcc/6.2.0 openmpi/3.0.4
 mpirun -n $SLURM_NTASKS my_program
 ```
-This script requests 8 cores (with `-n`) and 10 GB of memory (with `--mem`) on 1 node (with `-N`). The `-n` flag is the same as `--ntasks`. The specified value is saved to the variable `SLURM_NTASKS`. In this case, the number of cores is equal to `SLURM_NTASKS` . The command `mpirun -n $SLURM_NTASKS` ensures that each MPI task runs on one core. 
 
-> Note: The `srun hostname` is to check if the correct number of cores and nodes are assigned to the job. It is not needed in production runs. 
+This job requests 8 cores with `-n` and 10 GB of memory with `--mem` on 1 node (specified with `-N`). The `-n` flag is the same as `--ntasks`. The specified value is saved to the variable `SLURM_NTASKS`. In this case, the number of cores is equal to `SLURM_NTASKS`. The command `mpirun -n $SLURM_NTASKS` ensures that each MPI task runs on one core. 
 
-> Note: The modules used in this example is for the CentOS 7 OS, which works for the nodes on these partitions: `sched_mit_hill`, `newnodes`, and `sched_any`. If using a partition with the Rocky 8 OS, such as `sched_mit_orcd`, change to the modules accrodingly (see the first session). 
+The command `srun hostname` is to check if the correct number of cores and nodes are assigned to the job. It is not needed in production runs. 
+
+!!!Note 
+   The modules used in this example is for the CentOS 7 OS, which works for these partitions: `sched_mit_hill`, `newnodes`, and `sched_any`. If using a partition with the Rocky 8 OS, such as `sched_mit_orcd`, change the modules accrodingly (see the first session). 
 
 Submit the job with the `sbatch` command,
 ```
 sbatch job.sh
 ```
 
-Here is an exmaple to run an MPI job on multiple nodes.
+Here is an exmaple script to run an MPI job on multiple nodes.
 ```
 #!/bin/bash
 #SBATCH -p sched_mit_hill
@@ -106,9 +108,12 @@ srun hostname
 module load gcc/6.2.0 openmpi/3.0.4
 mpirun -n $SLURM_NTASKS my_program
 ```
-This script requests 2 nodes with 8 cores and 10 GB of memory per node. In this case, the total number of cores (saved to `SLURM_NTASKS`) is equal to the number of nodes (saved to `SLURM_NNODES`) times the number of cores per node (saved to `SLURM_NTASKS_PER_NODE`). The command `mpirun -n $SLURM_NTASKS` ensures that MPI tasks are distributed to both nodes and each MPI task runs on one core. Alternatively, users can specify the number of cores per node using an OpenMPI option like this `mpirun -npernode $SLURM_NTASKS_PER_NODE my_program`.
 
-If replacing `--ntasks-per-node=8` with `-n 16` in the above job script, the job will still request 16 cores on 2 nodes, but it is not alwyas the case that there are 8 cores per node. For example, it may be 7 cores on one node and 9 cores on another, or 1 core on one node and 15 cores on another, etc, depending on the current available resources on the cluster. 
+This job requests 2 nodes with 8 cores and 10 GB of memory per node. In this case, the total number of cores (saved to `SLURM_NTASKS`) is equal to the number of nodes (saved to `SLURM_NNODES`) times the number of cores per node (saved to `SLURM_NTASKS_PER_NODE`). The command `mpirun -n $SLURM_NTASKS` ensures that MPI tasks are distributed to both nodes and each MPI task runs on one core. 
+
+Alternatively, users can specify the number of cores per node using an OpenMPI option like this `mpirun -npernode $SLURM_NTASKS_PER_NODE my_program`.
+
+If replacing `--ntasks-per-node=8` with `-n 16` in the above script, the job will request 16 cores on 2 nodes, but it is not alwyas the case that there are 8 cores per node. For example, there may be 7 cores on one node and 9 cores on another, or 1 core on one node and 15 cores on another, etc, depending on the current available resources on the cluster. 
 
 
 ## Determine resources for MPI jobs
