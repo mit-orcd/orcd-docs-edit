@@ -15,7 +15,7 @@ There are several MPI implementationos, such as `OpenMPI`, `MPICH`, `MVAPICH`, a
 
 ## MPI modules
 
- The support team has built several OpnMPI modules on the cluster. To build or run your MPI programs, load the modules of a `gcc` compiler and an `openmpi` lib to set up environment varialbes. 
+ There are OpnMPI modules available on the cluster. Before building or runrning your MPI programs, load the modules of a `gcc` compiler and an `openmpi` lib to set up environment varialbes.
 
  There are two different operations systems (OS) on the cluster: CentOS 7 and Rocky 8. For CentOS 7 nodes, load these modules,
 ```
@@ -31,14 +31,13 @@ module load gcc/12.2.0 openmpi/4.1.4
 ```
 All these modules have been tested and work well. 
 
-
 !!! Note
-Load a `gcc` module first, then the openmpi mouldes built with this `gcc` will be shown in `module av` and thus can be loaded. 
+    Load a `gcc` module first, then the openmpi mouldes built with this `gcc` will be shown in `module avail` and thus can be loaded. 
 
 
 ## Build MPI programs
 
-This session will be focused on building MPI programs in C or Fortran. Python users can refer to [this page](https://orcd-docs.mit.edu/recipes/mpi4py/) for using `mpi4py`.
+This session will be focused on building MPI programs in C or Fortran. Python users can refer to [this page](https://orcd-docs.mit.edu/recipes/mpi4py/) for using the `mpi4py` package.
 
 Most MPI software need to be built from source codes. First, downloaded the package from the internet. A typycal building process is like this,
 ```
@@ -51,7 +50,7 @@ Create an install directory in and add its full path after `--prefix=`. This is 
 This type of MPI sotware include `Gromacs`, `Lammps`, `NWchem`, `OpenFOAM` and many others. Eevery sofware is different. Refer to its offical instalation guide for details.
 
 ??? "Side note"
-Some MPI software are provided with prebuilt binaries only. In this case, download the binaries that are compatible with the `linux` OS and the `x86_64` CPU architecture. If possible, try to choose an OpenMPI version (that the binary was built with) as close as possible to that of a module on the cluser. This type of MPI sotware includes `ORCA`. 
+    Some MPI software are provided with prebuilt binaries only. In this case, download the binaries that are compatible with the `linux` OS and the `x86_64` CPU architecture. If possible, try to choose an OpenMPI version (that the binary was built with) as close as possible to that of a module on the cluser. This type of MPI sotware includes `ORCA`. 
 
 Spack is a popular tool to build many software packages systematically on clusters. It makes building processes easy in many cases. If you want to use Spack to build your software package on the cluster, refer to [this page](https://mit-orcd.github.io/orcd-docs-previews/PR/PR29/recipes/spack-basics/) for details. 
 
