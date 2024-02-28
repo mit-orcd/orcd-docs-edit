@@ -31,7 +31,10 @@ module load gcc/12.2.0 openmpi/4.1.4
 ```
 All these modules have been tested and work well. 
 
-> Note: Load a `gcc` module first, then the openmpi mouldes built with this `gcc` will be shown in `module av` and thus can be loaded. 
+
+!!! Note
+
+Load a `gcc` module first, then the openmpi mouldes built with this `gcc` will be shown in `module av` and thus can be loaded. 
 
 
 ## Build MPI programs
@@ -48,7 +51,9 @@ Create an install directory in and add its full path after `--prefix=`. This is 
 
 This type of MPI sotware include `Gromacs`, `Lammps`, `NWchem`, `OpenFOAM` and many others. Eevery sofware is different. Refer to its offical instalation guide for details.
 
-> Note: Some MPI software are provided with prebuilt binaries only. In this case, download the binaries that are compatible with the `linux` OS and the `x86_64` CPU architecture. If possible, try to choose an OpenMPI version (that the binary was built with) as close as possible to that of a module on the cluser. This type of MPI sotware includes `ORCA`. 
+??? Side note
+
+Some MPI software are provided with prebuilt binaries only. In this case, download the binaries that are compatible with the `linux` OS and the `x86_64` CPU architecture. If possible, try to choose an OpenMPI version (that the binary was built with) as close as possible to that of a module on the cluser. This type of MPI sotware includes `ORCA`. 
 
 Spack is a popular tool to build many software packages systematically on clusters. It makes building processes easy in many cases. If you want to use Spack to build your software package on the cluster, refer to [this page](https://mit-orcd.github.io/orcd-docs-previews/PR/PR29/recipes/spack-basics/) for details. 
 
