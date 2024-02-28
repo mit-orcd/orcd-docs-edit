@@ -16,6 +16,7 @@ nav:
     - GROMACS: recipes/gromacs.md
     - MPI for Python: recipes/mpi4py.md
     - RELION: recipes/relion.md
+    - VSCode: recipes/vscode.md
   - Acknowledging Us: acknowledgements.md
   - Data Security and Privacy: data-security.md
   - Acceptable Use and Code of Conduct: code-of-conduct.md
