@@ -87,8 +87,8 @@ This job requests 8 cores with `-n` and 10 GB of memory with `--mem` on 1 node (
 
 The command `srun hostname` is to check if the correct number of cores and nodes are assigned to the job. It is not needed in production runs. 
 
-!!!Note 
-   The modules used in this example is for the CentOS 7 OS, which works for these partitions: `sched_mit_hill`, `newnodes`, and `sched_any`. If using a partition with the Rocky 8 OS, such as `sched_mit_orcd`, change the modules accrodingly (see the first session). 
+!!! Note 
+    The modules used in this example is for the CentOS 7 OS, which works for these partitions: `sched_mit_hill`, `newnodes`, and `sched_any`. If using a partition with the Rocky 8 OS, such as `sched_mit_orcd`, change the modules accrodingly (see the first session). 
 
 Submit the job with the `sbatch` command,
 ```
@@ -116,26 +116,27 @@ Alternatively, users can specify the number of cores per node using an OpenMPI o
 If replacing `--ntasks-per-node=8` with `-n 16` in the above script, the job will request 16 cores on 2 nodes, but it is not alwyas the case that there are 8 cores per node. For example, there may be 7 cores on one node and 9 cores on another, or 1 core on one node and 15 cores on another, etc, depending on the current available resources on the cluster. 
 
 
-## Determine resources for MPI jobs
+## Resources for MPI jobs
 
-To get a better idea on how many cores, nodes and memory should be requested, users should consider these two questions. 
+To get a better idea on how many nodes, cores and memory should be requested, users need to consider the following two questions. 
 
-First, what resources are available on the cluster? Use this command to check node and job info on the cluster, including the constraint associated with OS (`%f`), the nubmer of CPU cores (`%c`), the memory size (`%m`), the wall time limit (`%l`), and the current usage status (`%t`).    
+First, what resources are available on the cluster? Use this command to check node and job info on the cluster, including the constraint associated with OS (`%f`), the nubmer of CPU cores (`%c`), the memory size (`%m`), the wall time limit (`%l`), and the current usage status (`%t`). 
 ```
  sinfo -N -p sched_mit_hill,newnodes,sched_any,sched_mit_orcd -o %f,%c,%m,%l,%t |grep -v drain
 ```
-It shows the public partitions that are avaiable to most users. Among theese nodes, the number of cores per node varies from 16 to 128, and the memory per node varies from 63 GB to 515 GB. Jobs in these partitions have a wall time limit of 12 hours. Some labs can use their parititions for lab-purchased nodes. 
+Here it only shows the public partitions that are avaiable to most users. Among the nodes in these partitions, the number of cores per node varies from 16 to 128, and the memory per node varies from 63 GB to 515 GB. Jobs in these partitions have a wall time limit of 12 hours. Some labs can use their lab parititions instead. 
 
-To obtain a better performance of MPI programs, it is recommended to request all physical CPU cores and memory on each node. For example, request two nodes with 16 physical cores and all of its memory (with `--mem=0`) like this,
+To obtain a better performance of MPI programs, it is recommended to request all physical CPU cores and memory on each node. For example, request two nodes with 16 physical cores per node and all of the memory (with `--mem=0`) like this,
 ```
 #SBATCH -N 2
 #SBATCH --ntasks-per-node=16
 #SBATCH --mem=0
 ```
 
-Second, what is the speedup of my MPI porgrams? According to [the Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law), MPI programs are usually speeded up almost linearly as the number of cores is increased, until it is saturated at some point. In practice, it is recommended to run testing cases to investigate the speedup of your program, and then decide how many cores are needed to speed it up efficiently. Do not increase the number of cores when the speedup becomes poor. 
+Second, what is the speedup of your MPI porgram? According to [the Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law), MPI programs are usually speeded up almost linearly as the number of cores is increased, until it is saturated at some point. In practice, try to run testing cases investigating the speedup of your program, and then decide how many cores are needed to speed it up efficiently. Do not increase the number of cores when the speedup becomes poor. 
 
-After a job started to run, use the command `squeue -u $USER` to check which node the job runs on, and then log in the node `ssh <hostname>` and execute the `top` command to check how many CPU cores are actually being used by your program, and testimate the efficiency of CPU usage. The efficiency may vary with the number of CPU cores. Try to keep your jobs with a high efficiency. 
+!!! Note
+    After a job started to run, execute the command `squeue -u $USER` to check which node the job is running on, and then log in the node with `ssh <hostname>` and execute the `top` command to check how many CPU cores are actually being used by your program and what the CPU efficiency is. The efficiency may vary with the number of CPU cores. Try to keep your jobs with a high efficiency. 
 
 
 ### Hybrid MPI and multithreading jobs
