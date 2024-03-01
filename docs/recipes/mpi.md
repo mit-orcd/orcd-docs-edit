@@ -31,7 +31,7 @@ module load gcc/12.2.0 openmpi/4.1.4
 ```
 All these modules have been tested and work well. 
 
-!!! Note: hierarchy of modules
+!!!"Note: hierarchy of modules"
     Load a `gcc` module first, then the openmpi mouldes built with this `gcc` will be shown in the output of `module avail` and can be loaded. 
 
 
@@ -141,7 +141,7 @@ Second, what is the speedup of your MPI porgram? According to [the Amdahl's law]
 
 ## Hybrid MPI and multithreading jobs
 
-MPI programs are based on a distributed-memory scheme, that says, each MPI task owns a faction of the data, such as arrays, matrices, or tensors. Apart from MPI, there is a shared-memory parallel computing technique called multithreading, in which the data is shared by multiple threads. A common implementation of multithreading is OpenMP. For Python users, the `numpy` package is usually based on C libraries, such as Openblas, built with OpenMP. 
+MPI programs are based on a distributed-memory parallelism, that says, each MPI task owns a faction of data, such as arrays, matrices, or tensors. In contrast to MPI, multithreading technique is based on a shared-memory parallelism, in which data is shared by multiple threads. A common implementation of multithreading is OpenMP. For Python users, the `numpy` package is based on C libraries, such as Openblas, usually built with OpenMP. 
 
 ??? "Side note: OpenMP" 
     OpenMP is an abbreviation of Open Multi-Processing. It is not related to OpenMPI.
@@ -208,8 +208,6 @@ mpirun -n $MPI_NTASKS my_program
 ```
 This job requests 16 CPU cores on 1 node and runs 2 MPI tasks with 8 threads per task, so equation (1) is satisfied as `2 * 8 = 16`. In this case, users need to set the values for Slurm flag `-n` and the variable `OMP_NUMB_THREADS`.
 
-
-## MPI + GPU jobs
 
 
 
