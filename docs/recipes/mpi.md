@@ -87,7 +87,7 @@ This job requests 8 cores with `-n` and 10 GB of memory with `--mem` on 1 node (
 
 The command `srun hostname` is to check if the correct number of cores and nodes are assigned to the job. It is not needed in production runs. 
 
->>> Note: partitions and moudles
+??? "Side note: partitions and moudles"
     The modules used in this example is for the CentOS 7 OS, which works for these partitions: `sched_mit_hill`, `newnodes`, and `sched_any`. If using a partition with the Rocky 8 OS, such as `sched_mit_orcd`, change the modules accrodingly (see the first session). 
 
 Submit the job with the `sbatch` command,
