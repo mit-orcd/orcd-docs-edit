@@ -31,7 +31,7 @@ module load gcc/12.2.0 openmpi/4.1.4
 ```
 All these modules have been tested and work well. 
 
-!!!"Note: hierarchy of modules"
+!!! Note
     Load a `gcc` module first, then the openmpi mouldes built with this `gcc` will be shown in the output of `module avail` and can be loaded. 
 
 
@@ -87,7 +87,7 @@ This job requests 8 cores with `-n` and 10 GB of memory with `--mem` on 1 node (
 
 The command `srun hostname` is to check if the correct number of cores and nodes are assigned to the job. It is not needed in production runs. 
 
-!!! "Note: partitions and moudles"
+>>> Note: partitions and moudles
     The modules used in this example is for the CentOS 7 OS, which works for these partitions: `sched_mit_hill`, `newnodes`, and `sched_any`. If using a partition with the Rocky 8 OS, such as `sched_mit_orcd`, change the modules accrodingly (see the first session). 
 
 Submit the job with the `sbatch` command,
@@ -135,7 +135,7 @@ Here it only shows the public partitions that are avaiable to most users. Among 
 
 Second, what is the speedup of your MPI porgram? According to [the Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law), MPI programs are usually speeded up almost linearly as the number of cores is increased, until it is saturated at some point. In practice, try to run testing cases investigating the speedup of your program, and then decide how many cores are needed to speed it up efficiently. ***Do not increase the number of cores when the speedup is poor.*** 
 
-!!! "Note： CPU efficiency"
+!!! Note
     After a job started to run, execute the command `squeue -u $USER` to check which node the job is running on, and then log in the node with `ssh <hostname>` and execute the `top` command to check how many CPU cores are actually being used by your program and what the CPU efficiency is. The efficiency may vary with the number of CPU cores. Try to keep your jobs in a high efficiency. 
 
 
