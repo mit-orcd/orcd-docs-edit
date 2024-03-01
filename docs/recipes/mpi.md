@@ -146,10 +146,11 @@ MPI programs are based on a distributed-memory parallelism, that says, each MPI 
 ??? "Side note: OpenMP" 
     OpenMP is an abbreviation of Open Multi-Processing. It is not related to OpenMPI.
 
-Some programs are designed in a hybrid scheme such that MPI and OpenMP are combined to enable two-level paralellization. A principle to run hybrid MPI-OpenMP programs is to satisfy this queation,
-``` #1
-(Number of MPI Tasks) * (Nubmer of Threads) = Total Number of Cores        (1)
-```
+Some programs are designed in a hybrid scheme such that MPI and OpenMP are combined to enable two-level parallelization. A principle to run hybrid MPI-OpenMP programs is to satisfy this queation,
+!!!
+   ```
+   (Number of MPI Tasks) * (Nubmer of Threads) = Total Number of Cores           (1)
+   ```
 
 ??? "Side note: hyperthreads" 
     Assume hyperthread technique is not implemented here. If there are two hyerthreads per physical core, the right side of the equation should be `2 * (Total Number of Cores)` instead.
