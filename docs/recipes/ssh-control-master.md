@@ -52,9 +52,16 @@ that activates the _ControlMaster_ feature on the nodes you use to connect. An e
     ```
 
 
-Replace `USERNAME` with the username you use on the system you are connecting to. In the configuration file examples
-the `ControlPersist` option is not required, but is shown to illustrate its use to keep the primary master connection
-open for a time after that login session is exited.
+Replace `USERNAME` with the username you use on the system you are connecting to. In the 
+configuration file examples the `ControlPersist` option is not required, but is shown to 
+illustrate its use to keep the primary master connection open for a time after that login 
+session is exited.
+
+Port forwarding and X session forwarding is bound to the initial _ControlMaster_ ssh session.
 
 ## Windows/PuTTY use of SSH ControlMaster
+
+On a Windows system the PuTTY program (free from the [Microsoft Apps store](https://apps.microsoft.com/apps)) supports 
+the ControlMaster feature. Selcting the "Share SSH connections if possible" option under the "Options for controlling
+SSH connections" menu item in PuTTY will enable this feature.
 
