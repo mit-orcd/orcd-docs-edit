@@ -146,7 +146,7 @@ MPI programs are based on a distributed-memory parallelism, that says, each MPI 
 ??? "Side note: OpenMP" 
     OpenMP is an abbreviation of Open Multi-Processing. It is not related to OpenMPI.
 
-Some programs are designed in a hybrid scheme such that MPI and OpenMP are combined to enable two-level parallelization. Set the MPI tasks and OpenMP threads in hybrid programs based on this equation,
+Some programs are designed in a hybrid scheme such that MPI and OpenMP are combined to enable two-level parallelization. Set MPI tasks and OpenMP threads in hybrid programs based on the following equation,
 ```
 (Number of MPI Tasks) * (Nubmer of Threads) = Total Number of Cores          (1)
 ```
@@ -154,7 +154,7 @@ Some programs are designed in a hybrid scheme such that MPI and OpenMP are combi
 ??? "Side note: hyperthreads" 
      Hyperthread technique is not implemented on the cluster. If there are two hyerthreads per physical core, the right side of the equation should be `2 * (Total Number of Cores)` instead.
 
-One way to run hybrid progmrams in Slurm jobs is to use the `-n` flag for the number of MPI tasks and the `-c` flag for the number of threads. The follwing example shows a job script that runs a program with 2 MPI tasks and 8 threads per task on a node with 16 cores.  
+One way to run hybrid progmrams in Slurm jobs is to use the `-n` flag for the number of MPI tasks and the `-c` flag for the number of threads. The follwing is a job script that runs a program with 2 MPI tasks and 8 threads per task on a node with 16 cores.  
 ```
 #!/bin/bash
 #SBATCH -p sched_mit_hill
@@ -170,9 +170,9 @@ mpirun -n $SLURM_NTASKS my_program
 ```
 The `-c` flag is the same as `--cpus-per-task`. The specified value is saved in the variable `SLURM_CPUS_PER_TASK`. In this case, the total number of cores equals `SLURM_NTASKS * SLURM_CPUS_PER_TASK`, that is 16. 
 
-The environment variable `OMP_NUMB_THREADS` is used to set the number of threads for an OpenMP program. Here it is equal to `SLURM_CPUS_PER_TASK`, and the number of MPI tasks is set to be `SLURM_NTASK` in the `mpirun` line, therefore, the nubmer of MPI tasks times the number of threads equals the total number of CPU cores. 
+The built-in environment variable `OMP_NUMB_THREADS` is used to set the number of threads for an OpenMP program. Here it is equal to `SLURM_CPUS_PER_TASK`, and the number of MPI tasks is set to be `SLURM_NTASK` in the `mpirun` command line, therefore, the nubmer of MPI tasks times the number of threads equals the total number of CPU cores. 
 
-Users need to specify the numbers following Slurm flags `-n` and `-c`, for example, `-n 4 -c 4` or `-n 8 -c 2`, keeping the product unchanged, then the MPI tasks and threads are all set automatically.  
+Users only need to specify the numbers following Slurm flags `-n` and `-c`, for example, `-n 4 -c 4` or `-n 8 -c 2`, keeping the product unchanged, then the MPI tasks and threads are all set automatically.  
 
 Similarly, here is an exmple script to request two nodes, 
 ```
@@ -190,9 +190,9 @@ mpirun -n $SLURM_NTASKS my_program
 ```
 In this case, the total number of cores is equal to `SLURM_NNODES * SLURM_NTASKS_PER_NODE * SLURM_CPUS_PER_TASK`, that is `2 * 2 * 8 = 32`. The job will run 4 MPI tasks (i.e. 2 tasks per node) and 8 threads per task. Equation (1) is satisfied as `4 * 8 = 32`. 
 
-Simlar to the previous section, it is recommended to run testing cases to determine the values for the flags `-N`, `-n` and `-c` to obtain a better performance.
+As mentioned in the previous section, it is recommended to run testing cases to determine the values for the flags `-N`, `-n` and `-c` to obtain a better performance.
 
-There is another way to submit jobs for hybrid programs, that is not to use the `-c` flag at all. For example, it also works like this,
+There is another way to submit jobs for hybrid programs, in which the `-c` flag is not used at all. For example, it also works like this,
 ```
 #!/bin/bash
 #SBATCH -p sched_mit_hill
@@ -207,9 +207,5 @@ MPI_NTASKS=$((SLURM_NTASK / $OMP_NUMB_THREADS))
 mpirun -n $MPI_NTASKS my_program
 ```
 This job requests 16 CPU cores on 1 node and runs 2 MPI tasks with 8 threads per task, so equation (1) is satisfied as `2 * 8 = 16`. In this case, users need to set the values for the Slurm flag `-n` and the variable `OMP_NUMB_THREADS`.
-
-
-
-
 
 
