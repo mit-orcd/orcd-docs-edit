@@ -65,7 +65,7 @@ mpif90 -O3 name.f90 -o my_program
 This will create an executable file named `my_program`. Prepare a GNU Makefile to build programs with multiple source files. 
 
 
-### MPI jobs 
+## MPI jobs 
 
 MPI programs are suitable to run either on multiple CPU cores of a single node or on multiple nodes. 
 
@@ -126,33 +126,33 @@ First, what resources are available on the cluster? Use this command to check no
 ```
 Here it only shows the public partitions that are avaiable to most users. Among the nodes in these partitions, the number of cores per node varies from 16 to 128, and the memory per node varies from 63 GB to 515 GB. Jobs in these partitions have a wall time limit of 12 hours. Some labs can use their lab parititions instead. 
 
-***To obtain a better performance of MPI programs, it is recommended to request all physical CPU cores and memory on each node.*** For example, request two nodes with 16 physical cores per node and all of the memory (with `--mem=0`) like this,
+***To obtain a good performance of MPI programs, it is recommended to request all physical CPU cores and memory on each node.*** For example, request two nodes with 16 physical cores per node and all of the memory (with `--mem=0`) like this,
 ```
 #SBATCH -N 2
 #SBATCH --ntasks-per-node=16
 #SBATCH --mem=0
 ```
 
-Second, what is the speedup of your MPI porgram? According to [the Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law), MPI programs are usually speeded up almost linearly as the number of cores is increased, until it is saturated at some point. In practice, try to run testing cases investigating the speedup of your program, and then decide how many cores are needed to speed it up efficiently. ***Do not increase the number of cores when the speedup is poor.*** 
+Second, what is the speedup of your MPI porgram? According to [the Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law), MPI programs are usually speeded up almost linearly as the number of cores is increased, until it is saturated at some point. In practice, try to run testing cases investigating the speedup of your program, and then decide how many cores are needed to speed it up efficiently. ***Do not increase the number of cores when speedup is poor.*** 
 
 !!! Note
-    After a job started to run, execute the command `squeue -u $USER` to check which node the job is running on, and then log in the node with `ssh <hostname>` and execute the `top` command to check how many CPU cores are actually being used by your program and what the CPU efficiency is. The efficiency may vary with the number of CPU cores. Try to keep your jobs in a high efficiency. 
+    After a job started to run, execute the command `squeue -u $USER` to check which node the job is running on, and then log in the node with `ssh <hostname>` and execute the `top` command to check how many CPU cores are actually being used by your program and what the CPU efficiency is. The efficiency may vary with the number of CPU cores. Try to keep your jobs at a high efficiency. 
 
 
 ## Hybrid MPI and multithreading jobs
 
-MPI programs are based on a distributed-memory parallelism, that says, each MPI task owns a faction of data, such as arrays, matrices, or tensors. In contrast to MPI, multithreading technique is based on a shared-memory parallelism, in which data is shared by multiple threads. A common implementation of multithreading is OpenMP. For Python users, the `numpy` package is based on C libraries, such as Openblas, usually built with OpenMP. 
+MPI programs are based on a distributed-memory parallelism, that says, each MPI task owns a faction of data, such as arrays, matrices, or tensors. In contrast to MPI, multithreading technique is based on a shared-memory parallelism, in which data is shared by multiple threads. A common implementation of multithreading is OpenMP. For Python users, the `numpy` package is based on C libraries, such as Openblas, which are usually built with OpenMP. 
 
 ??? "Side note: OpenMP" 
     OpenMP is an abbreviation of Open Multi-Processing. It is not related to OpenMPI.
 
-Some programs are designed in a hybrid scheme such that MPI and OpenMP are combined to enable two-level parallelization. A principle to run hybrid MPI-OpenMP programs is to satisfy this queation,
+Some programs are designed in a hybrid scheme such that MPI and OpenMP are combined to enable two-level parallelization. Set the MPI tasks and OpenMP threads in hybrid programs based on this equation,
 ```
 (Number of MPI Tasks) * (Nubmer of Threads) = Total Number of Cores          (1)
 ```
   
 ??? "Side note: hyperthreads" 
-    Assume hyperthread technique is not implemented here. If there are two hyerthreads per physical core, the right side of the equation should be `2 * (Total Number of Cores)` instead.
+     Hyperthread technique is not implemented on the cluster. If there are two hyerthreads per physical core, the right side of the equation should be `2 * (Total Number of Cores)` instead.
 
 One way to run hybrid progmrams in Slurm jobs is to use the `-n` flag for the number of MPI tasks and the `-c` flag for the number of threads. The follwing example shows a job script that runs a program with 2 MPI tasks and 8 threads per task on a node with 16 cores.  
 ```
@@ -172,7 +172,7 @@ The `-c` flag is the same as `--cpus-per-task`. The specified value is saved in 
 
 The environment variable `OMP_NUMB_THREADS` is used to set the number of threads for an OpenMP program. Here it is equal to `SLURM_CPUS_PER_TASK`, and the number of MPI tasks is set to be `SLURM_NTASK` in the `mpirun` line, therefore, the nubmer of MPI tasks times the number of threads equals the total number of CPU cores. 
 
-Users only need to specify the numbers following Slurm flags `-n` and `-c`, for example, `-n 4 -c 4` or `-n 8 -c 2`, keeping the their product unchanged, then the MPI tasks and threads are all set automatically.  
+Users need to specify the numbers following Slurm flags `-n` and `-c`, for example, `-n 4 -c 4` or `-n 8 -c 2`, keeping the product unchanged, then the MPI tasks and threads are all set automatically.  
 
 Similarly, here is an exmple script to request two nodes, 
 ```
@@ -206,7 +206,7 @@ export OMP_NUMB_THREADS=8
 MPI_NTASKS=$((SLURM_NTASK / $OMP_NUMB_THREADS))
 mpirun -n $MPI_NTASKS my_program
 ```
-This job requests 16 CPU cores on 1 node and runs 2 MPI tasks with 8 threads per task, so equation (1) is satisfied as `2 * 8 = 16`. In this case, users need to set the values for Slurm flag `-n` and the variable `OMP_NUMB_THREADS`.
+This job requests 16 CPU cores on 1 node and runs 2 MPI tasks with 8 threads per task, so equation (1) is satisfied as `2 * 8 = 16`. In this case, users need to set the values for the Slurm flag `-n` and the variable `OMP_NUMB_THREADS`.
 
 
 
