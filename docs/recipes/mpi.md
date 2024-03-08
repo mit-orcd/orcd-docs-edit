@@ -31,6 +31,7 @@ module load gcc/12.2.0 openmpi/4.1.4-pmi-cuda-ucx-x86_64
 ```
 or
 ```
+module use /orcd/software/community/001/modulefiles/rocky8
 module load gcc/12.2.0 openmpi/4.1.4-pmi-ucx-x86_64
 ``` 
 
