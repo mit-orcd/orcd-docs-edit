@@ -35,14 +35,14 @@ module load gcc/12.2.0 openmpi/4.1.4-pmi-ucx-x86_64
 ``` 
 
 !!! Note
-    Load a `gcc` module first, then the openmpi mouldes built with this `gcc` will be shown in the output of `module avail` and can be loaded. 
+    Load a `gcc` module first, then the openmpi modules built with this `gcc` will be shown in the output of `module avail` and can be loaded. 
 
 
 ## Build MPI programs
 
 This session will be focused on building MPI programs in C or Fortran. Python users can refer to [this page](https://orcd-docs.mit.edu/recipes/mpi4py/) for using the `mpi4py` package.
 
-Most MPI software should be built from source codes. First, download the package from the internet. A typycal building process is like this,
+Most MPI software should be built from source codes. First, download the package from the internet. A typical building process is like this,
 ```
 ./configure CC=mpicc CXX=mpicxx --prefix=</path/to/your/installation>
 make
@@ -50,12 +50,12 @@ make install
 ```
 Create an install directory and assign its full path to the flag `--prefix`. This is where the binaries will be saved.
 
-Widely-used MPI sotware include `Gromacs`, `Lammps`, `NWchem`, `OpenFOAM` and many others. The building process of every sofware is not the same. Refer to its offical installation guide for details.
+Widely-used MPI software includes `Gromacs`, `Lammps`, `NWchem`, `OpenFOAM` and many others. The building process of every software is different. Refer to its official installation guide for details.
 
 ??? "Side note: MPI binaries"
-    Some MPI software are provided with prebuilt binaries only. In this case, download the binaries that are compatible with the `linux` OS and the `x86_64` CPU architecture. If possible, try to choose an OpenMPI version, that the binary was built with, as close as possible to that of a module on the cluser. This type of MPI sotware includes `ORCA`. 
+    Some MPI software are provided with prebuilt binaries only. In this case, download the binaries compatible with the `linux` OS and the `x86_64` CPU architecture. If possible, try to choose an OpenMPI version, that the binary was built with, as close as possible to that of a module on the cluster. This type of MPI software includes `ORCA`. 
 
-Spack is a popular tool to build many software packages systematically on clusters. It makes building processes convinient in many cases. If you want to use Spack to build your software package on the cluster, refer to [this page](https://mit-orcd.github.io/orcd-docs-previews/PR/PR29/recipes/spack-basics/) for details. 
+Spack is a popular tool to build many software packages systematically on clusters. It makes building processes convenient in many cases. If you want to use Spack to build your software package on the cluster, refer to [this page](https://mit-orcd.github.io/orcd-docs-previews/PR/PR29/recipes/spack-basics/) for details. 
 
 If you develop your MPI codes, the codes can be compiled and linked like this
 ```
@@ -136,15 +136,15 @@ Here it only shows the public partitions that are avaiable to most users. Among 
 #SBATCH --mem=0
 ```
 
-Second, what is the speedup of your MPI porgram? According to [the Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law), well-performing MPI programs are usually speeded up almost linearly as the number of cores is increased, until it is saturated at some point. In practice, try to run testing cases investigating the speedup of your program, and then decide how many cores are needed to speed it up efficiently. ***Do not increase the number of cores when speedup is poor.*** 
+Second, what is the speedup of your MPI program? According to [Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law), well-performing MPI programs are usually speeded up almost linearly as the number of cores is increased until it is saturated at some point. In practice, try to run testing cases investigating the speedup of your program, and then decide how many cores are needed to speed it up efficiently. ***Do not increase the number of cores when speedup is poor.*** 
 
 !!! Note
-    After a job starts to run, execute the command `squeue -u $USER` to check which node the job is running on, and then log in the node with `ssh <hostname>` and execute the `top` command to check how many CPU cores are actually being used by the program and what the CPU efficiency is. The efficiency may vary with the number of CPU cores. Try to keep your jobs at a high efficiency. 
+    After a job starts to run, execute the command `squeue -u $USER` to check which node the job is running on, and then log in to the node with `ssh <hostname>` and execute the `top` command to check how many CPU cores are being used by the program and what the CPU efficiency is. The efficiency may vary with the number of CPU cores. Try to keep your jobs at a high efficiency. 
 
 
 ## Hybrid MPI and multithreading jobs
 
-MPI programs are based on a distributed-memory parallelism, that says, each MPI task owns a faction of data, such as arrays, matrices, or tensors. In contrast to MPI, multithreading technique is based on a shared-memory parallelism, in which data is shared by multiple threads. A common implementation of multithreading technique is OpenMP. For Python users, the `numpy` package is based on C libraries, such as Openblas, which are usually built with OpenMP. 
+MPI programs are based on distributed-memory parallelism, that says, each MPI task owns a faction of data, such as arrays, matrices, or tensors. In contrast to MPI, the multithreading technique is based on a shared-memory parallelism, in which data is shared by multiple threads. A common implementation of the multithreading technique is OpenMP. For Python users, the `numpy` package is based on C libraries, such as Openblas, which are usually built with OpenMP. 
 
 ??? "Side note: OpenMP" 
     OpenMP is an abbreviation of Open Multi-Processing. It is not related to OpenMPI.
@@ -155,7 +155,7 @@ Some programs are designed in a hybrid scheme such that MPI and OpenMP are combi
 ```
   
 ??? "Side note: hyperthreads" 
-     There are two or mulitple hyperthreads on each CPU core in modern CPU architecture. Hyperthread technique is not implemented on this cluster. In the case that there are two hyerthreads per physical core, the right side of the equation should be `2 * (Total Number of Cores)` instead.
+     There are two or multiple hyperthreads on each CPU core in modern CPU architecture. The hyperthread technique is not implemented on this cluster. In the case that there are two hyerthreads per physical core, the right side of the equation should be `2 * (Total Number of Cores)` instead.
 
 One way to run hybrid progmrams in Slurm jobs is to use the `-n` flag for the number of MPI tasks and the `-c` flag for the number of threads. The follwing is a job script that runs a program with 2 MPI tasks and 8 threads per task on a node with 16 cores.  
 ```
@@ -210,5 +210,3 @@ MPI_NTASKS=$((SLURM_NTASK / $OMP_NUMB_THREADS))
 mpirun -n $MPI_NTASKS my_program
 ```
 This job requests 16 CPU cores on 1 node and runs 2 MPI tasks with 8 threads per task, so equation (1) is satisfied as `2 * 8 = 16`. In this case, users need to set the values for the Slurm flag `-n` and the variable `OMP_NUMB_THREADS`.
-
-
