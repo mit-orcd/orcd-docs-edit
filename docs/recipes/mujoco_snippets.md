@@ -3,9 +3,9 @@ tags:
  - Engaging
  - SuperCloud
  - Howto Recipes
- - MuJoCo
+ - MuJoCo_Snippets
 ---
-# Installing and Using MuJoCo
+# Installing and Using MuJoCo Snippets
 
 MuJoCo is a free and open source physics engine that aims to facilitate research and development in robotics, biomechanics, graphics and animation, and other areas where fast and accurate simulation is needed.
 
@@ -56,29 +56,31 @@ pip install --user 'mujoco-py<2.2,>=2.1'
 
 Start up python and import mujoco_py to complete the build process:
 
+```bash
+python
+import mujoco_py
+```
+
+If you’d like you can run the few example lines listed on install section of the mujoco-py github page to verify the install went through properly:
+
+```python
 --8<-- "https://raw.githubusercontent.com/mit-orcd/orcd-examples/main/mujoco/mujoco_test.py"
+```
 
 
 ### Using MuJoCo in a Job
 
-To use MuJoCo you’ll need to first load the same Python or Anaconda module you used to install mujoco-py. If you installed it into a conda environment or python virtual environment, load that environment as well. We recommend you do this in your job submission script rather than in your .bashrc or at the command line before you submit the job. This way you know your job is configured properly every time it runs. You can use the following test scripts to test your MuJoCo setup in a job environment, and as a starting point for your own job:
+To use MuJoCo you’ll need to first load the same Python or Anaconda module you used to install mujoco-py. If you installed it into a conda environment or python virtual environment, load that environment as well. We recommend you do this in your job submission script rather than in your .bashrc or at the command line before you submit the job. This way you know your job is configured properly every time it runs. 
+
+You can use the following test scripts to test your MuJoCo setup in a job environment, and as a starting point for your own job:
 
 ``` py title="mujoco_test.py"
-import mujoco_py
-import os
-
-mj_path = mujoco_py.utils.discover_mujoco()
-xml_path = os.path.join(mj_path, 'model', 'humanoid.xml')
-model = mujoco_py.load_model_from_path(xml_path)
-sim = mujoco_py.MjSim(model)
-
-print(sim.data.qpos)
-sim.step()
-print(sim.data.qpos)
+--8<-- "https://raw.githubusercontent.com/mit-orcd/orcd-examples/main/mujoco/mujoco_test.py"
 ```
 
 ``` bash title="submit_test.sh"
-#!/bin/bash
+--8<-- "https://raw.githubusercontent.com/mit-orcd/orcd-examples/main/mujoco/run_batch_engaging.sh"
+```
 
 # Load the same python/anaconda module you used to install mujoco-py
 module load python/3.8.3
@@ -185,3 +187,10 @@ source $MUJOCO_ENV/bin/activate
 
 python mujoco_test.py
 ```
+``` python
+--8<-- "https://raw.githubusercontent.com/kcnakamu/ORCD-Buildkite/main/snippet.py:func"
+```
+```python
+--8<-- "https://raw.githubusercontent.com/kcnakamu/ORCD-Buildkite/main/snippet.py:use"
+```
+
