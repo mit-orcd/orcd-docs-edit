@@ -7,7 +7,7 @@ nav:
   - Filesystems and File Transfer:
     - General Use Filesystems:  filesystems-file-transfer/filesystems.md
     - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
-#    - Transferring Files:  filesystems-file-transfer/transferring-files.md
+    - Transferring Files:  filesystems-file-transfer/transferring-files.md
 #    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
   - ORCD Recipes:
 #    - recipes/gurobi.md
