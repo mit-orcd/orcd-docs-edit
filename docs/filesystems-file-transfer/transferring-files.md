@@ -70,7 +70,7 @@ To transfer a file from your local computer to an ORCD system you would use the 
 === "OpenMind"
 
     ``` bash
-    scp <local-file-name> <user>@openmind-dtn.mit.edu:<path-to-openmind-dir>
+    scp <local-file-name> USERNAME@openmind-dtn.mit.edu:<path-to-openmind-dir>
     ```
 
 === "SuperCloud"
@@ -172,7 +172,7 @@ Similar to the `cp` command, if you want to transfer an entire directory and all
 === "OpenMind"
 
     ``` bash
-    scp -r <local-file-name> <user>@openmind-dtn.mit.edu:<path-to-openmind-dir>
+    scp -r <local-file-name> USERNAME@openmind-dtn.mit.edu:<path-to-openmind-dir>
     ```
 
 === "SuperCloud"
