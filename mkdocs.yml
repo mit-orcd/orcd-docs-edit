@@ -9,6 +9,15 @@ nav:
     - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
 #    - Transferring Files:  filesystems-file-transfer/transferring-files.md
 #    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
+  - Software:
+    - Overview: software/overview.md
+    - Modules: software/modules.md
+#    - Python: 
+#    - Julia: 
+#    - R: 
+#    - Installing Software: 
+#    - Singularity/Apptainer: 
+#    - Licensed Software: 
   - ORCD Recipes:
 #    - recipes/gurobi.md
     - MuJoCo: recipes/mujoco.md
