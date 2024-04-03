@@ -14,7 +14,7 @@ ORCD operates and provides support and training for a number of cluster computer
 With the exception of SuperCloud, the maintenance schedule for all ORCD systems is:
 
 - Monthly downtimes on the 3rd Tuesday of the month lasting about a day.
-- Weekly restarts of login nodes Monday mornings starting at 6am for about 15 minutes. If Monday is a holiday this restart will occur on Tuesday.
+- Weekly restarts of login nodes Monday mornings starting at 7am for about 15 minutes. If Monday is a holiday this restart will occur on Tuesday.
 
 SuperCloud has monthly downtimes on the 2nd Tuesday of each month.
 
