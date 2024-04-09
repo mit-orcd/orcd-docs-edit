@@ -15,7 +15,7 @@ RELION (for REgularised LIkelihood OptimisatioN, pronounce rely-on) is a softwar
 This recipe is for building and using RELION on x86 nodes on Satori. It is different from working on IBM power9 nodes on Satori.
 
 !!! Note
-The x86 nodes are available to some labs only. 
+    The x86 nodes are available to some labs only. 
 
 ### Install RELION
 

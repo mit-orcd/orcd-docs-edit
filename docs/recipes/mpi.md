@@ -93,7 +93,7 @@ This job requests 8 cores (with `-n`) and 10 GB of memory (with `--mem`) on 1 no
 The command `srun hostname` is to check if the correct number of cores and nodes are assigned to the job. It is not needed in production runs. 
 
 ??? "Side note: partitions and modules"
-    The modules used in the above example is for the CentOS 7 OS, which works for these partitions: `sched_mit_hill`, `newnodes`, and `sched_any`. If using a partition with the Rocky 8 OS, such as `sched_mit_orcd`, change the modules accrodingly (see the first session). These are the public partitions that are avaiable to most users. Many labs have partitions for their purchased nodes. 
+    The modules used in the above example is for the CentOS 7 OS, which works for these partitions: `sched_mit_hill`, `newnodes`, and `sched_any`. If using a partition with the Rocky 8 OS, such as `sched_mit_orcd`, change the modules accrodingly (see the first session). These are public partitions that are avaiable to most users. Many labs have partitions for their purchased nodes. 
 
 Submit the job with the `sbatch` command,
 ```
@@ -157,7 +157,7 @@ Some programs are designed in a hybrid scheme such that MPI and OpenMP are combi
 ```
   
 ??? "Side note: hyperthreads" 
-     There are two or multiple hyperthreads on each CPU core in modern CPU architecture. The hyperthread technique is not implemented on this cluster. In the case that there are two hyerthreads per physical core, the right side of the equation should be `2 * (Total Number of Cores)` instead.
+     There are two or multiple hyperthreads on each CPU core in modern CPU architecture. The hyperthread technique is turned off for most nodes of this cluster, but it may be turned on for some nodes as requested by the owner labs. In the case that there are two hyerthreads per physical core, the right side of the equation should be `2 * (Total Number of Cores)` instead.
 
 One way to run hybrid progmrams in Slurm jobs is to use the `-n` flag for the number of MPI tasks and the `-c` flag for the number of threads. The follwing is a job script that runs a program with 2 MPI tasks and 8 threads per task on a node with 16 cores.  
 ```
@@ -170,7 +170,7 @@ One way to run hybrid progmrams in Slurm jobs is to use the `-n` flag for the nu
 #SBATCH --mem=10GB
 
 module load gcc/6.2.0 openmpi/3.0.4
-export OMP_NUMB_THREADS=$SLURM_CPUS_PER_TASK
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 mpirun -n $SLURM_NTASKS my_program
 ```
 The `-c` flag is the same as `--cpus-per-task`. The specified value is saved in the variable `SLURM_CPUS_PER_TASK`. In this case, the total number of cores equals `SLURM_NTASKS * SLURM_CPUS_PER_TASK`, that is 16. 
