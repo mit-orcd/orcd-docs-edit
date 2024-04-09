@@ -15,7 +15,7 @@ There are several MPI implementationos, such as `OpenMPI`, `MPICH`, `MVAPICH`, a
 
 ## MPI modules
 
- There are OpnMPI modules available on the cluster. Before building or runrning your MPI programs, load the modules of a `gcc` compiler and an `openmpi` libraries to set up environment varialbes.
+ There are OpenMPI modules available on the cluster. Before building or runrning your MPI programs, load the modules of a `gcc` compiler and an `openmpi` libraries to set up environment varialbes.
 
  There are two different operations systems (OS) on the cluster: CentOS 7 and Rocky 8. For CentOS 7 nodes, load these modules,
 ```
@@ -41,9 +41,9 @@ module load gcc/12.2.0 openmpi/4.1.4-pmi-cuda-ucx-x86_64
 
 ## Build MPI programs
 
-This session will be focused on building MPI programs in C or Fortran. Python users can refer to [this page](https://orcd-docs.mit.edu/recipes/mpi4py/) for using the `mpi4py` package.
+This section will be focused on building MPI programs in C or Fortran. Python users can refer to [this page](https://orcd-docs.mit.edu/recipes/mpi4py/) for using the `mpi4py` package.
 
-Most MPI software should be built from source codes. First, download the package from the internet. A typical building process is like this,
+Most MPI software should be built from source codes. First, download the package from the internet. Load one of the OpenMPI modules mentioned above. A typical building process is like this,
 ```
 ./configure CC=mpicc CXX=mpicxx --prefix=</path/to/your/installation>
 make
@@ -56,7 +56,8 @@ Widely-used MPI software includes `Gromacs`, `Lammps`, `NWchem`, `OpenFOAM` and 
 ??? "Side note: MPI binaries"
     Some MPI software are provided with prebuilt binaries only. In this case, download the binaries compatible with the `linux` OS and the `x86_64` CPU architecture. If possible, try to choose an OpenMPI version, that the binary was built with, as close as possible to that of a module on the cluster. This type of MPI software includes `ORCA`. 
 
-Spack is a popular tool to build many software packages systematically on clusters. It makes building processes convenient in many cases. If you want to use Spack to build your software package on the cluster, refer to [this page](https://mit-orcd.github.io/orcd-docs-previews/PR/PR29/recipes/spack-basics/) for details. 
+Spack is a popular tool to build many software packages systematically on clusters. It makes building processes convenient in many cases. If you want to use Spack to build your software package on the cluster, refer to the recipe page for Spack.
+
 
 If you develop your MPI codes, the codes can be compiled and linked like this
 ```
@@ -87,12 +88,12 @@ module load gcc/6.2.0 openmpi/3.0.4
 mpirun -n $SLURM_NTASKS my_program
 ```
 
-This job requests 8 cores with `-n` and 10 GB of memory with `--mem` on 1 node (specified with `-N`). The `-n` flag is the same as `--ntasks`. The specified value is saved to the variable `SLURM_NTASKS`. In this case, the requested number of cores is equal to `SLURM_NTASKS`. The command `mpirun -n $SLURM_NTASKS` ensures that each MPI task runs on one core. 
+This job requests 8 cores (with `-n`) and 10 GB of memory (with `--mem`) on 1 node (with `-N`) for 30 minutes (with `-t 30`). The `-n` flag is the same as `--ntasks`. The specified value is saved to the variable `SLURM_NTASKS`. In this case, the requested number of cores is equal to `SLURM_NTASKS`. The command `mpirun -n $SLURM_NTASKS` ensures that each MPI task runs on one core. 
 
 The command `srun hostname` is to check if the correct number of cores and nodes are assigned to the job. It is not needed in production runs. 
 
 ??? "Side note: partitions and modules"
-    The modules used in the above example is for the CentOS 7 OS, which works for these partitions: `sched_mit_hill`, `newnodes`, and `sched_any`. If using a partition with the Rocky 8 OS, such as `sched_mit_orcd`, change the modules accrodingly (see the first session). 
+    The modules used in the above example is for the CentOS 7 OS, which works for these partitions: `sched_mit_hill`, `newnodes`, and `sched_any`. If using a partition with the Rocky 8 OS, such as `sched_mit_orcd`, change the modules accrodingly (see the first session). These are the public partitions that are avaiable to most users. Many labs have partitions for their purchased nodes. 
 
 Submit the job with the `sbatch` command,
 ```
@@ -128,7 +129,7 @@ First, what resources are available on the cluster? Use this command to check no
 ```
  sinfo -N -p sched_mit_hill,newnodes,sched_any,sched_mit_orcd -o %f,%c,%m,%l,%t |grep -v drain
 ```
-Here it only shows the public partitions that are avaiable to most users. Among the nodes in these partitions, the number of cores per node varies from 16 to 128, and the memory per node varies from 63 GB to 515 GB. Jobs in these partitions have a wall time limit of 12 hours. Many labs can use their lab parititions instead.
+On typical nodes of the cluster, the number of cores per node varies from 16 to 128, and the memory per node varies from 63 GB to 515 GB.
 
 ***To obtain a good performance of MPI programs, it is recommended to request all physical CPU cores and memory on each node.*** For example, request two nodes with 16 physical cores per node and all of the memory like this,
 ```
@@ -174,7 +175,7 @@ mpirun -n $SLURM_NTASKS my_program
 ```
 The `-c` flag is the same as `--cpus-per-task`. The specified value is saved in the variable `SLURM_CPUS_PER_TASK`. In this case, the total number of cores equals `SLURM_NTASKS * SLURM_CPUS_PER_TASK`, that is 16. 
 
-The built-in environment variable `OMP_NUMB_THREADS` is used to set the number of threads for an OpenMP program. Here it is equal to `SLURM_CPUS_PER_TASK`. The number of MPI tasks is set to be `SLURM_NTASK` in the `mpirun` command line, therefore, the nubmer of MPI tasks times the number of threads equals the total number of CPU cores. 
+The built-in environment variable `OMP_NUM_THREADS` is used to set the number of threads for an OpenMP program. Here it is equal to `SLURM_CPUS_PER_TASK`. The number of MPI tasks is set to be `SLURM_NTASK` in the `mpirun` command line, therefore, the nubmer of MPI tasks times the number of threads equals the total number of CPU cores. 
 
 Users only need to specify the numbers following Slurm flags `-n` and `-c`, for example, `-n 4 -c 4` or `-n 8 -c 2`, keeping the product unchanged, then the MPI tasks and threads are all set automatically.  
 
@@ -189,7 +190,7 @@ Similarly, here is an exmple script to request two nodes,
 #SBATCH --mem=0
 
 module load gcc/6.2.0 openmpi/3.0.4
-export OMP_NUMB_THREADS=$SLURM_CPUS_PER_TASK
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 mpirun -n $SLURM_NTASKS my_program
 ```
 In this case, the total number of cores is equal to `SLURM_NNODES * SLURM_NTASKS_PER_NODE * SLURM_CPUS_PER_TASK`, that is `2 * 2 * 8 = 32`. The job will run 4 MPI tasks (i.e. 2 tasks per node) and 8 threads per task. Equation (1) is satisfied as `4 * 8 = 32`. 
@@ -206,8 +207,8 @@ There is another way to submit jobs for hybrid programs, in which the `-c` flag 
 #SBATCH --mem=10GB
 
 module load gcc/6.2.0 openmpi/3.0.4
-export OMP_NUMB_THREADS=8
-MPI_NTASKS=$((SLURM_NTASK / $OMP_NUMB_THREADS))
+export OMP_NUM_THREADS=8
+MPI_NTASKS=$((SLURM_NTASK / $OMP_NUM_THREADS))
 mpirun -n $MPI_NTASKS my_program
 ```
-This job requests 16 CPU cores on 1 node and runs 2 MPI tasks with 8 threads per task, so equation (1) is satisfied as `2 * 8 = 16`. In this case, users need to set the values for the Slurm flag `-n` and the variable `OMP_NUMB_THREADS`.
+This job requests 16 CPU cores on 1 node and runs 2 MPI tasks with 8 threads per task, so equation (1) is satisfied as `2 * 8 = 16`. In this case, users need to set the values for the Slurm flag `-n` and the variable `OMP_NUM_THREADS`.
