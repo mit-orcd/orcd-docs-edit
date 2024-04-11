@@ -6,24 +6,29 @@ tags:
  - Howto Recipes
 ---
 
-# Installing and Using MPI for Python
+# MPI for Python
 
 MPI for Python (`mpi4py`) provides Python bindings for the Message Passing Interface (MPI) standard, allowing Python applications to exploit multiple processors on workstations, clusters and supercomputers.
 
 You can learn about `mpi4py` here: [https://mpi4py.readthedocs.io/en/stable/](https://mpi4py.readthedocs.io/en/stable/).
 
-## Mpi4py on OpenMind
 
-### Install 
 
-If you use an Anaconda module, no installation is required.
+## Installation 
+
+=== "OpenMind"
+
+The support team has installed `mpi4py in an Anaconda module. You can load the module adn do not need to install anything,
+```
+openmind/anaconda/3-2022.05
+```
 
 If you want to use Anaconda in your directory, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then install `mpi4py`, 
 ```
 conda install -c conda-forge mpi4py
 ```
 
-### Run Mpi4py
+## Example codes
 
 Prepare your Python codes. Example 1: The following is a code for sending and receiving a dictionary. Save it in a file named `p2p-send-recv.py`.
 ```python title="p2p-send-recv.py"
@@ -69,6 +74,10 @@ elif rank == 1:
     comm.Recv(data, source=0, tag=13)
     print(rank,data)
 ```
+
+## Submitting jobs
+
+=== "OpenMind"
 
 Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`.
 ```bash title="p2p-job.sh"
