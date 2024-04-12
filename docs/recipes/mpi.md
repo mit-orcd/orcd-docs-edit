@@ -138,7 +138,7 @@ On typical nodes of the cluster, the number of cores per node varies from 16 to 
 #SBATCH --mem=0
 ```
 
-As MPI is a distributed-memory parallelism, sometimes it is a good to use the `--mem-per-core` flag assigning a certain amount of memory to each core. The total memory is increased with the number of cores in this case. Doulbe check that the total memory fits in the maximum memory of a node to avoid failed submittions.
+As MPI is a distributed-memory parallelism, sometimes it is good to use the `--mem-per-core` flag assigning a certain amount of memory to each core. The total memory is increased with the number of cores in this case. Double check that the total memory fits in the maximum memory of a node to avoid failed jobs.
 
 Second, what is the speedup of your MPI program? According to [Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law), well-performing MPI programs are usually speeded up almost linearly as the number of cores is increased until it is saturated at some point. In practice, try to run testing cases investigating the speedup of your program, and then decide how many cores are needed to speed it up efficiently. ***Do not increase the number of cores when speedup is poor.*** 
 
