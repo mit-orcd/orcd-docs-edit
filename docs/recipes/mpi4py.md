@@ -18,28 +18,28 @@ You can learn about `mpi4py` here: [https://mpi4py.readthedocs.io/en/stable/](ht
 
 === "OpenMind"
 
-The support team has installed `mpi4py` in an Anaconda module. You can load the module and do not need to install anything,
-```
-module load openmind/anaconda/3-2022.05
-```
+     The support team has installed `mpi4py` in an Anaconda module. You can load the module and do not need to install anything,
+     ```
+     module load openmind/anaconda/3-2022.05
+     ```
 
-If you want to use Anaconda in your directory, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then install `mpi4py`, 
-```
-conda install -c conda-forge mpi4py
-```
+     If you want to use Anaconda in your directory, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then install `mpi4py`, 
+     ```
+     conda install -c conda-forge mpi4py
+     ```
 
 === "Engaging"
 
-First, load an Anaconda module on a CentOS 7 head node (such as eofe7 or eofe8),
-```
-module load anaconda3/2023.07
-```
-then install `mpi4py`, 
-```
-conda create -n mpi
-source activate mpi
-conda install mpi4py
-```
+     First, load an Anaconda module on a CentOS 7 head node (such as eofe7 or eofe8),
+     ```
+     module load anaconda3/2023.07
+     ```
+     then install `mpi4py`, 
+     ```
+     conda create -n mpi
+     source activate mpi
+     conda install mpi4py
+     ```
 
 ## Example codes
 
@@ -104,7 +104,7 @@ elif rank == 1:
      mpirun -np $SLURM_NTASKS python p2p-array.py
      ```
      !!! note
-         If you use Anaconda in your directory, do not load the Anaconda module. 
+          If you use Anaconda in your directory, do not load the Anaconda module. 
 
      Finally submit the job,
      ```
