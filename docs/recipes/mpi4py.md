@@ -92,44 +92,44 @@ elif rank == 1:
 
 === "OpenMind"
 
-Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`.
-```bash title="p2p-job.sh"
-#!/bin/bash -l
-#SBATCH -N 1
-#SBATCH -n 8
+   Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`.
+   ```bash title="p2p-job.sh"
+   #!/bin/bash -l
+   #SBATCH -N 1
+   #SBATCH -n 8
 
-module load openmind/anaconda/3-2022.05
+   module load openmind/anaconda/3-2022.05
 
-mpirun -np $SLURM_NTASKS python p2p-send-recv.py
-mpirun -np $SLURM_NTASKS python p2p-array.py
-```
-!!! note
-    If you use Anaconda in your directory, do not load the Anaconda module. 
+   mpirun -np $SLURM_NTASKS python p2p-send-recv.py
+   mpirun -np $SLURM_NTASKS python p2p-array.py
+   ```
+   !!! note
+       If you use Anaconda in your directory, do not load the Anaconda module. 
 
-Finally submit the job,
-```
-sbatch p2p-job.sh
-```
+   Finally submit the job,
+   ```
+   sbatch p2p-job.sh
+   ```
 
 === "Engaging"
 
-Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`.
-```bash title="p2p-job.sh"
-#!/bin/bash -l
-#SBATCH -N 1
-#SBATCH -n 8
+   Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`.
+   ```bash title="p2p-job.sh"
+   #!/bin/bash -l
+   #SBATCH -N 1
+   #SBATCH -n 8
 
-module load anaconda3/2023.07
+   module load anaconda3/2023.07
 
-source activate mpi
-mpirun -np $SLURM_NTASKS python p2p-send-recv.py
+   source activate mpi
+   mpirun -np $SLURM_NTASKS python p2p-send-recv.py
 
-source activate mpi
-mpirun -np $SLURM_NTASKS python p2p-array.py
-```
+   source activate mpi
+   mpirun -np $SLURM_NTASKS python p2p-array.py
+   ```
 
-Finally submit the job,
-```
-sbatch p2p-job.sh
-```
+   Finally submit the job,
+   ```
+   sbatch p2p-job.sh
+   ```
 
