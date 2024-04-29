@@ -15,6 +15,8 @@ nav:
     - 'NVHPC with CUDA aware MPI': recipes/nvhpc-a100-with-cuda-and-mpi-example.md
     - GROMACS: recipes/gromacs.md
     - MPI for Python: recipes/mpi4py.md
+    - MPI jobs: recipes/mpi.md
+    - RELION: recipes/relion.md
     - VSCode: recipes/vscode.md
   - Acknowledging Us: acknowledgements.md
   - Data Security and Privacy: data-security.md
