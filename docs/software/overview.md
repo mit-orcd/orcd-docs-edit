@@ -1,3 +1,7 @@
+---
+tags:
+ - Software
+---
 # Software Overview
 
 Each ORCD system has its own software stack. Many basic and commonly used software and libraries are already installed, so it is good to check before spending the time to install it yourself. This page discusses the general overview of what kinds of software are supported and points you to how to use them and what to do if what you need isn't there.

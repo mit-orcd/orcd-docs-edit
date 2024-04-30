@@ -12,7 +12,7 @@ nav:
   - Software:
     - Overview: software/overview.md
     - Modules: software/modules.md
-#    - Python: 
+    - Python: software/python.md
 #    - Julia: 
 #    - R: 
 #    - Installing Software: 

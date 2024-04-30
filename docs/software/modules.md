@@ -1,3 +1,8 @@
+---
+tags:
+ - Software
+ - Modules
+---
 # Modules
 
 Modules are a handy way to set up your environment for particular work, especially in a shared environment. They provide an easy way to load a particular version of a software, language, or compiler.
