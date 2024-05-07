@@ -25,6 +25,9 @@ For most of these options you will need to know the hostname of the node where y
     - `txe1-login.mit.edu`
 
 For more information specific to the system you are using, you can consult your system's documentation here:
+=== "Engaging"
+
+    Engaging does not have an additional documentation page.
 
 === "Satori"
 
