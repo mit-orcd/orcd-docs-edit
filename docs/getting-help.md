@@ -39,5 +39,6 @@ We host weekly office hours. Office Hours are a time when you can drop in and as
 
 | Session | Time | Location |
 | ----------- | ----------- |----------- |
-| In Person Office Hours  | Thursdays 2-3 pm | [GIS and Data Lab](https://libraries.mit.edu/data-services/gis-data-lab/) in the [Rotch Library](https://whereis.mit.edu/?go=7) (7-238) |
-| Virtual Office Hours | First, Third, and Fifth Fridays 2-3pm | Zoom, email [orcd-help@mit.edu](mailto:orcd-help@mit.edu) for the link |
+| Tuesday In Person Office Hours  | Tuesdays 10-11 am | [46-4199](https://whereis.mit.edu/?go=46) |
+| Thursday In Person Office Hours  | Thursdays 2-3 pm | [GIS and Data Lab](https://libraries.mit.edu/data-services/gis-data-lab/) in the [Rotch Library](https://whereis.mit.edu/?go=7) (7-238) |
+| Friday Virtual Office Hours | First, Third, and Fifth Fridays 2-3pm | Zoom, email [orcd-help@mit.edu](mailto:orcd-help@mit.edu) for the link |
