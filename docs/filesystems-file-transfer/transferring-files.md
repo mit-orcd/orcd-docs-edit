@@ -6,8 +6,7 @@ For most of these options you will need to know the hostname of the node where y
 
 === "Engaging"
 
-    - `eofe7.mit.edu`
-    - `eofe8.mit.edu`
+    - `eofe4.mit.edu`
     - `eofe9.mit.edu`
     - `eofe10.mit.edu`
 
