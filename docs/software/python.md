@@ -207,6 +207,10 @@ You'll also see mention of mamba environments. Mamba and conda are nearly the sa
 
 First, load a conda or Anaconda module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules.
 
+<!--
+TODO: add info about conda channels for Satori
+-->
+
 If there is no anaconda module on the system you are using, or the modules available aren't sufficient for your work, we recommend installing [miniforge](https://conda-forge.org/download/) or [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/) in your home directory (we have had the most recent success with miniforge, which is distributed by conda-forge and is packaged with mamba). It is best to avoid installing the full Anaconda as it is very big and can fill up your home directory.
 
 !!! Note
