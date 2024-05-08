@@ -25,9 +25,9 @@ There are a few different ways to install Python packages. Each ORCD system has 
 
 Python packages will need to be installed in your home directory or other directory you have write access to. There are a few different ways to do this, each with its own pros and cons. At a high level, you can:
 
-- Install packages to you home directory space using the `pip install --user` command
-- Install packages in your own Python Virtual Environment (venv)
-- Install packages in your own conda/mamba environment
+- [Install packages in your own Python Virtual Environment (venv)](#python-virtual-environments)
+- [Install packages in your own conda/mamba environment](#conda-environments)
+- [Install packages to you home directory space using the `pip install --user` command](#home-directory-install)
 
 ## Modules for Python
 
@@ -38,6 +38,13 @@ Refer to the tab below to find out more about the Python modules available on th
 === "Engaging"
 
     Some nodes on Engaging have different operating systems (OS). The newest nodes on Engaging are Rocky 8 and older nodes are Centos 7. Each OS has a different software stack, and so has different sets of Python and Anaconda modules. Both will have both Python and Anaconda modules, but will may have different names and versions. Check `module avail` for this information. Be sure the OS of the login node you are using to launch jobs matches the OS of the compute nodes you are requesting.
+
+    For Rocky 8 nodes we recommend using the miniforge module, currently available in the community software:
+
+    ```bash
+    module use /orcd/software/community/001/modulefiles/rocky8/
+    module load miniforge/23.11.0-0
+    ```
     
 === "Satori"
 
@@ -61,50 +68,13 @@ Refer to the tab below to find out more about the Python modules available on th
 
     OpenMind has both Anaconda and miniconda modules available. They have some of the most commonly used packages already installed.
 
-## Home Directory Install
-
-First, load a Python or Anaconda module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules.
-
-Then, install the package with pip using the `--user` flag:
-
-```bash
-pip install --user packageName
-```
-
-Where `packageName` is the name of the package that you are installing.
-
-With `pip install --user` you are installing a single package and any missing dependencies. Pip will see any packages already installed in the central Python installation and won’t reinstall those as log as they satisfy the dependency requirements. These get installed to:
-
-```
-$HOME/.local/lib/pythonV.V/site-packages
-```
-
-This location is usually first in Python’s package search path, so Python will pick up any libraries installed here before centrally installed ones. The exceptions are:
-
-- If you have the `PYTHONPATH` environment variable set, that location will be searched first
-- You have the `PYTHONNOUSERSITE` environment variable set to True, this tells Python to remove it from the path
-
-### Pros and Cons for .local Install
-
-Pros
-
-- The installs are usually pretty easy
-- Only installs what is absolutely needed, allowing Python to use centrally installed packages
-
-Cons
-
-- Keeping and tracking a consistent environment is harder, not great for package development or working on different projects with conflicting requirements
-- Everything you’ve installed is always in your environment, which can cause two issues:
-    - The space can eventually get “dirty” or “corrupted”, the easiest fix is to delete or rename `$HOME/.local` and start again
-    - You can run into package dependency conflict issues, which could be fixed by uninstalling packages no longer needed or by deleting or renaming `$HOME/.local` and starting again
-
 ## Python Virtual Environments
 
-Environments allow you to make self-contained “bundles” of packages that can be loaded and unloaded. This helps keep a consistent set of packages and versions for a given project, rather than putting them all together like they would be in .local. Python virtual environments can be placed anywhere you have write access to and have all their packages in that environment’s directory structure.
+Environments allow you to make self-contained “bundles” of packages that can be loaded and unloaded. This helps keep a consistent set of packages and versions for a given project, rather than putting them all together like they would be in [.local](#home-directory-install). Python virtual environments can be placed anywhere you have write access to and have all their packages in that environment’s directory structure.
 
 ### Creating Python Virtual Environments
 
-To create a new environment, first load a Python or Anaconda module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules.
+To create a new environment, first load a Python or Anaconda module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules. See [Modules for Python](#modules-for-python) above for information about specific modules for the system you are using.
 
 To create a the environment use the `python -m venv` command: 
 
@@ -121,7 +91,7 @@ python3 -m venv my_project_env
 
 This will create an environment at the path `~/my_project/my_project_env`.
 
-By default environments will be fully isolated, Python will only see the packages you've installed in the environment. You can signal your virtual environment to "see" system installed packages by using the flag `--system-site-packages` when creating the environment. This is useful when the module you are using has packages already installed. For example:
+By default environments will be fully isolated and Python will only see the packages you've installed in the environment. You can signal your virtual environment to "see" system installed packages by using the flag `--system-site-packages` when creating the environment. This is useful when the module you are using has packages already installed. For example:
 
 ```bash
 python3 -m venv --system-site-packages my_project_env
@@ -278,6 +248,44 @@ Cons
 - Can not be set to build “on top of” the central installation packages, which means basic package will be re-installed in your home directory.
 - Can get very large and take up a lot of space in your home directory.
 - It can sometimes be slower than other options.
+
+## Home Directory Install
+
+First, load a Python or Anaconda module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules.
+
+Then, install the package with pip using the `--user` flag:
+
+```bash
+pip install --user packageName
+```
+
+Where `packageName` is the name of the package that you are installing.
+
+With `pip install --user` you are installing a single package and any missing dependencies. Pip will see any packages already installed in the central Python installation and won’t reinstall those as log as they satisfy the dependency requirements. These get installed to:
+
+```
+$HOME/.local/lib/pythonV.V/site-packages
+```
+
+This location is usually first in Python’s package search path, so Python will pick up any libraries installed here before centrally installed ones. The exceptions are:
+
+- If you have the `PYTHONPATH` environment variable set, that location will be searched first
+- You have the `PYTHONNOUSERSITE` environment variable set to True, this tells Python to remove it from the path
+
+### Pros and Cons for .local Install
+
+Pros
+
+- The installs are usually pretty easy
+- Only installs what is absolutely needed, allowing Python to use centrally installed packages
+
+Cons
+
+- Keeping and tracking a consistent environment is harder, not great for package development or working on different projects with conflicting requirements
+- Everything you’ve installed is always in your environment, which can cause two issues:
+    - The space can eventually get “dirty” or “corrupted”, the easiest fix is to delete or rename `$HOME/.local` and start again
+    - You can run into package dependency conflict issues, which could be fixed by uninstalling packages no longer needed or by deleting or renaming `$HOME/.local` and starting again
+
 
 ## Troubleshooting Python Package Issues
 
