@@ -10,9 +10,11 @@ Each ORCD system has its own software stack. Many basic and commonly used softwa
 
 While the software stack will be different on each system, there are three general classes of software:
 
-- Core: Commonly used or fundamental software and libraries that are fully supported. Core software is expected to work until it is officially deprecated, and often newer versions are provided to replace them.
-- Community: Software that has been built and installed by request, but is not commonly used. Support is on a best-effort basis. Should work when built but not guaranteed to work indefinitely or replaced with newer versions when deprecated, except by request.
-- Deprecated: Software that is no longer supported or expected to work. May be kept for legacy reasons, or will soon be removed. If software you are using is listed as deprecated or soon to be deprecated migrate to the newer version (if available) or request a newer version (if not available). If migrating to a newer version is not an option you may be able to run your application with Singularity.
+| Category  | Description |
+|-----------|-------------|
+| _Core_      | Commonly used or fundamental software and libraries that are fully supported. Core software is expected to work until it is officially deprecated, and often newer versions are provided to replace them. |
+| _Community_ | Software that has been built and installed by request, but is not commonly used. Support is on a best-effort basis. Should work when built but not guaranteed to work indefinitely or when replaced with newer versions when deprecated, except by request. |
+| _Deprecated_ | Software that is no longer supported or expected to work. May be kept for legacy reasons, or will soon be removed. If software you are using is listed as deprecated or soon to be deprecated migrate to the newer version (if available) or request a newer version (if not available). If migrating to a newer version is not an option you may be able to run your application with Singularity. |
 
 Each individual ORCD system may not label or organize their software in this way. However, this is the support model that will be used going forward. Engaging, in particular, will organize its software in this way.
 
