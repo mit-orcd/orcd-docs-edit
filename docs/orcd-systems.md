@@ -72,7 +72,7 @@ You can get an account by logging into [https://satori-portal.mit.edu](https://s
 ## SuperCloud
 
 The SuperCloud system is a collaboration with MIT Lincoln Laboratory on a shared facility that 
-is optimized for streamlining open research collaborations with Lincoln Laboratory. The facility 
+is optimized for streamlining open research collaborations with Lincoln Laboratory  (e.g.,  [AIA](https://aia.mit.edu/research/), [BW](https://beaverworks.ll.mit.edu/CMS/bw/collaborators), [CQE](https://cqe.mit.edu/people/), [Haystack](https://www.haystack.mit.edu/haystack-directory/), [HPEC](https://ieee-hpec.org/index.php/technical-committee/), [ISN](https://isn.mit.edu/people)). The facility 
 is open to everyone on campus. The latest SuperCloud system has more than 16,000 x86 CPU cores 
 and more than 850 NVidia Volta GPUs in total. Hardware access is through the Slurm resource 
 scheduler that supports batch and interactive workloads and allows dedicated reservations. A wide 
