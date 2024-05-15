@@ -25,9 +25,11 @@ There are a few different ways to install Python packages. Each ORCD system has 
 
 Python packages will need to be installed in your home directory or other directory you have write access to. There are a few different ways to do this, each with its own pros and cons. At a high level, you can:
 
-- [Install packages in your own Python Virtual Environment (venv)](#python-virtual-environments)
+- [Install packages in your own Python virtual environment (venv)](#python-virtual-environments)
 - [Install packages in your own conda/mamba environment](#conda-environments)
 - [Install packages to you home directory space using the `pip install --user` command](#home-directory-install)
+
+Which should you use? That can depend on a lot of things. Our recommendation will usually depend on the system, what you are doing, and which packages your are installing. [Python virtual environments](#python-virtual-environments) tend to be a good all-around option as a starting point. With them you can stay organized with environments, but they don't tend to take up as much space or create as many files as conda or mamba environments. Read through the pros and cons for each, they are meant to help make a decision.
 
 ## Modules for Python
 
