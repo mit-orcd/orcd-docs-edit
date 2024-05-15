@@ -29,7 +29,7 @@ Python packages will need to be installed in your home directory or other direct
 - [Install packages in your own conda/mamba environment](#conda-environments)
 - [Install packages to you home directory space using the `pip install --user` command](#home-directory-install)
 
-Which should you use? That can depend on a lot of things. Our recommendation will usually depend on the system, what you are doing, and which packages your are installing. [Python virtual environments](#python-virtual-environments) tend to be a good all-around option as a starting point. With them you can stay organized with environments, but they don't tend to take up as much space or create as many files as conda or mamba environments. Read through the pros and cons for each, they are meant to help make a decision.
+Which should you use? That can depend on a lot of things. Our recommendation will usually depend on the system, what you are doing, and which packages your are installing. [Python virtual environments](#python-virtual-environments) tend to be a good all-around option as a starting point. With them you can stay organized with environments, but they don't tend to take up as much space or create as many files as conda or mamba environments. Read through the pros and cons for each, they are meant to help you see when one might be better than another.
 
 ## Modules for Python
 
