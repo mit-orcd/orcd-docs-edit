@@ -48,7 +48,7 @@ Search for a container that provides your desired operating system and software 
 
 Here is an example of downloading a container from Docker Hub to support Pytorch. 
 ```
-$ apptainer build --sandbox my-container  docker://bitnami/pytorch:latest
+apptainer build --sandbox my-container  docker://bitnami/pytorch:latest
 ```
 
 The command `build` here does nothing but download and convert. The flag `--sandbox` is to convert the container to the Sandbox format, which is convenient for adding more packages in step 4. If no more package is needed, remove the `--sandbox` flag. 
@@ -135,4 +135,4 @@ The flag `--writable` is to enable permission to modify the container.
     The `sudo` command is not needed here. 
 
 
-## Build a Docker image and run with Apptainer
+## Build a Docker image and run it with Apptainer
