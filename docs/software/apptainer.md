@@ -2,6 +2,7 @@
 tags:
  - Engaging
  - OpenMind
+ - SuperCloud
  - Apptainer
  - Singularity
  - Howto Recipes
