@@ -15,7 +15,7 @@ Container provides an isolated environment that supports user applications. In m
 The most famous container is Docker, which is designed for laptops/desktops and cloud platforms. Here we will mostly focus on another kind of conatainer Apptainer and Singularity, which are particularly designed for HPC culsters. Apptainer is an extension of Singularity. Both are compatible with Docker.  
 
 !!! note 
-   In the following, the terminology Apptainer will be used. The statements hold if the word Apptainer is replaced by Singularity in most cases. 
+    In the following, the terminology Apptainer will be used. The statements hold if the word Apptainer is replaced by Singularity in most cases. 
 
 Users can use Apptainer to support many applications, such as Python, R, Julia, compiling C/Fortran packages, and many GUI software. In particular, container is polular in supporting Python pakcages for the artificial intelligence and data science communities, such as Pytorch, Tensorflow, and many others. 
 
@@ -54,7 +54,7 @@ $ apptainer build --sandbox my-container  docker://bitnami/pytorch:latest
 The command `build` here does nothing but download and convert. The flag `--sandbox` is to convert the container to the Sandbox format, which is convenient for adding more packages in step 4. If no more package is needed, remove the `--sandbox` flag. 
 
 !!! note 
-   All the `apptainer` commands on this page can be replaced by the `singularity` command. They work the same. 
+    All the `apptainer` commands on this page can be replaced by the `singularity` command. They work the same. 
 
 
 ### 3. Run your application in the container
@@ -63,7 +63,7 @@ If the container already provides all the needed software, you can run your appl
 
 For example, shell into the container and run your application (Pytorch here).  
 ```
-$ apptainer shell my-container
+apptainer shell my-container
 Apptainer> python
 Python 3.8.17 (default, Jun 16 2023, 21:48:21) 
 [GCC 10.2.1 20210110] on linux
@@ -82,12 +82,57 @@ apptainer shell -B /om,/om2 my-container
 ```
 
 !!! note 
-   Use the flag `--nv` to provide GPU support in the container when needed. 
+    Use the flag `--nv` to provide GPU support in the container when needed. 
 
+
+### 4. Submit a batch job to use Apptainer 
+
+When the test is successful, it is recommended to submit a batch job to run your program, 
+```
+sbatch job.sh
+```
+
+Here is a typical batch job script (e.g. named `job.sh`):
+```
+#!/bin/bash                      
+#SBATCH -t 01:30:00                  # walltime = 1 hours and 30 minutes
+#SBATCH -N 1                         #  one node
+#SBATCH -n 2                         #  two CPU (hyperthreaded) cores
+#SBATCH --gres=gpu:1                 #  one GPU
+#SBATCH --constraint=high-capacity   #  high-capacity GPU
+module load openmind8/apptainer/1.1.7                    # load a singularity module
+apptainer exec --nv -B /om,/om2  my-container python my-code.py    # Run the job steps 
+```
+Fill in the container name including the full path. 
+
+!!! note
+    Here shows an example of Python. Other applications are used in similar ways.  
 
 
 ## Build Apptainer images
 
+
+
+It often happens that some needed packages do not exist in the originally downloaded base container. In this case, build these packages in the base container. 
+
+Contiue from step 3. 
+
+For example, if you want to use Pandas together with Pytorch, build it like this,
+```
+$ apptainer shell --writable my-container
+Apptainer> apt-get update
+Apptainer> pip install pandas
+Apptainer> python 
+Python 3.8.17 (default, Jun 16 2023, 21:48:21) 
+[GCC 10.2.1 20210110] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import pandas as pd
+```
+
+The flag `--writable` is to enable permission to modify the container. 
+
+??? note
+    The `sudo` command is not needed here. 
 
 
 ## Build a Docker image and run with Apptainer
