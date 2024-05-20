@@ -15,7 +15,7 @@ Container provides an isolated environment that supports user applications. In m
 The most famous container is Docker, which is designed for laptops/desktops and cloud platforms. Here we will mostly focus on another kind of conatainer Apptainer and Singularity, which are particularly designed for HPC culsters. Apptainer is an extension of Singularity. Both are compatible with Docker.  
 
    !!! note 
-       In the following, the terminology Apptainer will be used. The statements hold if the word Apptainer is replaced by Singularity in most cases. 
+      In the following, the terminology Apptainer will be used. The statements hold if the word Apptainer is replaced by Singularity in most cases. 
 
 Users can use Apptainer to support many applications, such as Python, R, Julia, compiling C/Fortran packages, and many GUI software. In particular, container is polular in supporting Python pakcages for the artificial intelligence and data science communities, such as Pytorch, Tensorflow, and many others. 
 
@@ -26,7 +26,23 @@ This document is a tutorial for using Apptianer on ORCD clusters.
 
 
 === "OpenMind"
-   a 
+
+### 1. Preparations
+
+Get an interactive session on a compute node with the Rocky 8 system.
+```
+srun -t 500 --constraint=rocky8 -c 4 --mem=10G --pty bash
+```
+Check available Apptainer versions on Openmind,
+```
+module av openmind8/apptainer
+```
+Load an Apptainer module,
+```
+module load openmind8/apptainer/1.1.7
+```
+
+### 2. Download an existing container
 
 
 ## Build Apptainer images
