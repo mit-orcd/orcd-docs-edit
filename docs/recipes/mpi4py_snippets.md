@@ -20,7 +20,7 @@ If you use an Anaconda module, no installation is required.
 
 If you want to use Anaconda in your directory, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then install `mpi4py`, 
 ```
-conda install -c conda-forge mpi4py
+--8<-- "https://github.com/mit-orcd/orcd-docs-edit/raw/kn/snippets/docs/recipes/snippets-setup/mpi4py/mpi4py_setup.sh"
 ```
 
 ### Run Mpi4py
@@ -44,6 +44,6 @@ Prepare a job script. The following is a job script for running `mpi4py` codes o
 
 Finally submit the job,
 ```
-sbatch p2p-job.sh
+--8<-- "https://github.com/mit-orcd/orcd-docs-edit/raw/kn/snippets/docs/recipes/snippets-setup/mpi4py/mpi4py_submit.sh"
 ```
 

@@ -5,7 +5,7 @@ tags:
  - Howto Recipes
  - MuJoCo_Snippets
 ---
-# Installing and Using MuJoCo Snippets
+# Installing and Using MuJoCo (Snippets)
 
 MuJoCo is a free and open source physics engine that aims to facilitate research and development in robotics, biomechanics, graphics and animation, and other areas where fast and accurate simulation is needed.
 
@@ -186,11 +186,5 @@ module load anaconda/2022a
 source $MUJOCO_ENV/bin/activate
 
 python mujoco_test.py
-```
-``` python
---8<-- "https://raw.githubusercontent.com/kcnakamu/ORCD-Buildkite/main/snippet.py:func"
-```
-```python
---8<-- "https://raw.githubusercontent.com/kcnakamu/ORCD-Buildkite/main/snippet.py:use"
 ```
 
