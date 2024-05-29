@@ -44,6 +44,6 @@ Prepare a job script. The following is a job script for running `mpi4py` codes o
 
 Finally submit the job,
 ```
---8<-- "https://github.com/mit-orcd/orcd-docs-edit/raw/kn/snippets/docs/recipes/snippets-setup/mpi4py/mpi4py_submit.sh"
+--8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/submit.sh"
 ```
 
