@@ -10,22 +10,26 @@ tags:
 
 # Apptainer and Singularity
 
-Container provides an isolated environment that supports user applications. In many cases, it is helpful to use container to obtain the needed environment for your applications on HPC clusters, so as to avoid installing too many dependencies. Container has great portability and mobility, that says, it is convenient to migrate your applications bewtween different platforms, such as laptops/desktops, cloud platforms and HPC clusters. 
+Container provides an isolated environment that supports user applications. In many cases, it is helpful to use container to obtain the needed environment for your applications on HPC clusters, so as to avoid installing too many dependencies. 
 
-The most famous container is Docker, which is designed for laptops/desktops and cloud platforms. Here we will mostly focus on another kind of conatainer Apptainer and Singularity, which are particularly designed for HPC culsters. Apptainer is an extension of Singularity. Both are compatible with Docker.  
+Container has great portability and mobility, that says, it is convenient to migrate your applications bewtween different platforms, such as laptops/desktops, cloud platforms and HPC clusters. 
+
+The most widely used container is Docker, which is designed for laptops/desktops and cloud platforms. On ORCD clusters, we use another kind of conatainer: Apptainer and Singularity, which are particularly designed for high-perfromance computing. Apptainer is extended from Singularity. Both are compatible with Docker. 
 
 !!! note 
-    In the following, the terminology Apptainer will be used. The statements hold if the word Apptainer is replaced by Singularity in most cases. 
+    In the following, the terminology Singularity will be used. The statements hold if it is replaced by  Apptainer in most cases. 
 
-Users can use Apptainer to support many applications, such as Python, R, Julia, compiling C/Fortran packages, and many GUI software. In particular, container is polular in supporting Python pakcages for the artificial intelligence and data science communities, such as Pytorch, Tensorflow, and many others. 
+Users can use Singularity to support many applications, such as Python, R, Julia, compiling C/Fortran packages, and many GUI software. In particular, container is polular in supporting Python pakcages for the artificial intelligence and data science communities, such as Pytorch, Tensorflow, and many others. 
 
-This document is a tutorial for using Apptianer on ORCD clusters.
+In this docuemnt, the first several sections are focused on how to use Singularity on ORCD clusters. The last section will be focused on how to build Docker image on your laptop and migrate it to ORCD clusters. 
 
 
 ## Run programs with Apptainer
 
-
 === "OpenMind"
+
+A typical workflow to use a Singularity container on ORCD cluster is the following. First, many applications are well-supported in existing Apptainer or Docker images. Search for an image on Docker Hub, in which the needed applicaiton has already been installed by some developers, then download and use it directly. If there is no suitable image for the needed application, you can build an image. Here is the step-by-step how-to document. 
+
 
 ### 1. Preparations
 
