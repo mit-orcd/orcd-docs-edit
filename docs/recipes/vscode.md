@@ -49,7 +49,7 @@ To run on a compute node you will need at least 2 entries in this file. The firs
     ```
 
     !!! note
-        To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to this [guide](https://mit-supercloud.github.io/supercloud-docs/requesting-account/#generating-ssh-keys).
+        To use VSCode on a compute node, an SSH key is necessary. While Satori documentation is unavailable, you can follow the same steps as outlined on [Engaging](https://engaging-web.mit.edu/eofe-wiki/ssh_keys/ssh_key/).
 
 === "Open Mind"
 
