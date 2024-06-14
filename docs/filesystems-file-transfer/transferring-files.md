@@ -236,4 +236,19 @@ For documentation on how to download and transfer files on the SuperCloud Web Po
 
 If you are using Engaging or Satori, you can use the file browser by selecting Files -> Home Directory in the menu bar at the top of the page. You can drag and drop files into and out of this page or use the "Upload" and "Download" buttons. Select multiple files by holding the Control (or Command) key and clicking on the files you'd like to select. Those files can then be downloaded with the "Download" button.
 
+## Globus
+
+Globus is a tool that helps transfer data between designated endpoints. These transfers can be initiated through the Globus webpage, don't require staying logged in through the entire transfer, and will restart automatically if something fails during the transfer. There are endpoints on a few ORCD systems with basic Globus features. Please note that these basic Globus endpoints will transfer data unencrypted. An MIT Globus subscription with more features is coming soon!
+
+To transfer data log into [Globus](https://www.globus.org/) with your MIT credentials. On the "File Manager" tab in one of the two "Collection" boxes search for the endpoint for the system you want to transfer data to or from. The column on the left should list where you want to transfer from, the column on the right should list where you want to transfer to. Endpoints on ORCD systems are listed below.
+
+| System | Globus Endpoint | 
+| ----------- | ----------- |
+| Engaging | mithpc#engaging | 
+| Satori | mithpc#satori | 
+| OpenMind | mithpc#openmind | 
+
+To transfer data to or from your own computer you will need to set up a personal endpoint. Follow the instructions on the page for your system listed [here](https://docs.globus.org/globus-connect-personal/).
+
+More documentation on transferring files through Globus can be found on the [Globus Documentation Pages](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/).
 
