@@ -67,9 +67,9 @@ The `my-image.sif` is the name of the image. You can name it as you like.
 
 ### Run a program interactively
 
-When the image is ready, launch a container based on the image and then run your application in the container. If you want to work interactively to test and debug codes, it is convineient to shell into the container, for exmaple, 
+When the image is ready, launch a container based on the image and then run your application in the container. If you want to work interactively to test and debug codes, it is convineient to log in the containe shell, for exmaple, 
 ```
-$ singularity my-image.sif 
+$ singularity shell my-image.sif 
 Apptainer> python
 Python 3.11.9 (main, May 13 2024, 16:49:42) [GCC 12.2.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
@@ -96,7 +96,7 @@ When the tests are completed, it is recommended to submit a batch job to run you
 #SBATCH -n 2                         #  two CPU cores
 
 module load openmind8/apptainer/1.1.7      # load an apptainer module
-singularity exec my-image.sif python my-code.py   # Run the job steps 
+singularity exec my-image.sif python my-code.py   # Run the program 
 ```
 
 The last line is a command to run a Python program uisng Singularity.  
@@ -129,7 +129,7 @@ In summary, a common used syntax to run a program with Singularity is the follow
 ```
 singularity exec [--nv] [-B <path-to-data>] <image-name> <executable-name> [source-code-name]
 ```
-The terms in `<>` are must-needed while the term in `[]` is optional, dependeing on the program. 
+The terms in `<>` are must-needed while the term in `[]` is optional, dependeing on use cases. 
 
 Here is an example job script to run a python program with a GPU and data files,
 ```
@@ -140,30 +140,27 @@ Here is an example job script to run a python program with a GPU and data files,
 #SBATCH --gres=gpu:1        #  one GPU
 
 module load openmind8/apptainer/1.1.7        # load an apptainer module
-singularity exec --nv -B /om,om2 my-image.sif python my-code.py  # Run the job steps 
+singularity exec --nv -B /om,om2 my-image.sif python my-code.py  # Run the program
 ```
 
 ## Build Singualrity images
 
-It is assumed in the previous section that all needed packages have been installed in the image, but when some needed packages do not exist in the image, users need to build an image. 
+In the previous section, it is assumed that all needed packages have been installed in the image. If some needed packages do not exist in the image, users need to build a new image. 
 
-Frist, search on [Docker Hub](https://hub.docker.com/) for an image with operating system and software stack that supports your target application the best. Use it as a base image and then build your target application on top of it. 
+To save work for the building process, search for an image providing the right OS and necessary dependnecies to support your target application, then use it as a base image and build your target application on top of it. 
 
+The following is an example for building Python packages such as Pytorch and Pandas in a container image. 
 
-In the following, an example to build pandas on top of pytorch. 
-
-for exmaple. Here is an example for downloading an image to support Pytorch. 
+First, download a Docker image that provdies the Ubuntu OS and have Python and Pytorch installed already,
 ```
-apptainer build --sandbox my-container  docker://bitnami/pytorch:latest
+apptainer build --sandbox my-image  docker://bitnami/pytorch:latest
 ```
 
-The command `build` here does nothing but download and convert. The flag `--sandbox` is to convert the container to the Sandbox format, which is convenient for adding more packages in step 4. If no more package is needed, remove the `--sandbox` flag. 
+The command `build` here does not build anything yet, but just downloads the image. The flag `--sandbox` is to convert the image file to the Sandbox format, which is convenient for installing packages interactively. 
 
-Contiue from step 3. 
-
-For example, if you want to use Pandas together with Pytorch, build it like this,
+Log in the container shell, then you can install system packages using `apt-get` as is on an Ubuntu machine and build Python packages using `pip install`, taking Pandas for example, 
 ```
-$ apptainer shell --writable my-container
+$ apptainer shell --writable my-image
 Apptainer> apt-get update
 Apptainer> pip install pandas
 Apptainer> python 
@@ -173,15 +170,11 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> import pandas as pd
 ```
 
-The flag `--writable` is to enable permission to modify the container. 
+The flag `--writable` is to enable the write permission to modify files in the container. 
 
 ??? note
-    The `sudo` command is not needed here. 
+    We will install the `fakeroot` pakcage on the cluster, so that users can build images without the `sudo` command. 
 
-Fakeroot for apt-get.
+Once the needed package are built in the image, you can use it as was shown in the preivious sections. 
 
-Other ways. 
-Build an image on other machines and run it with Singularity on the clusters. 
-Build a Docker image on your MAC or PC. 
-Build a Singularity image on your Linux machine.
-
+Alternatively, you can build a container image on other machines on which you have `root` or `sudo` access. One way is to build a Docker image on a laptop/desktop such as MAC or PC. Another way is to build a Singularity image on a Linux machine that has Apptainer/Singularity installed. Once the image is built completely, transfer it to the cluster, and run it with Singularity.
