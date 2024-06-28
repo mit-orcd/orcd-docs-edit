@@ -10,32 +10,32 @@ tags:
 
 # Apptainer and Singularity
 
-Container provides an isolated environment that supports user applications. In many cases, it is helpful to use a container to obtain the environment for your applications on HPC clusters, so as to avoid installing too many dependencies.
+Container provides an isolated environment that supports user applications. In many cases, it is helpful to use a container to obtain the right environment for your applications on HPC clusters, so as to avoid installing too many dependencies.
 
 Container has great portability and mobility, that says, it is convenient to migrate your applications bewtween different platforms, such as laptops/desktops, cloud platforms and HPC clusters. 
 
-The most well known container is Docker, which is designed for laptops/desktops and cloud platforms. On ORCD clusters, we use Apptainer and Singularity, which are particularly designed for high-perfromance computing. Apptainer is extended from Singularity. Both are compatible with Docker. 
+The most well known container is Docker, which is designed for laptops/desktops and cloud platforms. On ORCD clusters, we use Apptainer and Singularity instead, which are particularly designed for high-perfromance computing. Apptainer is extended from Singularity. Both are compatible with Docker. 
 
 !!! note 
-    In the following, the terminology Singularity will be used in most cases. The statements hold if the words Singularity and Apptainer are switched. 
+    In the following, the terminology Singularity will be used in most cases. The statements hold if the terminologies Singularity and Apptainer are switched. 
 
-Users can use Singularity to support many applications, such as Python, R, C/Fortran packages, and many GUI software. In particular, container is polular in supporting Python pakcages for the artificial intelligence (AI) and data science communities, such as Pytorch, Tensorflow, and many others. The Ubuntu operating system (OS) is widely use in the AI community and it is convinent to install many AI appications in Ubuntu enviroenment. Users can use Singularity to obtain Ubuntu OS other than Rocky 8 OS on the host cluster.
+Users can use Singularity to support many applications, such as Python, R, C/Fortran packages, and many GUI software. In particular, container is polular in supporting Python pakcages for the artificial intelligence (AI) and data science communities, such as Pytorch, Tensorflow, and many others. The Ubuntu operating system (OS) is widely used in the AI community and it is convinent to install many AI appications in Ubuntu enviroenment. Users can use Singularity to obtain Ubuntu OS other than Rocky 8 OS on the host cluster.
 
 In this docuemnt, we will focuse on how to use Singularity on ORCD clusters. A typical workflow to use Singularity on ORCD cluster is the following. First, many applications are well-supported in existing Docker images. Search for an image on the internet, in which your target applicaiton has already been installed by some developers, then download the image and use it directly. If there is no suitable image for your target application, you can build an image to support it.
 
 !!! note 
-    Image is a file to support container. Users can launch a containter from an image. 
+    An image is a file to support container. Users can launch a containter based on an image.
 
 
 ## Run applications with Singularity
 
 === "OpenMind"
 
-Let us start with running an application with Singularity on the cluster frist. 
+Let us start with running an application with Singularity on the cluster first. 
 
-### 1. Preparations
+### Preparations
 
-As Singularity needs computing resources, alwways start with getting an interactive session on a compute node with the Rocky 8 OS,
+As a certain amount of computing resources are required to run Singularity, alwways start with getting an interactive session on a compute node,
 ```
 srun -t 500 --constraint=rocky8 -c 4 --mem=10G --pty bash
 ```
@@ -49,79 +49,110 @@ module load openmind8/apptainer/1.1.7
 ```
 
 !!! note 
-    Apptainer supports both apptainer and singularity commands.
+    1. Do not run Singularity on the head nodes, as there is CPU usage limit on the head nodes.
+    2. The `constraint=rocky8` is to request a node with the Rocky 8 OS. 
+    3. Apptainer modules support both apptainer and singularity commands.
 
+### Download an image
 
-### 2. Download an image
-
-Search for an image that provides your target application, for exmaple on [Docker Hub](https://hub.docker.com/). Here is an example for downloading an Docker image to support Pytorch. 
+Search for an image that provides your target application, for exmaple on [Docker Hub](https://hub.docker.com/). Here is an example for downloading a Docker image to support Pytorch,
 ```
-singularity pull pytorch.sif docker://bitnami/pytorch:latest
+singularity pull my-image.sif docker://bitnami/pytorch:latest
 ```
-The `pytorch.sif` is the name of the image. You can name it as you like. 
+The `my-image.sif` is the name of the image. You can name it as you like. 
 
 !!! note 
-    When using an Apptainer module, the `singularity` file is a soft link to an executable named `apptainer`, so all `singularity` commands on this page can be replaced by the `apptainer` command. They work the same. 
+    In Apptainer, the file named `singularity` is a soft link to an executable named `apptainer`, so all `singularity` commands on this page can be replaced by the `apptainer` command. They work the same. 
 
 
-### 3. Run your application in the container
+### Run a program interactively
 
-When the image is ready, launch a container from the image and then run your application. For example, shell into the container and run your codes interactively,  
+When the image is ready, launch a container based on the image and then run your application in the container. If you want to work interactively to test and debug codes, it is convineient to shell into the container, for exmaple, 
 ```
-$ singularity shell pytorch.sif 
+$ singularity my-image.sif 
 Apptainer> python
 Python 3.11.9 (main, May 13 2024, 16:49:42) [GCC 12.2.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import torch
->>> # Run your codes here.
+>>> # Run your programs here.
 ```
 
-Alternatively, execute a command to run your codes in the container, 
+Alternatively, execute a command in the container to run your programs, 
 ```
-singularity exec pytorch.sif python my-code.py
-```
-
-### 4. Submit a batch job to use Apptainer 
-
-When the test run process is completed, it is recommended to submit a batch job to run your program, 
-```
-sbatch job.sh
+singularity exec my-image.sif python my-code.py
 ```
 
-Here is a typical batch job script (e.g. named `job.sh`):
+Use the full path to the image file if it is not in the current directory. 
+
+The `python` here is installed in the container and has nothing to do with the `python` or `anaconda` modules that have been installed on the host. As the python environment in the container provides all pacakges you need, you don't need to install any python packages and their dependecies. Now you can see the advantage of using a conatainer. 
+
+### Submit a batch job
+
+When the tests are completed, it is recommended to submit a batch job to run your program in the background. Here is a typical batch job script (e.g. named `job.sh`):
 ```
 #!/bin/bash                      
 #SBATCH -t 01:30:00                  # walltime = 1 hours and 30 minutes
 #SBATCH -N 1                         #  one node
-#SBATCH -n 2                         #  two CPU (hyperthreaded) cores
-#SBATCH --gres=gpu:1                 #  one GPU
-#SBATCH --constraint=high-capacity   #  high-capacity GPU
-module load openmind8/apptainer/1.1.7                     # load a singularity module
-apptainer exec --nv -B /om,/om2  pytorch.sif python my-code.py    # Run the job steps 
-```
-Use the full path if the image file is not in the current directory. 
+#SBATCH -n 2                         #  two CPU cores
 
-!!! note
-    Here shows an example of Python. Other applications are similar.  
-
-
-## More on using Singularity
-
-By default, the home directory and the `/tmp` directory are bound to the container. The `/om` or `/om2` directories are often used to store data, bind them using `-B` when needed,
-```
-apptainer shell -B /om,/om2 my-container
+module load openmind8/apptainer/1.1.7      # load an apptainer module
+singularity exec my-image.sif python my-code.py   # Run the job steps 
 ```
 
-!!! note 
-    Use the flag `--nv` to provide GPU support in the container when needed. 
+The last line is a command to run a Python program uisng Singularity.  
+
+Submit the job script using `sbatch`,
+```
+sbatch job.sh
+```
+
+### More on using Singularity
+
+In many cases, GPUs are needed to accelerate programs. As the GPU driver is installed on the host, use the flag `--nv` to pass necessary GPU driver libbaries into the container, so that the program can "see" the GPUs in the container. 
+
+Check if GPUs are available in a container,
+```
+singularity exec --nv my-image.sif nvidia-smi
+```
+
+Here is an exmaple to run Python programs on GPUs.
+```
+singularity exec --nv my-image.sif python my-code.py  
+```
+
+By default, the home directory and the `/tmp` directory are bound to the container. The `/om` or `/om2` directories are often used to store data files. If your programs read/write data files in these directories, bind them to the container using the flag `-B`,
+```
+singularity exec -B /om,om2 my-image.sif python my-code.py  
+```
+
+In summary, a common used syntax to run a program with Singularity is the following,
+```
+singularity exec [--nv] [-B <path-to-data>] <image-name> <executable-name> [source-code-name]
+```
+The terms in `<>` are must-needed while the term in `[]` is optional, dependeing on the program. 
+
+Here is an example job script to run a python program with a GPU and data files,
+```
+#!/bin/bash                      
+#SBATCH -t 01:30:00         # walltime = 1 hours and 30 minutes
+#SBATCH -N 1                #  one node
+#SBATCH -n 2                #  two CPU cores
+#SBATCH --gres=gpu:1        #  one GPU
+
+module load openmind8/apptainer/1.1.7        # load an apptainer module
+singularity exec --nv -B /om,om2 my-image.sif python my-code.py  # Run the job steps 
+```
 
 ## Build Singualrity images
 
-It often happens that some needed packages do not exist in the originally downloaded base container. In this case, build these packages in the base container. 
+It is assumed in the previous section that all needed packages have been installed in the image, but when some needed packages do not exist in the image, users need to build an image. 
 
-Search for an image with the operating system and software stack that supports your target application the best. 
+Frist, search on [Docker Hub](https://hub.docker.com/) for an image with operating system and software stack that supports your target application the best. Use it as a base image and then build your target application on top of it. 
 
-Search for an image that provides your target application, for exmaple on [Docker Hub](https://hub.docker.com/). Here is an example for downloading an image to support Pytorch. 
+
+In the following, an example to build pandas on top of pytorch. 
+
+for exmaple. Here is an example for downloading an image to support Pytorch. 
 ```
 apptainer build --sandbox my-container  docker://bitnami/pytorch:latest
 ```
@@ -149,8 +180,8 @@ The flag `--writable` is to enable permission to modify the container.
 
 Fakeroot for apt-get.
 
+Other ways. 
 Build an image on other machines and run it with Singularity on the clusters. 
-
 Build a Docker image on your MAC or PC. 
 Build a Singularity image on your Linux machine.
 
