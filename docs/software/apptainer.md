@@ -19,7 +19,7 @@ The most well known container is Docker, which is designed for laptops/desktops 
 !!! note 
     In the following, the terminology Singularity will be used in most cases. The statements hold if the words Singularity and Apptainer are switched. 
 
-Users can use Singularity to support many applications, such as Python, R, Julia, C/Fortran packages, and many GUI software. In particular, container is polular in supporting Python pakcages for the artificial intelligence and data science communities, such as Pytorch, Tensorflow, and many others. 
+Users can use Singularity to support many applications, such as Python, R, C/Fortran packages, and many GUI software. In particular, container is polular in supporting Python pakcages for the artificial intelligence (AI) and data science communities, such as Pytorch, Tensorflow, and many others. The Ubuntu operating system (OS) is widely use in the AI community and it is convinent to install many AI appications in Ubuntu enviroenment. Users can use Singularity to obtain Ubuntu OS other than Rocky 8 OS on the host cluster.
 
 In this docuemnt, we will focuse on how to use Singularity on ORCD clusters. A typical workflow to use Singularity on ORCD cluster is the following. First, many applications are well-supported in existing Docker images. Search for an image on the internet, in which your target applicaiton has already been installed by some developers, then download the image and use it directly. If there is no suitable image for your target application, you can build an image to support it.
 
