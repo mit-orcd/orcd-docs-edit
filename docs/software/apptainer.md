@@ -156,7 +156,7 @@ First, download a Docker image that provdies the Ubuntu OS and have Python and P
 apptainer build --sandbox my-image  docker://bitnami/pytorch:latest
 ```
 
-The command `build` here does not build anything yet, but just downloads the image. The flag `--sandbox` is to convert the image file to the Sandbox format, which is convenient for installing packages interactively. 
+The command `build` here does not build anything yet, but just downloads the image and convert it to a new format. The flag `--sandbox` tells `build` to convert the image to the Sandbox format, which is convenient for installing packages interactively. 
 
 Log in the container shell, then you can install system packages using `apt-get` as is on an Ubuntu machine and build Python packages using `pip install`, taking Pandas for example, 
 ```
