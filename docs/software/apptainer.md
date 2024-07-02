@@ -206,14 +206,14 @@ The following is an example for building Python packages such as Pytorch and Pan
 
 First, download a Docker image that provdies the Ubuntu OS and have Python and Pytorch installed already,
 ```
-apptainer build --sandbox my-image  docker://bitnami/pytorch:latest
+singularity build --sandbox my-image  docker://bitnami/pytorch:latest
 ```
 
 The command `build` here does not build anything yet, but just downloads the image and convert it to a new format. The flag `--sandbox` tells `build` to convert the image to the Sandbox format, which is convenient for installing packages interactively. 
 
 Log in the container shell, then you can install system packages using `apt-get` as is on an Ubuntu machine and build Python packages using `pip install`, taking Pandas for example, 
 ```
-$ apptainer shell --writable my-image
+$ singularity shell --writable my-image
 Apptainer> apt-get update
 Apptainer> pip install pandas
 Apptainer> python 
