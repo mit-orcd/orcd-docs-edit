@@ -2,13 +2,12 @@
 tags:
  - Engaging
  - OpenMind
- - SuperCloud
  - Apptainer
  - Singularity
- - Howto Recipes
+ - Software
 ---
 
-# Apptainer and Singularity
+# Singularity and Apptainer
 
 Container provides an isolated environment that supports user applications. In many cases, it is helpful to use a container to obtain the right environment for your applications on HPC clusters, so as to avoid installing too many dependencies.
 
@@ -29,11 +28,26 @@ In this docuemnt, we will focuse on how to use Singularity on ORCD clusters. A t
 
 ## Run applications with Singularity
 
-=== "OpenMind"
-
 Let us start with running an application with Singularity on the cluster first. 
 
 ### Preparations
+
+=== "Engaging"
+
+As a certain amount of computing resources are required to run Singularity, alwways start with getting an interactive session on a compute node,
+```
+srun -t 500 --constraint=rocky8 -c 4 --mem=10G --pty bash
+```
+Check available Apptainer versions in modules,
+```
+module av openmind8/apptainer
+```
+Load an Apptainer module, for example, 
+```
+module load openmind8/apptainer/1.1.7
+```
+
+=== "OpenMind"
 
 As a certain amount of computing resources are required to run Singularity, alwways start with getting an interactive session on a compute node,
 ```
