@@ -160,7 +160,7 @@ By default, the home directory and the `/tmp` directory are bound to the contain
 singularity exec -B /path/to/data my-image.sif python my-code.py  
 ```
 
-In summary, a common used syntax to run a program with Singularity is the following,
+In summary, a commonly used syntax to run a program with Singularity is the following,
 ```
 singularity exec [--nv] [-B <path-to-data>] <image-name> <executable-name> [source-code-name]
 ```
