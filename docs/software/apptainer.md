@@ -207,7 +207,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 The flag `--writable` is to enable the write permission to modify files in the container. 
 
 ??? note
-    We will install the `fakeroot` pakcage on the cluster, so that users can build images without the `sudo` command. 
+    The `fakeroot` pakcage will be installed on the cluster, so that users can build images without the `sudo` command. 
 
 Once the needed package are built in the image, you can use it as was shown in the preivious sections. 
 
