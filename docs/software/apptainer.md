@@ -49,6 +49,10 @@ Let us start with running an application with Singularity on the cluster first.
 
 === "OpenMind"
 
+     Log in a the head node,
+     ```
+     ssh <user>@openmind7.mit.edu
+     ```
      As a certain amount of computing resources are required to run Singularity, alwways start with getting an  interactive session on a compute node,
      ```
      srun -t 60 --constraint=rocky8 -c 4 --mem=10G --pty bash
@@ -102,16 +106,32 @@ The `python` here is installed in the container and has nothing to do with the `
 
 ### Submit a batch job
 
-When the tests are completed, it is recommended to submit a batch job to run your program in the background. Here is a typical batch job script (e.g. named `job.sh`):
-```
-#!/bin/bash                      
-#SBATCH -t 01:30:00                  # walltime = 1 hours and 30 minutes
-#SBATCH -N 1                         #  one node
-#SBATCH -n 2                         #  two CPU cores
+When the tests are completed, you can submit a batch job to run your program in the background. Here is a typical batch job script (e.g. named `job.sh`).
 
-module load openmind8/apptainer/1.1.7      # load an apptainer module
-singularity exec my-image.sif python my-code.py   # Run the program 
-```
+=== "Engaging"
+     
+     ```
+     #!/bin/bash                      
+     #SBATCH -t 01:30:00                  # walltime = 1 hours and 30 minutes
+     #SBATCH -N 1                         #  one node
+     #SBATCH -n 2                         #  two CPU cores
+     #SBATCH -p sched_mit_psfc_gpu_r8     # a partition with Rocky 8  nodes
+     
+     module load apptainer/1.1.7-x86_64 squashfuse/0.1.104-x86_64      # load an apptainer module
+     singularity exec my-image.sif python my-code.py   # Run the program 
+     ```
+
+=== "OpenMind"
+
+     ```
+     #!/bin/bash                      
+     #SBATCH -t 01:30:00                  # walltime = 1 hours and 30 minutes
+     #SBATCH -N 1                         #  one node
+     #SBATCH -n 2                         #  two CPU cores
+     
+     module load openmind8/apptainer/1.1.7      # load an apptainer module
+     singularity exec my-image.sif python my-code.py   # Run the program 
+     ```
 
 The last line is a command to run a Python program uisng Singularity.  
 
