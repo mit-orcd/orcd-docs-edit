@@ -113,9 +113,9 @@ When the tests are completed, you can submit a batch job to run your program in 
      ```
      #!/bin/bash                      
      #SBATCH -t 01:30:00                  # walltime = 1 hours and 30 minutes
-     #SBATCH -N 1                         #  one node
-     #SBATCH -n 2                         #  two CPU cores
-     #SBATCH -p sched_mit_psfc_gpu_r8     # a partition with Rocky 8  nodes
+     #SBATCH -N 1                         # one node
+     #SBATCH -n 2                         # two CPU cores
+     #SBATCH -p sched_mit_psfc_gpu_r8     # a partition with Rocky 8 nodes
      
      module load apptainer/1.1.7-x86_64 squashfuse/0.1.104-x86_64      # load an apptainer module
      singularity exec my-image.sif python my-code.py   # Run the program 
@@ -126,8 +126,9 @@ When the tests are completed, you can submit a batch job to run your program in 
      ```
      #!/bin/bash                      
      #SBATCH -t 01:30:00                  # walltime = 1 hours and 30 minutes
-     #SBATCH -N 1                         #  one node
-     #SBATCH -n 2                         #  two CPU cores
+     #SBATCH -N 1                         # one node
+     #SBATCH -n 2                         # two CPU cores
+     #SBATCH --constraint=rocky8          # nodes with Rocky 8 OS
      
      module load openmind8/apptainer/1.1.7      # load an apptainer module
      singularity exec my-image.sif python my-code.py   # Run the program 
@@ -154,9 +155,9 @@ Here is an exmaple to run Python programs on GPUs.
 singularity exec --nv my-image.sif python my-code.py  
 ```
 
-By default, the home directory and the `/tmp` directory are bound to the container. The `/om` or `/om2` directories are often used to store data files. If your programs read/write data files in these directories, bind them to the container using the flag `-B`,
+By default, the home directory and the `/tmp` directory are bound to the container. If your programs read/write data files in other directories (e.g. `/path/to/data`), bind them to the container using the flag `-B`,
 ```
-singularity exec -B /om,om2 my-image.sif python my-code.py  
+singularity exec -B /path/to/data my-image.sif python my-code.py  
 ```
 
 In summary, a common used syntax to run a program with Singularity is the following,
@@ -165,17 +166,35 @@ singularity exec [--nv] [-B <path-to-data>] <image-name> <executable-name> [sour
 ```
 The terms in `<>` are must-needed while the term in `[]` is optional, dependeing on use cases. 
 
-Here is an example job script to run a python program with a GPU and data files,
-```
-#!/bin/bash                      
-#SBATCH -t 01:30:00         # walltime = 1 hours and 30 minutes
-#SBATCH -N 1                #  one node
-#SBATCH -n 2                #  two CPU cores
-#SBATCH --gres=gpu:1        #  one GPU
+=== "Engaging"
 
-module load openmind8/apptainer/1.1.7        # load an apptainer module
-singularity exec --nv -B /om,om2 my-image.sif python my-code.py  # Run the program
-```
+     Here is an example job script to run a python program with a GPU and data files saved in `/nobakcup1` or `/pool001` directories,
+     ```
+     #!/bin/bash                      
+     #SBATCH -t 01:30:00         # walltime = 1 hours and 30 minutes
+     #SBATCH -N 1                # one node
+     #SBATCH -n 2                # two CPU cores
+     #SBATCH --gres=gpu:1        # one GPU
+     #SBATCH -p sched_mit_psfc_gpu_r8     # a partition with Rocky 8 nodes
+
+     module load apptainer/1.1.7-x86_64 squashfuse/0.1.104-x86_64 
+     singularity exec --nv -B /nobakcup1,/pool001 my-image.sif python my-code.py   # Run the program
+     ```
+
+=== "OpenMind"
+
+     Here is an example job script to run a python program with a GPU and data files saved in `/om` or `/om2` directories,
+     ```
+     #!/bin/bash                      
+     #SBATCH -t 01:30:00             # walltime = 1 hours and 30 minutes
+     #SBATCH -N 1                    # one node
+     #SBATCH -n 2                    # two CPU cores
+     #SBATCH --gres=gpu:1            # one GPU
+     #SBATCH --constraint=rocky8     # nodes with Rocky 8 OS
+
+     module load openmind8/apptainer/1.1.7        # load an apptainer module
+     singularity exec --nv -B /om,om2 my-image.sif python my-code.py  # Run the program
+     ```
 
 ## Build Singualrity images
 
