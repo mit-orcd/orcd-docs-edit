@@ -250,5 +250,5 @@ To transfer data log into [Globus](https://www.globus.org/) with your MIT creden
 
 To transfer data to or from your own computer you will need to set up a personal endpoint. Follow the instructions on the page for your system listed [here](https://docs.globus.org/globus-connect-personal/).
 
-More documentation on transferring files through Globus can be found on the [Globus Documentation Pages](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/).
+More documentation on transferring files through Globus can be found on the [Globus Documentation Pages](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/). Globus also has an [FAQ](https://docs.globus.org/faq/globus-connect-endpoints/) that is helpful for answering any questions you might have.
 
