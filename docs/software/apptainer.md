@@ -117,7 +117,7 @@ When the tests are completed, you can submit a batch job to run your program in 
      #SBATCH -n 2                         # two CPU cores
      #SBATCH -p sched_mit_psfc_gpu_r8     # a partition with Rocky 8 nodes
      
-     module load apptainer/1.1.7-x86_64 squashfuse/0.1.104-x86_64      # load an apptainer module
+     module load apptainer/1.1.7-x86_64 squashfuse/0.1.104-x86_64   # load modules
      singularity exec my-image.sif python my-code.py   # Run the program 
      ```
 
@@ -177,7 +177,7 @@ The terms in `<>` are must-needed while the term in `[]` is optional, dependeing
      #SBATCH --gres=gpu:1        # one GPU
      #SBATCH -p sched_mit_psfc_gpu_r8     # a partition with Rocky 8 nodes
 
-     module load apptainer/1.1.7-x86_64 squashfuse/0.1.104-x86_64 
+     module load apptainer/1.1.7-x86_64 squashfuse/0.1.104-x86_64   # load modules
      singularity exec --nv -B /nobakcup1,/pool001 my-image.sif python my-code.py   # Run the program
      ```
 
