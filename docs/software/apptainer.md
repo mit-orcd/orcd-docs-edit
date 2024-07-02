@@ -33,34 +33,33 @@ Let us start with running an application with Singularity on the cluster first.
 ### Preparations
 
 === "Engaging"
-
-As a certain amount of computing resources are required to run Singularity, alwways start with getting an interactive session on a compute node,
-```
-srun -t 500 --constraint=rocky8 -c 4 --mem=10G --pty bash
-```
-Check available Apptainer versions in modules,
-```
-module av openmind8/apptainer
-```
-Load an Apptainer module, for example, 
-```
-module load openmind8/apptainer/1.1.7
-```
+   As a certain amount of computing resources are required to run Singularity, alwways start with getting an  interactive session on a compute node,
+   ```
+   srun -t 500 --constraint=rocky8 -c 4 --mem=10G --pty bash
+   ```
+   Check available Apptainer versions in modules,
+   ```
+   module av openmind8/apptainer
+   ```
+   Load an Apptainer module, for example, 
+   ```
+   module load openmind8/apptainer/1.1.7
+   ```
 
 === "OpenMind"
+   As a certain amount of computing resources are required to run Singularity, alwways start with getting an  interactive session on a compute node,
+   ```
+   srun -t 500 --constraint=rocky8 -c 4 --mem=10G --pty bash
+   ```
+   Check available Apptainer versions in modules,
+   ```
+   module av openmind8/apptainer
+   ```
+   Load an Apptainer module, for example, 
+   ```
+   module load openmind8/apptainer/1.1.7
+   ```
 
-As a certain amount of computing resources are required to run Singularity, alwways start with getting an interactive session on a compute node,
-```
-srun -t 500 --constraint=rocky8 -c 4 --mem=10G --pty bash
-```
-Check available Apptainer versions in modules,
-```
-module av openmind8/apptainer
-```
-Load an Apptainer module, for example, 
-```
-module load openmind8/apptainer/1.1.7
-```
 
 !!! note 
     1. Do not run Singularity on the head nodes, as there is CPU usage limit on the head nodes.
