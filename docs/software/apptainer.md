@@ -20,7 +20,7 @@ The most well known container is Docker, which is designed for laptops/desktops 
 
 Users can use Singularity to support many applications, such as Python, R, C/Fortran packages, and many GUI software. In particular, container is polular in supporting Python pakcages for the artificial intelligence (AI) and data science communities, such as Pytorch, Tensorflow, and many others. The Ubuntu operating system (OS) is widely used in the AI community and it is convinent to install many AI appications in Ubuntu enviroenment. Users can use Singularity to obtain Ubuntu OS other than Rocky 8 OS on the host cluster.
 
-In this docuemnt, we will focuse on how to use Singularity on ORCD clusters. A typical workflow to use Singularity on ORCD cluster is the following. First, many applications are well-supported in existing Docker images. Search for an image on the internet, in which your target applicaiton has already been installed by some developers, then download the image and use it directly. If there is no suitable image for your target application, you can build an image to support it.
+In this docuemnt, we will focuse on how to use Singularity on ORCD clusters. First, many applications are well-supported in existing Docker images. Search for an image on the internet, in which your target applicaiton has already been installed by some developers, then download the image and use it directly. If there is no suitable image for your target application, you can build an image to support it.
 
 !!! note 
     An image is a file to support container. Users can launch a containter based on an image.
@@ -33,23 +33,25 @@ Let us start with running an application with Singularity on the cluster first.
 ### Preparations
 
 === "Engaging"
-   As a certain amount of computing resources are required to run Singularity, alwways start with getting an  interactive session on a compute node,
+
+   Log in a Rocky 8 head node,
    ```
-   srun -t 500 --constraint=rocky8 -c 4 --mem=10G --pty bash
+   ssh <user>@eofe10.mit.edu
    ```
    Check available Apptainer versions in modules,
    ```
-   module av openmind8/apptainer
+   module av apptainer
    ```
-   Load an Apptainer module, for example, 
+   Load an Apptainer module and its depencency, for example, 
    ```
-   module load openmind8/apptainer/1.1.7
+   module load apptainer/1.1.7-x86_64  squashfuse/0.1.104-x86_64
    ```
 
 === "OpenMind"
+
    As a certain amount of computing resources are required to run Singularity, alwways start with getting an  interactive session on a compute node,
    ```
-   srun -t 500 --constraint=rocky8 -c 4 --mem=10G --pty bash
+   srun -t 60 --constraint=rocky8 -c 4 --mem=10G --pty bash
    ```
    Check available Apptainer versions in modules,
    ```
