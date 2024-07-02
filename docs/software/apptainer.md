@@ -34,39 +34,38 @@ Let us start with running an application with Singularity on the cluster first.
 
 === "Engaging"
 
-   Log in a Rocky 8 head node,
-   ```
-   ssh <user>@eofe10.mit.edu
-   ```
-   Check available Apptainer versions in modules,
-   ```
-   module av apptainer
-   ```
-   Load an Apptainer module and its depencency, for example, 
-   ```
-   module load apptainer/1.1.7-x86_64  squashfuse/0.1.104-x86_64
-   ```
+     Log in a Rocky 8 head node,
+     ```
+     ssh <user>@eofe10.mit.edu
+     ```
+     Check available Apptainer versions in modules,
+     ```
+     module av apptainer
+     ```
+     Load an Apptainer module and its depencency, for example, 
+     ```
+     module load apptainer/1.1.7-x86_64  squashfuse/0.1.104-x86_64
+     ```
 
 === "OpenMind"
 
-   As a certain amount of computing resources are required to run Singularity, alwways start with getting an  interactive session on a compute node,
-   ```
-   srun -t 60 --constraint=rocky8 -c 4 --mem=10G --pty bash
-   ```
-   Check available Apptainer versions in modules,
-   ```
-   module av openmind8/apptainer
-   ```
-   Load an Apptainer module, for example, 
-   ```
-   module load openmind8/apptainer/1.1.7
-   ```
-
+     As a certain amount of computing resources are required to run Singularity, alwways start with getting an  interactive session on a compute node,
+     ```
+     srun -t 60 --constraint=rocky8 -c 4 --mem=10G --pty bash
+     ```
+     The `constraint=rocky8` is to request a node with the Rocky 8 OS. 
+    
+     Check available Apptainer versions in modules,
+     ```
+     module av openmind8/apptainer
+     ```
+     Load an Apptainer module, for example, 
+     ```
+     module load openmind8/apptainer/1.1.7
+     ```
 
 !!! note 
-    1. Do not run Singularity on the head nodes, as there is CPU usage limit on the head nodes.
-    2. The `constraint=rocky8` is to request a node with the Rocky 8 OS. 
-    3. Apptainer modules support both apptainer and singularity commands.
+    Apptainer modules support both apptainer and singularity commands.
 
 ### Download an image
 
