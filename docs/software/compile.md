@@ -54,21 +54,24 @@ Some common directives are:
 
 * `#include`: includes contents of the named file, typically a header file, e.g. `#include <stdio.h>`
 
-#define
-macro substitution
-e.g. `#define PI 3.14159
-#ifdef ... #end
-conditional compilation, the code block is included only if a certain macro is defined, e.g:
+* `#define`: macro substitution, e.g. `#define PI 3.14159`
 
+* `#ifdef ... #end`: conditional compilation, the code block is included only if a certain macro is defined, e.g:
+```
 #ifdef TEST_CASE
 a=1; b=0; c=0;
 #endif
+```
+
 We could perform just this step of the build process like so:
-
+```
 cpp hello.c hello.i
-Examining the output file (vim hello.i) shows that the long and messy stdio.h header has been appended to our simple code. You may also like to explore adding #define statements, or conditional code blocks.
+```
 
-Step 2: Compile
+Examining the output file (`vim hello.i`) shows that the long and messy `stdio.h` header has been appended to our simple code. 
+
+### Step 2: Compile
+
 In this step, the (modified) source code is translated from the C programming language into assembly code.
 
 Assembly code is a low-level programming language with commands that correspond to machine instructions for a particular type of hardware. It is still just plain text --- you can read assembly and write it too if you so desire.
