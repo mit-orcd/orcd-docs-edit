@@ -77,29 +77,38 @@ In this step, the (modified) source code is translated from the C programming la
 Assembly code is a low-level programming language with commands that correspond to machine instructions for a particular type of hardware. It is still just plain text --- you can read assembly and write it too if you so desire.
 
 To perform just the compilation step of the build process, we would run:
-
+```
 gcc -S -c hello.i -o hello.i
-Examining the output file (vim hello.s) shows that processor-specific instructions needed to run our program on this specific system. Interestingly, for such a simple program as ours, the assembly code is actually shorter than the preprocesses source code (though not the original source code).
+```
 
-Step 3: Assemble
+Examining the output file (`vim hello.s`) shows that processor-specific instructions needed to run our program on this specific system. Interestingly, for such a simple program as ours, the assembly code is actually shorter than the preprocesses source code (though not the original source code).
+
+### Step 3: Assemble
+
 Assembly code is then translated into object code (more). This is a binary representation of the actions your computer needs to take to run your program. It is no longer human-readable, but it can be understood by your processor.
 
 To perform just this step of the build process, we would run:
-
+```
 gcc -c hello.s -o hello.o
-You can try to view this object file like we did the other intermediate steps, but the result will not be terribly useful (vim hello.o). Your text editor is trying to interpret binary machine language commands as ASCII characters, and (mostly) failing. Perhaps the most interesting result of doing so is that there are intelligable bits --- these are the few variables, etc, that actually are ASCII characters.
+```
+
+You can try to view this object file like we did the other intermediate steps, but the result will not be terribly useful (vim `hello.o`). Your text editor is trying to interpret binary machine language commands as ASCII characters, and (mostly) failing. Perhaps the most interesting result of doing so is that there are intelligable bits --- these are the few variables, etc, that actually are ASCII characters.
 
 Also note that object files are not executables, you can't run them until after the next step.
 
-Step 4: Link
+### Step 4: Link
+
 In the final step, gcc calls the linker program ld to combine the object file with any external functions it needs (e.g. library functions or functions from other source files). In our case, this would include printf from the C standard library.
 
 To perform just this step of the build process, we would run:
-
+```
 gcc hello.o -o hello
-Challege:
-Compile and run the following program (squares.c):
+```
 
+### Challege:
+
+Compile and run the following program (squares.c):
+```
 #include <stdio.h>
 main()
 { 
@@ -110,12 +119,16 @@ main()
     for (i=0; i<=25; ++i)
     printf("\t %d \t\t\t %d \n", i, i*i);
 }
-If you have some extra time, try walking through the process step-by-step and inspecting the results.
+```
 
 Solution:
+```
 gcc squares.c -o squares
 ./squares
-Building a multi-file program
+```
+
+## Building a multi-file program
+
 For all but the smallest programming projects, it is convenient to break up the source code into multiple files. Typically, these include a main function in one file, and one or more other files containing functions / subroutines called by main(). In addition, a header file is usually used to share custom data types, function prototypes, preprocessor macros, etc.
 
 We will use a simple example program in the multi_string folder, which consists of:
