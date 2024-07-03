@@ -52,11 +52,11 @@ In this step, gcc calls preprocessing program cpp to interpret preprocessor dire
 
 Some common directives are:
 
-* `#include`: includes contents of the named file, typically a header file, e.g. `#include <stdio.h>`
+- `#include`: includes contents of the named file, typically a header file, e.g. `#include <stdio.h>`
 
-* `#define`: macro substitution, e.g. `#define PI 3.14159`
+- `#define`: macro substitution, e.g. `#define PI 3.14159`
 
-* `#ifdef ... #end`: conditional compilation, the code block is included only if a certain macro is defined, e.g:
+- `#ifdef ... #end`: conditional compilation, the code block is included only if a certain macro is defined, e.g:
 ```
 #ifdef TEST_CASE
 a=1; b=0; c=0;
