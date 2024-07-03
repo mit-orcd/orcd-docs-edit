@@ -42,7 +42,7 @@ Let us start with running an application with Singularity on the cluster first.
      ```
      module av apptainer
      ```
-     Load an Apptainer module and its depencency, for example, 
+     Load an Apptainer module and its dependency, for example, 
      ```
      module load apptainer/1.1.7-x86_64  squashfuse/0.1.104-x86_64
      ```
@@ -53,7 +53,7 @@ Let us start with running an application with Singularity on the cluster first.
      ```
      ssh <user>@openmind7.mit.edu
      ```
-     As a certain amount of computing resources are required to run Singularity, alwways start with getting an  interactive session on a compute node,
+     As a certain amount of computing resources are required to run Singularity, always start with getting an  interactive session on a compute node,
      ```
      srun -t 60 --constraint=rocky8 -c 4 --mem=10G --pty bash
      ```
@@ -143,7 +143,7 @@ sbatch job.sh
 
 ### More on using Singularity
 
-In many cases, GPUs are needed to accelerate programs. As the GPU driver is installed on the host, use the flag `--nv` to pass necessary GPU driver libbaries into the container, so that the program can "see" the GPUs in the container. 
+In many cases, GPUs are needed to accelerate programs. As the GPU driver is installed on the host, use the flag `--nv` to pass necessary GPU driver libraries into the container, so that the program can "see" the GPUs in the container. 
 
 Check if GPUs are available in a container,
 ```
@@ -183,7 +183,7 @@ The terms in `<>` are must-needed while the term in `[]` is optional, dependeing
 
 === "OpenMind"
 
-     Here is an example job script to run a python program with a GPU and data files saved in `/om` or `/om2` directories,
+     Here is an example job script to run a Python program with a GPU and data files saved in `/om` or `/om2` directories,
      ```
      #!/bin/bash                      
      #SBATCH -t 01:30:00             # walltime = 1 hours and 30 minutes
@@ -196,22 +196,22 @@ The terms in `<>` are must-needed while the term in `[]` is optional, dependeing
      singularity exec --nv -B /om,om2 my-image.sif python my-code.py  # Run the program
      ```
 
-## Build Singualrity images
+## Build Singularity images
 
 In the previous section, it is assumed that all needed packages have been installed in the image. If some needed packages do not exist in the image, users need to build a new image. 
 
-To save work for the building process, search for an image providing the right OS and necessary dependnecies to support your target application, then use it as a base image and build your target application on top of it. 
+To save work for the building process, search for an image providing the right OS and necessary dependencies to support your target application, then use it as a base image and build your target application on top of it. 
 
-The following is an example for building Python packages such as Pytorch and Pandas in a container image. 
+The following is an example of building Python packages such as Pytorch and Pandas in a container image. 
 
-First, download a Docker image that provdies the Ubuntu OS and have Python and Pytorch installed already,
+First, download a Docker image that provides the Ubuntu OS and have Python and PyTorch installed already,
 ```
 singularity build --sandbox my-image  docker://bitnami/pytorch:latest
 ```
 
-The command `build` here does not build anything yet, but just downloads the image and convert it to a new format. The flag `--sandbox` tells `build` to convert the image to the Sandbox format, which is convenient for installing packages interactively. 
+The command `build` here does not build anything yet, but just downloads the image and converts it to a new format. The flag `--sandbox` tells `build` to convert the image to the Sandbox format, which is convenient for installing packages interactively. 
 
-Log in the container shell, then you can install system packages using `apt-get` as is on an Ubuntu machine and build Python packages using `pip install`, taking Pandas for example, 
+Log in to the container shell, then you can install system packages using `apt-get` as is on an Ubuntu machine and build Python packages using `pip install`, taking Pandas for example, 
 ```
 $ singularity shell --writable my-image
 Apptainer> apt-get update
