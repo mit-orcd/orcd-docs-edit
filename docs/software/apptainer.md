@@ -80,7 +80,7 @@ singularity pull my-image.sif docker://bitnami/pytorch:latest
 The `my-image.sif` is the name of the image. You can name it as you like. 
 
 !!! note 
-    In Apptainer, the file named `singularity` is a soft link to an executable named `apptainer`, so all `singularity` commands on this page can be replaced by the `apptainer` command. They work the same. 
+    In Apptainer, the command `singularity` is a soft link to an executable named `apptainer`, so all `singularity` commands on this page can be replaced by the `apptainer` command. They work the same. 
 
 
 ### Run a program interactively
