@@ -7,5 +7,5 @@ tags:
  - OpenMind
 ---
 
-# Installing Python Packages 
+# Compile codes
 
