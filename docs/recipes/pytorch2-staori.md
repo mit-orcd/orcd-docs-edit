@@ -7,7 +7,8 @@ tags:
 
 # Installing and Using Pytorch 2 On Satori
 
-##Objective:
+Satori
+
 Installing PyTorch version 2.0.1.
 
 ##Installation Steps:
