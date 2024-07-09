@@ -7,14 +7,26 @@ nav:
   - Filesystems and File Transfer:
     - General Use Filesystems:  filesystems-file-transfer/filesystems.md
     - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
-#    - Transferring Files:  filesystems-file-transfer/transferring-files.md
+    - Transferring Files:  filesystems-file-transfer/transferring-files.md
 #    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
+  - Software:
+    - Overview: software/overview.md
+    - Modules: software/modules.md
+    - Python: software/python.md
+#    - Julia: 
+#    - R: 
+#    - Installing Software: 
+#    - Singularity/Apptainer: 
+#    - Licensed Software: 
   - ORCD Recipes:
 #    - recipes/gurobi.md
     - MuJoCo: recipes/mujoco.md
     - 'NVHPC with CUDA aware MPI': recipes/nvhpc-a100-with-cuda-and-mpi-example.md
     - GROMACS: recipes/gromacs.md
     - MPI for Python: recipes/mpi4py.md
+    - MPI jobs: recipes/mpi.md
+    - RELION: recipes/relion.md
+    - VSCode: recipes/vscode.md
   - Acknowledging Us: acknowledgements.md
   - Data Security and Privacy: data-security.md
   - Acceptable Use and Code of Conduct: code-of-conduct.md
@@ -29,6 +41,7 @@ nav:
 #  - How Tos:
 #    - howto/page1.md
 #    - howto/page2.md
+  - Getting Help: getting-help.md
   - Index: tags.md
 
 theme: 

@@ -6,27 +6,45 @@ tags:
  - Howto Recipes
 ---
 
-# Installing and Using MPI for Python
+# MPI for Python
 
 MPI for Python (`mpi4py`) provides Python bindings for the Message Passing Interface (MPI) standard, allowing Python applications to exploit multiple processors on workstations, clusters and supercomputers.
 
 You can learn about `mpi4py` here: [https://mpi4py.readthedocs.io/en/stable/](https://mpi4py.readthedocs.io/en/stable/).
 
-## Mpi4py on OpenMind
 
-### Install 
 
-If you use an Anaconda module, no installation is required.
+## Installation 
 
-If you want to use Anaconda in your directory, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then intall `mpi4py`, 
-```
-conda install -c conda-forge mpi4py
-```
+=== "OpenMind"
 
-### Run Mpi4py
+     The support team has installed `mpi4py` in an Anaconda module. You can load the module and do not need to install anything,
+     ```
+     module load openmind/anaconda/3-2022.05
+     ```
+
+     If you want to use Anaconda in your directory, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then install `mpi4py`, 
+     ```
+     conda install -c conda-forge mpi4py
+     ```
+
+=== "Engaging"
+
+     First, load an Anaconda module on a CentOS 7 head node (such as eofe7 or eofe8),
+     ```
+     module load anaconda3/2023.07
+     ```
+     then install `mpi4py`, 
+     ```
+     conda create -n mpi
+     source activate mpi
+     conda install mpi4py
+     ```
+
+## Example codes
 
 Prepare your Python codes. Example 1: The following is a code for sending and receiving a dictionary. Save it in a file named `p2p-send-recv.py`.
-```
+```python title="p2p-send-recv.py"
 from mpi4py import MPI
 
 comm = MPI.COMM_WORLD
@@ -42,7 +60,7 @@ elif rank == 1:
 ``` 
 
 Example 2: The following is a code for sending and receiving an array. Save it in a file named `p2p-array.py`.
-```
+```python title="p2p-array.py"
 from mpi4py import MPI
 import numpy
 
@@ -70,23 +88,48 @@ elif rank == 1:
     print(rank,data)
 ```
 
-Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`.
-```
-#!/bin/bash -l
-#SBATCH -N 1
-#SBATCH -n 8
+## Submitting jobs
 
-module load openmpi/gcc/64/1.8.1
-module load openmind/anaconda/3-2022.05
+=== "OpenMind"
 
-mpirun -np $SLURM_NTASKS python p2p-send-recv.py
-mpirun -np $SLURM_NTASKS python p2p-array.py
-```
+     Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`.
+     ```bash title="p2p-job.sh"
+     #!/bin/bash -l
+     #SBATCH -N 1
+     #SBATCH -n 8
 
-> An Openmpi module is needed. If you use Anaconda in your directory, do not load the Anaconda module. 
+     module load openmind/anaconda/3-2022.05
 
-Finally submit the job,
-```
-sbatch p2p-job.sh
-```
+     mpirun -np $SLURM_NTASKS python p2p-send-recv.py
+     mpirun -np $SLURM_NTASKS python p2p-array.py
+     ```
+     !!! note
+          If you use Anaconda in your directory, do not load the Anaconda module. 
+
+     Finally submit the job,
+     ```
+     sbatch p2p-job.sh
+     ```
+
+=== "Engaging"
+
+     Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`.
+     ```bash title="p2p-job.sh"
+     #!/bin/bash -l
+     #SBATCH -N 1
+     #SBATCH -n 8
+
+     module load anaconda3/2023.07
+
+     source activate mpi
+     mpirun -np $SLURM_NTASKS python p2p-send-recv.py
+
+     source activate mpi
+     mpirun -np $SLURM_NTASKS python p2p-array.py
+     ```
+
+     Finally submit the job,
+     ```
+     sbatch p2p-job.sh
+     ```
 
