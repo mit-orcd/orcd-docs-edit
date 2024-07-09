@@ -7,11 +7,26 @@ tags:
 
 # Installing and Using Pytorch 2 On Satori
 
-Satori
+Satori is an IBM cluster with the ppc64le architecture, which is different from regular clusters with the x86 architecture. Regular “pip install” and “conda install” do not work for most Python packages. 
+
+There are limited packages with limited versions supported. Only those popular Python packages with some particular versions are available. You can search for the available list on the OpenCE web pages.
+
+https://opence.mit.edu/#/
+https://osuosl.org/services/powerdev/opence/#setting-up-the-software-repository
+
+To install the packages listed on the above web pages, you need to prepend the channel. 
+
+conda config --prepend channels https://ftp.osuosl.org/pub/open-ce/current
+
+and then use “conda install” to install your packages. Refer to this page for details of pytorch. 
+https://mit-orcd.github.io/orcd-docs-previews/PR/PR30/recipes/pytorch2-staori/
+The process to install other packages is similar. Refer to installing Python packages on Saotri on this page: https://orcd-docs.mit.edu/software/python/#__tabbed_1_2
+
+
+##Installation Steps:
 
 Installing PyTorch version 2.0.1.
 
-##Installation Steps:
 ####Accessing Conda channel
 The Conda channel hosting PyTorch version 2.0.1 can be accessed via the osuosl.org channel URL: https://osuosl.org/services/powerdev/opence
 
