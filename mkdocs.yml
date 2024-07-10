@@ -4,7 +4,8 @@ nav:
   - Home: index.md
   - ORCD Systems: orcd-systems.md
   - Getting Started Tutorial: getting-started.md
-  - SSH Setup: ssh-setup.md
+  - Accessing ORCD Systems:
+    - SSH Key Setup: ssh-setup.md
   - Filesystems and File Transfer:
     - General Use Filesystems:  filesystems-file-transfer/filesystems.md
     - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
