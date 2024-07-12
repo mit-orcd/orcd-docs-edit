@@ -260,6 +260,11 @@ Just as we did above, we can combine the two steps into a single command:
 gcc roots.c -lm -o roots
 ```
 
+Finally, we can run the programm:
+```
+./roots
+```
+
 !!! Note
 
     Because we are using shared libraries, the linker must be able to find the linked libraries at runtime, otherwise the program will fail. You can check the libraries required by a program, and whether they are being found correctly or not using the `ldd` command. For out *roots* program, we get the following
@@ -278,27 +283,29 @@ gcc roots.c -lm -o roots
 
     The preprocessor will search some default paths for included header files. Before we go down the rabbit hole, it is important to note that you do not have to do this for a typical build, but the commands may prove useful when you are trying to work out why something fails to build.
 
-    To look for the header, we can run the following command to show the preprocessor search path and look for files in therein:
+    To look for the header, we can run the following command to show the preprocessor search path:
     ```
     cpp -Wp,-v
     ```
     The output show the paths where GCC will search for header files by default. 
 
 ??? Sidebar: where does the linker look to find libraries?
-The linker will search some default paths for included library files. Again, it is important to note that you do not have to do this for a typical build, but the commands may prove useful when you are trying to work out why something fails to build.
 
-To look for the library, we can run the following command to get a list of all library files the linker is aware of, then search that list for the math library we need:
+    The linker will search some default paths for library files. Again, it is important to note that you do not have to do this for a typical build, but the commands may prove useful when you are trying to work out why something fails to build.
 
-ldconfig -p 
-ldconfig -p | grep libmath
-The latter command gives the output:
-
-libm.so.6 (libc6,x86-64, OS ABI: Linux 2.6.18) => /lib64/libm.so.6
-libm.so.6 (libc6, hwcap: 0x0028000000000000, OS ABI: Linux 2.6.18) => /lib/i686/nosegneg/libm.so.6
-libm.so.6 (libc6, OS ABI: Linux 2.6.18) => /lib/libm.so.6
-libm.so (libc6,x86-64, OS ABI: Linux 2.6.18) => /usr/lib64/libm.so
-libm.so (libc6, OS ABI: Linux 2.6.18) => /usr/lib/libm.so
-We certainly have the math library available. In fact, there are a few versions of this library known to the linker. Thankfully, we can let the linker sort out which one to use.
+    To look for the library, we can run the following command to get a list of all library files the linker is aware of, 
+    ```
+    ldconfig -p 
+    ```
+    or search that list for the math library we need:
+    ```
+    ldconfig -p | grep libm.so
+    ```
+    The latter command gives the output:
+    ```
+	libm.so.6 (libc6,x86-64, OS ABI: Linux 3.2.0) => /lib64/libm.so.6
+    ```
+    which shows that the math library is available. 
 
 We might also want to peek inside a library file (or any object code for that matter) to see what functions and variables are defined within. We can list all the names, then search for the one we care about, like so:
 
