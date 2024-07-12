@@ -126,27 +126,54 @@ gcc squares.c -o squares
 
 ## Building a multi-file program
 
-For all but the smallest programming projects, it is convenient to break up the source code into multiple files. Typically, these include a main function in one file, and one or more other files containing functions / subroutines called by main(). In addition, a header file is usually used to share custom data types, function prototypes, preprocessor macros, etc.
+For most projects in the real world, it is convenient to break up the source code into multiple files. Typically, these include a main function in one file, and one or more other files containing functions / subroutines called by main(). In addition, a header file is usually used to share custom data types, function prototypes, preprocessor macros, etc.
 
-We will use a simple example program in the multi_string folder, which consists of:
+As an example, we create a program with several source code files in a directory named *multi_string*, which consists of:
 
-main.c: The main driver function, which calls a subroutine and exits
-WriteMyString.c: a module containing the subroutine called by main
-header.h: one function prototype and one macro definition
-The easiest way to compile such a program is to include all the required source files at the gcc command line:
+- *main.c*: the main driver function, which calls a subroutine and exits
+- *WriteMyString.c*: a module containing the subroutine called by main
+- *header.h*: one function prototype and one macro definition
 
+??? Source codes for the *multi_string* program.
+     *main.c*: 
+     ```
+     #include "header.h"
+     #include <stdio.h>
+
+     char    *AnotherString = "Hello Everyone";
+
+     main()
+     {
+        printf("Running...\n");
+        WriteMyString(MY_STRING);
+        printf("Finished.\n");
+     }
+     ```
+
+The easiest way to compile such a program is to include all the required source files at the `gcc` command line:
+```
 gcc main.c WriteMyString.c -o my_string
 ./my_string
+```
+
 It is also quite common to separate out the process into two steps:
 
-source code -> object code
-object code -> executable (or library)
-The reason is that this allows you to reduce compiling time by only recompiling objects that need to be updated. This seems (and is) silly for small projects, but becomes important quickly. We will use this approach later when we discuss automating the build process.
+1. source code -> object code
 
+
+2. object code -> executable (or library)
+
+```
 gcc -c WriteMyString.c
 gcc -c main.c
 gcc WriteMyString.o main.o -o write
 ./write
+```
+
+The reason is that this allows you to reduce compiling time by only recompiling objects that need to be updated. This seems silly for a program with only a few source files, but becomes important when many source files are involved. We will use this approach later when we discuss automating the build process.
+
+
+
 Including header files
 Note that it is not necessary to include the header file on the gcc command line. This makes sense since we know that the (bundeled) preprocessing step will append any required headers to the source code before it is compiled.
 
