@@ -197,13 +197,6 @@ This is most often needed in the case where you wish to use external libraries i
 
 A library is a collection of pre-compiled object files that can be linked into your programs via the linker. In simpler terms, they are machine code files that contain functions / subroutines that you can use in your programs.
 
-Two example functions that come from libraries are:
-
-- `printf()` from the *libc.so* shared library
-- `sqrt()` from the *libm.so* shared library
-
-We will return to these in a moment.
-
 ### Shared libraries vs static libraries
 
 A static library has file extension of *.a* (meaning archive file). When your program links a static library, the machine code of external functions used in your program is copied into the executable. At runtime, everything your program needs is wrapped up inside the executable.
@@ -216,11 +209,16 @@ Static libraries certainly seem simpler, but most programs use shared libraries 
 - Most operating systems allow one copy of a shared library in memory to be used by all running programs, saving memory.
 - If your libraries are updated, programs using shared libraries automatically take advantage of these updates, programs using static libraries would need to be recompiled.
 
-Because of the advantage of dynamic linking, GCC will prefer a shared library to a static library if both are available (by default).
+Because of the advantage of dynamic linking, GCC will prefer a shared library to a static library if both are available (by default). We will only use shared libraries in the following. 
 
-### Building with shared libraries in default (known) locations
+### Building with libraries in default (known) locations
 
-Let's start with an example (*roots.c*) that uses the `sqrt()` function from the math library:
+Many useful fuctions are provided by libraries in the operating system. These are two widely-used examples:
+
+- `printf()` from the *libc.so* shared library
+- `sqrt()` from the *libm.so* shared library
+
+In this section, we will introduce how to build a pgoram with shared libraries in the system default locations. Let's start with an example (*roots.c*) that uses the `sqrt()` function from the math library:
 ```
 #include <stdio.h>
 #include <math.h>
@@ -240,8 +238,8 @@ Notice the function `sqrt`, which we use, but do not define. The (machine) code 
 
 To build successfully, we must:
 
-1. Include the header file for the external library and make sure that the preprocessor can find this header file.
-2. Instruct the linker to link to the external library
+1. Include the header file for the external library;
+2. Instruct the linker to link to the external library.
 
 We build the program using the two-step scheme:
 ```
@@ -279,7 +277,7 @@ Finally, we can run the programm:
     This shows that our executable requires a few basic system libraries such as *libc.so* as well as the math library `libm.so` we explicitly included, and that all of these dependencies are found by the linker.
 
 
-??? "Sidebar: where does the preprocessor look to find header files?"
+??? "Side note: where does the preprocessor look to find header files?"
 
     The preprocessor will search some default paths for included header files. Before we go down the rabbit hole, it is important to note that you do not have to do this for a typical build, but the commands may prove useful when you are trying to work out why something fails to build.
 
@@ -289,7 +287,7 @@ Finally, we can run the programm:
     ```
     The output show the paths where GCC will search for header files by default. 
 
-??? Sidebar: where does the linker look to find libraries?
+??? Side note: where does the linker look to find libraries?
 
     The linker will search some default paths for library files. Again, it is important to note that you do not have to do this for a typical build, but the commands may prove useful when you are trying to work out why something fails to build.
 
@@ -307,22 +305,22 @@ Finally, we can run the programm:
     ```
     which shows that the math library is available. 
 
-We might also want to peek inside a library file (or any object code for that matter) to see what functions and variables are defined within. We can list all the names, then search for the one we care about, like so:
+    We might also want to peek inside a library file (or any object code for that matter) to see what functions and variables are defined within. We can list all the names, then search for the one we care about, like so:
+    ```
+    nm /lib64/libm.so.6 | grep " sqrt"
+    ```
+    The output of this command contains the following line, which shows that it does indeed include something called `sqrt`.
+    ```
+    000000000000f7d0 W sqrt
+    ```
 
-nm /lib/libm.so.6
-nm /lib/libm.so.6 | sqrt
-The output of this command contains the following line, which shows us that it does indeed include something called sqrt.
 
-0000000000025990 W sqrt
-Building with shared libraries in non-default (unknown) locations
-note: the following command lines build the libctest.so shared library used in the example below:
+### Building with libraries in non-default (unknown) locations
 
-gcc -Wall -fPIC -c ctest1.c ctest2.c
-gcc -shared -Wl,-soname,libctest.so -o libctest.so ctest1.o ctest2.o
-end note
+In many cases, you may need to use external libraries that are not included in the operating system. These libraries can be built by you or other develepers and they are saved in non-default locations. In this section, we will introduce how to build a program with libraries in non-default locations. 
 
-Let's switch to a new bit of example code, called use_ctest.c that makes use of a (very simple) custom library in the ctest directory:
-
+Let's switch to a new example code. We create a file named *use_ctest.c* that reads the following:
+```
 #include <stdio.h>
 #include "ctest.h"
  
@@ -336,11 +334,64 @@ int main(){
     printf("%d / %d = %d\n", x, y, z);
     return 0;
 }
-Trying to compile this fails with an error:
+```
+This code calls two functoins `ctest1` and `ctest2`, which are included in a custom library named *ctest*.
 
+??? Building a library
+
+    In the same level of the main code *use_ctest.c*, we create a directory named *ctest_dir* to save all files related to the library *ctest*. 
+    ```
+    mkdir ctest_dir
+    ```
+
+    First, create a subdirectory named `src`, 
+    ```
+    cd ctest_dir
+    mkdir src
+    cd src
+    ```
+    and create the following two source code files in there. Each code does nothing but defines an interger.
+    
+    *ctest1.c*:
+    ```
+    void ctest1(int *i){
+      *i=100;
+    }
+    ```
+
+    *ctest2.c*:
+    ```
+    $ cat ctest2.c 
+    void ctest2(int *i){
+      *i=5;
+    }
+    ```
+
+    Second, use the following command lines build the shared library named `libctest.so`:
+    ```
+    gcc -Wall -fPIC -c ctest1.c ctest2.c
+    gcc -shared -Wl,-soname,libctest.so -o libctest.so ctest1.o ctest2.o
+    ```
+
+    Finally move the library to a location, 
+    ```
+    cd ..
+    mkidr lib
+    mv src/libctest.so lib
+    ```
+
+
+and is saved in the *ctest_dir/lib* directory, where
+
+Assuming that the library *ctest* has been built (as instructed in the above side note), we will build the program *use_ctest* in the folloiwng. First, we start with the simplest command.
+```
 gcc -c use_ctest.c
-
+```
+It fails with an error:
+```
 use_ctest.c:2:19: error: ctest.h: No such file or directory
+```
+
 As the error message indicates, the problem here is that an included header file is not found by the preprocessor. We can use the -I flag to fix this problem:
 
 gcc -I ctest_dir/include -c use_ctest.c
@@ -384,10 +435,10 @@ We can confirm that this worked by running the program (resetting LD_LIBRARY_PAT
 
 ./use_ctest
 readelf -d use_ctest
-Challenge
-Without using your history, try to re-compile and run the use_ctest program. For an additional challenge, try to do so using RUNPATH to hardcode the location of the shared library.
 
-Automating the build process with GNU Make
+
+## Automating the build process with GNU Make
+
 The manual build process we used above can become quite tedious for all but the smallest projects. There are many ways that we might automate this process. The simplest would be to write a shell script that runs the build commands each time we invoke it. Let's take the simple hello.c program as a test case:
 
 #!/bin/bash
