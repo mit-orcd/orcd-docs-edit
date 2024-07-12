@@ -270,7 +270,7 @@ gcc roots.c -lm -o roots
 	libc.so.6 => /lib64/libc.so.6 (0x00007fcead82a000)
 	/lib64/ld-linux-x86-64.so.2 (0x00007fceadf71000)
     ```
-    
+
     This shows that our executable requires a few basic system libraries such as *libc.so* as well as the math library `libm.so` we explicitly included, and that all of these dependencies are found by the linker.
 
 
@@ -282,28 +282,9 @@ gcc roots.c -lm -o roots
     ```
     cpp -Wp,-v
     ```
-    which has the following output:
+    The output show the paths where GCC will search for header files by default. 
 
-ignoring nonexistent directory "/usr/local/include"
-ignoring nonexistent directory "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include-fixed"
-ignoring nonexistent directory "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/../../../../x86_64-redhat-linux/include"
-#include "..." search starts here:
-#include <...> search starts here:
- /usr/lib/gcc/x86_64-redhat-linux/4.4.7/include
-  /usr/include
-  End of search list.
-  ^C
-The last few lines show the paths where GCC will search for header files by default. We can then search these include paths for the file we want, math.h like so:
-
-find /usr/include /usr/lib/gcc/x86_64-redhat-linux/4.4.7/include -name math.h
-Which has the following output:
-
-/usr/include/FL/math.h
-/usr/include/c++/4.4.4/tr1/math.h
-/usr/include/math.h
-If we are really curious, we could open the header and see what it contains, but this is rarely necessary.
-
-Sidebar: where does the linker look to find libraries?
+??? Sidebar: where does the linker look to find libraries?
 The linker will search some default paths for included library files. Again, it is important to note that you do not have to do this for a typical build, but the commands may prove useful when you are trying to work out why something fails to build.
 
 To look for the library, we can run the following command to get a list of all library files the linker is aware of, then search that list for the math library we need:
