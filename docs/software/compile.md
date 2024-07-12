@@ -102,28 +102,6 @@ gcc hello.o -o hello
 ```
 This produces the executable `hello` finally. 
 
-### Challege:
-
-Compile and run the following program (*squares.c*):
-```
-#include <stdio.h>
-main()
-{ 
-    int i;
-
-    printf("\t Number \t\t Square of Number\n\n");
-
-    for (i=0; i<=25; ++i)
-    printf("\t %d \t\t\t %d \n", i, i*i);
-}
-```
-
-Solution:
-```
-gcc squares.c -o squares
-./squares
-```
-
 ## Building a multi-file program
 
 For most projects in the real world, it is convenient to break up the source code into multiple files. Typically, these include a main function in one file, and one or more other files containing functions / subroutines called by `main()`. In addition, a header file is usually used to share custom data types, function prototypes, preprocessor macros, etc.
@@ -143,20 +121,28 @@ As an example, we create a program with several source code files in a directory
     char    *AnotherString = "Hello Everyone";
     main()
     {
-    printf("Running...\n");
-    WriteMyString(MY_STRING);
-    printf("Finished.\n");
+      printf("Running...\n");
+      WriteMyString(MY_STRING);
+      printf("Finished.\n");
     }
     ```
 
     *WriteMyString.c*:
+    ```
     #include <stdio.h>
     extern char *AnotherString;
     void WriteMyString(char *ThisString)
     {
-    printf("%s\n", ThisString);
-    printf("Global Variable = %s\n", AnotherString);
+      printf("%s\n", ThisString);
+      printf("Global Variable = %s\n", AnotherString);
     }
+    ```
+
+    *header.h*: 
+    ```
+    #define MY_STRING "Hello World"
+    void WriteMyString();
+    ```
 
 
 The easiest way to compile such a program is to include all the required source files at the `gcc` command line:
@@ -204,52 +190,40 @@ We can fix this by specifically telling gcc where it can find the requisite head
 gcc -I ./include main.c WriteMyString.c -o my_string
 ```
 
-This is most often need in the case where you wish to use external libraries installed in non-standard locations. We will explore this case later. 
+This is most often needed in the case where you wish to use external libraries installed in non-standard locations. We will explore this case in the next section. 
 
-### Challenge
 
-In the folder multi_fav_num you will find another simple multi-file program. Build this source code to a program named fav_num using separate compile and link steps. Once you have done this successfully, change the number defined in other.c and rebuild. You should not have to recompile main.c to do this.
+## Linking external libraries
 
-Solution:
-gcc -c main.c
-gcc -c other.c
-gcc main.o other.o -o fav_num
-./fav_num
-
-vim other.c
-
-gcc -c other.c
-gcc main.o other.o -o fav_num
-./fav_num
-Linking external libraries
-NOTE: content in this section is (lightly) modified from this site.
-
-A library is a collection of pre-compiled object files that can be linked into your programs via the linker. In simpler terms, they are machine code files that contain functions, etc, you can use in your programs.
+A library is a collection of pre-compiled object files that can be linked into your programs via the linker. In simpler terms, they are machine code files that contain functions / subroutines that you can use in your programs.
 
 A few example functions that come from libraries are:
 
-printf() from the libc.so shared library
-sqrt() from the libm.so shared library
+`printf()` from the *libc.so* shared library
+`sqrt()` from the *libm.so* shared library
+
 We will return to these in a moment.
 
-Shared libraries vs static libraries
-A static library has file extension of .a (archive file). When your program links a static library, the machine code of external functions used in your program is copied into the executable. At runtime, everything your program needs is wrapped up inside the executable.
+### Shared libraries vs static libraries
 
-A shared library has file extension of ".so" (shared objects). When your program is linked against a shared library, only a small table is created in the executable. At runtime, the exectutable must be able to locate the functions listed in this table. This is done by the operating system - a process known as dynamic linking.
+A static library has file extension of *.a* (meaning archive file). When your program links a static library, the machine code of external functions used in your program is copied into the executable. At runtime, everything your program needs is wrapped up inside the executable.
+
+A shared library has file extension of *.so* (meaning shared objects). When your program is linked against a shared library, only a small table is created in the executable. At runtime, the exectutable must be able to locate the functions listed in this table. This is done by the operating system - a process known as dynamic linking.
 
 Static libraries certainly seem simpler, but most programs use shared libraries and dynamic linking. There are several reasons why the added complexity is thought to be worth it:
 
-Makes executable files smaller and saves disk space, because one copy of a library can be shared between multiple programs.
-Most operating systems allow one copy of a shared library in memory to be used by all running programs, saving memory.
-If your libraries are updated, programs using shared libraries automatically take advantage of these updates, programs using static libraries would need to be recompiled.
+- Makes executable files smaller and saves disk space, because one copy of a library can be shared between multiple programs.
+- Most operating systems allow one copy of a shared library in memory to be used by all running programs, saving memory.
+- If your libraries are updated, programs using shared libraries automatically take advantage of these updates, programs using static libraries would need to be recompiled.
+
 Because of the advantage of dynamic linking, GCC will prefer a shared library to a static library if both are available (by default).
 
-Building with shared libraries in default (known) locations
-Let's start with an example that uses the sqrt() function from the math library:
+### Building with shared libraries in default (known) locations
 
+Let's start with an example (*roots.c*) that uses the `sqrt()` function from the math library:
+```
 #include <stdio.h>
 #include <math.h>
-
 void main()
 { 
     int i;
@@ -260,41 +234,47 @@ void main()
         printf("\t %d \t\t\t %d \n", i, sqrt((double) i));
 
 }
-Notice the function sqrt, which we use, but do not define. The (machine) code for this function is stored in libm.so, and the function definition is stored in the header file math.h.
+```
+
+Notice the function `sqrt`, which we use, but do not define. The (machine) code for this function is stored in *libm.so*, and the function definition is stored in the header file *math.h*.
 
 To build successfully, we must:
 
-#include the header file for the external library
-Make sure that the preprocessor can find this header file
-Instruct the linker to link to the external library
-Let's go ahead and build the program. To compile and link this in separate steps, we would run:
+1. Include the header file for the external library and make sure that the preprocessor can find this header file.
+2. Instruct the linker to link to the external library
 
+We build the program using the two-step scheme:
+```
 gcc -c roots.c
 gcc roots.o -lm -o roots
-The first command preprocesses roots.c, appending the header files, and then translates it to object code. This step does need to find the header file, but it does not yet require the library.
+```
 
-The second command links all of the object code into the executable. It does not need to find the header file (it is already compiled into roots.o) but it does need to find the library file.
+The first command preprocesses *roots.c*, appending the header files, and then translates it to object code. This step does need to find the header file, but it does not yet require the library.
 
-Library files are included using the -l flag. Thier names are given excluding the lib prefix and exluding the .so suffix.
+The second command links all of the object code into the executable. It does not need to find the header file, which has already been compiled into *roots.o*, but it does need to find the library file.
 
-Just as we did above, we can combine the build steps into a single command:
+Library files are linked using the `-l` flag. Their names are given excluding the lib prefix and exluding the `.so` suffix, which is `m` in this case.
 
+Just as we did above, we can combine the two steps into a single command:
+```
 gcc roots.c -lm -o roots
-IMPORTANT Because we are using shared libraries, the linker must be able to find the linked libraries at runtime, otherwise the program will fail. You can check the libraries required by a program, and whether they are being found correctly or not using the ldd command. For out roots program, we get the following
+```
 
-ldd roots
-linux-vdso.so.1 =>  (0x00007fff8bb8a000)
-libm.so.6 => /lib64/libm.so.6 (0x00007ffc69550000)
-libc.so.6 => /lib64/libc.so.6 (0x00007ffc691bc000)
-/lib64/ld-linux-x86-64.so.2 (0x00007ffc69801000)
-Which shows that our executable requires a few basic system libraries as well as the math library we explicitly included, and that all of these dependencies are found by the linker.
+!!! "Note: check if the linker is able to find the linked libraries at runtime"
 
-Challenge
-Before moving on, let's take a few minutes to break this build process. Try the following and read the error messages carefully. These are your hints to fixing a broken build process.
+    Because we are using shared libraries, the linker must be able to find the linked libraries at runtime, otherwise the program will fail. You can check the libraries required by a program, and whether they are being found correctly or not using the ldd command. For out *roots* program, we get the following
+    ```
+    $ ldd roots
+	linux-vdso.so.1 (0x00007ffd2c962000)
+	libm.so.6 => /lib64/libm.so.6 (0x00007fceadbef000)
+	libc.so.6 => /lib64/libc.so.6 (0x00007fcead82a000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007fceadf71000)
+    ```
+    This shows that our executable requires a few basic system libraries as well as the math library we explicitly included, and that all of these dependencies are found by the linker.
 
-Delete #include <math.h> from roots.c
-Omit -lm from the linking step
-Sidebar: where does the preprocessor look to find header files?
+
+??? "Sidebar: where does the preprocessor look to find header files?"
+
 The preprocessor will search some default paths for included header files. Before we go down the rabbit hole, it is important to note that you do not have to do this for a typical build, but the commands may prove useful when you are trying to work out why something fails to build.
 
 o look for the header, we can run the following commands to show the preprocessor search path and look for files in therein:
