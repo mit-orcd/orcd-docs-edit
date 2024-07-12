@@ -126,7 +126,7 @@ gcc squares.c -o squares
 
 ## Building a multi-file program
 
-For most projects in the real world, it is convenient to break up the source code into multiple files. Typically, these include a main function in one file, and one or more other files containing functions / subroutines called by main(). In addition, a header file is usually used to share custom data types, function prototypes, preprocessor macros, etc.
+For most projects in the real world, it is convenient to break up the source code into multiple files. Typically, these include a main function in one file, and one or more other files containing functions / subroutines called by `main()`. In addition, a header file is usually used to share custom data types, function prototypes, preprocessor macros, etc.
 
 As an example, we create a program with several source code files in a directory named *multi_string*, which consists of:
 
@@ -135,20 +135,30 @@ As an example, we create a program with several source code files in a directory
 - *header.h*: one function prototype and one macro definition
 
 ??? Source codes for the *multi_string* program.
-     *main.c*: 
-     ```
-     #include "header.h"
-     #include <stdio.h>
+    
+    *main.c*: 
+    ```
+    #include "header.h"
+    #include <stdio.h>
+    char    *AnotherString = "Hello Everyone";
+    main()
+    {
+    printf("Running...\n");
+    WriteMyString(MY_STRING);
+    printf("Finished.\n");
+    }
+    ```
 
-     char    *AnotherString = "Hello Everyone";
+    *WriteMyString.c*:
+    #include <stdio.h>
+    extern char *AnotherString;
+    void WriteMyString(char *ThisString)
+    {
+    printf("%s\n", ThisString);
+    printf("Global Variable = %s\n", AnotherString);
+    }
 
-     main()
-     {
-        printf("Running...\n");
-        WriteMyString(MY_STRING);
-        printf("Finished.\n");
-     }
-     ```
+
 
 The easiest way to compile such a program is to include all the required source files at the `gcc` command line:
 ```
