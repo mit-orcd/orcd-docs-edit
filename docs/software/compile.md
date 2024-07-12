@@ -15,7 +15,7 @@ This page covers the basics of building programs from C source code, and automat
 === "Engaging"
      A GCC compiler is needed to compile codes. Load a GCC module first, 
      ```
-     module load gcc/12.2.0-x86_64
+     module load gcc/12.2.0
      ```
 
 ## Building a single-file program
@@ -23,21 +23,19 @@ This page covers the basics of building programs from C source code, and automat
 Let's start with a simple example: building a "hello world" C program with the GCC compiler. The program (*hello.c*) looks like this:
 ```
 #include <stdio.h>
-main()
+int main()
 {
-    (void) printf("Hello World\n");
+    printf("Hello World\n");
     return (0);
 }
 ```
 
-To build a working executable from this file in the simplest way possible, run:
-
+To build a working executable from this file in the simplest way, run:
 ```
 gcc hello.c
 ```
 
-This command creates an executable with a default name of a.out. Running this command prints the familiar message:
-
+This command creates an executable with a default name of *a.out*. Running this command prints the familiar message:
 ```
 $ a.out
 Hello World
@@ -46,18 +44,18 @@ Hello World
 More happened here behind the scene. In fact, this command wraps up 4 steps of the build process: Preprocess, Compile, Assemble, and Link.
 
 ### Step 1: Preprocess
-In this step, gcc calls preprocessing program cpp to interpret preprocessor directives and modify the source code accordingly.
+In this step, *gcc* calls preprocessing program *cpp* to interpret preprocessor directives and modify the source code accordingly.
 
 Some common directives are:
 
-- `#include`: includes contents of the named file, typically a header file, e.g. `#include <stdio.h>`
+- `#include`: includes contents of the named file, typically a header file, e.g. `#include <stdio.h>`.
 
-- `#define`: macro substitution, e.g. `#define PI 3.14159`
+- `#define`: macro substitution, e.g. `#define PI 3.14159`.
 
 - `#ifdef ... #end`: conditional compilation, the code block is included only if a certain macro is defined, e.g:
 ```
 #ifdef TEST_CASE
-a=1; b=0; c=0;
+  a=1; b=0; c=0;
 #endif
 ```
 
@@ -66,17 +64,17 @@ We could perform just this step of the build process like so:
 cpp hello.c hello.i
 ```
 
-Examining the output file (`vim hello.i`) shows that the long and messy `stdio.h` header has been appended to our simple code. 
+Examining the output file (`vim hello.i`) shows that the long and messy *stdio.h* header has been appended to our simple code. 
 
 ### Step 2: Compile
 
 In this step, the (modified) source code is translated from the C programming language into assembly code.
 
-Assembly code is a low-level programming language with commands that correspond to machine instructions for a particular type of hardware. It is still just plain text --- you can read assembly and write it too if you so desire.
+Assembly code is a low-level programming language with commands that correspond to machine instructions for a particular type of hardware. It is still just plain text, that says you can read assembly and write it too if you so desire.
 
 To perform just the compilation step of the build process, we would run:
 ```
-gcc -S -c hello.i -o hello.i
+gcc -S -c hello.i -o hello.s
 ```
 
 Examining the output file (`vim hello.s`) shows that processor-specific instructions needed to run our program on this specific system. Interestingly, for such a simple program as ours, the assembly code is actually shorter than the preprocesses source code (though not the original source code).
