@@ -6,23 +6,21 @@ tags:
  - OpenMind
 ---
 
-# Building Software from Source Code in Linux
+# Compiling Source Code in Linux
 
-This page covers the basics of building small projects from C source code, and automating this process using GNU Make. It is intended for scientists venturing into scientific programming, to help ease the frustrations that typically come up when starting to work in compiled programming languages.
+This page covers the basics of building programs from C source code, and automating this process using GNU Make. It is intended for scientists venturing into scientific programming, to help ease the frustrations that typically come up when starting to work in compiled programming languages.
 
 ## Preparation
 
-A GCC compiler is needed to compile codes. Load a GCC module, 
-```
-module load gcc/12.2.0-x86_64
-```
+=== "Engaging"
+     A GCC compiler is needed to compile codes. Load a GCC module first, 
+     ```
+     module load gcc/12.2.0-x86_64
+     ```
 
 ## Building a single-file program
 
-Let's start with a simple example: building a "hello world" C program with the GCC compiler.
-
-Our program (hello.c) looks like this:
-
+Let's start with a simple example: building a "hello world" C program with the GCC compiler. The program (*hello.c*) looks like this:
 ```
 #include <stdio.h>
 main()
