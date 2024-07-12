@@ -351,12 +351,14 @@ This code calls two functoins `ctest1` and `ctest2`, which are included in a cus
     cd src
     ```
     and save the following two source code files in there. 
+
     *ctest1.c*:
     ```
     void ctest1(int *i){
       *i=100;
     }
     ```
+
     *ctest2.c*:
     ```
     $ cat ctest2.c 
@@ -364,6 +366,7 @@ This code calls two functoins `ctest1` and `ctest2`, which are included in a cus
       *i=5;
     }
     ```
+
     Each code does nothing but defines an interger.
 
     Second, create another subdirectory named `include`,
@@ -449,17 +452,27 @@ The output clearly shows that it does not. The problem here is that the dynamic 
 ```
 export LD_LIBRARY_PATH=./ctest_dir/lib:$LD_LIBRARY_PATH
 ```
-
-- Hard-code the location of non-standard libraries into the executable. Setting (and forgeting to set) LD_LIBRARY_PATH all the time can be tiresome. An alternative approach is to burn the location of the shared libraries into the executable as an RPATH or RUNPATH. This is done by adding some additional flags for the linker, like so:
-
-gcc -Lctest_dir/lib  use_ctest.o -lctest -Wl,rpath,ctest_dir/lib,--enable-new-dtags- use_ctest
-We can confirm that this worked by running the program (resetting LD_LIBRARY_PATH first if needed), and more explicitly, by examining the executable directly:
-
-./use_ctest
-readelf -d use_ctest
-
+and then run the program:
 ```
-./use_ctest
+$ ./use_ctest 
+100 / 5 = 20
+```
+It works! 
+
+- Hard-code the location of libraries into the executable. Setting (and forgeting to set) `LD_LIBRARY_PATH` all the time can be tiresome. An alternative approach is to burn the location of the shared libraries into the executable as an `RPATH` or `RUNPATH`. This is done by adding some additional flags for the linker, like so:
+```
+gcc -L ctest_dir/lib use_ctest.o -lctest -Wl,--rpath=ctest_dir/lib -o use_ctest_1
+```
+We can confirm that this worked by running the program:
+```
+$ ./use_ctest_1
+100 / 5 = 20
+```
+or examining the executable to show that it contains the needed library:
+```
+$ readelf -d use_ctest_1 |grep ctest
+ 0x0000000000000001 (NEEDED)             Shared library: [libctest.so]
+ 0x000000000000000f (RPATH)              Library rpath: [ctest_dir/lib]
 ```
 
 
