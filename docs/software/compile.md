@@ -30,21 +30,21 @@ int main()
 }
 ```
 
-To build a working executable from this file in the simplest way, run:
+To build a working executable from this file, run:
 ```
-gcc hello.c
+gcc hello.c -o hello
 ```
 
-This command creates an executable with a default name of *a.out*. Running this command prints the familiar message:
+This command creates an executable with a name of *hello*. Running this command prints the familiar message:
 ```
-$ a.out
+$ hello
 Hello World
 ```
 
 More happened here behind the scene. In fact, this command wraps up 4 steps of the build process: Preprocess, Compile, Assemble, and Link.
 
 ### Step 1: Preprocess
-In this step, *gcc* calls preprocessing program *cpp* to interpret preprocessor directives and modify the source code accordingly.
+In this step, `gcc` calls preprocessing program `cpp` to interpret preprocessor directives and modify the source code accordingly.
 
 Some common directives are:
 
@@ -77,33 +77,34 @@ To perform just the compilation step of the build process, we would run:
 gcc -S -c hello.i -o hello.s
 ```
 
-Examining the output file (`vim hello.s`) shows that processor-specific instructions needed to run our program on this specific system. Interestingly, for such a simple program as ours, the assembly code is actually shorter than the preprocesses source code (though not the original source code).
+Examining the output file (`vim hello.s`) shows processor-specific instructions needed to run our program on this specific system. Interestingly, for such a simple program as ours, the assembly code is actually shorter than the preprocesses source code (though not the original source code).
 
 ### Step 3: Assemble
 
-Assembly code is then translated into object code (more). This is a binary representation of the actions your computer needs to take to run your program. It is no longer human-readable, but it can be understood by your processor.
+Assembly code is then translated into object code. This is a binary representation of the actions your computer needs to take to run your program. It is no longer human-readable, but it can be understood by computers.
 
 To perform just this step of the build process, we would run:
 ```
 gcc -c hello.s -o hello.o
 ```
 
-You can try to view this object file like we did the other intermediate steps, but the result will not be terribly useful (vim `hello.o`). Your text editor is trying to interpret binary machine language commands as ASCII characters, and (mostly) failing. Perhaps the most interesting result of doing so is that there are intelligable bits --- these are the few variables, etc, that actually are ASCII characters.
+You can try to view this object file like we did the other intermediate steps (`vim hello.o`), but the result will not be useful . Your text editor is trying to interpret binary machine language commands as ASCII characters, and (mostly) failing. Perhaps the most interesting result of doing so is that there are intelligable bits --- these are the few variables, etc, that actually are ASCII characters.
 
 Also note that object files are not executables, you can't run them until after the next step.
 
 ### Step 4: Link
 
-In the final step, gcc calls the linker program ld to combine the object file with any external functions it needs (e.g. library functions or functions from other source files). In our case, this would include printf from the C standard library.
+In the final step, `gcc` calls the linker program `ld` to combine the object file with any external functions it needs (e.g. library functions or functions from other source files). In our case, this would include `printf` from the C standard library.
 
 To perform just this step of the build process, we would run:
 ```
 gcc hello.o -o hello
 ```
+This produces the executable `hello` finally. 
 
 ### Challege:
 
-Compile and run the following program (squares.c):
+Compile and run the following program (*squares.c*):
 ```
 #include <stdio.h>
 main()
