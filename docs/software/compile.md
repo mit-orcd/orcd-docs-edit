@@ -134,7 +134,7 @@ As an example, we create a program with several source code files in a directory
 - *WriteMyString.c*: a module containing the subroutine called by main
 - *header.h*: one function prototype and one macro definition
 
-??? Source codes for the *multi_string* program.
+??? "Source codes for the *multi_string* program"
     
     *main.c*: 
     ```
