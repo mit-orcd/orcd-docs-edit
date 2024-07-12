@@ -106,7 +106,7 @@ This produces the executable `hello` finally.
 
 For most projects in the real world, it is convenient to break up the source code into multiple files. Typically, these include a main function in one file, and one or more other files containing functions / subroutines called by `main()`. In addition, a header file is usually used to share custom data types, function prototypes, preprocessor macros, etc.
 
-As an example, we create a program with several source code files in a directory named *multi_string*, which consists of:
+As an example, we create several source code files in a directory named *multi_string*, which consists of:
 
 - *main.c*: the main driver function, which calls a subroutine and exits
 - *WriteMyString.c*: a module containing the subroutine called by main
@@ -197,10 +197,10 @@ This is most often needed in the case where you wish to use external libraries i
 
 A library is a collection of pre-compiled object files that can be linked into your programs via the linker. In simpler terms, they are machine code files that contain functions / subroutines that you can use in your programs.
 
-A few example functions that come from libraries are:
+Two example functions that come from libraries are:
 
-`printf()` from the *libc.so* shared library
-`sqrt()` from the *libm.so* shared library
+- `printf()` from the *libc.so* shared library
+- `sqrt()` from the *libm.so* shared library
 
 We will return to these in a moment.
 
@@ -253,16 +253,16 @@ The first command preprocesses *roots.c*, appending the header files, and then t
 
 The second command links all of the object code into the executable. It does not need to find the header file, which has already been compiled into *roots.o*, but it does need to find the library file.
 
-Library files are linked using the `-l` flag. Their names are given excluding the lib prefix and exluding the `.so` suffix, which is `m` in this case.
+Library files are linked using the `-l` flag. Their names are given excluding the *lib* prefix and exluding the *.so* suffix, which translates *libm.so* into `m` in this case. So we use `-lm` in the command. 
 
 Just as we did above, we can combine the two steps into a single command:
 ```
 gcc roots.c -lm -o roots
 ```
 
-!!! "Note: check if the linker is able to find the linked libraries at runtime"
+!!!"Note: check if the linker is able to find the linked libraries at runtime"
 
-    Because we are using shared libraries, the linker must be able to find the linked libraries at runtime, otherwise the program will fail. You can check the libraries required by a program, and whether they are being found correctly or not using the ldd command. For out *roots* program, we get the following
+    Because we are using shared libraries, the linker must be able to find the linked libraries at runtime, otherwise the program will fail. You can check the libraries required by a program, and whether they are being found correctly or not using the `ldd` command. For out *roots* program, we get the following
     ```
     $ ldd roots
 	linux-vdso.so.1 (0x00007ffd2c962000)
@@ -270,17 +270,18 @@ gcc roots.c -lm -o roots
 	libc.so.6 => /lib64/libc.so.6 (0x00007fcead82a000)
 	/lib64/ld-linux-x86-64.so.2 (0x00007fceadf71000)
     ```
-    This shows that our executable requires a few basic system libraries as well as the math library we explicitly included, and that all of these dependencies are found by the linker.
+    This shows that our executable requires a few basic system libraries *libc.so* as well as the math library `libm.so` we explicitly included, and that all of these dependencies are found by the linker.
 
 
 ??? "Sidebar: where does the preprocessor look to find header files?"
 
-The preprocessor will search some default paths for included header files. Before we go down the rabbit hole, it is important to note that you do not have to do this for a typical build, but the commands may prove useful when you are trying to work out why something fails to build.
+    The preprocessor will search some default paths for included header files. Before we go down the rabbit hole, it is important to note that you do not have to do this for a typical build, but the commands may prove useful when you are trying to work out why something fails to build.
 
-o look for the header, we can run the following commands to show the preprocessor search path and look for files in therein:
+    o look for the header, we can run the following commands to show the preprocessor search path and look for files in therein:
 
-cpp -Wp,-v
-Which has the following output:
+    cpp -Wp,-v
+
+    Which has the following output:
 
 ignoring nonexistent directory "/usr/local/include"
 ignoring nonexistent directory "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include-fixed"
