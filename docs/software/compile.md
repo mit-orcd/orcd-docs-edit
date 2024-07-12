@@ -409,46 +409,58 @@ As the error message indicates, the problem here is that an included header file
 ```
 gcc -I ctest_dir/include -c use_ctest.c
 ```
-When we try to link the program to create an executable, we know we need to explicitly add the library with the -l flag, but in this case we still get an error:
+then it creates an object file *use_ctest.o*.
 
+The next step is to use the linker to create an executable. As we have known, we need to explicitly add the library with the `-l` flag,
+```
 gcc use_ctest.o -lctest -use_ctest
-
+```
+but in this case we still get an error:
+```
 /usr/bin/ld: cannot find -lctest
-collect2: ld returned 1 exit status
-Just like for the header, we need to explicitly specify the path to the library file:
+collect2: error: ld returned 1 exit status
+```
+Just like for the header, we need to explicitly specify the path to the library file using `-L`:
+```
+gcc -L ctest_dir/lib  use_ctest.o -lctest -o use_ctest
+```
+An executable *use_ctest* is created successfully! 
 
-gcc -Lctest_dir/lib  use_ctest.o -lctest use_ctest
-Success, or so it would seem. What happens when we try to run our shiny new executable?
+Howerver, what happens when we try to run our shiny new executable?
+```
+$ ./use_ctest 
+./use_ctest: error while loading shared libraries: libctest.so: cannot open shared object file: No such file or directory
+```
 
-./ctest
+Frustrating? No worry. This is a commonly seen error. We can diagnose this problem by checking to see if the dynamic linker is able to gather up all the dependencies at runtime:
+```
+$ ldd use_ctest
+	linux-vdso.so.1 (0x00007fff56d9d000)
+	libctest.so => not found
+	libc.so.6 => /lib64/libc.so.6 (0x00007f7f46df6000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f7f471bb000)
+```
 
-./ctest: error while loading shared libraries: libctest.so: cannot open shared object file: No such file or directory
-We can diagnose this problem by checking to see if the dynamic linker is able to gather up all the dependencies at runtime:
+The output clearly shows that it does not. The problem here is that the dynamic linker will only search the system default paths. There are a few solutions. 
 
-ldd ctest
+- Permanently add our custom library to one of the system default paths. This option needs root permissoins, which is not available for HPC users and thus is not recommended here. 
 
-linux-vdso.so.1 =>  (0x00007fffd75ff000)
-libctest.so => not found
-libc.so.6 => /lib64/libc.so.6 (0x00007f802d21b000)
-/lib64/ld-linux-x86-64.so.2 (0x00007f802d5dd000)
-The output clearly shows that it does not. The problem here is that the dynamic linker will only search the default paths unless we:
+- Specify the location of libraries using the `LD_LIBRARY_PATH` environment variable. `LD_LIBRARY_PATH` contains a colon (:) separated list of directories where the dynamic linker should look for shared libraries. The linker will search these directories before the default system paths. You can define the value of `LD_LIBRARY_PATH` like so:
+```
+export LD_LIBRARY_PATH=./ctest_dir/lib:$LD_LIBRARY_PATH
+```
 
-Permanently add our custom library to this search path. This option is not covered here - I am assuming that many of you will be working on clusters and other systems where you do not have root permissions.
-
-Specify the location of non-standard libraries using the LD_LIBRARY_PATH variable. LD_LIBRARY_PATH contains a colon (:) separated list of directories where the dynamic linker should look for shared libraries. The linker will search these directories before the default system paths. You can define the value of LD_LIBRARY_PATH for a particular command only by preceeding the command with the definintion, like so:
-
-LD_LIBRARY_PATH=ctest_dir/lib:$LD_LIBRARY_PATH ./use_ctest
-Or define it for your whole shell as an environment variable:
-
-export LD_LIBRARY_PATH=/ctest_dir/lib:$LD_LIBRARY_PATH
-./use_ctest
-Hard-code the location of non-standard libraries into the executable. Setting (and forgeting to set) LD_LIBRARY_PATH all the time can be tiresome. An alternative approach is to burn the location of the shared libraries into the executable as an RPATH or RUNPATH. This is done by adding some additional flags for the linker, like so:
+- Hard-code the location of non-standard libraries into the executable. Setting (and forgeting to set) LD_LIBRARY_PATH all the time can be tiresome. An alternative approach is to burn the location of the shared libraries into the executable as an RPATH or RUNPATH. This is done by adding some additional flags for the linker, like so:
 
 gcc -Lctest_dir/lib  use_ctest.o -lctest -Wl,rpath,ctest_dir/lib,--enable-new-dtags- use_ctest
 We can confirm that this worked by running the program (resetting LD_LIBRARY_PATH first if needed), and more explicitly, by examining the executable directly:
 
 ./use_ctest
 readelf -d use_ctest
+
+```
+./use_ctest
+```
 
 
 ## Automating the build process with GNU Make
