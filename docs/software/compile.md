@@ -260,7 +260,7 @@ Just as we did above, we can combine the two steps into a single command:
 gcc roots.c -lm -o roots
 ```
 
-!!!"Note: check if the linker is able to find the linked libraries at runtime"
+!!! Note
 
     Because we are using shared libraries, the linker must be able to find the linked libraries at runtime, otherwise the program will fail. You can check the libraries required by a program, and whether they are being found correctly or not using the `ldd` command. For out *roots* program, we get the following
     ```
@@ -270,18 +270,19 @@ gcc roots.c -lm -o roots
 	libc.so.6 => /lib64/libc.so.6 (0x00007fcead82a000)
 	/lib64/ld-linux-x86-64.so.2 (0x00007fceadf71000)
     ```
-    This shows that our executable requires a few basic system libraries *libc.so* as well as the math library `libm.so` we explicitly included, and that all of these dependencies are found by the linker.
+    
+    This shows that our executable requires a few basic system libraries such as *libc.so* as well as the math library `libm.so` we explicitly included, and that all of these dependencies are found by the linker.
 
 
 ??? "Sidebar: where does the preprocessor look to find header files?"
 
     The preprocessor will search some default paths for included header files. Before we go down the rabbit hole, it is important to note that you do not have to do this for a typical build, but the commands may prove useful when you are trying to work out why something fails to build.
 
-    o look for the header, we can run the following commands to show the preprocessor search path and look for files in therein:
-
+    To look for the header, we can run the following command to show the preprocessor search path and look for files in therein:
+    ```
     cpp -Wp,-v
-
-    Which has the following output:
+    ```
+    which has the following output:
 
 ignoring nonexistent directory "/usr/local/include"
 ignoring nonexistent directory "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include-fixed"
