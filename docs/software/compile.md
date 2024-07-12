@@ -159,7 +159,6 @@ As an example, we create a program with several source code files in a directory
     }
 
 
-
 The easiest way to compile such a program is to include all the required source files at the `gcc` command line:
 ```
 gcc main.c WriteMyString.c -o my_string
@@ -169,41 +168,46 @@ gcc main.c WriteMyString.c -o my_string
 It is also quite common to separate out the process into two steps:
 
 1. source code -> object code
-
-
-2. object code -> executable (or library)
-
 ```
 gcc -c WriteMyString.c
 gcc -c main.c
-gcc WriteMyString.o main.o -o write
-./write
+```
+
+2. object code -> executable (or library)
+```
+gcc WriteMyString.o main.o -o my_string
 ```
 
 The reason is that this allows you to reduce compiling time by only recompiling objects that need to be updated. This seems silly for a program with only a few source files, but becomes important when many source files are involved. We will use this approach later when we discuss automating the build process.
 
+### Including header files
 
+In the above process, it is not necessary to include the header file explicitly on the `gcc` command line. This makes sense since we know that the (bundeled) preprocessing step will append any required headers to the source code before it is compiled.
 
-Including header files
-Note that it is not necessary to include the header file on the gcc command line. This makes sense since we know that the (bundeled) preprocessing step will append any required headers to the source code before it is compiled.
-
-There is one caveat: the preprocessor must be able to find the header files in order to include them. Our example works because header.h is in the working directory when we run gcc. We can break it by moving the header to a new subdirectory, like so:
-
-mkdir hdr
-mv header.c hdr
+There is one caveat: the preprocessor must be able to find the header files in order to include them. Our example works because the *header.h* file is in the current directory when we run `gcc`. We can break it by moving the header to a new subdirectory, like so:
+```
+mkdir include
+mv header.h include
 gcc main.c WriteMyString.c -o my_string
+```
+
 The above commands give the output error:
-
-main.c:4:20: fatal error: header.h: No such file or directory
- #include "header.h"
-                    ^
+```
+main.c:4:10: fatal error: header.h: No such file or directory
+    4 | #include "header.h"
+      |          ^~~~~~~~~~
 compilation terminated.
-We can fix this by specifically telling gcc where it can find the requisite headers, using the -I flag:
+```
 
-gcc -I ./hdr main.c WriteMyString.c -o my_string
-This is most often need in the case where you wish to use external libraries installed in non-standard locations. We will explore this case below.
+We can fix this by specifically telling gcc where it can find the requisite headers, using the `-I` flag:
+```
+gcc -I ./include main.c WriteMyString.c -o my_string
+```
 
-Challenge
+This is most often need in the case where you wish to use external libraries installed in non-standard locations. We will explore this case later. 
+
+### Challenge
+
 In the folder multi_fav_num you will find another simple multi-file program. Build this source code to a program named fav_num using separate compile and link steps. Once you have done this successfully, change the number defined in other.c and rebuild. You should not have to recompile main.c to do this.
 
 Solution:
