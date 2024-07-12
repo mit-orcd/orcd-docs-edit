@@ -287,7 +287,7 @@ Finally, we can run the programm:
     ```
     The output show the paths where GCC will search for header files by default. 
 
-??? Side note: where does the linker look to find libraries?
+??? "Side note: where does the linker look to find libraries?"
 
     The linker will search some default paths for library files. Again, it is important to note that you do not have to do this for a typical build, but the commands may prove useful when you are trying to work out why something fails to build.
 
@@ -319,7 +319,7 @@ Finally, we can run the programm:
 
 In many cases, you may need to use external libraries that are not included in the operating system. These libraries can be built by you or other develepers and they are saved in non-default locations. In this section, we will introduce how to build a program with libraries in non-default locations. 
 
-Let's switch to a new example code. We create a file named *use_ctest.c* that reads the following:
+Let's switch to a new example code. We create a source code named *use_ctest.c* that reads the following:
 ```
 #include <stdio.h>
 #include "ctest.h"
@@ -337,7 +337,7 @@ int main(){
 ```
 This code calls two functoins `ctest1` and `ctest2`, which are included in a custom library named *ctest*.
 
-??? Building a library
+??? "Side note: building a library"
 
     In the same level of the main code *use_ctest.c*, we create a directory named *ctest_dir* to save all files related to the library *ctest*. 
     ```
@@ -367,23 +367,22 @@ This code calls two functoins `ctest1` and `ctest2`, which are included in a cus
     }
     ```
 
-    Second, use the following command lines build the shared library named `libctest.so`:
+    Second, use the following commands to build the shared library named `libctest.so`:
     ```
     gcc -Wall -fPIC -c ctest1.c ctest2.c
     gcc -shared -Wl,-soname,libctest.so -o libctest.so ctest1.o ctest2.o
     ```
 
-    Finally move the library to a location, 
+    Finally, we move the library to a directory named *lib*, 
     ```
     cd ..
     mkidr lib
     mv src/libctest.so lib
     ```
 
+Assuming that the library *ctest* has been built (as instructed in the above side note), we will build the program *use_ctest* and fix possbile errors in the process.
 
-and is saved in the *ctest_dir/lib* directory, where
-
-Assuming that the library *ctest* has been built (as instructed in the above side note), we will build the program *use_ctest* in the folloiwng. First, we start with the simplest command.
+First, we start with the simplest command.
 ```
 gcc -c use_ctest.c
 ```
