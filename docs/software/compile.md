@@ -350,15 +350,13 @@ This code calls two functoins `ctest1` and `ctest2`, which are included in a cus
     mkdir src
     cd src
     ```
-    and create the following two source code files in there. Each code does nothing but defines an interger.
-    
+    and save the following two source code files in there. 
     *ctest1.c*:
     ```
     void ctest1(int *i){
       *i=100;
     }
     ```
-
     *ctest2.c*:
     ```
     $ cat ctest2.c 
@@ -366,8 +364,24 @@ This code calls two functoins `ctest1` and `ctest2`, which are included in a cus
       *i=5;
     }
     ```
+    Each code does nothing but defines an interger.
 
-    Second, use the following commands to build the shared library named `libctest.so`:
+    Second, create another subdirectory named `include`,
+    ```
+    mkdir include
+    ``` 
+    and save the following header file in there,
+    *ctest.h*:
+    ```
+    #ifndef CTEST_H
+    #define CTEST_H
+    void ctest1(int *);
+    void ctest2(int *);
+    #endif
+    ```
+    This is for the declaration of the funtcions.
+
+    Third, use the following commands to build the shared library named `libctest.so`:
     ```
     gcc -Wall -fPIC -c ctest1.c ctest2.c
     gcc -shared -Wl,-soname,libctest.so -o libctest.so ctest1.o ctest2.o
@@ -382,18 +396,19 @@ This code calls two functoins `ctest1` and `ctest2`, which are included in a cus
 
 Assuming that the library *ctest* has been built (as instructed in the above side note), we will build the program *use_ctest* and fix possbile errors in the process.
 
-First, we start with the simplest command.
+First, we start with the simplest command:
 ```
 gcc -c use_ctest.c
 ```
 It fails with an error:
 ```
-use_ctest.c:2:19: error: ctest.h: No such file or directory
+use_ctest.c:2:10: fatal error: ctest.h: No such file or directory
 ```
 
-As the error message indicates, the problem here is that an included header file is not found by the preprocessor. We can use the -I flag to fix this problem:
-
+As the error message indicates, the problem here is that an included header file is not found by the preprocessor. We know that we can use the `-I` flag to fix this problem:
+```
 gcc -I ctest_dir/include -c use_ctest.c
+```
 When we try to link the program to create an executable, we know we need to explicitly add the library with the -l flag, but in this case we still get an error:
 
 gcc use_ctest.o -lctest -use_ctest
