@@ -6,7 +6,7 @@ tags:
  - OpenMind
 ---
 
-# Compiling Source Code in Linux
+# Compiling Source Code and GNU Make
 
 This page covers the basics of building programs from C source code, and automating this process using GNU Make. It is intended for scientists venturing into scientific programming, to help ease the frustrations that typically come up when starting to work in compiled programming languages.
 
