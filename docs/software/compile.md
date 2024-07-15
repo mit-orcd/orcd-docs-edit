@@ -463,7 +463,7 @@ It works!
 ```
 gcc -L ctest_dir/lib use_ctest.o -lctest -Wl,--rpath=ctest_dir/lib -o use_ctest_1
 ```
-We can confirm that this worked by running the program:
+We can confirm that this works by running the program:
 ```
 $ ./use_ctest_1
 100 / 5 = 20
@@ -478,17 +478,26 @@ $ readelf -d use_ctest_1 |grep ctest
 
 ## Automating the build process with GNU Make
 
-The manual build process we used above can become quite tedious for all but the smallest projects. There are many ways that we might automate this process. The simplest would be to write a shell script that runs the build commands each time we invoke it. Let's take the simple hello.c program as a test case:
-
+The manual build process we used above can become quite tedious in real world. There are many ways that we might automate this process. The simplest would be to write a shell script that runs the build commands each time we invoke it. Let's take the simple *hello.c* program as a test case. Here is a bash shell script (named *build.sh*) to automate the building process,
+```
 #!/bin/bash
 gcc -c hello.c
 gcc hello.o -o hello
-This works fine for small projects, but for large multi-file projects, we would have to compile all the sources every time we change any of the sources.
+```
+Run it like so:
+```
+chmod +X build.sh
+./build.sh
+```
 
-The Make utility provides a useful way around this problem. The solution is that we (the programmer) write a special script that defines all the dependencies between source files, edit one or more files in our project, then invoke Make to re-compile only those files that are affected by any changes.
+This works fine for small projects, but for large multi-file projects, we would have to compile all the source codes every time we change anything in the codes.
 
-Make is a mini-programming language unto itself, so I will only touch upon the simplest useage. For the hello program, a makefile might look like this:
+The GNU Make utility provides a useful way around this problem. The solution is that we (the programmers) write a special script that defines all the dependencies between source files, edit one or more files in our project, then invoke Make to re-compile only those files that have been changed.
 
+### How GNU Make works
+
+GNU Make is a mini-programming language unto itself. To start, we need to create a file named *Makefile* or *makefile* to define a set of tasks to be executed. For the simple *hello* program, a *Makefile* is like this:
+```
 hello: hello.o
     gcc hello.o -o hello
 
@@ -499,22 +508,39 @@ clean:
     rm hello hello.o
 
 .PHONY: clean
-The syntax here is target: prerequisite_1 prerequisite_2 etc. The command block that follows will be executed to generate the target if any of the prerequisites have been modified. The first (top) target will be built by default, or you can specify a specific target to build following the make command. When we run make for the first time, the computer will take the following actions:
+```
 
-Find the default target, which is our executable file hello.
-Check to see if hello is up-to-date, hello does not exist, so it is not up-to-date and will have to be built
-Check to see if the prerequisite hello.o is up-to-date, hello.o does not exist, so it is not up-to-date and will have to be built.
-The prerequisite hello.c is not a target, so there is nothing left to check. The command gcc -c hello.c will be run to build hello.o
-Now hello.o is up to date, so make builds the next target, hello by running the command gcc hello.o -o hello
-Done.
-We can then compile using the make command:
+We can see that each section starts with a line specifyting dependency like so: `target: prerequisites`. The command block that follows will be executed to generate the target if any of the prerequisites have been modified. 
 
-make clean 
+Once a Makefile is ready, the program can be built by executing one single command,
+```
 make
-Notice that if no changes are made to the source files, make does not recompile anything --- there is no need to do so.
+```
+It looks for the *Makefile* in the same directory and build the targets. The first (top) target will be built by default, or you can specify a specific target to be built, 
+```
+make hello
+```
 
-Let's look at an example for our first multi-file program:
+When we run `make`, the computer will take the following actions:
 
+1. Find the default target, which is our executable file *hello*.
+
+2. Check if the target file *hello* is up-to-date. A target is considered not up-of-date if it does not exist or is older than any of the prerequisites. As *hello* does not exist, so it will be built.
+
+3. The prerequisite of *hello* is *hello.o*, which is also a target, so check if it is up-to-date. As *hello.o* does not exist, so it will be built.
+
+4. The prerequisite of *hello.o* is *hello.c*, which is not a target, so there is nothing left to check. The command `gcc -c hello.c` will be run to create *hello.o*.
+
+5. Now *hello.o* is up-to-date, so the next target *hello* will be built by running the command `gcc hello.o -o hello`.
+
+Note that the command under the clean target is not executed by `make`, because it is neither the first target nor an prerequisite of any other target. To bring this target up, we need to specify the target name:
+```
+make clean
+```
+It will remove the executable and all of the `.o` files. Note that if all targets are up-to-date, make does not do anything, so we need to run `make clearn` every time before rebuilding the program. 
+
+Let's create a `Makefile` for the multi-file example program mentioned in previous sections:
+```
 write: main.o WriteMyString.o
         gcc main.o WriteMyString.o -o write
 
@@ -526,3 +552,91 @@ WriteMyString.o: WriteMyString.c
 
 clean: 
         rm write *.o
+```
+
+If it is the first build, make builds the targets in the following order: main.o, WriteMyString.o and write. This compiles all source codes and links object files to build the executable. If it is not the first build, make will only build the targets whose prerequisite has been modified since last make. This feature makes it efficient for building a program with many source files. For example, if WriteMyString.c is modified, only WriteMyString.c is recompiled, while main.c is not. If main.c or header.h is modified, only main.c is recompiled, while WriteMyString.c is not. In either case, the write target will be built, since either main.o or WriteMyString.o is updated.
+
+By default, make prints on the screen all the commands that it executes. To suppress the print, add an @ before the commands, or turn on the silent mode with the option -s:
+
+make -s
+
+
+### Writing a good Makefile
+A Makefile could be very compilcated in a practical program with many source files. It is important to write a Makefile in good logic. The text in the Makefile should be as simple and clear as possbile. To this end, useful features of Makrefile are introduced in this section.
+
+You may have noticed that there are many duplications of the same file name or command name in our previous Makefiles. It is more convinient to use varialbes. Again, take our first multi-file program for example. The Makefile can be rewitten as following,
+
+CC=gcc
+OBJ=main.o WriteMyString.o
+EXE=write
+
+$(EXE): $(OBJ)
+        $(CC) $(OBJ) -o $(EXE)
+
+main.o: main.c header.h
+        $(CC) -c main.c
+
+WriteMyString.o: WriteMyString.c
+        $(CC) -c WriteMyString.c
+
+clean:
+        rm $(EXE) *.o
+Here we have defined the varialbes CC for the compiler, OBJ for object files and EXE for the executable file. If we want to change the compiler or the file names, we only modify the corresponding variables at one place, but do not need to modify all related places in the Makefile.
+
+Furthermore, we can upgrade the Makefile to a higher automatic level using the so-called "automatic variables":
+$(EXE): $(OBJ)
+        $(CC) $^ -o $@
+
+main.o: main.c header.h
+        $(CC) -c $<
+
+WriteMyString.o: WriteMyString.c
+        $(CC) -c $< 
+Here we have used the following automatic variables:
+
+$@  --- the name of the current target
+$^  --- the names of all the prerequisites
+$<  --- the name of the first prerequisite
+These automatic variables automatically take the names of current target or prerequisites, no matter what values are assigned to them.
+
+We can notice that the main.o and WriteMyString.o targets are built by the same command. Is there a way to combine the two duplicated commands into one so as to compile all source code files by one command line? Yes, it can be done with an implicit pattern rule:
+
+%.o: %.c
+        $(CC) -c $<
+
+main.o: header.h 
+Here % stands for the same thing in the prerequisites as it does in the target. In this example, any .o target has a corresponding .c file as an implied prerequisite. If a target (e.g. main.o) needs additional prerequisites (e.g. header.h), write an actionless rule with those prerequisites. We can imagine that applying this impilict rule should significantly simpify the Makefile when there are a large number of (say hundreds of) source files.
+
+If there are many varialbes to be defined, it is convinient to write the definition of all variables in another file, and then include the file in Makefile:
+
+include ./variables 
+The content of the file variables is as following:
+
+CC=gcc
+OBJ=main.o WriteMyString.o
+EXE=write
+In most cases, the target name is a file name. But there are exceptions, such as the clean target in this example. The rm command will not create any file named clean. What if there exists a file named clean in this directory? Let's do an experiment.
+
+touch clean
+make clean
+make: `clean' is up to date.
+The clean target does not work properly. Since it has no prerequisite, clean will always be considered up-to-date, and thus nothing will be done. To solve this issue, we can declare the target to be phony by making it a prerequisite of the special target .PHONY as follows:
+.PHONY: clean
+A phony target is one that is not really the name of a file; rather it is just a name for a recipe to be executed.
+Finally, we end up with an efficient Makefile:
+
+include ./variables
+.PHONY: clean
+
+$(EXE): $(OBJ)
+        $(CC) $^ -o $@
+
+%.o: %.c
+        $(CC) -c $<
+
+main.o: header.h
+
+clean:
+        rm $(EXE) *.o
+
+
