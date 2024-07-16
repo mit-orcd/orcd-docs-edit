@@ -211,7 +211,7 @@ Static libraries certainly seem simpler, but most programs use shared libraries 
 
 Because of the advantage of dynamic linking, GCC will prefer a shared library to a static library if both are available (by default). We will only use shared libraries in the following. 
 
-### Building with libraries in default (known) locations
+### Building with libraries in default locations
 
 Many useful fuctions are provided by libraries in the operating system. These are two widely-used examples:
 
@@ -315,7 +315,7 @@ Finally, we can run the programm:
     ```
 
 
-### Building with libraries in non-default (unknown) locations
+### Building with libraries in non-default locations
 
 In many cases, you may need to use external libraries that are not included in the operating system. These libraries can be built by you or other develepers and they are saved in non-default locations. In this section, we will introduce how to build a program with libraries in non-default locations. 
 
@@ -499,18 +499,21 @@ The GNU Make utility provides a useful way around this problem. The solution is 
 GNU Make is a mini-programming language unto itself. To start, we need to create a file named *Makefile* or *makefile* to define a set of tasks to be executed. For the simple *hello* program, a *Makefile* is like this:
 ```
 hello: hello.o
-    gcc hello.o -o hello
+        gcc hello.o -o hello
 
 hello.o: hello.c
-    gcc -c hello.c
+        gcc -c hello.c
 
 clean:
-    rm hello hello.o
+        rm hello hello.o
 
 .PHONY: clean
 ```
 
 We can see that each section starts with a line specifyting dependency like so: `target: prerequisites`. The command block that follows will be executed to generate the target if any of the prerequisites have been modified. 
+
+!!! Note
+    Every line in the command block should be started a `tab` character instead of multiple `space` characters.
 
 Once a Makefile is ready, the program can be built by executing one single command,
 ```
@@ -523,9 +526,9 @@ make hello
 
 When we run `make`, the computer will take the following actions:
 
-1. Find the default target, which is our executable file *hello*.
+1. Find the default target, which is our executable *hello*.
 
-2. Check if the target file *hello* is up-to-date. A target is considered not up-of-date if it does not exist or is older than any of the prerequisites. As *hello* does not exist, so it will be built.
+2. Check if the target file *hello* is up-to-date. A target is considered out-of-date if it does not exist or is older than any of the prerequisites. As *hello* does not exist, so it will be built.
 
 3. The prerequisite of *hello* is *hello.o*, which is also a target, so check if it is up-to-date. As *hello.o* does not exist, so it will be built.
 
@@ -533,13 +536,16 @@ When we run `make`, the computer will take the following actions:
 
 5. Now *hello.o* is up-to-date, so the next target *hello* will be built by running the command `gcc hello.o -o hello`.
 
-Note that the command under the clean target is not executed by `make`, because it is neither the first target nor an prerequisite of any other target. To bring this target up, we need to specify the target name:
+Note that the command under the *clean* target is not executed by `make`, because it is neither the first target nor an prerequisite of any other target. To bring it up, we need to specify the target name:
 ```
 make clean
 ```
-It will remove the executable and all of the `.o` files. Note that if all targets are up-to-date, make does not do anything, so we need to run `make clearn` every time before rebuilding the program. 
+The command under this target will remove the executable and all of the `.o` files. Note that if all targets are up-to-date, make does not do anything. 
 
-Let's create a `Makefile` for the multi-file example program mentioned in previous sections:
+
+### Makefile for a multi-file program
+
+Now let's switch to the multi-file example program used in previous sections. A `Makefile` is like this: 
 ```
 write: main.o WriteMyString.o
         gcc main.o WriteMyString.o -o write
@@ -554,15 +560,22 @@ clean:
         rm write *.o
 ```
 
-If it is the first build, make builds the targets in the following order: main.o, WriteMyString.o and write. This compiles all source codes and links object files to build the executable. If it is not the first build, make will only build the targets whose prerequisite has been modified since last make. This feature makes it efficient for building a program with many source files. For example, if WriteMyString.c is modified, only WriteMyString.c is recompiled, while main.c is not. If main.c or header.h is modified, only main.c is recompiled, while WriteMyString.c is not. In either case, the write target will be built, since either main.o or WriteMyString.o is updated.
+For the first build, `make` builds the targets in the following order: *main.o*, *WriteMyString.o*, and *write*. This compiles all source codes and then links all object files to create the executable. 
 
-By default, make prints on the screen all the commands that it executes. To suppress the print, add an @ before the commands, or turn on the silent mode with the option -s:
+When the prpgram is rebuilt, `make` will only build the targets whose prerequisites have been modified since the last build. This feature makes the building process efficient for a program with many source files. For example, if *WriteMyString.c* is modified, it is recompiled, while *main.c* is not. If *main.c* or *header.h* is modified, only *main.c* is recompiled, while *WriteMyString.c* is not. In either case, the *write* target will be rebuilt, since either *main.o* or *WriteMyString.o* is updated.
 
-make -s
+We need to run `make clean` and then run `make`, if we want to completely rebuild evetyhing.
+
+??? "Note: silent mode"
+     By default, `make` prints on the screen all the commands that it executes. To suppress the print, add an `@` before the commands, or turn on the silent mode with the option `-s`:
+     ```
+     make -s
+     ```
 
 
 ### Writing a good Makefile
-A Makefile could be very compilcated in a practical program with many source files. It is important to write a Makefile in good logic. The text in the Makefile should be as simple and clear as possbile. To this end, useful features of Makrefile are introduced in this section.
+
+A *Makefile* could be very compilcated in a practical program with many source files. It is important to write a Makefile in good logic. The text in the Makefile should be as simple and clear as possbile. To this end, useful features of Makrefile are introduced in this section.
 
 You may have noticed that there are many duplications of the same file name or command name in our previous Makefiles. It is more convinient to use varialbes. Again, take our first multi-file program for example. The Makefile can be rewitten as following,
 
