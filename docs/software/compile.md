@@ -112,7 +112,7 @@ As an example, we create several source code files in a directory named *multi_s
 - *WriteMyString.c*: a module containing the subroutine called by main
 - *header.h*: one function prototype and one macro definition
 
-??? "Source codes for the *multi_string* program"
+??? "Side note: source codes for the *multi_string* program"
     
     *main.c*: 
     ```
@@ -573,10 +573,9 @@ We need to run `make clean` and then run `make`, if we want to completely rebuil
 
 ### Writing a good Makefile
 
-A *Makefile* could be very compilcated in a practical program with many source files. It is important that the text in a *Makefile* should be as simple and clear as possbile. To this end, several useful features of *Makrefile* are introduced in this section.
+A *Makefile* could be very compilcated in a practical program with many source files. It is important that the text in a *Makefile* should be as simple and clear as possbile. In this section, we will learn more useful features of GNU Make and write a real-world *Makrefile* at the end.
 
-You may have noticed that there are many duplications of the same file name or command name in our previous examples. It is convinient to use varialbes in this case. Again, take our multi-file program for example. The *Makefile* can be rewitten as follows,
-
+In our previous examples, you may have noticed that there are many duplications of the same file name or command name. It is convinient to use varialbes in this case. Again, take our multi-file program for example. The *Makefile* can be rewitten as follows,
 ```
 CC=gcc
 OBJ=main.o WriteMyString.o
