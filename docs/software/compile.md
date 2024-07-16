@@ -506,8 +506,6 @@ hello.o: hello.c
 
 clean:
         rm hello hello.o
-
-.PHONY: clean
 ```
 
 We can see that each section starts with a line specifyting dependency like so: `target: prerequisites`. The command block that follows will be executed to generate the target if any of the prerequisites have been modified. 
@@ -575,10 +573,11 @@ We need to run `make clean` and then run `make`, if we want to completely rebuil
 
 ### Writing a good Makefile
 
-A *Makefile* could be very compilcated in a practical program with many source files. It is important to write a Makefile in good logic. The text in the Makefile should be as simple and clear as possbile. To this end, useful features of Makrefile are introduced in this section.
+A *Makefile* could be very compilcated in a practical program with many source files. It is important that the text in a *Makefile* should be as simple and clear as possbile. To this end, several useful features of *Makrefile* are introduced in this section.
 
-You may have noticed that there are many duplications of the same file name or command name in our previous Makefiles. It is more convinient to use varialbes. Again, take our first multi-file program for example. The Makefile can be rewitten as following,
+You may have noticed that there are many duplications of the same file name or command name in our previous examples. It is convinient to use varialbes in this case. Again, take our multi-file program for example. The *Makefile* can be rewitten as follows,
 
+```
 CC=gcc
 OBJ=main.o WriteMyString.o
 EXE=write
@@ -594,9 +593,12 @@ WriteMyString.o: WriteMyString.c
 
 clean:
         rm $(EXE) *.o
-Here we have defined the varialbes CC for the compiler, OBJ for object files and EXE for the executable file. If we want to change the compiler or the file names, we only modify the corresponding variables at one place, but do not need to modify all related places in the Makefile.
+```
 
-Furthermore, we can upgrade the Makefile to a higher automatic level using the so-called "automatic variables":
+Here we have defined the varialbes `CC` for the compiler, `OBJ` for object files, and `EXE` for the executable file. If we want to change the compiler or the file names, we only modify the corresponding variables at one place. 
+
+Furthermore, we can upgrade the *Makefile* to a higher automatic level using the so-called automatic variables:
+```
 $(EXE): $(OBJ)
         $(CC) $^ -o $@
 
@@ -605,39 +607,53 @@ main.o: main.c header.h
 
 WriteMyString.o: WriteMyString.c
         $(CC) -c $< 
-Here we have used the following automatic variables:
+```
 
-$@  --- the name of the current target
-$^  --- the names of all the prerequisites
-$<  --- the name of the first prerequisite
-These automatic variables automatically take the names of current target or prerequisites, no matter what values are assigned to them.
+Here we have used these automatic variables:
 
-We can notice that the main.o and WriteMyString.o targets are built by the same command. Is there a way to combine the two duplicated commands into one so as to compile all source code files by one command line? Yes, it can be done with an implicit pattern rule:
+- `$@`  -- the name of the current target
+- `$^`  -- the names of all the prerequisites
+- `$<`  -- the name of the first prerequisite
 
+These variables automatically take the names of current target or prerequisites, no matter what values are assigned to them.
+
+We then notice that the *main.o* and *WriteMyString.o* targets are built by the same command. Is there a way to combine the two duplicated commands into one so as to compile all source code files by one command line? The answer is yes. It can be done with an implicit pattern rule:
+```
 %.o: %.c
         $(CC) -c $<
 
 main.o: header.h 
-Here % stands for the same thing in the prerequisites as it does in the target. In this example, any .o target has a corresponding .c file as an implied prerequisite. If a target (e.g. main.o) needs additional prerequisites (e.g. header.h), write an actionless rule with those prerequisites. We can imagine that applying this impilict rule should significantly simpify the Makefile when there are a large number of (say hundreds of) source files.
+```
 
-If there are many varialbes to be defined, it is convinient to write the definition of all variables in another file, and then include the file in Makefile:
+Here the `%` stands for the same thing in the prerequisites as it does in the target. Usually, any object file with subfix `.o` has a corresponding a source file with subfix `.c` as an implied prerequisite, so we can use the `%` to represent the name for both files. If a target (e.g. *main.o*) needs additional prerequisites (e.g. *header.h*), write an actionless rule with those prerequisites. We can imagine that applying this impilict rule should significantly simpify a Makefile when there are a large number of (say hundreds of) source files.
 
+If there are many varialbes to be defined, it is better to write the definition of all variables in another file, and then include the file in Makefile:
+```
 include ./variables 
-The content of the file variables is as following:
-
+```
+The file *variables* reads the following:
+```
 CC=gcc
 OBJ=main.o WriteMyString.o
 EXE=write
-In most cases, the target name is a file name. But there are exceptions, such as the clean target in this example. The rm command will not create any file named clean. What if there exists a file named clean in this directory? Let's do an experiment.
+```
 
+Mostly the target name is a file name. But there are exceptions, such as the *clean* target in this example. The `rm` command will not create any file named `clean`. What if there exists a file named clean in this directory? Let's do an experiment.
+```
 touch clean
 make clean
 make: `clean' is up to date.
-The clean target does not work properly. Since it has no prerequisite, clean will always be considered up-to-date, and thus nothing will be done. To solve this issue, we can declare the target to be phony by making it a prerequisite of the special target .PHONY as follows:
-.PHONY: clean
-A phony target is one that is not really the name of a file; rather it is just a name for a recipe to be executed.
-Finally, we end up with an efficient Makefile:
+```
 
+We can see that the clean target does not work properly. Since it has no prerequisite, the target *clean* will be considered up-to-date, and thus nothing will be done. To solve this issue, we can declare the target to be phony by making it a prerequisite of the special target `.PHONY` as follows:
+```
+.PHONY: clean
+```
+
+A phony target is one that is not really the name of a file; rather it is just a name for a recipe to be executed.
+
+In summary, we write a real-world Makefile like so:
+```
 include ./variables
 .PHONY: clean
 
@@ -651,5 +667,5 @@ main.o: header.h
 
 clean:
         rm $(EXE) *.o
-
+```
 
