@@ -594,7 +594,18 @@ clean:
         rm $(EXE) *.o
 ```
 
-Here we have defined the varialbes `CC` for the compiler, `OBJ` for object files, and `EXE` for the executable file. If we want to change the compiler or the file names, we only modify the corresponding variables at one place. 
+Here we have defined the varialbes `CC` for the compiler, `OBJ` for object files, and `EXE` for the executable file. If we want to change the compiler or the file names, we only modify the corresponding variable at one place. 
+
+If there are many varialbes to be defined, it is better to write the definition of all variables in another file, and then include the file in Makefile:
+```
+include ./variables 
+```
+The file *variables* reads the following:
+```
+CC=gcc
+OBJ=main.o WriteMyString.o
+EXE=write
+```
 
 Furthermore, we can upgrade the *Makefile* to a higher automatic level using the so-called automatic variables:
 ```
@@ -616,7 +627,7 @@ Here we have used these automatic variables:
 
 These variables automatically take the names of current target or prerequisites, no matter what values are assigned to them.
 
-We then notice that the *main.o* and *WriteMyString.o* targets are built by the same command. Is there a way to combine the two duplicated commands into one so as to compile all source code files by one command line? The answer is yes. It can be done with an implicit pattern rule:
+We then notice that the *main.o* and *WriteMyString.o* targets are built by the same command. Is there a way to combine these two duplicated commands into one so as to compile all source code files by only one command line? The answer is yes. It can be done with an implicit pattern rule:
 ```
 %.o: %.c
         $(CC) -c $<
@@ -624,18 +635,7 @@ We then notice that the *main.o* and *WriteMyString.o* targets are built by the 
 main.o: header.h 
 ```
 
-Here the `%` stands for the same thing in the prerequisites as it does in the target. Usually, any object file with subfix `.o` has a corresponding a source file with subfix `.c` as an implied prerequisite, so we can use the `%` to represent the name for both files. If a target (e.g. *main.o*) needs additional prerequisites (e.g. *header.h*), write an actionless rule with those prerequisites. We can imagine that applying this impilict rule should significantly simpify a Makefile when there are a large number of (say hundreds of) source files.
-
-If there are many varialbes to be defined, it is better to write the definition of all variables in another file, and then include the file in Makefile:
-```
-include ./variables 
-```
-The file *variables* reads the following:
-```
-CC=gcc
-OBJ=main.o WriteMyString.o
-EXE=write
-```
+Here the `%` stands for the same thing in the prerequisites as it does in the target. Usually, any object file with a subfix `.o` has a corresponding source file with a subfix `.c` as an implied prerequisite, so we can use the `%` to represent the name for both files. If a target (e.g. *main.o*) needs additional prerequisites (e.g. *header.h*), write an actionless rule with those prerequisites. We can imagine that applying this impilict rule should significantly simpify a Makefile when there are a large number of source files.
 
 Mostly the target name is a file name. But there are exceptions, such as the *clean* target in this example. The `rm` command will not create any file named `clean`. What if there exists a file named clean in this directory? Let's do an experiment.
 ```
