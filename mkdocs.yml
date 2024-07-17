@@ -5,7 +5,10 @@ nav:
   - ORCD Systems: orcd-systems.md
   - Getting Started Tutorial: getting-started.md
   - Accessing ORCD Systems:
-    - SSH Key Setup: ssh-setup.md
+    - Logging in with OnDemand: accessing-orcd/ondemand-login.md
+    - Logging in with SSH via Terminal: accessing-orcd/ssh-login.md
+    - SSH Key Setup: accessing-orcd/ssh-setup.md
+    - VSCode Remote SSH: accessing-orcd/vscode-ssh.md
   - Filesystems and File Transfer:
     - General Use Filesystems:  filesystems-file-transfer/filesystems.md
     - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
