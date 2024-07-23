@@ -31,6 +31,9 @@ To run on a compute node you will need at least 2 entries in this file. The firs
 
     !!! note
         If you are using one of the login nodes that requires 2-Factor authentication be ready to receive your default 2-Factor prompt when you connect. If you do not respond right away the connection will time out.
+    
+    !!! note
+        To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to this [Engaging guide](https://engaging-web.mit.edu/eofe-wiki/ssh_keys/ssh_key/).
 
 === "Satori"
 
@@ -45,6 +48,9 @@ To run on a compute node you will need at least 2 entries in this file. The firs
       ProxyJump satori-login
     ```
 
+    !!! note
+        To use VSCode on a compute node, an SSH key is necessary. While Satori documentation is unavailable, you can follow the same steps as outlined on [Engaging](https://engaging-web.mit.edu/eofe-wiki/ssh_keys/ssh_key/).
+
 === "Open Mind"
 
     ```yaml title="config"
@@ -58,7 +64,12 @@ To run on a compute node you will need at least 2 entries in this file. The firs
       ProxyJump om-login
     ```
 
+    !!! note
+        To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to this [Open Mind guide](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-log-in-without-password%3F).
+
 Replace `USERNAME` with your username on the system you are connecting to. We will fill in "nodename" later.
+
+
 
 ## Starting your VSCode Session on a Compute Node
 
