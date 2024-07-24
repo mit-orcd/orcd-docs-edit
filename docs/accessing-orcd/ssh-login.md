@@ -91,6 +91,8 @@ Once you have your terminal set up for your specific operating system, you can u
     ```
 
 === "OpenMind"
+    To login to OpenMind, you must first be connected to the MIT Wi-Fi or MIT VPN. For further instructions, refer to this [page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-log-in-Openmind%3F).
+
     To login to OpenMind via the command line, run the SSH command:
     ```bash 
     ssh [username]@openmind.mit.edu
