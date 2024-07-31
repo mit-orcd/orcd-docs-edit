@@ -18,13 +18,13 @@ Whether you are installing on Engaging or SuperCloud, you’ll first have to ins
 First, install MuJoCo itself somewhere in your home directory. This is as simple as downloading the MuJoCo binaries, which can be found on their web page. For the release that you want, select the file that ends with “linux-x86_64.tar.gz”, for example for 2.3.0 select [mujoco-2.3.0-linux-x86_64.tar.gz](https://github.com/deepmind/mujoco/releases/download/2.3.0/mujoco-2.3.0-linux-x86_64.tar.gz). Right click, and copy the link address. Then you can download on one of the login nodes with the “wget” command, and untar:
 
 ```bash
---8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/.snippets/mujoco-binaries.sh:wget"
+--8<-- "docs/recipes/scripts/mujoco/mujoco-binaries.sh:login"
 ```
 
 In order for mujoco-py to find the MuJoCo binaries, set the following paths:
 
 ```bash
---8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/.snippets/mujoco-binaries.sh:export"
+--8<-- "docs/recipes/scripts/mujoco/mujoco-binaries.sh:path"
 ```
 
 ## Install Mujoco-Py
@@ -32,7 +32,7 @@ In order for mujoco-py to find the MuJoCo binaries, set the following paths:
 First, make sure the `MUJOCO_PY_MUJOCO_PATH` and `LD_LIBRARY_PATH` environment variables are set pointing to your mujoco installation. You can use the “echo” command to do this:
 
 ```bash
---8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/.snippets/mujoco-binaries.sh:env-var"
+--8<-- "docs/recipes/scripts/mujoco/mujoco-binaries.sh:env-var"
 ```
 
 If any of these are not set properly you can set them as described above (see [here for MUJOCO_PY_MUJOCO_PATH, LD_LIBRARY_PATH](#install-the-mujoco-binaries).
@@ -42,19 +42,19 @@ If any of these are not set properly you can set them as described above (see [h
     Next load either a Python or Anaconda module. In this example I loaded the latest anaconda3 module (run `module avail anaconda` to see the current list of available anaconda modules):
 
     ```bash
-    --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/.snippets/mujoco-engaging-setup.sh:module"
+    --8<-- "docs/recipes/scripts/mujoco/mujoco-engaging-setup.sh:module"
     ```
 
     From here on you can follow the [standard instructions to install mujoco-py](https://github.com/openai/mujoco-py), using the `--user` flag where appropriate to install in your home directory, or install in an anaconda or virtual environment (do not use the `--user` flag if you want to install in a conda or virtual environment). Here I am installing in my home directory with `--user`:
 
     ```bash
-    --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/.snippets/mujoco-engaging-setup.sh:pip"
+    --8<-- "docs/recipes/scripts/mujoco/mujoco-engaging-setup.sh:install"
     ```
 
     Start up python and import mujoco_py to complete the build process:
 
     ```bash
-    --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/.snippets/mujoco-engaging-setup.sh:python"
+    --8<-- "docs/recipes/scripts/mujoco/mujoco-engaging-setup.sh:python"
     ```
 
 === "SuperCloud"
@@ -66,13 +66,13 @@ If any of these are not set properly you can set them as described above (see [h
     Create the virtual environment on the local disk of the login node and install mujoco-py (install the version you would like to use):
 
     ``` bash
-    --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/.snippets/mujoco-supercloud-setup.sh:venv"
+    --8<-- "docs/recipes/scripts/mujoco/mujoco-supercloud-setup.sh:venv"
     ```
 
     Now install any other packages you need to run your MuJoCo jobs. With virtual environments you won’t see any of the packages you’ve previously installed with `pip install --user` or what you may have installed in another environment. You should still be able to use any of the packages in the anaconda module you’ve loaded, so no need to install any of those.
 
     ``` bash
-    --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/.snippets/mujoco-supercloud-setup.sh:pip"
+    --8<-- "docs/recipes/scripts/mujoco/mujoco-supercloud-setup.sh:pkgs"
     ```
 
     Since you are installing into virtual environment, **do not use the `--user` flag**.
@@ -80,13 +80,13 @@ If any of these are not set properly you can set them as described above (see [h
     Once you’ve installed the packages you need, start Python and import mujoco_py to finish the build:
 
     ``` bash
-    --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/.snippets/mujoco-supercloud-setup.sh:python"
+    --8<-- "docs/recipes/scripts/mujoco/mujoco-supercloud-setup.sh:python"
     ```
 
     Now that your environment is created, copy it to your home directory for permanent storage.
 
     ``` bash
-    --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/.snippets/mujoco-supercloud-setup.sh:homedir"
+    --8<-- "docs/recipes/scripts/mujoco/mujoco-supercloud-setup.sh:directory"
     ```
 
 

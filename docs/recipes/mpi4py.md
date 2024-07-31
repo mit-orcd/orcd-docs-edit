@@ -20,23 +20,23 @@ You can learn about `mpi4py` here: [https://mpi4py.readthedocs.io/en/stable/](ht
 
      The support team has installed `mpi4py` in an Anaconda module. You can load the module and do not need to install anything,
      ```
-     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/.snippets/p2p-openmind-setup.sh:module"
+     --8<-- "docs/recipes/scripts/mpi4py/p2p-openmind-setup.sh:module"
      ```
 
      If you want to use Anaconda in your directory, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then install `mpi4py`, 
      ```
-     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/.snippets/p2p-openmind-setup.sh:install"
+     --8<-- "docs/recipes/scripts/mpi4py/p2p-openmind-setup.sh:install"
      ```
 
 === "Engaging"
 
      First, load an Anaconda module on a CentOS 7 head node (such as eofe7 or eofe8),
      ```
-     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/.snippets/p2p-engaging-setup.sh:module"
+     --8<-- "docs/recipes/scripts/mpi4py/p2p-engaging-setup.sh:module"
      ```
      then install `mpi4py`, 
      ```
-     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/.snippets/p2p-engaging-setup.sh:activate"
+     --8<-- "docs/recipes/scripts/mpi4py/p2p-engaging-setup.sh:install"
      ```
 
 ## Example codes
