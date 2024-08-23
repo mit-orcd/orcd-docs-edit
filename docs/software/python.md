@@ -41,11 +41,11 @@ Refer to the tab below to find out more about the Python modules available on th
 
     Some nodes on Engaging have different operating systems (OS). The newest nodes on Engaging are Rocky 8 and older nodes are Centos 7. Each OS has a different software stack, and so has different sets of Python and Anaconda modules. Both will have both Python and Anaconda modules, but will may have different names and versions. Check `module avail` for this information. Be sure the OS of the login node you are using to launch jobs matches the OS of the compute nodes you are requesting.
 
-    For Rocky 8 nodes we recommend using the miniforge module, currently available in the community software:
+    For Rocky 8 nodes we recommend using the miniforge module:
 
     ```bash
-    module use /orcd/software/community/001/modulefiles/rocky8/
-    module load miniforge/23.11.0-0
+    module use /orcd/software/core/001/modulefiles/
+    module load miniforge/24.3.0-0
     ```
     
 === "Satori"

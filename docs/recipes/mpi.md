@@ -27,7 +27,7 @@ module load gcc/9.3.0 openmpi/4.0.5
 ```
 For Rocky 8 nodes, load these modules,
 ```
-module use /orcd/software/community/001/modulefiles/rocky8
+module use /orcd/software/community/001/modulefiles
 module load gcc/12.2.0 openmpi/4.1.4-pmi-ucx-x86_64
 ```
 If you need to run MPI programs with GPUs, load these modules instead,
