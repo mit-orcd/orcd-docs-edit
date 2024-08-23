@@ -14,7 +14,7 @@ module avail
 ```
 
 !!! Note
-    (For Engaging only) By default you will only see the modules for [core software](overview.md#software-landscape). To usee community modules you will need to run a `module use` command. This command will differ whether you are on a Rocky 8 or Centos 7 node.
+    (For Engaging only) By default you will only see the modules for [core software](overview.md#software-landscape). To use community modules you will need to run a `module use` command. This command will differ whether you are on a Rocky 8 or Centos 7 node. The newest nodes on Engaging are Rocky 8 and older nodes are Centos 7.
     === "Centos 7"
         ```bash
         module use /orcd/software/community/001/centos7/modulefiles
