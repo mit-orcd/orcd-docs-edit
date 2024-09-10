@@ -14,9 +14,10 @@ SSH keys consist of a pair: a public key and a private key.
 
 When you attempt to connect to an HPC system using SSH key authentication, the system uses your public key to initiate a challenge that can only be answered correctly using your private key. If the correct response is received, the system verifies your identity and grants access. 
 
-Using the key and lock analogy, the private key is like your key, and the public key is like a lock you might place on a gym locker, which would be like your account on the SuperCloud system. You can leave the lock locked on the locker at the gym, because no one can open the lock without the key, but you wouldn't want to share your key with anyone else, because then they could get into your locker.
+Using the key and lock analogy, the private key is like your key, and the public key is like a lock you might place on a gym locker, which would be like your account on an ORCD system. You can leave the lock locked on the locker at the gym, because no one can open the lock without the key, but you wouldn't want to share your key with anyone else, because then they could get into your locker.
 
-> **Important:** Your private key should never be shared with anyone. If someone else obtains your private key, they could potentially gain unauthorized access to any system your key is associated with.
+!!! danger "Do Not Share Your Private Key" 
+    Your private key should never be shared with anyone. If someone else obtains your private key, they could potentially gain unauthorized access to any system your key is associated with.
 
 ## Checking for Existing SSH Keys
 

@@ -10,7 +10,7 @@ You can log into our systems via SSH through your local terminal. Using SSH in a
 ## Terminal by Operating System
 A terminal window is a window with a command line interface. 
 
-To log into our systems, we use the terminal to SSH into the system. SSH (Secure Shell) is the primary way to log into remote systems. Once you initiate the SSH command, the shell in your terminal will no longer run on your computer but on the remote system. Authentication is required, either using a password or SSH keys. To set up SSH keys, please refer to insert url.
+To log into our systems, we use the terminal to SSH into the system. SSH (Secure Shell) is the primary way to log into remote systems. Once you initiate the SSH command, the shell in your terminal will no longer run on your computer but on the remote system. Authentication is required, either using a password or SSH keys. To set up SSH keys, please refer to the [SSH Key Setup Page](https://orcd-docs.mit.edu/accessing-orcd/ssh-setup/).
 
 Follow the directions below based on your operating system:
 
@@ -78,7 +78,7 @@ Once you have your terminal set up for your specific operating system, you can u
         You will be prompted to enter your MIT Kerberos password if you have not set up SSH keys. To set them up, please refer to our [SSH Key Setup Page](https://orcd-docs.mit.edu/accessing-orcd/ssh-setup/).
 
 === "SuperCloud"
-    Accessing the SuperCloud system through SSH requires that your public ssh-key has been added to the authorized_keys file in your SuperCloud account. Please note, if you have generated your key following the instructions at [supercloud.mit.edu](https://supercloud.mit.edu/requesting-account/#ssh-keys) or [orcd-docs](https://orcd-docs.mit.edu/accessing-orcd/ssh-setup/) and sent it to supercloud@mit.edu, then it should be in place for you. For further information on adding SSH keys to your account, refer to this [Page](https://supercloud.mit.edu/requesting-account/#adding-keys).
+    Accessing the SuperCloud system through SSH requires that your public ssh-key has been added to the `authorized_keys` file in your SuperCloud account. Follow the instructions on [this page](https://mit-supercloud.github.io/supercloud-docs/requesting-account/#generating-ssh-keys) to create your keys and add them to your account.
     
     If you have any issues connecting to the system, please send an email to <supercloud@mit.edu>.
 
