@@ -10,7 +10,7 @@ You can log into our systems via SSH through your local terminal. Using SSH in a
 ## Terminal by Operating System
 A terminal window is a window with a command line interface. 
 
-To log into our systems, we use the terminal to SSH into the system. SSH (Secure Shell) is the primary way to log into remote systems. Once you initiate the SSH command, the shell in your terminal will no longer run on your computer but on the remote system. Authentication is required, either using a password or SSH keys. To set up SSH keys, please refer to the [SSH Key Setup Page](/accessing-orcd/ssh-setup/).
+To log into our systems, we use the terminal to SSH into the system. SSH (Secure Shell) is the primary way to log into remote systems. Once you initiate the SSH command, the shell in your terminal will no longer run on your computer but on the remote system. Authentication is required, either using a password or SSH keys. To set up SSH keys, please refer to the [SSH Key Setup Page](ssh-setup.md).
 
 Follow the directions below based on your operating system:
 
@@ -60,7 +60,7 @@ Once you have your terminal set up for your specific operating system, you can u
     Connecting to eofe9 or eofe10 requires Two-Factor Authentication.
 
     !!! Note
-        You will be prompted to enter your MIT Kerberos password if you have not set up SSH keys. To set them up, please refer to our [SSH Key Setup Page](https://orcd-docs.mit.edu/accessing-orcd/ssh-setup/).
+        You will be prompted to enter your MIT Kerberos password if you have not set up SSH keys. To set them up, please refer to our [SSH Key Setup Page](ssh-setup.md).
 
 === "Satori"
     Satori has 2 login nodes:  
@@ -99,5 +99,5 @@ Once you have your terminal set up for your specific operating system, you can u
     ```
     Replace `[username]` with your MIT Kerberos username. 
     !!! Note
-        You will be prompted to enter your MIT Kerberos password if you have not set up SSH keys. To set them up, please refer to our [SSH Key Setup Page](https://orcd-docs.mit.edu/accessing-orcd/ssh-setup/).
+        You will be prompted to enter your MIT Kerberos password if you have not set up SSH keys. To set them up, please refer to our [SSH Key Setup Page](ssh-setup.md).
 
