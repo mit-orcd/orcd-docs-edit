@@ -100,11 +100,11 @@ To upload your SSH key on our systems, you must update the `authorized_keys` fil
 
 To ensure that your SSH key is correctly configured, follow these steps:
 
-1. Attempt to login on your terminal: `ssh your_username@cluster_address`. For more details, you can reference the [Getting Started Tutorial](https://orcd-docs.mit.edu/getting-started/#terminal-with-ssh) page.
+1. Attempt to login on your terminal: `ssh your_username@cluster_address`. For more details, you can reference the [Getting Started Tutorial](../getting-started.md) page.
 2. If prompted for a password, the SSH key setup did not work. Recheck the steps and correct any issues.
 
 ## Troubleshooting SSH Key Issues
-If you encounter SSH key issues, you can reference the [SSH Troubleshooting Checklist](https://mit-supercloud.github.io/supercloud-docs/ssh-troubleshooting-checklist/). While this guide is for SuperCloud, it should be helpful for other systems as well. If you are still having problems, please email us at <orcd-help@mit.edu> and visit the [Getting Help](https://orcd-docs.mit.edu/getting-help/) page. In your help email, please include the output of the following command:
+If you encounter SSH key issues, you can reference the [SSH Troubleshooting Checklist](https://mit-supercloud.github.io/supercloud-docs/ssh-troubleshooting-checklist/). While this guide is for SuperCloud, it should be helpful for other systems as well. If you are still having problems, please email us at <orcd-help@mit.edu> and visit the [Getting Help](../getting-help.md) page. In your help email, please include the output of the following command:
 ```sh
 ssh -vvv USERNAME@cluster_address
 ``` 
