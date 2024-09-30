@@ -20,13 +20,19 @@ R
 
 ### Installing Packages
 
-The pre-installed R modules come with a limited number of packages, but it is likely that you will need to install more. This can be acheived using the standard R command `install.packages("packageName")`. Because these installations are not system-wide, a directory will be created in your home directory that contains all installed packages for the version of R you are using.
+The pre-installed R modules come with a limited number of packages, but it is possible to install more. This can be acheived using the standard R command `install.packages("packageName")`.
 
-- How to change the location where your packages are installed
+Because these installations are not system-wide, a directory will be created in your home directory that contains all installed packages for the version of R you are using. You can check this directory by running `.libPaths()` from the R CLI. You can also set this path manually by setting the `R_LIBS_USER` environment variable from your Bash terminal:
 
-## R with Anaconda
+```bash
+export R_LIBS_USER=/path/to/R/library/directory/
+```
 
-Anaconda is a package manager commonly used for Python, but is compatible with R and can be very useful for managing dependencies. When you create a Conda environment, you can specify exactly the packages you need. First, you'll need to load a pre-installed Conda module. There are multiple available, but we recommend the Miniforge modules:
+## R with Conda
+
+Conda is a package manager commonly used for Python, but is compatible with R and can be very useful for installing packages. This can be helpful when the packages you need have specific dependency requirements.
+
+When you create a Conda environment, you can specify exactly the packages you need. First, you'll need to load a pre-installed Conda module. There are multiple available, but we recommend the Miniforge modules:
 
 ```bash
 module load miniforge/24.3.0-0
@@ -64,10 +70,11 @@ You can use RStudio on a cluster through OnDemand. Package installation behaves 
 
 ## Installing Other R Versions
 
-If you need a specific version of R, you can specify this while creating a Conda environment. All you need to do is set the r-base argument to the specific version of R that you need. For example, for installing R version 4.1.2:
+If you need a specific version of R, the easiest way to do this is through Conda. You can specify your desired R version while creating a Conda environment by setting the `r-base` argument to version that you need. For example, for installing R version 4.1.2:
 
 ```bash
 conda create -n R_env r-base=4.1.2
+conda activate R_env
 ```
 
-Once your environment is created, entering `which R` should direct you to the version of R within your Conda environment.
+Once your environment is created and activated, entering `which R` should direct you to the version of R within your Conda environment.
