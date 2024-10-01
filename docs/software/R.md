@@ -22,11 +22,7 @@ R
 
 The pre-installed R modules come with a limited number of packages, but it is possible to install more. This can be acheived using the standard R command `install.packages("packageName")`.
 
-Because these installations are not system-wide, a directory will be created in your home directory that contains all installed packages for the version of R you are using. You can check this directory by running `.libPaths()` from the R CLI. You can also set this path manually by setting the `R_LIBS_USER` environment variable from your Bash terminal:
-
-```bash
-export R_LIBS_USER=/path/to/R/library/directory/
-```
+R will first try to install this package system-wide but will be blocked to avoid editing the module for the entire cluster. You will be asked if you want to use a personal library instead. Type "yes" and press enter. This creates a folder in your home directory that contains the packages for each version of R you use. You can check this directory by running `.libPaths()` from the R CLI.
 
 ## R with Conda
 
@@ -64,9 +60,25 @@ You can also specify specific versions of packages that you'd like to install:
 conda install r-tidyverse=2.0.0
 ```
 
-## OnDemand RStudio
+## RStudio
 
-You can use RStudio on a cluster through OnDemand. Package installation behaves similarly as if you were running a version of R via the command line. Currently, OnDemand is only supported on the Engaging Centos7 nodes.
+Currently, the only cluster that RStudio is available on is Engaging. This is accessible through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > RStudio Server. From there, select the specifications you need, including runtime, memory, and R version. Currently, OnDemand does not support local installations of R or versions of R installed through Conda.
+
+You can install packages using the `install.packages()` command. As with running R from the command line via SSH, the new packages should automatically be installed to your home directory.
+
+## Jupyter
+
+Similar to RStudio, Jupyter notebooks offer a handy cell-based interface to run R code. You can run Jupyter notebooks through the web portals of *Engaging and SuperCloud*.
+
+=== "Engaging"
+
+    Jupyter notebooks are available through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > Jupyter Notebook. To run R, you must create a Conda environment with both R and jupyterlab installed (see [R with Conda](#r-with-conda)). When starting up the notebook, enter the name of your custom Conda environment. Once you launch the session and open your notebook, you may need to change your kernel to R. Your current kernel is shown in the top right, and likely defaults to "Python 3 (ipykernel)". Click this to change it to R.
+
+=== "SuperCloud"
+
+    Click [here](https://txe1-portal.mit.edu/jupyter/jupyter_notebook.php) to open a Jupyter notebook on the SuperCloud web portal.
+
+    On SuperCloud, the version of R that is available is from the pre-installed R environment on Anaconda. As a result, you cannot install additional pacakges. Unfortunately, it is not possible to connect your own Conda environment to Jupyter on this cluster. You can find more information about running Jupyter notebooks on SuperCloud [here](https://mit-supercloud.github.io/supercloud-docs/jupyter-notebooks/).
 
 ## Installing Other R Versions
 
@@ -78,3 +90,13 @@ conda activate R_env
 ```
 
 Once your environment is created and activated, entering `which R` should direct you to the version of R within your Conda environment.
+
+## FAQs
+
+*Change layout of below info*
+You can also set this path manually by setting the `R_LIBS_USER` environment variable from your Bash terminal:
+
+```bash
+export R_LIBS_USER=/path/to/R/library/directory/
+```
+*Change layout of above info*
