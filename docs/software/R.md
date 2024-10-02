@@ -110,14 +110,6 @@ conda activate R_env
 
 Once your environment is created and activated, entering `which R` should direct you to the version of R within your Conda environment.
 
-## Further Resources
-
-[Engaging: R Packages](https://engaging-web.mit.edu/eofe-wiki/software/r_packages/)
-
-[Satori: R on Satori](https://mit-satori.github.io/satori-R.html)
-
-[SuperCloud: Software and Package Management - R Libraries](https://mit-supercloud.github.io/supercloud-docs/software-packages/#r-libraries)
-
 ## FAQs
 
 **I am trying to use a specific R installation, but it is not being recognized. What should I do?**
@@ -139,3 +131,11 @@ You can also set the path from within R:
 ```
 
 Both of these commands essentially prepend your custom path to the library path that already existed.
+
+## Further Resources
+
+[Engaging: R Packages](https://engaging-web.mit.edu/eofe-wiki/software/r_packages/)
+
+[Satori: R on Satori](https://mit-satori.github.io/satori-R.html)
+
+[SuperCloud: Software and Package Management - R Libraries](https://mit-supercloud.github.io/supercloud-docs/software-packages/#r-libraries)
