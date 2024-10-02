@@ -23,18 +23,21 @@ There are currently a few different versions of R installed on our systems. You 
 
     ```bash
     module load R/4.2.2
+    R
     ```
 
 === "Satori"
 
     ```bash
     module load r/4.0.3-ue52ngj
+    R
     ```
 
 === "OpenMind"
 
     ```bash
     module load openmind/R/3.6.1
+    R
     ```
 
 ### Installing Packages
