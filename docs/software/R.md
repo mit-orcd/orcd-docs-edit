@@ -82,7 +82,7 @@ Now, you should be able to run `conda` commands. To search for specific R packag
 conda search r-tidyverse
 ```
 
-There are two ways to add packages to your conda environment. The first is to create a blank conda environment and install packages individually, for example:
+There are two ways to add packages to your Conda environment. The first is to create a blank Conda environment and install packages individually, for example:
 
 ```bash
 conda create my_R_env
