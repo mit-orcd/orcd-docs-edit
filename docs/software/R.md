@@ -8,12 +8,34 @@ tags:
 
 ## Pre-Installed R Modules
 
-There are currently a few different versions of R installed on our systems. You can find these versions by running `module avail`. To use an R interactive environment, first load an R module, then enter `R`. For example, on Engaging Rocky8 (eofe4 and eofe10):
+There are currently a few different versions of R installed on our systems. You can find these versions by running `module avail`. To use an R interactive environment, first load an R module, then enter `R`.
 
-```bash
-module load r/4.2.2-x86_64
-R
-```
+=== "Engaging"
+
+    On Rocky8 nodes (eofe4 and eofe10):
+
+    ```bash
+    module load r/4.2.2-x86_64
+    R
+    ```
+
+    On Centos7 nodes (eofe7, eofe8, and eofe9):
+
+    ```bash
+    module load R/4.2.2
+    ```
+
+=== "Satori"
+
+    ```bash
+    module load r/4.0.3-ue52ngj
+    ```
+
+=== "OpenMind"
+
+    ```bash
+    module load openmind/R/3.6.1
+    ```
 
 ### Installing Packages
 
