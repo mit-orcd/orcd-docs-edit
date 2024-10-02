@@ -14,7 +14,7 @@ nav:
     - Modules: software/modules.md
     - Python: software/python.md
 #    - Julia: 
-#    - R: 
+    - R: software/R.md
 #    - Installing Software: 
 #    - Singularity/Apptainer: 
 #    - Licensed Software: 

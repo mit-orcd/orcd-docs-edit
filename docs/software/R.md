@@ -4,14 +4,11 @@ tags:
  - R
 ---
 
-NOTES: 
-- All of this is for Engaging; check compatibility with other clusters
-
 # R
 
 ## Pre-Installed R Modules
 
-There are currently a few different versions of R installed on our systems. You can find these versions by running `module avail`. To use an R interactive environment, first load an R module, then enter `R`. For example, on Engaging Rocky8:
+There are currently a few different versions of R installed on our systems. You can find these versions by running `module avail`. To use an R interactive environment, first load an R module, then enter `R`. For example, on Engaging Rocky8 (eofe4 and eofe10):
 
 ```bash
 module load r/4.2.2-x86_64
@@ -28,11 +25,31 @@ R will first try to install this package system-wide but will be blocked to avoi
 
 Conda is a package manager commonly used for Python, but is compatible with R and can be very useful for installing packages. This can be helpful when the packages you need have specific dependency requirements.
 
-When you create a Conda environment, you can specify exactly the packages you need. First, you'll need to load a pre-installed Conda module. There are multiple available, but we recommend the Miniforge modules:
+When you create a Conda environment, you can specify exactly the packages you need. First, you'll need to load a pre-installed Conda module. There are multiple available, but we recommend Miniforge:
 
-```bash
-module load miniforge/24.3.0-0
-```
+=== "Engaging"
+
+    ```bash
+    module load miniforge/24.3.0-0
+    ```
+
+=== "Satori"
+
+    ```bash
+    module load anaconda3/2020.02-2ks5tch
+    ```
+
+=== "SuperCloud"
+
+    ```bash
+    module load anaconda/2023b
+    ```
+
+=== "OpenMind"
+
+    ```bash
+    module load openmind/anaconda/3-5.3.1
+    ```
 
 Now, you should be able to run `conda` commands. To search for specific R packages (beginning with "r-"), you can use `conda search`. For example, the following looks for all versions of Tidyverse available through Conda:
 
@@ -59,6 +76,8 @@ You can also specify specific versions of packages that you'd like to install:
 ```bash
 conda install r-tidyverse=2.0.0
 ```
+
+See [the section on Conda environments in the Python software document](python.md#conda-environments) for more information.
 
 ## RStudio
 
@@ -91,12 +110,32 @@ conda activate R_env
 
 Once your environment is created and activated, entering `which R` should direct you to the version of R within your Conda environment.
 
+## Further Resources
+
+[Engaging: R Packages](https://engaging-web.mit.edu/eofe-wiki/software/r_packages/)
+
+[Satori: R on Satori](https://mit-satori.github.io/satori-R.html)
+
+[SuperCloud: Software and Package Management - R Libraries](https://mit-supercloud.github.io/supercloud-docs/software-packages/#r-libraries)
+
 ## FAQs
 
-*Change layout of below info*
-You can also set this path manually by setting the `R_LIBS_USER` environment variable from your Bash terminal:
+**I am trying to use a specific R installation, but it is not being recognized. What should I do?**
+
+Sometimes, the way your environment is set up may cause the system to default to certain R installations that you don't want. The culprit can often be found in your `.bashrc`, `.bash_profile`, and/or `.zshrc` files. Usually, running `module purge` from the command line before loading the version of R you want solves the problem.
+
+**How do I change the path where my libraries are installed?**
+
+Before starting R, you can set the `R_LIBS_USER` environment variable from your Bash terminal:
 
 ```bash
-export R_LIBS_USER=/path/to/R/library/directory/
+export R_LIBS_USER=/path/to/R/library/directory
 ```
-*Change layout of above info*
+
+You can also set the path from within R:
+
+```R
+.libPaths("/path/to/R/library/directory")
+```
+
+Both of these commands essentially prepend your custom path to the library path that already existed.
