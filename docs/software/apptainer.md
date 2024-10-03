@@ -115,7 +115,7 @@ When the tests are completed, you can submit a batch job to run your program in 
      #SBATCH -t 01:30:00                  # walltime = 1 hours and 30 minutes
      #SBATCH -N 1                         # one node
      #SBATCH -n 2                         # two CPU cores
-     #SBATCH -p sched_mit_psfc_gpu_r8     # a partition with Rocky 8 nodes
+     #SBATCH -p mit_normal     # a partition with Rocky 8 nodes
      
      module load apptainer/1.1.7-x86_64 squashfuse/0.1.104-x86_64   # load modules
      singularity exec my-image.sif python my-code.py   # Run the program 
@@ -226,7 +226,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 The flag `--writable` is to enable the write permission to modify files in the container. 
 
 ??? note
-    The `fakeroot` pakcage will be installed on the cluster, so that users can build images without the `sudo` command. 
+    The `apt-get` command is to install software in the Ubuntu OS. This is supported by the by the `fakeroot` package, which is installed on node115 on OpenMind. Users need to install `fakeroot` in their home directories.  
 
 Once the needed package are built in the image, you can use it as was shown in the preivious sections. 
 
