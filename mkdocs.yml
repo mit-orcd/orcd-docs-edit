@@ -4,6 +4,11 @@ nav:
   - Home: index.md
   - ORCD Systems: orcd-systems.md
   - Getting Started Tutorial: getting-started.md
+  - Accessing ORCD Systems:
+    - Logging in with OnDemand: accessing-orcd/ondemand-login.md
+    - Logging in with SSH via Terminal: accessing-orcd/ssh-login.md
+    - SSH Key Setup: accessing-orcd/ssh-setup.md
+    - VSCode Remote SSH: recipes/vscode.md
   - Filesystems and File Transfer:
     - General Use Filesystems:  filesystems-file-transfer/filesystems.md
     - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
@@ -13,6 +18,7 @@ nav:
     - Overview: software/overview.md
     - Modules: software/modules.md
     - Python: software/python.md
+    - Compiling Codes: software/compile.md
 #    - Julia: 
 #    - R: 
 #    - Installing Software: 
@@ -27,6 +33,7 @@ nav:
     - MPI jobs: recipes/mpi.md
     - RELION: recipes/relion.md
     - VSCode: recipes/vscode.md
+    - Julia: recipes/julia.md
   - Acknowledging Us: acknowledgements.md
   - Data Security and Privacy: data-security.md
   - Acceptable Use and Code of Conduct: code-of-conduct.md
@@ -69,7 +76,8 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      url_download: true
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true 

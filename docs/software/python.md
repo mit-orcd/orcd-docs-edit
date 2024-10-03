@@ -5,7 +5,7 @@ tags:
 ---
 # Installing Python Packages 
 
-There are a few different ways to install Python packages. Each ORCD system has its own set of Python modules and naming conventions for those, along with a set of recommendations for installing Python packages. This page is meant to give a general overview and link to those pages.
+There are a few different ways to install Python packages. Each ORCD system has its own set of Python modules and naming conventions for those modules, along with a set of recommendations for installing Python packages. This page is meant to give a general overview and link to those pages.
 
 === "Engaging"
 
@@ -33,7 +33,7 @@ Which should you use? That can depend on a lot of things. Our recommendation wil
 
 ## Modules for Python
 
-Python is provided on all ORCD systems through either Python, Anaconda or similar [modules](modules.md). See the documentation for the system your are using above for a description of the modules available. Some systems have some commonly used Python packages installed with their modules, so it is worth checking to see if these packages will satisfy your use case before installing your own.
+Python is provided on all ORCD systems through either Python, Anaconda or similar [modules](modules.md). See the documentation for the system your are using below for a description of the python modules available. Some systems have some commonly used Python packages installed with their modules, so it is worth checking to see if these packages will satisfy your use case before installing your own.
 
 Refer to the tab below to find out more about the Python modules available on the system you are using.
 
@@ -41,11 +41,18 @@ Refer to the tab below to find out more about the Python modules available on th
 
     Some nodes on Engaging have different operating systems (OS). The newest nodes on Engaging are Rocky 8 and older nodes are Centos 7. Each OS has a different software stack, and so has different sets of Python and Anaconda modules. Both will have both Python and Anaconda modules, but will may have different names and versions. Check `module avail` for this information. Be sure the OS of the login node you are using to launch jobs matches the OS of the compute nodes you are requesting.
 
-    For Rocky 8 nodes we recommend using the miniforge module, currently available in the community software:
+    We recommend using the newest miniforge modules for both. For Rocky 8 run:
 
     ```bash
-    module use /orcd/software/community/001/modulefiles/rocky8/
-    module load miniforge/23.11.0-0
+    module use /orcd/software/core/001/modulefiles/
+    module load miniforge/24.3.0-0
+    ```
+
+    For Centos 7:
+
+    ```bash
+    module use /orcd/software/core/001/centos7/modulefiles/
+    module load miniforge/24.3.0-0
     ```
     
 === "Satori"
@@ -60,11 +67,11 @@ Refer to the tab below to find out more about the Python modules available on th
     conda config --prepend channels https://ftp.osuosl.org/pub/open-ce/current
     ```
 
-    These channels contain packages compiled for Satori's PowerPC architecture.
+    These channels contain packages compiled for Satori's PowerPC architecture. You only need to run these commands once to add these channels to your configuration file.
 
 === "SuperCloud"
 
-    SuperCloud releases two anaconda modules per year, named for the year and the release (anaconda/2024a and anaconda/2024b, for example). The most recent modules may continue to be updated until the next "release". There are separate modules for machine learning frameworks (ex: anaconda/Python-ML-2023b). SuperCloud anaconda modules contain a lot of the most commonly used packages and are installed on the local disk of each node, so it is best if you can use packages installed in the modules as much as possible.
+    SuperCloud releases two anaconda modules per year, named for the year and the release (anaconda/2024a and anaconda/2024b, for example). The most recent modules may continue to be updated until the next "release". There are separate modules for machine learning frameworks (ex: anaconda/Python-ML-2023b). SuperCloud anaconda modules contain a lot of the most commonly used packages and are installed on the local disk of each node, so it is best if you can use packages installed in the modules as much as possible. To enable that, SuperCloud recommends [installing packages to you home directory space using the `pip install --user` command](#home-directory-install), or [creating python virtual environments](#python-virtual-environments) using the `--system-site-packages` flag. SuperCloud has a section on their [Best Practices](https://mit-supercloud.github.io/supercloud-docs/filesystem#installing-python-packages) page about installing Python packages.
 
 === "OpenMind"
 
@@ -72,7 +79,7 @@ Refer to the tab below to find out more about the Python modules available on th
 
 ## Python Virtual Environments
 
-Environments allow you to make self-contained “bundles” of packages that can be loaded and unloaded. This helps keep a consistent set of packages and versions for a given project, rather than putting them all together like they would be in [`.local`](#home-directory-install). Python virtual environments can be placed anywhere you have write access to and have all their packages in that environment’s directory structure.
+Environments allow you to make self-contained “bundles” of packages that can be loaded and unloaded. This helps keep a consistent set of packages and versions for a given project, rather than putting all packages you've ever installed together like they would be when you install with [`pip install --user`](#home-directory-install). Python virtual environments can be placed anywhere you have write access to and have all their packages in that environment’s directory structure.
 
 ### Creating Python Virtual Environments
 
@@ -137,7 +144,7 @@ In order to use an environment you will need to activate it as described above:
 source /path/to/virtual/environment/bin/activate
 ```
 
-Once it is activated any `python` commands will run in that environment and have access to the packages in the environment. To use an environment in a job activate the environment in your job script (an environment activated on the login node will not necessarily carry over to your job). Using the same example above, let's look at the script `myjob.sh` in the `my_project` directory:
+Once it is activated any `python` commands will run in that environment and have access to the packages in the environment. To use an environment in a job activate the environment in your job script. An environment activated on the login node will not necessarily carry over to your job. Using the same example above, let's look at the script `myjob.sh` in the `my_project` directory:
 
 ```bash title="myjob.sh"
 #!/bin/bash
@@ -151,7 +158,7 @@ When this job runs it will activate the environment in `my_project_env` and then
 
 ### Requirements.txt and Virtual Environments
 
-Environments can be described by a `requirements.txt` file, which lists packages and optionally their versions. This file can be created from any environment and used to re-create the environment. Version numbers are required to recreate the environment exactly.
+Environments can be described by a `requirements.txt` file, which lists packages and optionally their versions. This file can be created from any existing virtual environment and used to re-create that environment. Version numbers are required to recreate the environment exactly.
 
 You can either create a `requirements.txt` file by hand by creating a file with one package name on each line, or you can create one from a currently active environment with the command:
 
@@ -162,7 +169,7 @@ pip freeze > requirements.txt
 Given a `requirements.txt` file you can use `pip` to install the packages in that file into your environment. First activate the environment, then install the packages with:
 
 ```bash
-source /path/to/virtual/environment
+source /path/to/virtual/environment/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -177,13 +184,13 @@ Pros
 Cons
 
 - Environments will be the same version of the python that you used to make them
-- Only installs packages available through PyPI, cannot install anaconda/conda-forge distributed packages
+- Only installs packages available through PyPI, cannot install anaconda/conda-forge distributed packages or libraries
 
 ## Conda Environments
 
-Environments allow you to make self-contained “bundles” of packages that can be loaded and unloaded. This helps keep a consistent set of packages and versions for a given project, rather than putting them all together like they would be in [`.local`](#home-directory-install). Conda environments are a bit different from Python virtual environments, by default they are stored in the .conda directory in your home directory. They also tend to contain a lot more files than Virtual Environments. You can also install system libraries into conda environments, which can make installing packages with system library dependencies easier.
+Environments allow you to make self-contained “bundles” of packages that can be loaded and unloaded. This helps keep a consistent set of packages and versions for a given project, rather than putting them all together like they would be when you install with [`pip install --user`](#home-directory-install). Conda environments are a bit different from Python virtual environments, by default they are stored in the `.conda` directory in your home directory. They also tend to contain a lot more files than Virtual Environments. You can also install some system libraries into conda environments, which can make installing packages with system library dependencies easier.
 
-You'll also see mention of mamba environments. Mamba and conda are nearly the same, however mamba has a different dependency solver. Mamba is often better and faster than conda at solving dependencies and picking packages, so we recommend using mamba.
+You'll also see mention of mamba environments. Mamba and conda are nearly the same, however mamba has a different dependency solver. Mamba is often better and faster than conda at solving dependencies and picking packages, so we recommend using mamba whenever possible.
 
 ### Creating Conda Environments
 
@@ -200,29 +207,45 @@ First, load a conda or Anaconda module using the `module load` command. See the 
 
     See [Modules for Python](#modules-for-python) above for more information.
 
-If there is no anaconda module on the system you are using, or the modules available aren't sufficient for your work, we recommend installing [miniforge](https://conda-forge.org/download/) or [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/) in your home directory (we have had the most recent success with miniforge, which is distributed by conda-forge and is packaged with mamba). It is best to avoid installing the full Anaconda as it is very big and can fill up your home directory.
+If there is no anaconda module on the system you are using, or the modules available aren't sufficient for your work, we recommend installing [miniforge](https://conda-forge.org/download/) or [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/) in your home directory. Wwe have had the most  success with miniforge, which is distributed by conda-forge and is packaged with mamba. It is best to avoid installing the full Anaconda as it is very big and can fill up your home directory. One of the most common reasons for slow logins, job startups, and package imports are from a full anaconda installation in the home directory.
 
 !!! Note
     If you are using SuperCloud do not install miniconda or miniforge in your home directory. SuperCloud keeps up to date anaconda modules so installing your own is not necessary and will slow down your applications. See this [Best Practices](https://mit-supercloud.github.io/supercloud-docs/filesystem/#installing-python-packages) page on SuperCloud-Docs for more information.
 
-To create an environment you can use the `mamba create` or `conda create` command:
+To create an environment you can use the `mamba create` or `conda create` command after loading your conda module:
 
 ```bash
+module load conda_module
 mamba create -n my_env python=3.10 pkg1 pkg2 pkg3
 ```
 
 or, using `conda`:
 
 ```bash
+module load conda_module
 conda create -n my_env python=3.10 pkg1 pkg2 pkg3
 ```
 
-In this example I am creating a conda environment named `my_env` with Python 3.10 and installing packages pkg1, pkg2, pkg3. We have found that conda/mamba creates more robust environments when you include all the packages you need when you create the environment. Then, whenever you want to activate the environment, first load the anaconda module, then activate with `source activate my_env`. Using `source activate` instead of `conda activate` allows you to use your conda environment at the command line and in submission scripts without additional steps. See [Conda/Mamba Init](#condamamba-init) in the Troubleshooting section below for more information.
+where `conda_module` is the name of the conda or mamba module for the system you are using. In this example I am creating a conda environment named `my_env` with Python 3.10 and installing packages pkg1, pkg2, pkg3. We have found that conda/mamba creates more robust environments when you include all the packages you need when you create the environment.
 
-If you would like to use your conda environment in Jupyter, simply install the "jupyter" package into your environment. Once you have done that, you should see your conda environment listed in the available kernels.
+You can install additional packages by activating the environment and using the `mamba install` or `conda install` command. Again you would first load the appropriate module if it isn't already loaded:
+
+```bash
+module load conda_module
+source activate my_env
+mamba install pkg4
+```
+
+where `conda_module` is the name of the conda or mamba module for the system you are using. Here I am showing with `mamba`, replace with `conda` if you have a conda environment. Packages that aren't available through conda channels can be installed with the `pip` command when the environment is activated:
+
+```bash
+module load conda_module
+source activate my_env
+pip install pkg5
+```
 
 !!! Note
-    If you are using a conda environment and would like to install the package with `pip` in that environment rather than in the standard home directory location, you should *not* include the `--user` flag. Further, if you are using a conda environment and want Python to use packages in your environment first, you can run the following two command:
+    To install packages with `pip` to a conda or mamba environment you should *not* include the `--user` flag. Further, if you are using a conda environment and want Python to *only* use packages in your environment, you can run the following two command:
     
     ```bash
     export PYTHONNOUSERSITE=True
@@ -230,13 +253,15 @@ If you would like to use your conda environment in Jupyter, simply install the "
     
     This will make sure your conda environment packages will be chosen before those that may be installed in your home directory.
 
+If you would like to use your conda environment in Jupyter, install the "jupyter" package into your environment. Once you have done that, you should see your conda environment listed in the available kernels.
+
 ### Using Conda Environments
 
-As mentioned above, to activate a conda environment first load an anaconda module then activate with the `source activate` command:
+Then, whenever you want to activate the environment, first load the anaconda module, then activate with `source activate my_env`. Using `source activate` instead of `conda activate` allows you to use your conda environment at the command line and in submission scripts without additional steps. See [Conda/Mamba Init](#condamamba-init) in the Troubleshooting section below for more information.
 
 ```bash
-module load ananconda-module
-source activate myenv
+module load conda_module
+source activate my_env
 ```
 
 To use a conda environment in a job you can usually add these lines to you job script:
@@ -244,9 +269,9 @@ To use a conda environment in a job you can usually add these lines to you job s
 ```bash title="myjob.sh"
 #!/bin/bash
 
-module load ananconda-module
+module load conda_module
 
-source activate env_name
+source activate my_env
 
 python myscript.py
 ```
