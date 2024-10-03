@@ -37,7 +37,7 @@ gcc hello.c -o hello
 
 This command creates an executable with a name of *hello*. Running this command prints the familiar message:
 ```
-$ hello
+$ ./hello
 Hello World
 ```
 
@@ -218,7 +218,7 @@ Many useful fuctions are provided by libraries in the operating system. These ar
 - `printf()` from the *libc.so* shared library
 - `sqrt()` from the *libm.so* shared library
 
-In this section, we will introduce how to build a pgoram with shared libraries in the system default locations. Let's start with an example (*roots.c*) that uses the `sqrt()` function from the math library:
+In this section, we will introduce how to build a program with shared libraries in the system default locations. Let's start with an example (*roots.c*) that uses the `sqrt()` function from the math library:
 ```
 #include <stdio.h>
 #include <math.h>
@@ -560,7 +560,7 @@ clean:
 
 For the first build, `make` builds the targets in the following order: *main.o*, *WriteMyString.o*, and *write*. This compiles all source codes and then links all object files to create the executable. 
 
-When the prpgram is rebuilt, `make` will only build the targets whose prerequisites have been modified since the last build. This feature makes the building process efficient for a program with many source files. For example, if *WriteMyString.c* is modified, it is recompiled, while *main.c* is not. If *main.c* or *header.h* is modified, only *main.c* is recompiled, while *WriteMyString.c* is not. In either case, the *write* target will be rebuilt, since either *main.o* or *WriteMyString.o* is updated.
+When the program is rebuilt, `make` will only build the targets whose prerequisites have been modified since the last build. This feature makes the building process efficient for a program with many source files. For example, if *WriteMyString.c* is modified, it is recompiled, while *main.c* is not. If *main.c* or *header.h* is modified, only *main.c* is recompiled, while *WriteMyString.c* is not. In either case, the *write* target will be rebuilt, since either *main.o* or *WriteMyString.o* is updated.
 
 We need to run `make clean` and then run `make`, if we want to completely rebuild evetyhing.
 
@@ -639,8 +639,8 @@ Here the `%` stands for the same thing in the prerequisites as it does in the ta
 
 Mostly the target name is a file name. But there are exceptions, such as the *clean* target in this example. The `rm` command will not create any file named `clean`. What if there exists a file named clean in this directory? Let's do an experiment.
 ```
-touch clean
-make clean
+$ touch clean
+$ make clean
 make: `clean' is up to date.
 ```
 
