@@ -11,16 +11,16 @@ tags:
 
 Containers provide an isolated environment that supports user applications. In many cases, it is helpful to use a container to obtain the right environment for your applications on HPC clusters, so as to avoid installing too many dependencies.
 
-Container has great portability and mobility, that says, it is convenient to migrate your applications bewtween different platforms, such as laptops/desktops, cloud platforms and HPC clusters. 
+Containers have great portability and mobility, that says, it is convenient to migrate your applications bewtween different platforms, such as laptops/desktops, cloud platforms and HPC clusters. 
 
 The most well known container is Docker, which is designed for laptops/desktops and cloud platforms. On ORCD clusters, we use Apptainer and Singularity instead, which are particularly designed for high-perfromance computing. Apptainer is extended from Singularity. Both are compatible with Docker. 
 
 !!! note 
     In the following, the terminology Singularity will be used in most cases. The statements hold if the terminologies Singularity and Apptainer are switched. 
 
-Users can use Singularity to support many applications, such as Python, R, C/Fortran packages, and many GUI software. In particular, container is polular in supporting Python pakcages for the artificial intelligence (AI) and data science communities, such as Pytorch, Tensorflow, and many others. The Ubuntu operating system (OS) is widely used in the AI community and it is convinent to install many AI appications in Ubuntu enviroenment. Users can use Singularity to obtain Ubuntu OS other than Rocky 8 OS on the host cluster.
+Users can use Singularity to support many applications, such as Python, R, C/Fortran packages, and many GUI software. In particular, containers are popular in supporting Python pakcages for the artificial intelligence (AI) and data science communities, such as Pytorch, Tensorflow, and many others. The Ubuntu operating system (OS) is widely used in the AI community and it is convinient to install many AI appications in Ubuntu environment. Users can use Singularity to obtain Ubuntu OS other than Rocky 8 OS on the host cluster.
 
-In this docuemnt, we will focuse on how to use Singularity on ORCD clusters. First, many applications are well-supported in existing Docker images. Search for an image on the internet, in which your target applicaiton has already been installed by some developers, then download the image and use it directly. If there is no suitable image for your target application, you can build an image to support it.
+In this document, we will focus on how to use Singularity on ORCD clusters. First, many applications are well-supported in existing Docker images. Search for an image on the internet, in which your target applicaiton has already been installed by some developers, then download the image and use it directly. If there is no suitable image for your target application, you can build an image to support it.
 
 !!! note 
     An image is a file to support container. Users can launch a containter based on an image.
@@ -34,7 +34,7 @@ Let us start with running an application with Singularity on the cluster first.
 
 === "Engaging"
 
-     Log in a Rocky 8 head node,
+     Log in to a Rocky 8 head node,
      ```
      ssh <user>@eofe10.mit.edu
      ```
@@ -49,7 +49,7 @@ Let us start with running an application with Singularity on the cluster first.
 
 === "OpenMind"
 
-     Log in a the head node,
+     Log in to the head node,
      ```
      ssh <user>@openmind7.mit.edu
      ```
