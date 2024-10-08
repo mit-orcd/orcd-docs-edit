@@ -19,7 +19,7 @@ nav:
     - Modules: software/modules.md
     - Python: software/python.md
     - Compiling Codes: software/compile.md
-#    - Julia: 
+    - Julia: software/julia.md
 #    - R: 
 #    - Installing Software: 
 #    - Singularity/Apptainer: 
