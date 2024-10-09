@@ -6,9 +6,13 @@ tags:
 
 # Julia
 
+## Juliaup
+
+## Conda
+
 ## Installing Alternate Julia Versions
 
-There are a number of versions of Julia that are currently available on our clusters (see [here](https://orcd-docs.mit.edu/software/modules/) for information on using different modules). However, sometimes, you may need a specific version of Julia that is not provided. If this happens, you can download it. 
+There are a number of versions of Julia that are currently available on our clusters (see [here](modules.md) for information on using different modules). However, sometimes, you may need a specific version of Julia that is not provided. If this happens, you can download it. 
 
 A complete list of previous Julia versions can be found [here](https://julialang.org/downloads/oldreleases/). From this site, copy the link to the tar.gz file that corresponds to the version you need. Be sure to select the version for a Linux operating system and x86_64 architecture.
 
