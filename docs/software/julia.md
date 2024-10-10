@@ -14,9 +14,17 @@ Juliaup provides a convenient way to manage different versions of Julia and diff
 curl -fsSL https://install.julialang.org | sh
 ```
 
-This creates a .juliaup folder within your home directory that will contain all installations of Julia and their associated packages that are managed by Juliaup. This also edits your `.bashrc` and `.bash_profile` files, which run whenever you login to the cluster. This automatically adds Juliaup to your `$PATH` environment variable, meaning that this version of Julia becomes the default. To undo this, you can comment out the juliaup section of your `.bashrc` file and restart your session or edit the `$PATH` environment variable manually.
+You will be asked if you want to proceed with default settings or to customize your installation. We recommend customizing your installation. The default settings are as follows:
 
-Click [here](https://github.com/JuliaLang/juliaup) for more information on using Juliaup.
+1. Save the .juliaup folder to your home directory. This folder contains all installations of Julia and their associated packages that are managed by Juliaup.
+
+    - On Satori, home directories are limited to 20 GB, so you may want to change this location to `/nobackup/users/<user>`.
+
+2. Edit your `.bashrc` and `.bash_profile` files to automatically add the Juliaup-managed version of Julia to your `$PATH` environment variable.
+
+    - We generally discourage editing your `.bashrc` file because it can cause issues when trying to use other software. For example, if you want to use a pre-installed Julia module, you would have to manually remove Juliaup from your `$PATH` any time you connect to the cluster.
+
+    - To add Juliaup to your `$PATH` manually, run `export PATH=/path/to/.juliaup/bin${PATH:+:${PATH}}`
 
 ### Installing Different Julia Versions
 
@@ -26,6 +34,8 @@ juliaup add 1.9.0
 # Use Julia 1.9.0:
 julia +1.9.0
 ```
+
+Click [here](https://github.com/JuliaLang/juliaup) for more information on installing and using Juliaup.
 
 ## Conda
 
