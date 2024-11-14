@@ -56,13 +56,13 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
 ### Terminal with SSH
 
 === "Engaging"
-    Engaging has four login nodes: `eofe7`, `eofe8`, `eofe9`, and `eofe10`. Replace `USERNAME` below with your Kerberos username and use the login node you would like to log in with, the example below is using `eofe10`.
+    Engaging has four login nodes running Rocky 8: `orcd-login001`, `orcd-login002`, `orcd-login003`, and `orcd-login004`. If you are using older Centos 7 nodes you can use one of the Centos 7 login nodes instead: `orcd-vlogin001`, `orcd-vlogin002`, `orcd-vlogin003`, and `orcd-vlogin004`. Replace `USERNAME` below with your Kerberos username and use the login node you would like to log in with, the example below is using `orcd-login001`.
 
     ```bash
-    ssh USERNAME@eofe10.mit.edu
+    ssh USERNAME@orcd-login001.mit.edu
     ```
 
-    If you are prompted for a password enter your Kerberos password.  You can add an ssh key if you do not want to enter your Kerberos password at login. `eofe9` and `eofe10` also require Two-Factor Authentication.
+    If you are prompted for a password enter your Kerberos password.  You can add an ssh key if you do not want to enter your Kerberos password at login, see the [SSH Login](accessing-orcd/ssh-setup.md) page for more information. All login nodes require Two-Factor Authentication.
 
 === "Satori"    
     Satori has two login nodes: `satori-login-001` and `satori-login-002`. Replace `USERNAME` below with your Kerberos username and use the login node you would like to log in with, the example below is using `satori-login-001`.
@@ -277,7 +277,7 @@ To transfer a file from your computer to the ORCD system:
 === "Engaging"
 
     ``` bash
-    scp <file-name> USERNAME@eofe8.mit.edu:<path-to-engaging-dir>
+    scp <file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
     ```
 
     (You can use any of the login nodes listed above)
@@ -307,7 +307,7 @@ To transfer a file from an ORCD system to your computer:
 === "Engaging"
 
     ``` bash
-    scp USERNAME@eofe8.mit.edu:<path-to-engaging-dir>/<file-name> <path-to-local-dest>
+    scp USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>/<file-name> <path-to-local-dest>
     ```
 
     (You can use any of the login nodes listed above)
@@ -337,7 +337,7 @@ Similar to `cp`, use the `-r` flag to copy over an entire directory and its cont
 === "Engaging"
 
     ``` bash
-    scp -r <local-dir-name> USERNAME@eofe8.mit.edu:<path-to-engaging-dir>
+    scp -r <local-dir-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
     ```
 
     (You can use any of the login nodes listed above)

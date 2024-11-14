@@ -20,7 +20,7 @@ To run on a compute node you will need at least 2 entries in this file. The firs
 
     ```yaml title="config"
     Host eofe-login
-      HostName eofe8.mit.edu
+      HostName orcd-login001.mit.edu
       User USERNAME
 
     Host eofe-compute
@@ -143,7 +143,7 @@ If your compute node is `node1234` then your config file should look something l
 
     ```yaml title="config"
     Host eofe-login
-      HostName eofe8.mit.edu
+      HostName orcd-login001.mit.edu
       User USERNAME
 
     Host eofe-compute

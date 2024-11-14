@@ -45,19 +45,27 @@ Follow the directions below based on your operating system:
 Once you have your terminal set up for your specific operating system, you can use SSH to access our HPC systems. Follow the commands below for your desired system.
 
 === "Engaging"
-    The Engaging Cluster has 3 login nodes: 
+    The Engaging Cluster has 4 Rocky 8 login nodes: 
 
-    - eofe4.mit.edu (Rocky 8)  
-    - eofe9.mit.edu (CentOS 7)  
-    - eofe10.mit.edu (Rocky 8)  
+    - orcd-login001.mit.edu  
+    - orcd-login002.mit.edu 
+    - orcd-login003.mit.edu
+    - orcd-login004.mit.edu
     
     To login via the command line, run the SSH command:
     ```bash 
     ssh [username]@[host]
     ```
-    Replace `[username]` with your MIT Kerberos username and `[host]` with the desired login node name (e.g., ssh your_name@eofe9.mit.edu).
+    Replace `[username]` with your MIT Kerberos username and `[host]` with the desired login node name (e.g., `ssh your_name@orcd-login001.mit.edu`).
 
-    Connecting to eofe9 or eofe10 requires Two-Factor Authentication.
+    Connecting requires Two-Factor Authentication.
+
+    If you are still using the older Centos 7 nodes you can use one of the following login nodes instead:
+
+    - orcd-vlogin001.mit.edu  
+    - orcd-vlogin002.mit.edu 
+    - orcd-vlogin003.mit.edu
+    - orcd-vlogin004.mit.edu
 
     !!! Note
         You will be prompted to enter your MIT Kerberos password if you have not set up SSH keys. To set them up, please refer to our [SSH Key Setup Page](ssh-setup.md).
