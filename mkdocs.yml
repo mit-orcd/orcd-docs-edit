@@ -18,6 +18,7 @@ nav:
     - Overview: software/overview.md
     - Modules: software/modules.md
     - Python: software/python.md
+    - Container: software/apptainer.md
     - Compiling Codes: software/compile.md
 #    - Julia: 
 #    - R: 
