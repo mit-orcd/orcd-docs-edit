@@ -56,7 +56,21 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
 ### Terminal with SSH
 
 === "Engaging"
-    Engaging has four login nodes running Rocky 8: `orcd-login001`, `orcd-login002`, `orcd-login003`, and `orcd-login004`. If you are using older Centos 7 nodes you can use one of the Centos 7 login nodes instead: `orcd-vlogin001`, `orcd-vlogin002`, `orcd-vlogin003`, and `orcd-vlogin004`. Replace `USERNAME` below with your Kerberos username and use the login node you would like to log in with, the example below is using `orcd-login001`.
+    Engaging has four login nodes running Rocky 8:
+    
+    - `orcd-login001`
+    - `orcd-login002`
+    - `orcd-login003`
+    - `orcd-login004`
+    
+    If you are using older Centos 7 nodes you can use one of the Centos 7 login nodes instead:
+    
+    - `orcd-vlogin001`
+    - `orcd-vlogin002`
+    - `orcd-vlogin003`
+    - `orcd-vlogin004`
+    
+    Replace `USERNAME` below with your Kerberos username and use the login node you would like to log in with, the example below is using `orcd-login001`.
 
     ```bash
     ssh USERNAME@orcd-login001.mit.edu
