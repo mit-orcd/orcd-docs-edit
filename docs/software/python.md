@@ -44,14 +44,12 @@ Refer to the tab below to find out more about the Python modules available on th
     We recommend using the newest miniforge modules for both. For Rocky 8 run:
 
     ```bash
-    module use /orcd/software/core/001/modulefiles/
     module load miniforge/24.3.0-0
     ```
 
     For Centos 7:
 
     ```bash
-    module use /orcd/software/core/001/centos7/modulefiles/
     module load miniforge/24.3.0-0
     ```
     
