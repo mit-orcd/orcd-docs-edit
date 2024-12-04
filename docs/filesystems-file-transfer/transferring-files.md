@@ -6,9 +6,10 @@ For most of these options you will need to know the hostname of the node where y
 
 === "Engaging"
 
-    - `eofe4.mit.edu`
-    - `eofe9.mit.edu`
-    - `eofe10.mit.edu`
+    - `orcd-login001.mit.edu`
+    - `orcd-login002.mit.edu`
+    - `orcd-login003.mit.edu`
+    - `orcd-login004.mit.edu`
 
 === "Satori"
 
@@ -61,7 +62,7 @@ To transfer a file from your local computer to an ORCD system you would use the 
 === "Engaging"
 
     ``` bash
-    scp <file-name> USERNAME@eofe9.mit.edu:<path-to-engaging-dir>
+    scp <file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
     ```
 
 === "Satori"
@@ -86,7 +87,7 @@ For example, let's say you have the local file `myscript.py` and you want to tra
 === "Engaging"
 
     ``` bash
-    scp myscript.py USERNAME@eofe9.mit.edu:/home/USERNAME/mycode/
+    scp myscript.py USERNAME@orcd-login001.mit.edu:/home/USERNAME/mycode/
     ```
 
 === "Satori"
@@ -111,7 +112,7 @@ To transfer the other direction (from an ORCD system to your local computer) swi
 === "Engaging"
 
     ``` bash
-    scp USERNAME@eofe9.mit.edu:<path-to-engaging-file> <path-to-local-dir>
+    scp USERNAME@orcd-login001.mit.edu:<path-to-engaging-file> <path-to-local-dir>
     ```
 
 === "Satori"
@@ -136,7 +137,7 @@ If you were to have the file `results.csv` that you want to copy from the `outpu
 === "Engaging"
 
     ``` bash
-    scp USERNAME@eofe9.mit.edu:/home/USERNAME/output/results.csv .
+    scp USERNAME@orcd-login001.mit.edu:/home/USERNAME/output/results.csv .
     ```
 
 === "Satori"
@@ -163,7 +164,7 @@ Similar to the `cp` command, if you want to transfer an entire directory and all
 === "Engaging"
 
     ``` bash
-    scp -r <file-name> USERNAME@eofe9.mit.edu:<path-to-engaging-dir>
+    scp -r <file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
     ```
 
 === "Satori"
@@ -209,7 +210,7 @@ If you need to move files between ORCD systems you can do so one of two ways.
 2. Run the `scp` or `rsync` command on your local system and specify the hostnames and paths for each of the source and destination systems. For example to move a file from Engaging to Satori using `scp` you would run:
 
 ```bash title="Transferring files from Engaging to Satori"
-scp USERNAME@eofe9.mit.edu:<path-to-engaging-file> USERNAME@satori-login-001.mit.edu:<path-to-satori-dir>
+scp USERNAME@orcd-login001.mit.edu:<path-to-engaging-file> USERNAME@satori-login-001.mit.edu:<path-to-satori-dir>
 ```
 
 ## Graphical Applications for File Transfer

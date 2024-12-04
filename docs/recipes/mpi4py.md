@@ -30,7 +30,7 @@ You can learn about `mpi4py` here: [https://mpi4py.readthedocs.io/en/stable/](ht
 
 === "Engaging"
 
-     First, load an Anaconda module on a CentOS 7 head node (such as eofe7 or eofe8),
+     First, load an Anaconda module on a CentOS 7 head node (such as orcd-vlogin001 or orcd-vlogin002),
      ```
      --8<-- "docs/recipes/scripts/mpi4py/p2p-engaging-setup.sh:module"
      ```

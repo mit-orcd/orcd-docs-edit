@@ -39,11 +39,11 @@ is available at [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu). Fu
 ### How to Get an Account on Engaging
 
 Accounts on the engaging cluster are connected to your main MIT institutional kerberos id. 
-Connecting to the cluster for the first time through its [web portal](https://engaging-ood.mit.edu) automatically activates an account with basic access to resources. See [this page](https://engaging-web.mit.edu/eofe-wiki/logging_in/engaging-ood/) for instructions on how to log in.
+Connecting to the cluster for the first time through its [web portal](https://engaging-ood.mit.edu) automatically activates an account with basic access to resources. See [this page](accessing-orcd/ondemand-login.md) for instructions on how to log in.
 
 ### Engaging Quick Links
 
-- Documentation: [https://engaging-web.mit.edu/eofe-wiki/](https://engaging-web.mit.edu/eofe-wiki/)
+- Additional Documentation: [https://engaging-web.mit.edu/eofe-wiki/](https://engaging-web.mit.edu/eofe-wiki/)
 - OnDemand web portal: [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu)
 - Help: Send email to <orcd-help-engaging@mit.edu>
 
