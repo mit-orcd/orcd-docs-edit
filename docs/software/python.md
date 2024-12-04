@@ -425,7 +425,7 @@ Be sure to replace `/path/to/virtual/environment` with the actual path to your v
 
 #### Activating a Conda/Mamba Environment in a Script
 
-Usually loading an anaconda module and then running `source activate myenv` will work to activate a conda or mamba environment in a job script (as shown [above](#anaconda-environments)).
+Usually loading an anaconda module and then running `source activate myenv` will work to activate a conda or mamba environment in a job script (as shown [above](#conda-environments)).
 
 One thing to try is suggested above in [Conda/Mamba Init](#condamamba-init):
 

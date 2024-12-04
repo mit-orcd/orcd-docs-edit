@@ -20,7 +20,7 @@ nav:
     - Python: software/python.md
     - Compiling Codes: software/compile.md
 #    - Julia: 
-#    - R: 
+    - R: software/R.md
 #    - Installing Software: 
 #    - Singularity/Apptainer: 
 #    - Licensed Software: 
