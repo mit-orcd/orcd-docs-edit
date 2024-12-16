@@ -5,9 +5,6 @@ tags:
  - Best Practices
 ---
 
-NOTE: This is all for Engaging as of now (does not work for SuperCloud)
-NOTE: This document assumes users have access to mit_normal (PyCharm does not work on Centos7)
-
 # Using PyCharm on an ORCD System
 
 PyCharm provides an integrated development environment for users to edit their
@@ -68,26 +65,35 @@ Host engaging-compute
 
 ## Starting PyCharm
 
-!!! note
-    Currently, PyCharm does not work well with DUO authentication. To get around
-    this, connect to the MIT VPN so that DUO is not required.
+Currently, PyCharm does not work well with DUO authentication. To get around
+this, connect to the [MIT VPN](https://ist.mit.edu/vpn) so that DUO is not
+required.
 
 Open PyCharm and click Remote Development > SSH on the left-hand side:
 
-(Insert screenshot here)
+![PyCharm remote development](../images/pycharm/pycharm_remote_dev.png)
 
 Create a new project and connect to SSH. Enter your username and host name (in
 this case it's `engaging-compute`), then click "Check Connection and Continue":
 
-(insert screenshot here)
+![Setting up SSH connection on PyCharm](../images/pycharm/pycharm_connect_ssh.png)
 
 This will open a new page where you will enter your project directory. Enter
 the path to the directory on Engaging that you'd like to work in. You are likely
 to get the most success if you point PyCharm to a blank directory (I've named
-mine "PyCharm" for now). Click "Start IDE and Connect":
+mine `pycharm` for now). Click "Download IDE and Connect":
 
-(Insert screenshot here)
+![Entering your project directory on PyCharm](../images/pycharm/pycharm_choose_ide.png)
 
 ## Troubleshooting
 
-(add a note to try clearing the .cache/JetBrains directory and trying again)
+If you are still running into issues, try deleting the JetBrains cache in your
+home directory on the cluster via the command line:
+
+```bash
+rm -r ~/.cache/JetBrains
+```
+
+<!--
+NOTE: This document assumes users have access to mit_normal
+-->
