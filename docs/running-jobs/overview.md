@@ -40,7 +40,7 @@ If you are part of a group that has purchased nodes you may see additional parti
 
 We provide the `mit_preemptable` partition so that nodes owned by a group or PI can be used by researchers outside that group when those nodes are idle. When someone from the group that owns the node runs a job on their partition, the scheduler will stop, or preempt, any job that is running on the lower-priority `mit_preemptable` partition. Jobs running on `mit_preemptable` should be checkpointed so that they don't lose their progress when the job is stopped.
 
-<!-- section on seeing  node stats in partition, partition rules -->
+<!-- section on seeing node stats in partition, partition rules -->
 
 ## Checking Available Resources
 
@@ -130,11 +130,89 @@ You can think of job scripts as having three sections:
 
 ## Checking Job Status
 
-To see all your currently running and pending jobs run the `squeue --me` command:
+To see all your currently running and pending jobs run the `squeue --me` command: 
 
+```bash
+squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          60735877 mit_norma interact milechin  R      29:32      1 node1707
 
+```
+
+each line in the output is a different job. The default fields are:
+
+- `JOBID`: The Job ID, each job has a unique ID that can be used to identify it.
+- `PARTITION`: The [partition](#partitions) the job is running in
+- `NAME`: The name of the job. By default this is the name of your job script, or "interactive" for interactive jobs.
+- `USER`: Your username
+- `ST`: The job status. Common statuses are `R` for "Running", `PD` for "Pending", and `CG` for completing. Jobs in pending state have the reason the job is pending listed in the final `NODELIST(REASON)` column.
+- `TIME`: The amount of time the job has been running for.
+- `NODES`: The number of nodes your job is using.
+- `NODELIST(REASON)`: If your job is running this is the name of the node or nodes that your job is running on. If your job is pending this lists the reason the job is pending. Common pending reasons are "Resources", meaning the resources you've requested aren't yet available, "Priority", meaning there is someone else ahead of you in line to use the resources you've requested. Other reasons are listed in the [Slurm documentation](https://slurm.schedmd.com/squeue.html#SECTION_JOB-REASON-CODES).
 
 ## Stopping Jobs
 
+You can stop running or pending jobs with the `scancel` command. You can stop an individual job by providing a job id:
+
+```bash
+scancel 123456
+```
+
+or a list of jobs by separating job IDs with a comma:
+
+```bash
+scancel 123456,123457
+```
+
+You can also stop all of your jobs by providing your username:
+
+```bash
+scancel -u USERNAME
+```
+
+where `USERNAME` is your username.
+
 ## Retrieving Job Stats
 
+You can get information above currently and previously run jobs with the `sacct` command. This command can be very helpful for troubleshooting job issues, and is particularly helpful to check that you are getting the resources you expect allocated to your job.
+
+Running `sacct` with no flags will show some basic information about the jobs that you've run in the past day:
+
+```bash
+[USERNAME@orcd-login001 ~]$ sacct
+JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+------------ ---------- ---------- ---------- ---------- ---------- -------- 
+60764362     interacti+ sched_any+ mit_gener+          1 CANCELLED+      0:0 
+60764363     interacti+ mit_normal mit_gener+          1  COMPLETED      0:0 
+60764363.in+ interacti+            mit_gener+          1  COMPLETED      0:0 
+60764363.ex+     extern            mit_gener+          1  COMPLETED      0:0 
+60764366     interacti+ mit_normal mit_gener+          1    RUNNING      0:0 
+60764366.in+ interacti+            mit_gener+          1    RUNNING      0:0 
+60764366.ex+     extern            mit_gener+          1    RUNNING      0:0 
+```
+
+You can select which fields are shown with the `-o` (output) flag, for example:
+
+```bash
+[USERNAME@orcd-login001 ~]$ sacct -o JobID,JobName,AllocCPUs,NodeList,Elapsed,State
+JobID           JobName  AllocCPUS        NodeList    Elapsed      State 
+------------ ---------- ---------- --------------- ---------- ---------- 
+60764362     interacti+          1   None assigned   00:00:00 CANCELLED+ 
+60764363     interacti+          1        node1806   00:00:19  COMPLETED 
+60764363.in+ interacti+          1        node1806   00:00:19  COMPLETED 
+60764363.ex+     extern          1        node1806   00:00:19  COMPLETED 
+60764366     interacti+          1        node1806   00:01:40  COMPLETED 
+60764366.in+ interacti+          1        node1806   00:01:39  COMPLETED 
+60764366.ex+     extern          1        node1806   00:01:40  COMPLETED 
+```
+
+There are many fields that give a lot of information about your jobs. Running the `sacct -e` command will show all of them. A few that can be helpful are:
+
+- `AllocCPUs`, `AllocNodes`- Number of CPUs, number of nodes, or GPUs allocated to your job.
+- `ReqTRES`- Requested "trackable resources" (TRES). This is a fairly long string that will include any GPUs requested for the job. If the string is too long to display add `%60` to show 60 characters (`ReqTRES%60`), you can adjust the number of characters as needed.
+- `NodeList`- The list of nodes that your job ran on. This is helpful to see whether your jobs are consistently failing on the same node. If so, reach out to <orcd-help-engaging@mit.edu> and let us know which node seems to be having an issue.
+- `Start`, `End`, `Elapsed`- The start time, end time, and total amount of time your job ran for.
+- `State`, `ExitCode`- The Job State and Exit Code. If the job failed there may be an exit code that can help determine why the job failed.
+- `MaxRSS`- The peak memory utilization of your job. This number can be used to fine-tune how much memory to request for your job. See the section on [requesting memory](requesting-resources.md#memory) for more information.
+
+You can also specify a particular job with the `-j` flag (`sacct -j 60764366` for example).
