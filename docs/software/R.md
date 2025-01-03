@@ -1,7 +1,6 @@
 <!--
 To do:
-- Note that Conda is the best way
-- Change "conda create" to "conda create -n"
+- Use tidyverse only as an example
 - Look into running R on Jupyter notebooks on SuperCloud
 - Look into changing kernel to R in engaging Jupyter notebook
 -->
@@ -13,6 +12,58 @@ tags:
 ---
 
 # R
+
+## R with Conda
+
+Conda is a package manager commonly used for Python, but is compatible with R and can be very useful for installing packages. This can be helpful when the packages you need have specific dependency requirements. Because of these benefits, **Conda is our recommended process for using R on the cluster.**
+
+When you create a Conda environment, you can specify exactly the packages you need. First, you'll need to load a pre-installed Conda module. There are multiple available, but we recommend Miniforge:
+
+=== "Engaging"
+
+    ```bash
+    module load miniforge/24.3.0-0
+    ```
+
+=== "Satori"
+
+    ```bash
+    module load anaconda3/2020.02-2ks5tch
+    ```
+
+=== "SuperCloud"
+
+    ```bash
+    module load anaconda/2023b
+    ```
+
+Now, you should be able to run `conda` commands. To search for specific R packages (beginning with "r-"), you can use `conda search`. For example, the following looks for all versions of Tidyverse available through Conda:
+
+```bash
+conda search r-tidyverse
+```
+
+There are two ways to add packages to your Conda environment. The first is to create a blank Conda environment and install packages individually, for example:
+
+```bash
+conda create -n my_R_env
+conda activate my_R_env
+conda install r-tidyverse
+```
+
+However, we recommend naming the packages you will need when you create the environment in the first place, as this will better handle dependencies. You can do this as such:
+
+```bash
+conda create -n my_R_env r-tidyverse
+```
+
+You can also specify specific versions of packages that you'd like to install:
+
+```bash
+conda install r-tidyverse=2.0.0
+```
+
+See [the section on Conda environments in the Python software document](python.md#conda-environments) for more information.
 
 ## Pre-Installed R Modules
 
@@ -47,58 +98,6 @@ The pre-installed R modules come with a limited number of packages, but it is po
 
 R will first try to install this package system-wide but will be blocked to avoid editing the module for the entire cluster. You will be asked if you want to use a personal library instead. Type "yes" and press enter. This creates a folder in your home directory that contains the packages for each version of R you use. You can check this directory by running `.libPaths()` from the R CLI.
 
-## R with Conda
-
-Conda is a package manager commonly used for Python, but is compatible with R and can be very useful for installing packages. This can be helpful when the packages you need have specific dependency requirements.
-
-When you create a Conda environment, you can specify exactly the packages you need. First, you'll need to load a pre-installed Conda module. There are multiple available, but we recommend Miniforge:
-
-=== "Engaging"
-
-    ```bash
-    module load miniforge/24.3.0-0
-    ```
-
-=== "Satori"
-
-    ```bash
-    module load anaconda3/2020.02-2ks5tch
-    ```
-
-=== "SuperCloud"
-
-    ```bash
-    module load anaconda/2023b
-    ```
-
-Now, you should be able to run `conda` commands. To search for specific R packages (beginning with "r-"), you can use `conda search`. For example, the following looks for all versions of Tidyverse available through Conda:
-
-```bash
-conda search r-tidyverse
-```
-
-There are two ways to add packages to your Conda environment. The first is to create a blank Conda environment and install packages individually, for example:
-
-```bash
-conda create my_R_env
-conda activate my_R_env
-conda install r-tidyverse
-```
-
-However, we recommend naming the packages you will need when you create the environment in the first place, as this will better handle dependencies. You can do this as such:
-
-```bash
-conda create my_R_env r-tidyverse
-```
-
-You can also specify specific versions of packages that you'd like to install:
-
-```bash
-conda install r-tidyverse=2.0.0
-```
-
-See [the section on Conda environments in the Python software document](python.md#conda-environments) for more information.
-
 ## RStudio
 
 Currently, the only cluster that RStudio is available on is Engaging. This is accessible through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > RStudio Server. From there, select the specifications you need, including runtime, memory, and R version. Currently, OnDemand does not support local installations of R or versions of R installed through Conda.
@@ -124,8 +123,8 @@ Similar to RStudio, Jupyter notebooks offer a handy cell-based interface to run 
 If you need a specific version of R, the easiest way to do this is through Conda. You can specify your desired R version while creating a Conda environment by setting the `r-base` argument to version that you need. For example, for installing R version 4.1.2:
 
 ```bash
-conda create -n R_env r-base=4.1.2
-conda activate R_env
+conda create -n my_R_env r-base=4.1.2
+conda activate my_R_env
 ```
 
 Once your environment is created and activated, entering `which R` should direct you to the version of R within your Conda environment.
@@ -134,7 +133,7 @@ Once your environment is created and activated, entering `which R` should direct
 
 **I am trying to use a specific R installation, but it is not being recognized. What should I do?**
 
-Sometimes, the way your environment is set up may cause the system to default to certain R installations that you don't want. The culprit can often be found in your `.bashrc`, `.bash_profile`, and/or `.zshrc` files. Usually, running `module purge` from the command line before loading the version of R you want solves the problem.
+Sometimes, the way your environment is set up may cause the system to default to certain R installations that you don't want. The culprit can often be found in your `.bashrc` and/or `.bash_profile` file. Usually, running `module purge` from the command line before loading the version of R you want solves the problem.
 
 **How do I change the path where my libraries are installed?**
 
