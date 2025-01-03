@@ -1,6 +1,5 @@
 <!--
 To do:
-- Use tidyverse only as an example
 - Look into running R on Jupyter notebooks on SuperCloud
 - Look into changing kernel to R in engaging Jupyter notebook
 -->
@@ -15,7 +14,7 @@ tags:
 
 ## R with Conda
 
-Conda is a package manager commonly used for Python, but is compatible with R and can be very useful for installing packages. This can be helpful when the packages you need have specific dependency requirements. Because of these benefits, **Conda is our recommended process for using R on the cluster.**
+Conda is a package manager commonly used for Python, but is compatible with R and can be very useful for installing packages. This can be helpful when the packages you need have specific dependency requirements. Because of these benefits, **Conda is our recommended process for using R on the cluster.** You can find more information on Conda in the [Python software section](python.md#conda-environments).
 
 When you create a Conda environment, you can specify exactly the packages you need. First, you'll need to load a pre-installed Conda module. There are multiple available, but we recommend Miniforge:
 
@@ -37,33 +36,36 @@ When you create a Conda environment, you can specify exactly the packages you ne
     module load anaconda/2023b
     ```
 
-Now, you should be able to run `conda` commands. To search for specific R packages (beginning with "r-"), you can use `conda search`. For example, the following looks for all versions of Tidyverse available through Conda:
+Now, you should be able to run `conda` commands, such as creating and activating an environment:
+
+```bash
+conda create -n my_R_environment
+conda activate my_R_environment
+```
+
+To search for specific R packages (beginning with "r-"), you can use `conda search`. For example, the following looks for all versions of Tidyverse available through Conda:
 
 ```bash
 conda search r-tidyverse
 ```
 
-There are two ways to add packages to your Conda environment. The first is to create a blank Conda environment and install packages individually, for example:
+The base R installation through Conda is called `r-base`. This will automatically be downloaded and installed when you install any R package to your environment. To install packages, use `conda install`:
 
 ```bash
-conda create -n my_R_env
-conda activate my_R_env
 conda install r-tidyverse
 ```
 
-However, we recommend naming the packages you will need when you create the environment in the first place, as this will better handle dependencies. You can do this as such:
+By default, the latest compatible versions of `r-base` and other R packages are automatically installed. If you prefer different versions of R (`r-base`) or you need a specific version of a package, you can specify in your `install` command:
 
 ```bash
-conda create -n my_R_env r-tidyverse
-```
-
-You can also specify specific versions of packages that you'd like to install:
-
-```bash
+conda install r-base=4.1.2
 conda install r-tidyverse=2.0.0
 ```
 
-See [the section on Conda environments in the Python software document](python.md#conda-environments) for more information.
+!!! note
+    It's much more efficient to specify all the packages you need when you first create your environment rather than installing them one by one. This way, the environment only needs to be solved once, and Conda ensures that packages are compatible with each other. You can do this by naming the packages in the `create` command: `conda create -n my_R_env r-tidyverse r-pillar`
+
+Once your environment is created and activated, entering `which R` should direct you to the version of R within your Conda environment.
 
 ## Pre-Installed R Modules
 
@@ -117,17 +119,6 @@ Similar to RStudio, Jupyter notebooks offer a handy cell-based interface to run 
     Click [here](https://txe1-portal.mit.edu/jupyter/jupyter_notebook.php) to open a Jupyter notebook on the SuperCloud web portal.
 
     On SuperCloud, the version of R that is available is from the pre-installed R environment on Anaconda. As a result, you cannot install additional pacakges. Unfortunately, it is not possible to connect your own Conda environment to Jupyter on this cluster. You can find more information about running Jupyter notebooks on SuperCloud [here](https://mit-supercloud.github.io/supercloud-docs/jupyter-notebooks/).
-
-## Installing Other R Versions
-
-If you need a specific version of R, the easiest way to do this is through Conda. You can specify your desired R version while creating a Conda environment by setting the `r-base` argument to version that you need. For example, for installing R version 4.1.2:
-
-```bash
-conda create -n my_R_env r-base=4.1.2
-conda activate my_R_env
-```
-
-Once your environment is created and activated, entering `which R` should direct you to the version of R within your Conda environment.
 
 ## FAQs
 
