@@ -1,6 +1,5 @@
 <!--
 To do:
-- Look into running R on Jupyter notebooks on SuperCloud
 - Look into changing kernel to R in engaging Jupyter notebook
 -->
 
@@ -35,6 +34,8 @@ When you create a Conda environment, you can specify exactly the packages you ne
     ```bash
     module load anaconda/2023b
     ```
+
+    More information on running R on SuperCloud can be found [here](https://mit-supercloud.github.io/supercloud-docs/software-packages/#r-libraries).
 
 Now, you should be able to run `conda` commands, such as creating and activating an environment:
 
@@ -108,17 +109,22 @@ You can install packages using the `install.packages()` command. As with running
 
 ## Jupyter
 
-Similar to RStudio, Jupyter notebooks offer a handy cell-based interface to run R code. You can run Jupyter notebooks through the web portals of *Engaging and SuperCloud*.
+Similar to RStudio, Jupyter notebooks offer a handy cell-based interface to run R code. You can run R on Jupyter notebooks through the Engaging web portal.
 
 === "Engaging"
 
     Jupyter notebooks are available through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > Jupyter Notebook. To run R, you must create a Conda environment with both R and jupyterlab installed (see [R with Conda](#r-with-conda)). When starting up the notebook, enter the name of your custom Conda environment. Once you launch the session and open your notebook, you may need to change your kernel to R. Your current kernel is shown in the top right, and likely defaults to "Python 3 (ipykernel)". Click this to change it to R.
 
-=== "SuperCloud"
+<!-- === "SuperCloud"
 
     Click [here](https://txe1-portal.mit.edu/jupyter/jupyter_notebook.php) to open a Jupyter notebook on the SuperCloud web portal.
 
-    On SuperCloud, the version of R that is available is from the pre-installed R environment on Anaconda. As a result, you cannot install additional pacakges. Unfortunately, it is not possible to connect your own Conda environment to Jupyter on this cluster. You can find more information about running Jupyter notebooks on SuperCloud [here](https://mit-supercloud.github.io/supercloud-docs/jupyter-notebooks/).
+    On SuperCloud, the version of R that is available is from the pre-installed R environment on Anaconda. As a result, you cannot install additional packages. Unfortunately, it is not possible to connect your own Conda environment to Jupyter on this cluster.
+    
+    You can find more information about running Jupyter notebooks on SuperCloud [here](https://mit-supercloud.github.io/supercloud-docs/jupyter-notebooks/). 
+    
+    NOTE: It may be possible to run your own custom environment on a Jupyter notebook on supercloud. However, right now you cannot open a jupyter notebook with Anaconda 2023a or 2023b, even when using the standard ipykernel. Anaconda 2024b works on Jupyter, but it does not recognize any custom environments. There is no Anaconda 2024b available as a module.
+    -->
 
 ## FAQs
 
