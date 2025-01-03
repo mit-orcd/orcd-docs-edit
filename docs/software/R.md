@@ -1,3 +1,11 @@
+<!--
+To do:
+- Note that Conda is the best way
+- Change "conda create" to "conda create -n"
+- Look into running R on Jupyter notebooks on SuperCloud
+- Look into changing kernel to R in engaging Jupyter notebook
+-->
+
 ---
 tags:
  - Software
@@ -33,13 +41,6 @@ There are currently a few different versions of R installed on our systems. You 
     R
     ```
 
-=== "OpenMind"
-
-    ```bash
-    module load openmind/R/3.6.1
-    R
-    ```
-
 ### Installing Packages
 
 The pre-installed R modules come with a limited number of packages, but it is possible to install more. This can be acheived using the standard R command `install.packages("packageName")`.
@@ -68,12 +69,6 @@ When you create a Conda environment, you can specify exactly the packages you ne
 
     ```bash
     module load anaconda/2023b
-    ```
-
-=== "OpenMind"
-
-    ```bash
-    module load openmind/anaconda/3-5.3.1
     ```
 
 Now, you should be able to run `conda` commands. To search for specific R packages (beginning with "r-"), you can use `conda search`. For example, the following looks for all versions of Tidyverse available through Conda:
