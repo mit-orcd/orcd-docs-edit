@@ -1,8 +1,3 @@
-<!--
-To do:
-- Look into changing kernel to R in engaging Jupyter notebook
--->
-
 ---
 tags:
  - Software
@@ -113,7 +108,7 @@ Similar to RStudio, Jupyter notebooks offer a handy cell-based interface to run 
 
 === "Engaging"
 
-    Jupyter notebooks are available through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > Jupyter Notebook. To run R, you must create a Conda environment with both R and jupyterlab installed (see [R with Conda](#r-with-conda)). When starting up the notebook, enter the name of your custom Conda environment. Once you launch the session and open your notebook, you may need to change your kernel to R. Your current kernel is shown in the top right, and likely defaults to "Python 3 (ipykernel)". Click this to change it to R.
+    Jupyter notebooks are available through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > Jupyter Notebook. To run R, you must create a Conda environment with both r-irkernel and jupyterlab installed (see [R with Conda](#r-with-conda)). When starting up the notebook, enter the name of your custom Conda environment. Once you launch the session and open your notebook, you may need to change your kernel to R. Your current kernel is shown in the top right, and likely defaults to "Python 3 (ipykernel)". Click this to change it to R.
 
 <!-- === "SuperCloud"
 
@@ -155,3 +150,11 @@ Both of these commands essentially prepend your custom path to the library path 
 [Satori: R on Satori](https://mit-satori.github.io/satori-R.html)
 
 [SuperCloud: Software and Package Management - R Libraries](https://mit-supercloud.github.io/supercloud-docs/software-packages/#r-libraries)
+
+<!--
+To do:
+- Look into changing kernel to R in engaging Jupyter notebook
+    - Seems like you need to install the following in the conda env:
+        - r-irkernel
+        - jupyterlab
+-->
