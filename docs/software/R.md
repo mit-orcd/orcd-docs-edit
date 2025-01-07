@@ -6,6 +6,8 @@ tags:
 
 # R
 
+R is a powerful programming language widely used for statistical computing and graphics. It provides a variety of statistical techniques and graphical tools, making it a useful tool for data analysis and visualization.
+
 ## R with Conda
 
 Conda is a package manager commonly used for Python, but is compatible with R and can be very useful for installing packages. This can be helpful when the packages you need have specific dependency requirements. Because of these benefits, **Conda is our recommended process for using R on the cluster.** You can find more information on Conda in the [Python software section](python.md#conda-environments).
@@ -150,11 +152,3 @@ Both of these commands essentially prepend your custom path to the library path 
 [Satori: R on Satori](https://mit-satori.github.io/satori-R.html)
 
 [SuperCloud: Software and Package Management - R Libraries](https://mit-supercloud.github.io/supercloud-docs/software-packages/#r-libraries)
-
-<!--
-To do:
-- Look into changing kernel to R in engaging Jupyter notebook
-    - Seems like you need to install the following in the conda env:
-        - r-irkernel
-        - jupyterlab
--->
