@@ -109,13 +109,10 @@ How do you know how much memory your job needs? You can find out how much memory
 sacct -j JOBID -o JobID,JobName,State,ReqMem,MaxRSS --units=G
 ```
 
-where JOBID is your job ID. State shows the job status, keep in mind
-that the memory numbers are only accurate for jobs that are no longer
-running, and ReqMem is the number of memory that was allocated to
-the job. MaxRSS is the maximum resident memory (maximum memory
-footprint) used by each job.
+where `JOBID` is your job ID. `State` shows the job status, keep in mind
+that the amount of memory reported by `sacct` is only accurate for jobs that are no longer running, and `ReqMem` is the number of memory that was allocated to the job. `MaxRSS` is the maximum resident memory (maximum memory footprint) used by each job.
 
-If the MaxRSS value is larger than what you have requested, or you run out of memory, you will have to request additional memory for your job.
+If the `MaxRSS` value is larger than what you have requested, or you run out of memory, you will have to request additional memory for your job.
 
 ## GPUs
 

@@ -215,4 +215,6 @@ There are many fields that give a lot of information about your jobs. Running th
 - `State`, `ExitCode`- The Job State and Exit Code. If the job failed there may be an exit code that can help determine why the job failed.
 - `MaxRSS`- The peak memory utilization of your job. This number can be used to fine-tune how much memory to request for your job. See the section on [requesting memory](requesting-resources.md#memory) for more information.
 
-You can also specify a particular job with the `-j` flag (`sacct -j 60764366` for example).
+You can specify a particular job with the `-j` flag (`sacct -j 60764366` for example). You can also specify a start and end time if you are interested in seeing jobs that ran more than a day ago. Use the `--starttime` and `--endtime` flags to specify a date range, using the format `MMDDYY`, for example `sacct --starttime=010125 --endtime=010225`retrieves all your jobs that ran on the first two days of 2025.
+
+See the Slurm [sacct documentation](https://slurm.schedmd.com/sacct.html) for more information on flags and fields.
