@@ -28,7 +28,7 @@ The standard partitions that the full MIT community has access to are:
 | ----------- | ----------- |----------- |----------- |----------- |
 | `mit_normal` | Longer running batch and interactive jobs that do not need a GPU | CPU only | 12 hours | 96 cores |
 | `mit_normal_gpu` (Coming Soon) | Batch and interactive jobs that need a GPU | GPUs (L4, L40S, H100) | 12 hours | TBA |
-| `mit_quicktest` | Short batch and interactive jobs, meant for testing | CPU only | 15 minutes | 96 cores |
+| `mit_quicktest` | Short batch and interactive jobs, meant for testing | CPU only | 15 minutes | 48 cores |
 | `mit_preemptable` (Coming Soon) | Low-priority preemtable jobs- jobs that may be stopped by another job with higher priority | Mixed | 48 hours | TBA |
 
 !!! note "Older Partitions"
