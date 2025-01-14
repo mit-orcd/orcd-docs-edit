@@ -28,17 +28,23 @@ Julia is a high-level, high-performance programming language designed for techni
 
     ```bash
     module load julia/1.5.3-rls2opu
+    julia
     ```
 
 === "SuperCloud"
 
     ```bash
     module load julia/1.10.1
+    julia
     ```
 
 ## Installing Packages
 
-When you install packages in Julia, a .julia folder automatically gets created in your home directory that holds all packages installations. You can change this location by setting the `$JULIA_DEPOT_PATH` environment variable from the command line before you start Julia. For example:
+<!--
+TODO: Include in this section a description of Julia environments and how/where packages are installed
+-->
+
+When you install packages in Julia, a `.julia` folder automatically gets created in your home directory that holds all packages installations. You can change this location by setting the `$JULIA_DEPOT_PATH` environment variable from the command line before you start Julia. For example:
 
 ```bash
 export JULIA_DEPOT_PATH=/home/$USER/orcd/r8/pool
@@ -54,7 +60,7 @@ curl -fsSL https://install.julialang.org | sh
 
 You will be asked if you want to proceed with default settings or to customize your installation. We recommend customizing your installation. The default settings are as follows:
 
-1. Save the .juliaup folder to your home directory. This folder contains all installations of Julia and their associated packages that are managed by Juliaup.
+1. Save the `.juliaup` folder to your home directory. This folder contains all installations of Julia and their associated packages that are managed by Juliaup.
 
     - On Satori, home directories are limited to 20 GB, so you may want to change this location to `/nobackup/users/$USER`.
 
@@ -67,14 +73,10 @@ You will be asked if you want to proceed with default settings or to customize y
     export PATH=/path/to/.juliaup/bin${PATH:+:${PATH}}
     ```
 
-!!!Note
-    Currently, Juliaup is not compatible with Satori or SuperCloud.
-
 Click [here](https://github.com/JuliaLang/juliaup) for more information on installing and using Juliaup.
 
-## Conda
-
-*This route is not recommended. Currently looking into other ways of using Julia with Jupyter that do not go through Conda.*
+!!!Note
+    Currently, Juliaup is not compatible with Satori or SuperCloud.
 
 ## Using Different Julia Versions
 
@@ -95,14 +97,14 @@ Note that Juliaup installs versions and packages to your .julia folder.
 
 If you are unable to use Juliaup and you need a version of Julia that is not pre-installed on the cluster, you can manually download it.
 
-A complete list of previous Julia versions can be found [here](https://julialang.org/downloads/oldreleases/). From this site, copy the link to the tar.gz file that corresponds to the version you need. Be sure to select the version for a Linux operating system and x86_64 architecture.
+A complete list of previous Julia versions can be found [here](https://julialang.org/downloads/oldreleases/). From this site, copy the link to the `.tar.gz` file that corresponds to the version you need. Be sure to select the version for a Linux operating system and x86_64 architecture.
 
-Download the .tar file:
+Download the `.tar.gz` file:
 ```bash
 wget [link to file]
 ```
 
-Extract the .tar file:
+Extract the `.tar.gz` file:
 ```bash
 tar -xvzf [file name]
 ```
@@ -131,7 +133,7 @@ Julia. You can run Jupyter notebooks on the web portals of
     On the [Engaging OnDemand web portal](https://engaging-ood.mit.edu/), you can specify
     one of the pre-installed Julia modules under the "Additional Modules"
     section. You can see which Julia modules are available by running `module
-    av julia` from the command line.
+    avail julia` from the command line.
     
     For Jupyter to recognize Julia, you need to have the `IJulia` package
     installed and built in your Julia environment:
@@ -202,7 +204,7 @@ jupyter-lab --ip=0.0.0.0 --port=8888
 
 The port can be any number between 1024 and 9999. When you run the notebook,
 the output will contain a link with a token that allows you to access the
-notebook, looking something like this:
+notebook:
 
 ```
 http://127.0.0.1:<remote port>/lab?token=<token>
@@ -271,5 +273,6 @@ Now, once you connect VS Code to the cluster, you should see your desired versio
 
 <!--
 TODO: Edit the VS code section for a better Jupyter process
+TODO: Edit FAQs
 -->
 
