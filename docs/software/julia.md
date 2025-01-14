@@ -6,18 +6,18 @@ tags:
 
 # Julia
 
-Julia is a high-level, high-performance programming language designed for technical and numerical computing, known for its speed and ease of use. Because of its popularity, we have pre-installed versions of Julia on each of our clusters. You can begin using Julia right away by running:
+Julia is a high-level, high-performance programming language designed for technical and numerical computing, known for its speed and ease of use. Because of its popularity, we have pre-installed versions of Julia on each of our clusters. You can begin using Julia right away by running `module load julia`, or by specifying the module specifically:
 
 === "Engaging"
 
-    On Rocky8 nodes (eofe4 and eofe10):
+    On Rocky8 nodes:
 
     ```bash
-    module load julia/1.9.1
+    module load julia/1.10.1
     julia
     ```
 
-    On Centos7 nodes (eofe7, eofe8, and eofe9):
+    On Centos7 nodes:
 
     ```bash
     module load julia/1.8.5
@@ -41,7 +41,7 @@ Julia is a high-level, high-performance programming language designed for techni
 When you install packages in Julia, a .julia folder automatically gets created in your home directory that holds all packages installations. You can change this location by setting the `$JULIA_DEPOT_PATH` environment variable from the command line before you start Julia. For example:
 
 ```bash
-export JULIA_DEPOT_PATH=/nobackup1/<user>/.julia
+export JULIA_DEPOT_PATH=/home/$USER/orcd/r8/pool
 ```
 
 ## Juliaup
@@ -56,7 +56,7 @@ You will be asked if you want to proceed with default settings or to customize y
 
 1. Save the .juliaup folder to your home directory. This folder contains all installations of Julia and their associated packages that are managed by Juliaup.
 
-    - On Satori, home directories are limited to 20 GB, so you may want to change this location to `/nobackup/users/<user>`.
+    - On Satori, home directories are limited to 20 GB, so you may want to change this location to `/nobackup/users/$USER`.
 
 2. Edit your `.bashrc` and `.bash_profile` files to automatically add the Juliaup-managed version of Julia to your `$PATH` environment variable.
 
@@ -68,11 +68,13 @@ You will be asked if you want to proceed with default settings or to customize y
     ```
 
 !!!Note
-    Currently, Juliaup is not compatible with Satori, as it does not support Satori's powerpc64le operating system. Furthermore, there are current issues using Juliaup on SuperCloud, but we are looking further into the issue.
+    Currently, Juliaup is not compatible with Satori or SuperCloud.
 
 Click [here](https://github.com/JuliaLang/juliaup) for more information on installing and using Juliaup.
 
-## Conda?
+## Conda
+
+*This route is not recommended. Currently looking into other ways of using Julia with Jupyter that do not go through Conda.*
 
 ## Using Different Julia Versions
 
@@ -119,12 +121,33 @@ export PATH="~/julia-1.9.0/bin:$PATH"
 
 ## Jupyter Notebooks
 
-SuperCloud is currently the only cluster that supports using Julia on Jupyter Notebooks through its [web portal](https://txe1-portal.mit.edu/). While there are Jupyter notebooks available through Engaging and Satori web portals, they do not directly support Julia.
+While Jupyter is heavily integrated with Python, it supports compatibility with
+Julia. You can run Jupyter notebooks on the web portals of
+[SuperCloud](https://txe1-portal.mit.edu/) and
+[Engaging](https://engaging-ood.mit.edu/).
 
-To use a Jupyter notebook on the SuperCloud web portal, navigate to /jupyter/ and launch a notebook. When the session is running, open the notebook and select a Julia kernel.
+=== "Engaging"
 
-!!!Note
-    For more information on running Jupyter notebooks on SuperCloud, check the [SuperCloud documentation](https://mit-supercloud.github.io/supercloud-docs/jupyter-notebooks/).
+    On the [Engaging web portal](https://engaging-ood.mit.edu/), you can specify
+    one of the pre-installed Julia modules under the "Additional Modules"
+    section. You can see which Julia modules are available by running `module
+    av julia` from the command line.
+    
+    For Jupyter to recognize Julia, you need to have the `IJulia` package
+    installed to your Julia environment. Note that the Julia environment you are
+    using needs to match the version of Julia that you are loading as a module.
+
+    If you would like to use a different version of Julia
+
+=== "SuperCloud"
+    
+    To use a Jupyter notebook on the SuperCloud web portal, navigate to
+    `/jupyter/` and launch a notebook. When the session is running, open the
+    notebook and select a Julia kernel.
+
+    !!!Note
+        For more information on running Jupyter notebooks on SuperCloud, check
+        the [SuperCloud documentation](https://mit-supercloud.github.io/supercloud-docs/jupyter-notebooks/).
 
 ### VS Code
 
@@ -137,13 +160,14 @@ For VS code (including developer tools and Jupyter notebooks) to recognize your 
 === "Pre-Installed Module"
 
     ```bash
-    module load julia/X.X.X
+    module load julia
     ```
 
 === "Juliaup"
 
     ```bash
-    export PATH=/path/to/.juliaup/bin${PATH:+:${PATH}}
+    # export PATH=/path/to/.juliaup/bin${PATH:+:${PATH}}
+    export PATH="/path/to/.juliaup/bin:$PATH"
     ```
 
 Now, once you connect VS Code to the cluster, you should see your desired version of Julia in the list of Jupyter kernels.
@@ -153,3 +177,8 @@ Now, once you connect VS Code to the cluster, you should see your desired versio
 **I have loaded/installed a specific version of Julia, but it is not being recognized. What do I do?**
 
 *Check your `$PATH` environment variable.*
+
+<!--
+TODO: Figure out how to run Julia on Jupyter
+-->
+
