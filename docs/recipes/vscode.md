@@ -19,14 +19,14 @@ To run on a compute node you will need at least 2 entries in this file. The firs
 === "Engaging"
 
     ```yaml title="config"
-    Host engaging-login
+    Host orcd-login
       HostName orcd-login001.mit.edu
       User USERNAME
 
-    Host engaging-compute
+    Host orcd-compute
       User USERNAME
       HostName nodename
-      ProxyJump engaging-login
+      ProxyJump orcd-login
     ```
 
     !!! note
@@ -88,7 +88,7 @@ Open a terminal window and ssh into the login node. If you are not used to doing
 === "Engaging"
 
     ```bash
-    ssh engaging-login
+    ssh orcd-login
     ```
 
 === "Satori"
@@ -142,14 +142,14 @@ If your compute node is `node1234` then your config file should look something l
 === "Engaging"
 
     ```yaml title="config"
-    Host engaging-login
+    Host orcd-login
       HostName orcd-login001.mit.edu
       User USERNAME
 
-    Host engaging-compute
+    Host orcd-compute
       User USERNAME
       HostName node1234
-      ProxyJump engaging-login
+      ProxyJump orcd-login
     ```
 
 === "Satori"
@@ -184,7 +184,7 @@ This screenshot shows updating the config file for an interactive job running on
 
 ![Update VSCode SSH config file with node name of interactive job on Engaging](../images/vscode/vscode_update_config.png)
 
-Since the interactive job in my screenshot is running on `node020`, I have updated `HostName` to `node-020` for the `engaging-compute` entry in my config file.
+Since the interactive job in my screenshot is running on `node020`, I have updated `HostName` to `node-020` for the `orcd-compute` entry in my config file.
 
 ### Connect to the Compute Node
 
@@ -192,7 +192,7 @@ You are ready to connect to the compute node you have allocated through your int
 
 === "Engaging"
 
-    In the example config file above this would be `engaging-compute`.
+    In the example config file above this would be `orcd-compute`.
 
 === "Satori"
 
