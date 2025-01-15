@@ -44,14 +44,12 @@ Refer to the tab below to find out more about the Python modules available on th
     We recommend using the newest miniforge modules for both. For Rocky 8 run:
 
     ```bash
-    module use /orcd/software/core/001/modulefiles/
     module load miniforge/24.3.0-0
     ```
 
     For Centos 7:
 
     ```bash
-    module use /orcd/software/core/001/centos7/modulefiles/
     module load miniforge/24.3.0-0
     ```
     
@@ -427,7 +425,7 @@ Be sure to replace `/path/to/virtual/environment` with the actual path to your v
 
 #### Activating a Conda/Mamba Environment in a Script
 
-Usually loading an anaconda module and then running `source activate myenv` will work to activate a conda or mamba environment in a job script (as shown [above](#anaconda-environments)).
+Usually loading an anaconda module and then running `source activate myenv` will work to activate a conda or mamba environment in a job script (as shown [above](#conda-environments)).
 
 One thing to try is suggested above in [Conda/Mamba Init](#condamamba-init):
 
