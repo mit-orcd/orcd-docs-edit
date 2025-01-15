@@ -19,14 +19,14 @@ To run on a compute node you will need at least 2 entries in this file. The firs
 === "Engaging"
 
     ```yaml title="config"
-    Host eofe-login
+    Host engaging-login
       HostName orcd-login001.mit.edu
       User USERNAME
 
-    Host eofe-compute
+    Host engaging-compute
       User USERNAME
       HostName nodename
-      ProxyJump eofe-login
+      ProxyJump engaging-login
     ```
 
     !!! note
@@ -88,7 +88,7 @@ Open a terminal window and ssh into the login node. If you are not used to doing
 === "Engaging"
 
     ```bash
-    ssh eofe-login
+    ssh engaging-login
     ```
 
 === "Satori"
@@ -105,13 +105,13 @@ Open a terminal window and ssh into the login node. If you are not used to doing
 
 Use the name you have used for the login `Host` in your config file if different than the one above. The example screenshot below shows logging into one of the Engaging login nodes with ssh in a VSCode terminal window.
 
-![Logging into Engaging with ssh in VSCode](../images/vscode/vscod_loginssh.png)
+![Logging into Engaging with ssh in VSCode](../images/vscode/vscode_loginssh.png)
 
 Once you are logged in start an interactive session. If you are planning to only edit files a single core may be sufficient, but if you plan to run code or Jupyter Notebooks you may want to allocate more resources accordingly. Refer to the documentation for your system on how to request an interactive job:
 
 === "Engaging"
 
-    [Engaging's Documentation for Running Jobs](https://engaging-web.mit.edu/eofe-wiki/slurm/)
+    [Engaging's Documentation for Running Jobs](https://orcd-docs.mit.edu/running-jobs/overview/)
     
 === "Satori"
 
@@ -129,7 +129,7 @@ Once your job has started you can run the `hostname` command to get the name of 
 
 The screenshot below shows requesting a single interactive core for 1 hour on Engaging:
 
-![Interactive job on Engaging in a VSCode terminal](../images/vscode/vscod_interactive_job.png)
+![Interactive job on Engaging in a VSCode terminal](../images/vscode/vscode_interactive_job.png)
 
 Note that the scheduler will also tell you which node you are allocated in its output. In this screenshot my node name is `node020`.
 
@@ -142,14 +142,14 @@ If your compute node is `node1234` then your config file should look something l
 === "Engaging"
 
     ```yaml title="config"
-    Host eofe-login
+    Host engaging-login
       HostName orcd-login001.mit.edu
       User USERNAME
 
-    Host eofe-compute
+    Host engaging-compute
       User USERNAME
       HostName node1234
-      ProxyJump eofe-login
+      ProxyJump engaging-login
     ```
 
 === "Satori"
@@ -184,7 +184,7 @@ This screenshot shows updating the config file for an interactive job running on
 
 ![Update VSCode SSH config file with node name of interactive job on Engaging](../images/vscode/vscode_update_config.png)
 
-Since the interactive job in my screenshot is running on `node020`, I have updated `HostName` to `node-020` for the `eofe-compute` entry in my config file.
+Since the interactive job in my screenshot is running on `node020`, I have updated `HostName` to `node-020` for the `engaging-compute` entry in my config file.
 
 ### Connect to the Compute Node
 
@@ -192,7 +192,7 @@ You are ready to connect to the compute node you have allocated through your int
 
 === "Engaging"
 
-    In the example config file above this would be `eofe-compute`.
+    In the example config file above this would be `engaging-compute`.
 
 === "Satori"
 

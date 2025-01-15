@@ -71,14 +71,14 @@ There are currently a few different versions of R installed on our systems. You 
 
 === "Engaging"
 
-    On Rocky8 nodes (eofe4 and eofe10):
+    On Rocky8 nodes (orcd-login001, orcd-login002, orcd-login003, orcd-login004):
 
     ```bash
     module load r/4.2.2-x86_64
     R
     ```
 
-    On Centos7 nodes (eofe7, eofe8, and eofe9):
+    On Centos7 nodes (orcd-vlogin001, orcd-vlogin002, orcd-vlogin003, orcd-vlogin004):
 
     ```bash
     module load R/4.2.2
