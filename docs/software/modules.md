@@ -14,15 +14,20 @@ module avail
 ```
 
 !!! Note
-    (For Engaging only) By default you will only see the modules for [core software](overview.md#software-landscape). To use community modules you will need to run a `module use` command. This command will differ whether you are on a Rocky 8 or Centos 7 node. The newest nodes on Engaging are Rocky 8 and older nodes are Centos 7.
+    (For Engaging only) Engaging's newest hardware is running with the Rocky 8 operating system, whereas older hardware is using CentOS 7. You will see different module lists depending on whether you are on Rocky 8 or CentOS 7 node.
+
+    By default you will only see the modules for [core and community software](overview.md#software-landscape). How to show deprecated modules will differ depending on the operating system for the node you are using.
+    
+    === "Rocky 8"
+
+        To show deprecated modules load the `deprecated-modules` module:
+        ```bash
+        module load deprecated-modules
+        ```
     === "Centos 7"
+        Historically community modules were not separated in the Centos 7 software stack, however some newer community modules are separate. These can be seen by running the following `module use` command:
         ```bash
         module use /orcd/software/community/001/centos7/modulefiles
-        ```
-        
-    === "Rocky 8"
-        ```bash
-        module use /orcd/software/community/001/modulefiles
         ```
 
 To load a module, use the command:
