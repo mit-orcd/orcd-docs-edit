@@ -131,7 +131,11 @@ The screenshot below shows requesting a single interactive core for 1 hour on En
 
 ![Interactive job on Engaging in a VSCode terminal](../images/vscode/vscode_interactive_job.png)
 
-Note that the scheduler will also tell you which node you are allocated in its output. In this screenshot my node name is `node020`.
+```bash
+salloc -t 1:00:00 -p mit_normal
+```
+
+Note that the scheduler will also tell you which node you are allocated in its output. In this screenshot my node name is `node2704`.
 
 ### Update your Config File
 
@@ -184,7 +188,7 @@ This screenshot shows updating the config file for an interactive job running on
 
 ![Update VSCode SSH config file with node name of interactive job on Engaging](../images/vscode/vscode_update_config.png)
 
-Since the interactive job in my screenshot is running on `node020`, I have updated `HostName` to `node-020` for the `orcd-compute` entry in my config file.
+Since the interactive job in my screenshot is running on `node2704`, I have updated `HostName` to `node2704` for the `orcd-compute` entry in my config file.
 
 ### Connect to the Compute Node
 
