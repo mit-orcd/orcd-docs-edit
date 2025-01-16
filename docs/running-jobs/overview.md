@@ -49,10 +49,10 @@ To see what resources are available run `sinfo`. The `sinfo` command will show h
 ```
 sinfo -p mit_normal
 PARTITION  AVAIL  TIMELIMIT  NODES  STATE  NODELIST
-mit_normal    up 1-00:00:00      2   resv  node[2704-2705]
-mit_normal    up 1-00:00:00      1   mix   node1707
-mit_normal    up 1-00:00:00      1   alloc node1708
-mit_normal    up 1-00:00:00     29   idle  node[1600-1625,1706,1806-1807]
+mit_normal    up   12:00:00      2   resv  node[2704-2705]
+mit_normal    up   12:00:00      1   mix   node1707
+mit_normal    up   12:00:00      1   alloc node1708
+mit_normal    up   12:00:00     29   idle  node[1600-1625,1706,1806-1807]
 ```
 
 Common node states are:
