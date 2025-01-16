@@ -16,8 +16,8 @@ mit_normal      up   12:00:00     30   idle node[1600-1625,1706-1707,1806-1807]
 mit_normal_gpu  up   12:00:00      1    mix node2906
 mit_normal_gpu  up   12:00:00      5   idle node[1706-1707,1806-1807,2804]
 mit_quicktest   up      15:00     26   idle node[1600-1625]
-mit_preemptable up 7-00:00:00      1    mix node2906
-mit_preemptable up 7-00:00:00     27   idle node[1600-1625,2804]
+mit_preemptable up 2-00:00:00      1    mix node2906
+mit_preemptable up 2-00:00:00     27   idle node[1600-1625,2804]
 ```
 
 The `sinfo` command will tell you the names of the partitions you have access, what their time limits are, how many nodes are in each state (see [Checking Available Resources](#checking-available-resources) below), and the names of the nodes in the partitions.
