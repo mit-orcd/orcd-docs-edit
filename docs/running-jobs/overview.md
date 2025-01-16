@@ -11,10 +11,10 @@ To see which partitions you have access to, run the `sinfo` command:
 ```
 sinfo
 PARTITION    AVAIL  TIMELIMIT  NODES  STATE NODELIST
-mit_normal      up 1-00:00:00      2   resv node[2704-2705]
-mit_normal      up 1-00:00:00     30   idle node[1600-1625,1706-1707,1806-1807]
-mit_normal_gpu  up 1-00:00:00      1    mix node2906
-mit_normal_gpu  up 1-00:00:00      5   idle node[1706-1707,1806-1807,2804]
+mit_normal      up   12:00:00      2   resv node[2704-2705]
+mit_normal      up   12:00:00     30   idle node[1600-1625,1706-1707,1806-1807]
+mit_normal_gpu  up   12:00:00      1    mix node2906
+mit_normal_gpu  up   12:00:00      5   idle node[1706-1707,1806-1807,2804]
 mit_quicktest   up      15:00     26   idle node[1600-1625]
 mit_preemptable up 7-00:00:00      1    mix node2906
 mit_preemptable up 7-00:00:00     27   idle node[1600-1625,2804]
