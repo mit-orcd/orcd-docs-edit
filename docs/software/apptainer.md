@@ -223,10 +223,16 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> import pandas as pd
 ```
 
-The flag `--writable` is to enable the write permission to modify files in the container. 
+=== "Engaging"
 
-??? note
-    The `apt-get` command is to install software in the Ubuntu OS. This is supported by the by the `fakeroot` package, which is installed on node115 on OpenMind. Users need to install `fakeroot` in their home directories.  
+     The flag `--writable` is to enable the write permission to modify files in the container. 
+
+=== "OpenMind"
+
+     The flags `--fakeroot --writable` is to enable the write permission to modify files in the container. 
+
+    ??? note
+        The `apt-get` command is to install software in the Ubuntu OS. This is supported by the by the `fakeroot` package, which is installed on node115 on OpenMind. Users need to install `fakeroot` in their home directories.  
 
 Once the needed package are built in the image, you can use it as was shown in the preivious sections. 
 
