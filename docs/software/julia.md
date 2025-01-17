@@ -44,7 +44,9 @@ Julia is a high-level, high-performance programming language designed for techni
 TODO: Include in this section a description of Julia environments and how/where packages are installed
 -->
 
-When you install packages in Julia, a `.julia` folder automatically gets created in your home directory that holds all packages installations. You can change this location by setting the `$JULIA_DEPOT_PATH` environment variable from the command line before you start Julia. For example:
+Julia organizes packages by the version of Julia you're running. When you install packages, a `.julia` folder automatically gets created in your home directory that holds all packages installations. Julia will automatically create an environment for that version, which will be saved in `~/.julia/environments`.
+
+You can change the default package install location by setting the `$JULIA_DEPOT_PATH` environment variable from the command line before you start Julia. For example:
 
 ```bash
 export JULIA_DEPOT_PATH=/home/$USER/orcd/r8/pool
@@ -91,7 +93,7 @@ juliaup add 1.9.0
 julia +1.9.0
 ```
 
-Note that Juliaup installs versions and packages to your .julia folder.
+Note that Juliaup installs versions and packages to your `.julia` folder.
 
 ### Manual Installation
 
@@ -245,34 +247,16 @@ http://127.0.0.1:8888/lab?token=7e97d59f9a17c91c11289bc5bec35ad3921725c6db55fe33
 
 ### VS Code
 
-For other clusters, we recommend using Jupyter notebooks through VS Code.
+Please refer to the [VS Code page](../recipes/vscode.md) for using VS Code on the cluster.
 
-Please refer to the [VS Code page](../recipes/vscode.md) on our documentation for using VS Code on the cluster.
-
-For VS code (including developer tools and Jupyter notebooks) to recognize your desired version of Julia, two things need to happen. First, you need to have the Julia extension installed. This can be done by clicking "extensions" on the left sidebar and then searching for the Julia extension. Second, Julia needs to be loaded in your `.bashrc` file that is located in your home directory. This allows the Julia extension to recognize the correct version of Julia. Add the following lines to your `.bashrc` file depending on how you are using Julia:
-
-=== "Pre-Installed Module"
-
-    ```bash
-    module load julia
-    ```
-
-=== "Juliaup"
-
-    ```bash
-    export PATH="/path/to/.juliaup/bin:$PATH"
-    ```
-
-Now, once you connect VS Code to the cluster, you should see your desired version of Julia in the list of Jupyter kernels.
+VS Code supports compatibility with Jupyter notebooks. If you have installed
+and built `IJulia` in your Julia environment, then you should be able to find
+the correct Julia kernel by navigating to `Select Kernel` > `Select Another Kernel`
+\> `Jupyter Kernel`.
 
 ## FAQs
 
 **I have loaded/installed a specific version of Julia, but it is not being recognized. What do I do?**
 
-*Check your `$PATH` environment variable.*
-
-<!--
-TODO: Edit the VS code section for a better Jupyter process
-TODO: Edit FAQs
--->
-
+There may be another/no version of Julia in your `PATH` environment variable.
+You can check this by running `echo $PATH`.
