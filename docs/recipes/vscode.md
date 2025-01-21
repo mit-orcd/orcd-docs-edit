@@ -19,21 +19,21 @@ To run on a compute node you will need at least 2 entries in this file. The firs
 === "Engaging"
 
     ```yaml title="config"
-    Host eofe-login
-      HostName eofe8.mit.edu
+    Host orcd-login
+      HostName orcd-login001.mit.edu
       User USERNAME
 
-    Host eofe-compute
+    Host orcd-compute
       User USERNAME
       HostName nodename
-      ProxyJump eofe-login
+      ProxyJump orcd-login
     ```
 
     !!! note
         If you are using one of the login nodes that requires 2-Factor authentication be ready to receive your default 2-Factor prompt when you connect. If you do not respond right away the connection will time out.
     
     !!! note
-        To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to this [Engaging guide](https://engaging-web.mit.edu/eofe-wiki/ssh_keys/ssh_key/).
+        To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to the [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
 
 === "Satori"
 
@@ -49,7 +49,7 @@ To run on a compute node you will need at least 2 entries in this file. The firs
     ```
 
     !!! note
-        To use VSCode on a compute node, an SSH key is necessary. While Satori documentation is unavailable, you can follow the same steps as outlined on [Engaging](https://engaging-web.mit.edu/eofe-wiki/ssh_keys/ssh_key/).
+        To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to the [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
 
 === "Open Mind"
 
@@ -65,7 +65,7 @@ To run on a compute node you will need at least 2 entries in this file. The firs
     ```
 
     !!! note
-        To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to this [Open Mind guide](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-log-in-without-password%3F).
+        To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to the [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
 
 Replace `USERNAME` with your username on the system you are connecting to. We will fill in "nodename" later.
 
@@ -88,7 +88,7 @@ Open a terminal window and ssh into the login node. If you are not used to doing
 === "Engaging"
 
     ```bash
-    ssh eofe-login
+    ssh orcd-login
     ```
 
 === "Satori"
@@ -105,13 +105,13 @@ Open a terminal window and ssh into the login node. If you are not used to doing
 
 Use the name you have used for the login `Host` in your config file if different than the one above. The example screenshot below shows logging into one of the Engaging login nodes with ssh in a VSCode terminal window.
 
-![Logging into Engaging with ssh in VSCode](../images/vscode/vscod_loginssh.png)
+![Logging into Engaging with ssh in VSCode](../images/vscode/vscode_loginssh.png)
 
 Once you are logged in start an interactive session. If you are planning to only edit files a single core may be sufficient, but if you plan to run code or Jupyter Notebooks you may want to allocate more resources accordingly. Refer to the documentation for your system on how to request an interactive job:
 
 === "Engaging"
 
-    [Engaging's Documentation for Running Jobs](https://engaging-web.mit.edu/eofe-wiki/slurm/)
+    [Engaging's Documentation for Running Jobs](https://orcd-docs.mit.edu/running-jobs/overview/)
     
 === "Satori"
 
@@ -129,9 +129,13 @@ Once your job has started you can run the `hostname` command to get the name of 
 
 The screenshot below shows requesting a single interactive core for 1 hour on Engaging:
 
-![Interactive job on Engaging in a VSCode terminal](../images/vscode/vscod_interactive_job.png)
+![Interactive job on Engaging in a VSCode terminal](../images/vscode/vscode_interactive_job.png)
 
-Note that the scheduler will also tell you which node you are allocated in its output. In this screenshot my node name is `node020`.
+```bash
+salloc -t 1:00:00 -p mit_normal
+```
+
+Note that the scheduler will also tell you which node you are allocated in its output. In this screenshot my node name is `node2704`.
 
 ### Update your Config File
 
@@ -142,14 +146,14 @@ If your compute node is `node1234` then your config file should look something l
 === "Engaging"
 
     ```yaml title="config"
-    Host eofe-login
-      HostName eofe8.mit.edu
+    Host orcd-login
+      HostName orcd-login001.mit.edu
       User USERNAME
 
-    Host eofe-compute
+    Host orcd-compute
       User USERNAME
       HostName node1234
-      ProxyJump eofe-login
+      ProxyJump orcd-login
     ```
 
 === "Satori"
@@ -184,7 +188,7 @@ This screenshot shows updating the config file for an interactive job running on
 
 ![Update VSCode SSH config file with node name of interactive job on Engaging](../images/vscode/vscode_update_config.png)
 
-Since the interactive job in my screenshot is running on `node020`, I have updated `HostName` to `node-020` for the `eofe-compute` entry in my config file.
+Since the interactive job in my screenshot is running on `node2704`, I have updated `HostName` to `node2704` for the `orcd-compute` entry in my config file.
 
 ### Connect to the Compute Node
 
@@ -192,7 +196,7 @@ You are ready to connect to the compute node you have allocated through your int
 
 === "Engaging"
 
-    In the example config file above this would be `eofe-compute`.
+    In the example config file above this would be `orcd-compute`.
 
 === "Satori"
 
