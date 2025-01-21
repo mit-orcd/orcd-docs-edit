@@ -2,11 +2,18 @@
 tags:
  - Software
  - Julia
+ - vscode
+ - Engaging
+ - SuperCloud
 ---
 
 # Julia
 
-Julia is a high-level, high-performance programming language designed for technical and numerical computing, known for its speed and ease of use. Because of its popularity, we have pre-installed versions of Julia on each of our clusters. You can begin using Julia right away by running `module load julia`, or by specifying the module specifically:
+Julia is a high-level, high-performance programming language designed for
+technical and numerical computing, known for its speed and ease of use. Because
+of its popularity, we have pre-installed versions of Julia on each of our
+clusters. You can begin using Julia right away by running `module load julia`
+or by specifying the module specifically:
 
 === "Engaging"
 
@@ -14,39 +21,36 @@ Julia is a high-level, high-performance programming language designed for techni
 
     ```bash
     module load julia/1.10.1
-    julia
     ```
 
     On Centos7 nodes:
 
     ```bash
     module load julia/1.8.5
-    julia
     ```
     
 === "Satori"
 
     ```bash
     module load julia/1.5.3-rls2opu
-    julia
     ```
 
 === "SuperCloud"
 
     ```bash
     module load julia/1.10.1
-    julia
     ```
 
 ## Installing Packages
 
-<!--
-TODO: Include in this section a description of Julia environments and how/where packages are installed
--->
+Julia organizes packages by the version of Julia you're running. When you
+install packages, a `.julia` folder automatically gets created in your home
+directory that holds all package installations. Julia will automatically create
+an environment for that version, which will be saved in `~/.julia/environments`.
 
-Julia organizes packages by the version of Julia you're running. When you install packages, a `.julia` folder automatically gets created in your home directory that holds all packages installations. Julia will automatically create an environment for that version, which will be saved in `~/.julia/environments`.
-
-You can change the default package install location by setting the `$JULIA_DEPOT_PATH` environment variable from the command line before you start Julia. For example:
+You can change the default package install location by setting the
+`$JULIA_DEPOT_PATH` environment variable from the command line before you start
+Julia. For example:
 
 ```bash
 export JULIA_DEPOT_PATH=/home/$USER/orcd/r8/pool
@@ -54,19 +58,27 @@ export JULIA_DEPOT_PATH=/home/$USER/orcd/r8/pool
 
 ## Juliaup
 
-Juliaup provides a convenient way to manage different versions of Julia and different package installations. It can be installed by running the following command:
+Juliaup provides a convenient way to manage different versions of Julia and
+different package installations. It can be installed by running the following
+command:
 
 ```bash
 curl -fsSL https://install.julialang.org | sh
 ```
 
-You will be asked if you want to proceed with default settings or to customize your installation. We recommend customizing your installation. The default settings are as follows:
+You will be asked if you want to proceed with default settings or to customize
+your installation. We recommend customizing your installation. The default
+settings are as follows:
 
-1. Save the `.juliaup` folder to your home directory. This folder contains all installations of Julia and their associated packages that are managed by Juliaup.
+1. Save the `.juliaup` folder to your home directory. This folder contains all
+installations of Julia and their associated packages that are managed by
+Juliaup.
 
-    - On Satori, home directories are limited to 20 GB, so you may want to change this location to `/nobackup/users/$USER`.
+    - On Satori, home directories are limited to 20 GB, so you may want to
+    change this location to `/nobackup/users/$USER`.
 
-2. Edit your `.bashrc` and `.bash_profile` files to automatically add the Juliaup-managed version of Julia to your `$PATH` environment variable.
+2. Edit your `.bashrc` and `.bash_profile` files to automatically add the
+Juliaup-managed version of Julia to your `$PATH` environment variable.
 
     - We generally discourage editing your `.bashrc` file because it can cause
     issues when trying to use other software. For example, if you want to use a
@@ -122,7 +134,7 @@ tar -xvzf [file name]
 
 Add the downloaded version to your path:
 ```bash
-export PATH="~/path/to/your/julia/directory/bin:$PATH"
+export PATH="~/path/to/julia/bin:$PATH"
 ```
 
 The following example is for Julia 1.9.0:
@@ -270,3 +282,6 @@ the correct Julia kernel by navigating to `Select Kernel` >
 
 There may be another/no version of Julia in your `PATH` environment variable.
 You can check this by running `echo $PATH`.
+
+If you have loaded a Julia module but do not want to use it, you can run `module
+purge`. 
