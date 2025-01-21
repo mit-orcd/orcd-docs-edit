@@ -68,14 +68,18 @@ You will be asked if you want to proceed with default settings or to customize y
 
 2. Edit your `.bashrc` and `.bash_profile` files to automatically add the Juliaup-managed version of Julia to your `$PATH` environment variable.
 
-    - We generally discourage editing your `.bashrc` file because it can cause issues when trying to use other software. For example, if you want to use a pre-installed Julia module, you would have to manually remove Juliaup from your `$PATH` any time you connect to the cluster.
+    - We generally discourage editing your `.bashrc` file because it can cause
+    issues when trying to use other software. For example, if you want to use a
+    pre-installed Julia module, you would have to manually remove Juliaup from
+    your `$PATH` any time you connect to the cluster.
 
     - To add Juliaup to your `$PATH` manually, run:
     ```bash
     export PATH=/path/to/.juliaup/bin${PATH:+:${PATH}}
     ```
 
-Click [here](https://github.com/JuliaLang/juliaup) for more information on installing and using Juliaup.
+Click [here](https://github.com/JuliaLang/juliaup) for more information on
+installing and using Juliaup.
 
 !!!Note
     Currently, Juliaup is not compatible with Satori or SuperCloud.
@@ -84,7 +88,8 @@ Click [here](https://github.com/JuliaLang/juliaup) for more information on insta
 
 ### Juliaup Versions
 
-If you're using [Juliaup](#juliaup), installing different versions of Julia is straightforward:
+If you're using [Juliaup](#juliaup), installing different versions of Julia is
+straightforward:
 
 ```bash
 # Install Julia 1.9.0:
@@ -97,9 +102,13 @@ Note that Juliaup installs versions and packages to your `.julia` folder.
 
 ### Manual Installation
 
-If you are unable to use Juliaup and you need a version of Julia that is not pre-installed on the cluster, you can manually download it.
+If you are unable to use Juliaup and you need a version of Julia that is not
+pre-installed on the cluster, you can manually download it.
 
-A complete list of previous Julia versions can be found [here](https://julialang.org/downloads/oldreleases/). From this site, copy the link to the `.tar.gz` file that corresponds to the version you need. Be sure to select the version for a Linux operating system and x86_64 architecture.
+A complete list of previous Julia versions can be found
+[here](https://julialang.org/downloads/oldreleases/). From this site, copy the
+link to the `.tar.gz` file that corresponds to the version you need. Be sure to
+select the version for a Linux operating system and x86_64 architecture.
 
 Download the `.tar.gz` file:
 ```bash
@@ -132,10 +141,10 @@ Julia. You can run Jupyter notebooks on the web portals of
 
 === "Engaging"
 
-    On the [Engaging OnDemand web portal](https://engaging-ood.mit.edu/), you can specify
-    one of the pre-installed Julia modules under the "Additional Modules"
-    section. You can see which Julia modules are available by running `module
-    avail julia` from the command line.
+    On the [Engaging OnDemand web portal](https://engaging-ood.mit.edu/), you
+    can specify one of the pre-installed Julia modules under the "Additional
+    Modules" section. You can see which Julia modules are available by running
+    `module avail julia` from the command line.
     
     For Jupyter to recognize Julia, you need to have the `IJulia` package
     installed and built in your Julia environment:
@@ -218,8 +227,8 @@ For example:
 http://127.0.0.1:8888/lab?token=7e97d59f9a17c91c11289bc5bec35ad3921725c6db55fe33
 ```
 
-In a second terminal window, set up an SSH tunnel to your Jupyter notebook that's
-running on the compute node:
+In a second terminal window, set up an SSH tunnel to your Jupyter notebook
+that's running on the compute node:
 
 ```bash
 ssh -L <local port>:<node>:<remote port> <USER>@orcd-login001.mit.edu
@@ -247,12 +256,13 @@ http://127.0.0.1:8888/lab?token=7e97d59f9a17c91c11289bc5bec35ad3921725c6db55fe33
 
 ### VS Code
 
-Please refer to the [VS Code page](../recipes/vscode.md) for using VS Code on the cluster.
+Please refer to the [VS Code page](../recipes/vscode.md) for using VS Code on
+the cluster.
 
 VS Code supports compatibility with Jupyter notebooks. If you have installed
 and built `IJulia` in your Julia environment, then you should be able to find
-the correct Julia kernel by navigating to `Select Kernel` > `Select Another Kernel`
-\> `Jupyter Kernel`.
+the correct Julia kernel by navigating to `Select Kernel` >
+`Select Another Kernel` > `Jupyter Kernel`.
 
 ## FAQs
 
