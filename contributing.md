@@ -25,7 +25,7 @@ git push
     1. Go back to the [orcd-docs-edit](https://github.com/mit-orcd/orcd-docs-edit) repo in your browser.
     2. If you just pushed the branch you'll see a link suggesting you create a PR, click it if it's there. If it's not there, click "Pull Requests" then "New pull request", click where it says "compare: main" and select your branch and then click "Create pull request".
     3. Fill out the form with a short description of your changes and title.
-    4. A few minutes after your PR is created a preview will be available. Given the PR number N, you can see the preview at https://mit-orcd.github.io/orcd-docs-preview/PR/PRN. For example, for PR1, the preview is at https://mit-orcd.github.io/orcd-docs-preview/PR/PR1.
+    4. A few minutes after your PR is created a preview will be available. Given the PR number N, you can see the preview at https://mit-orcd.github.io/orcd-docs-previews/PR/PRN. For example, for PR1, the preview is at https://mit-orcd.github.io/orcd-docs-previews/PR/PR1.
 7. At least one ORCD other team member should review the PR before merging. We may ask for additional changes.
 8. Once the changes have been approved the PR can be merged into the main branch. The web page will be updated automatically.
 

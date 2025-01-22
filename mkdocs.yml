@@ -18,12 +18,18 @@ nav:
     - Overview: software/overview.md
     - Modules: software/modules.md
     - Python: software/python.md
+    - Container: software/apptainer.md
     - Compiling Codes: software/compile.md
-#    - Julia: 
-#    - R: 
+    - Julia: software/julia.md
+    - R: software/R.md
 #    - Installing Software: 
 #    - Singularity/Apptainer: 
 #    - Licensed Software: 
+  - Running Jobs:
+    - Scheduler Overview: running-jobs/overview.md
+    - Requesting Resources: running-jobs/requesting-resources.md
+#    - Slurm Partitions: running-jobs/
+#    - How To Run Different Workloads: running/page3.md
   - ORCD Recipes:
 #    - recipes/gurobi.md
     - MuJoCo: recipes/mujoco.md
@@ -42,13 +48,7 @@ nav:
 #    - Environment Modules: software/page1.md
 #    - Installing packages/libraries in Julia, Python, R: software/page2.md
 #    - Other software installs/requests: software/page3.md
-#  - Running Jobs:
-#    - Scheduler Overview: running/page1.md
-#    - Slurm Partitions: running/page2.md
-#    - How To Run Different Workloads: running/page3.md
-#  - How Tos:
-#    - howto/page1.md
-#    - howto/page2.md
+
   - Getting Help: getting-help.md
   - Index: tags.md
 

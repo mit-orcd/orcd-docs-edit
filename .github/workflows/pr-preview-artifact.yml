@@ -32,7 +32,7 @@ jobs:
           echo "github.event.number" = ${{ github.event.number }}
 
       - name: create-artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ github.event.repository.name }}_PR${{ github.event.number }}_preview-artifact
           path: /home/runner/work/orcd-docs-edit/orcd-docs-edit/_build/html/
