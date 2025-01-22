@@ -110,7 +110,7 @@ Similar to RStudio, Jupyter notebooks offer a handy cell-based interface to run 
 
 === "Engaging"
 
-    Jupyter notebooks are available through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > Jupyter Notebook. To run R, you must create a Conda environment with both r-irkernel and jupyterlab installed (see [R with Conda](#r-with-conda)). When starting up the notebook, enter the name of your custom Conda environment. Once you launch the session and open your notebook, you may need to change your kernel to R. Your current kernel is shown in the top right, and likely defaults to "Python 3 (ipykernel)". Click this to change it to R.
+    Jupyter notebooks are available through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > Jupyter Notebook. To run R, you must create a Conda environment with both `r-irkernel` and `jupyterlab` installed (see [R with Conda](#r-with-conda)). When starting up the notebook, enter the name of your custom Conda environment. Once you launch the session and open your notebook, you may need to change your kernel to R. Your current kernel is shown in the top right, and likely defaults to "Python 3 (ipykernel)". Click this to change it to R.
 
 <!-- === "SuperCloud"
 
