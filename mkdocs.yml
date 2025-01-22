@@ -20,8 +20,8 @@ nav:
     - Python: software/python.md
     - Container: software/apptainer.md
     - Compiling Codes: software/compile.md
-   - Julia: software/julia.md
-   - R: software/R.md
+    - Julia: software/julia.md
+    - R: software/R.md
 #    - Installing Software: 
 #    - Singularity/Apptainer: 
 #    - Licensed Software: 
