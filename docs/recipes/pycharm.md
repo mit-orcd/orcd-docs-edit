@@ -43,9 +43,9 @@ salloc -N 1 -n 4 -p mit_normal
 ## Editing your SSH Config File
 
 Once you are in the interactive session, make a note of the node you are running
-on. We now want to edit our SSH config file so that PyCharm can run on that
-node. To do this, open the command line and locate your config file. It is
-usually located in `~/.ssh/config`. Using your favorite editor, paste the
+on. We now want to edit our local SSH `config` file so that PyCharm can run on
+that node. To do this, open the command line and locate your `config` file. It
+is usually located in `~/.ssh/config`. Using your favorite editor, paste the
 following (enter your username and the correct node number):
 
 ```yaml title="config"
@@ -56,17 +56,17 @@ Host engaging-compute
 ```
 
 !!! note
-    If you don't want to edit your config file every time you start up a PyCharm
-    session, you can request a specific node each time you start an interactive
-    session with the flag `--nodelist=nodeXXXX`. Just make sure that the node
-    in your config file reflects the node that you're requesting. However, the
-    node you're requesting may be unavailable, in which case you'll have to
-    choose a different node and edit your config file anyway.
+    If you don't want to edit your `config` file every time you start up a
+    PyCharm session, you can request a specific node each time you start an
+    interactive session with the flag `--nodelist=nodeXXXX`. Just make sure that
+    the node in your config file reflects the node that you're requesting.
+    However, the node you're requesting may be unavailable, in which case you'll
+    have to choose a different node and edit your `config` file anyway.
 
 ## Starting PyCharm
 
-Currently, PyCharm does not work well with DUO authentication. To get around
-this, connect to the [MIT VPN](https://ist.mit.edu/vpn) so that DUO is not
+Currently, PyCharm does not work well with Duo authentication. To get around
+this, connect to the [MIT VPN](https://ist.mit.edu/vpn) so that Duo is not
 required.
 
 Open PyCharm and click Remote Development > SSH on the left-hand side:
@@ -93,7 +93,3 @@ home directory on the cluster via the command line:
 ```bash
 rm -r ~/.cache/JetBrains
 ```
-
-<!--
-NOTE: This document assumes users have access to mit_normal
--->
