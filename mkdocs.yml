@@ -39,7 +39,6 @@ nav:
     - MPI jobs: recipes/mpi.md
     - RELION: recipes/relion.md
     - VSCode: recipes/vscode.md
-    - Julia: recipes/julia.md
     - PyCharm: recipes/pycharm.md
   - Acknowledging Us: acknowledgements.md
   - Data Security and Privacy: data-security.md
