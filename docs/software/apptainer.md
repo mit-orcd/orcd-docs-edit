@@ -164,7 +164,7 @@ In summary, a commonly used syntax to run a program with Singularity is the foll
 ```
 singularity exec [--nv] [-B <path-to-data>] <image-name> <executable-name> [source-code-name]
 ```
-The terms in `<>` are must-needed while the term in `[]` is optional, dependeing on use cases. 
+The terms in `<>` are must-needed, while the terms in `[]` are optional, depending on use cases. 
 
 === "Engaging"
 
