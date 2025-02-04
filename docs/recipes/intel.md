@@ -14,7 +14,7 @@ Intel compiler is optimized for intel CPUs. It provides an MPI implemetation and
 
 ## Use Intel compiler on Rocky 8 nodes
 
-Log in to the Rocky 8 head node first,
+Log in to a Rocky 8 head node first,
 ```
 ssh <user>@orcd-login003.mit.edu
 ```
@@ -60,12 +60,12 @@ MPIFC=mpiifort
 ```
 Use the variable `MKLROOT` in the Makefile when needed.
 
-See the reference at the end of this page for how to compile C/Fortran codes and use GNU make. 
+To run your program, submit jobs to a partition with Rocky 8 and specify the OS with `--constraint=rocky8`. 
 
 
 ## Use Intel compiler on CentOS 7 nodes
 
-Log in to the Rocky 8 head node first,
+Log in to a CentOS 7 head node first,
 ```
 ssh <user>@orcd-vlogin003.mit.edu
 ```
@@ -102,7 +102,16 @@ MPIFC=mpiifort
 ```
 Use the variable `MKLROOT` in the Makefile when needed.
 
-See the reference at the end of this page for how to compile C/Fortran codes and use GNU make. 
+To run your program, submit jobs to a partition with CentOS 7 and specify the OS with `--constraint=centos7`. 
 
-??? "Reference: compile C/Fortran codes and GNU make"
-    Refer to [this page](https://orcd-docs.mit.edu/accessing-orcd/ssh-login/). 
+
+## References
+
+Refer to the following references for compiling C/Fortran codes, using GNU make, and using partitions in Slurm job scheduler. 
+
+!!! "Reference: Compile C/Fortran Codes and Use GNU Make"
+    Refer to [this page](https://orcd-docs.mit.edu/running-jobs/overview/). 
+
+
+!!! "Reference: Job Scheduler Overview"
+    Refer to [this page](https://orcd-docs.mit.edu/software/compile/). 
