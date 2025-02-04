@@ -12,14 +12,12 @@ tags:
 Intel compiler is optimized for intel CPUs. It provides an MPI implemetation and the Math Kernel Library (MKL). The performance of C and Fortran codes can be improved on Intel CPUs if compiled with Intel compiler.
 
 
-## Use Intel compiler on Rocky 8 nodes
+## Set up environment on Rocky 8 nodes
 
-Log in to a Rocky 8 head node first,
+If you use Rocky 8 nodes, log in to an appropriate head node first,
 ```
 ssh <user>@orcd-login003.mit.edu
 ```
-
-> Refer to [this page](https://orcd-docs.mit.edu/accessing-orcd/ssh-login/) for login. 
 
 Load an intel module,
 ```
@@ -40,37 +38,13 @@ $ echo $MKLROOT
 /orcd/software/community/001/rocky8/intel/2024.2.1/mkl/2024.2
 ```
 
-Compile your C or Fortran codes,
-```
-icx -O3 name.c -o name
-ifort -O3 name.c -o name
-```
-or MPI codes,
-```
-mpicc -O3 name.c -o name
-mpiifort -O3 name.c -o name
-```
 
-If you use GNU Make to build your program, set up the varialbes in the Makefile, 
-```
-CC=icx
-FC=ifort
-MPICC=mpicc
-MPIFC=mpiifort
-```
-Use the variable `MKLROOT` in the Makefile when needed.
+## Set up environment on CentOS 7 nodes
 
-To run your program, submit jobs to a partition with Rocky 8 and specify the OS with `--constraint=rocky8`. 
-
-
-## Use Intel compiler on CentOS 7 nodes
-
-Log in to a CentOS 7 head node first,
+If you use CentOS 7 nodes, log in to an appropriate head node first,
 ```
 ssh <user>@orcd-vlogin003.mit.edu
 ```
-
-> Refer to [this page](https://orcd-docs.mit.edu/accessing-orcd/ssh-login/) for login. 
 
 Load the modules for intel compiler, intel MPI and MKL,
 ```
@@ -93,6 +67,19 @@ $ echo $MKLROOT
 /home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mkl/
 ```
 
+## Compile and run programs with Intel compiler
+
+Once the environment is set up in either of the preivous two sections, you can compile your C or Fortran codes like this,
+```
+icx -O3 name.c -o name
+ifort -O3 name.c -o name
+```
+or MPI codes,
+```
+mpicc -O3 name.c -o name
+mpiifort -O3 name.c -o name
+```
+
 If you use GNU Make to build your program, set up the varialbes in the Makefile, 
 ```
 CC=icc
@@ -102,16 +89,17 @@ MPIFC=mpiifort
 ```
 Use the variable `MKLROOT` in the Makefile when needed.
 
-To run your program, submit jobs to a partition with CentOS 7 and specify the OS with `--constraint=centos7`. 
+To run your program compiled on Rocky 8 nodes, submit jobs to a partition with Rocky 8 and specify the OS with `--constraint=rocky8`. 
+
+To run your program compiled on CentOS 7 nodes, submit jobs to a partition with CentOS 7 and specify the OS with `--constraint=centos7`. 
 
 
 ## References
 
-Refer to the following references for compiling C/Fortran codes, using GNU make, and using partitions in Slurm job scheduler. 
+Refer to the following references for more details on logging in, compiling C/Fortran codes, using GNU make, and using partitions in Slurm job scheduler. 
 
-!!! "Reference: Compile C/Fortran Codes and Use GNU Make"
-    Refer to [this page](https://orcd-docs.mit.edu/running-jobs/overview/). 
+> [Log in the system](https://orcd-docs.mit.edu/accessing-orcd/ssh-login/) . 
 
+> [Compile C/Fortran Codes and Use GNU Make](https://orcd-docs.mit.edu/software/compile/). 
 
-!!! "Reference: Job Scheduler Overview"
-    Refer to [this page](https://orcd-docs.mit.edu/software/compile/). 
+> [Use Slurm to submit jobs](https://orcd-docs.mit.edu/running-jobs/overview/). 
