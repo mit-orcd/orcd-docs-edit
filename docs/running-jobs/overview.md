@@ -135,7 +135,7 @@ To see all your currently running and pending jobs run the `squeue --me` command
 ```bash
 squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-          60735877 mit_norma interact milechin  R      29:32      1 node1707
+          60735877 mit_norma interact username  R      29:32      1 node1707
 
 ```
 
