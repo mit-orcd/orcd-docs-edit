@@ -9,7 +9,7 @@ tags:
 
 # Intel compiler
 
-Intel compiler is optimized for intel CPUs. It provides an MPI implemetation and the Math Kernel Library (MKL). The performance of C and Fortran codes can be improved on Intel CPUs if compiled with Intel compiler.
+Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library (MKL) in which linear algebra computations are optimized. The performance of C and Fortran codes can be improved on Intel CPUs if compiled with Intel compiler. It provides an MPI implemetation for MPI programs that run on multipe nodes. Users should choose the Intel compiler for intel CPUs when possible. 
 
 
 ## Set up environment on Rocky 8 nodes
