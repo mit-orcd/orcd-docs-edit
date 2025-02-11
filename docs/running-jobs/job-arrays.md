@@ -71,6 +71,7 @@ To run this with a Job Array with 4 tasks I would use the following job script:
     ```bash title="my_job_array.sh"
     #!/bin/bash
 
+    #SBATCH -p mit_normal
     #SBATCH -o myjob.log-%A-%a
     #SBATCH -a 0-3
 
@@ -86,6 +87,7 @@ To run this with a Job Array with 4 tasks I would use the following job script:
     ```bash title="my_job_array.sh"
     #!/bin/bash
 
+    #SBATCH -p mit_normal
     #SBATCH -o myjob.log-%A-%a
     #SBATCH -a 0-3
 
@@ -95,7 +97,7 @@ To run this with a Job Array with 4 tasks I would use the following job script:
     echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
     echo "Number of Tasks: " $SLURM_ARRAY_TASK_COUNT
 
-    julia iterate_over_arr.py $SLURM_ARRAY_TASK_ID $SLURM_ARRAY_TASK_COUNT
+    julia iterate_over_arr.jl $SLURM_ARRAY_TASK_ID $SLURM_ARRAY_TASK_COUNT
     ```
 
 
@@ -104,7 +106,7 @@ The first job flag (`-o myjob.log-%A-%a`) specifies the output file name, which 
 
 As mentioned earlier, `$SLURM_ARRAY_TASK_ID` is a unique ID assigned to each task and `$SLURM_ARRAY_TASK_COUNT` is the total number of tasks. In the last line of the script we run the python script `iterate_over_arr.py` and pass both environment variables into the script.
 
-The last step is to run the job with sbatch:
+The last step is to run the job with `sbatch`:
 
 ```bash
 sbatch my_array_job.sh
@@ -122,7 +124,7 @@ When you run `squeue --me` you will see which job array tasks are running and wh
 
 ## Bash
 
-If you can't re-write your code as described in the [Python](#python) example above, you can accomplish the same thing in your job script using `bash`. I will start with the basic framework and then give some examples of some common variations.
+If you can't re-write your code as described in the [Python or Julia](#python-or-julia) example above, you can accomplish the same thing in your job script using `bash`. I will start with the basic framework and then give some examples of some common variations.
 
 For simplicity, let's say we have an application `my_cmd` that takes a number as an input. To run this on a single number we'd start with a job script that looks like this:
 
