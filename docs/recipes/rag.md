@@ -17,6 +17,11 @@ RAG also provides an interesting test case to make use of our resources on the
 cluster. Here, we provide instructions on how to run a RAG model on our
 documentation.
 
+The code for developing this model can be found in this
+[GitHub repository](https://github.com/mit-orcd/orcd-rag). Feel free to use
+this repository as a guide to develop your own RAG model on a separate set of
+documentation.
+
 ## Getting Started
 
 ### Working on a Compute Node
@@ -53,20 +58,9 @@ process for doing so:
 export HF_TOKEN="your_user_access_token"
 ```
 
-## Container
+## Running the Model
 
-### Downloading the Model
-
-We reccomend downloading the HuggingFace model before running the container
-so that you do not have to re-download the model every time you run the
-container.
-
-```bash
-# Save the path to your cached model:
-export HF_HOME=~/.cache/huggingface
-```
-
-### Running the Container
+### Running on a Container
 
 You can run the RAG model on our documentation using the Apptainer image we have
 saved to Engaging:
@@ -82,11 +76,19 @@ apptainer exec --nv \
 The container runs out of the box, but we provide the option to select different
 models or vectorstores. 
 
-## Python Environment
+### Running via a Python Environment
+
+The steps for running this model via a Python environment can be found on the
+[GitHub repository](https://github.com/mit-orcd/orcd-rag).
 
 <!--
 TODO:
 - Check to see if running this on a CPU works, and how much memory is required
 - Input steps on pre-downloading the model before running the container
+    - Don't need to do this, just need to make sure HF_HOME is mounted
 - Specify the path to the .sif image when it's globally saved
+- Point container to global rag.py so that we can make edits?
+
+Python script:
+- Deal with the "Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation." message
 -->
