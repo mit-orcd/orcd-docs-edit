@@ -68,6 +68,52 @@ I'll then iterate over `my_arr` in the for loop instead of `arr`:
     end
     ```
 
+The full script will look something like this:
+
+=== "Python"
+    ```python
+    import os, sys
+
+    # Replace with your array of inputs
+    # This example uses numbers 0-256
+    arr = range(256)
+
+    # Grab the arguments that are passed in
+    # This is the task id and number of tasks that can be used
+    # to determine which indices this process/task is assigned
+    my_task_id = int(sys.argv[1])
+    num_tasks = int(sys.argv[2])
+
+    # Assign indices to this process/task
+    my_arr = arr[my_task_id:len(arr):num_tasks]
+
+    for num in my_arr:
+        # Do something with num
+        # Your code goes here
+    ```
+=== "Julia"
+    ```julia
+
+    # Replace with your array of inputs
+    # This example uses numbers 1-256
+    arr = 1:256
+
+    # Grab the argument that is passed in
+    # This is the index into fnames for this process
+    task_id = parse(Int,ARGS[1])
+    num_tasks = parse(Int,ARGS[2])
+
+    # Check to see if the index is valid (so the program exits cleanly if the wrong indices are passed)
+    for i in task_id+1:num_tasks:length(arr)
+
+        num = arr[i]
+
+        # Do something with num
+        # Your code goes here
+        
+    end
+    ```
+
 To run this with a Job Array with 4 tasks I would use the following job script:
 
 === "Python"
