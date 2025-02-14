@@ -43,6 +43,7 @@ This grabs two arguments that we will pass into the script: a task ID and the nu
     # Assign indices to this process/task
     my_arr = arr[my_task_id:len(arr):num_tasks]
     ```
+    Here we are taking the array of inputs `arr`, extracting the elements assigned to `my_task_id` and putting them in `my_arr`. This splits up the array `arr` using a cyclic distribution based on `my_task_id` and `num_tasks`. For example, if there are 32 tasks, Task 1 will have `my_arr` 0, 32, 64, 96, ..., Task 2 will have `my_array` 1, 33, 65, 97, ..., and Task 32 will have `my_array` 31, 63, 95, and so on. 
 === "Julia"
     ```julia
     my_arr = arr[task_id+1:num_tasks:length(fnames)]
@@ -51,7 +52,9 @@ This grabs two arguments that we will pass into the script: a task ID and the nu
     !!! info "Julia Array Indexing"
         Julia arrays are one-based. If we start our job array indexing at 0 we need to add 1 to `task_id` as shown above.
 
-Here we are taking the array of inputs `arr`, extracting the elements assigned to `my_task_id` and putting them in `my_arr`. I'll then iterate over `my_arr` in the for loop instead of `arr`:
+    Here we are taking the array of inputs `arr`, extracting the elements assigned to `my_task_id` and putting them in `my_arr`. This splits up the array `arr` using a cyclic distribution based on `my_task_id` and `num_tasks`. For example, if there are 32 tasks, Task 1 will have `my_arr` 1, 33, 65, 97, ..., Task 2 will have `my_array` 2, 24, 66 ..., and Task 32 will have `my_array` 32, 64, 96, and so on. 
+
+I'll then iterate over `my_arr` in the for loop instead of `arr`:
 
 === "Python"
     ```python
