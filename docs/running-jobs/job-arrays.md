@@ -71,7 +71,7 @@ I'll then iterate over `my_arr` in the for loop instead of `arr`:
 The full script will look something like this:
 
 === "Python"
-    ```python
+    ```python title="iterate_over_arr.py"
     import os, sys
 
     # Replace with your array of inputs
@@ -91,7 +91,7 @@ The full script will look something like this:
         # Do something with num
         # Your code goes here
     ```
-=== "Julia"
+=== "Julia" title="iterate_over_arr.jl"
     ```julia
 
     # Replace with your array of inputs
