@@ -324,9 +324,10 @@ echo "Number of Tasks: " $SLURM_ARRAY_TASK_COUNT
 # Specify Input Directory
 INPUT_DIR=inputs/*
 FILES=(${INPUT_DIR})
+NUM_FILES=${#FILES[@]}
 
 # Distribute files
-MY_FILE_NUMS=( $(seq $SLURM_ARRAY_TASK_ID $SLURM_ARRAY_TASK_COUNT $NUM_FILES) )
+MY_FILE_NUMS=( $(seq $SLURM_ARRAY_TASK_ID $SLURM_ARRAY_TASK_COUNT "$(($NUM_FILES-1))") )
 
 # Iterate over $MY_FILE_NUMS
 for IDX in "${MY_FILE_NUMS[@]}"; do
