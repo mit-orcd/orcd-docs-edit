@@ -21,7 +21,7 @@ ssh <user>@orcd-login003.mit.edu
 
 Load an intel module,
 ```
-intel/2024.2.1
+module load intel/2024.2.1
 ```
 
 Check commands for intel compiler and MPI and environment variables for MKL are ready for use,
@@ -89,9 +89,17 @@ MPIFC=mpiifort
 ```
 Use the variable `MKLROOT` in the Makefile when needed.
 
-To run your program compiled on Rocky 8 nodes, submit jobs to a partition with Rocky 8 and specify the OS with `--constraint=rocky8`. 
+To run your program on Rocky 8 nodes, submit a job script specifying a partition with `-p <partition-name>` and the OS with `--constraint=rocky8`, and loading the intel module,
+```
+module load intel/2024.2.1
+``` 
 
-To run your program compiled on CentOS 7 nodes, submit jobs to a partition with CentOS 7 and specify the OS with `--constraint=centos7`. 
+To run your program on CentOS 7 nodes, submit a job script specifying a partition with `-p <partition-name>` and the OS with `--constraint=centos7`, and loading the intel modules,
+```
+module load intel/2018-01
+module load impi/2018-01
+module load mkl/2018-01 
+``` 
 
 
 ## References
