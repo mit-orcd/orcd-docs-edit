@@ -15,6 +15,10 @@ A first set of H100 GPU systems has been added to Satori.
 These are for priority use by IBM Watson AI Lab research collaborators.
 They are also available for general opportunistic use when they are idle.
 
+<!--
+What slurm flags are needed to use these nodes for "general opportunistic use"?
+-->
+
 
 Currently ( 2023-06-19 ) there are 4 H100 systems installed. 
 Each system has 8 H100 GPU cards, two Intel 8468 CPUs each with
@@ -25,9 +29,9 @@ Below are some instructions for getting started with these systems.
 
 ## Access to the nodes
 
-To access the nodes in the priority group you need your satori login id to be listed in the Webmoira 
+To access the nodes in the priority group you need your satori login id to be listed in the WebMoira 
 group [https://groups.mit.edu/webmoira/list/sched_oliva](https://groups.mit.edu/webmoira/list/sched_oliva). 
-Either Alex Andonian and Vincent Sitzmann are able to add accounts to the `sched_oliva` moira list.
+Either Alex Andonian and Vincent Sitzmann are able to add accounts to the `sched_oliva` Moira list.
 
 ## Interactive access through Slurm
 
@@ -56,7 +60,7 @@ srun -p sched_oliva --gres=gpu:1 --mem=128 -c 24 --time 1:00:00 --pty /bin/bash
 this will request a single GPU. This request will allow other Slurm sessions to run on other GPUs 
 simultaneously with this session.
 
-## Running a nightly build pytorch example with a freash miniconda and pytorch
+## Running a nightly build pytorch example with a fresh miniconda and pytorch
 
 A miniconda environment can be used to run the latest nightly build pytorch code on these 
 systems. To do this, first create a software install directory and install the needed pytorch software
@@ -83,8 +87,7 @@ pip3 install --pre torch torchvision torchaudio --index-url https://download.pyt
 ```
 
 Once the software is installed, the following script can be used to test the installation.
-```bash
-cat > test.py <<'EOF'
+```python title="test.py"
 import torch
 device_id = torch.cuda.current_device()
 gpu_properties = torch.cuda.get_device_properties(device_id)
@@ -96,8 +99,9 @@ print("Found %d GPUs available. Using GPU %d (%s) of compute capability %d.%d wi
           gpu_properties.major,
           gpu_properties.minor,
           gpu_properties.total_memory / 1e9))
-EOF
-
+```
+Run this script with
+```
 python test.py
 ```
 
@@ -106,12 +110,13 @@ To exit the Slurm srun session enter the command
 exit
 ```
 
-
 ### Running a simple batch script using an installed miniconda environment
 
-To run a batch script on one of the H100 nodes in partition sched_oliva first paste the content in the 
-box below into a slurm script file called, for example, `test_script.slurm` ( change the RUNDIR setting to assign the 
+To run a batch script on one of the H100 nodes in partition `sched_oliva` first paste the content in the 
+box below into a slurm script file called, for example, `test_script.slurm` ( change the `RUNDIR` setting to assign the 
 path to a directory where you have already installed a conda environment in a sub-directory called `minic` ).
+
+First create the `mytest.py` script with the contents above.
 
 ```
 #!/bin/bash
@@ -131,20 +136,6 @@ cd ${RUNDIR}
 
 conda activate pytorch_test
 
-cat > mytest.py <<'EOF'
-import torch
-device_id = torch.cuda.current_device()
-gpu_properties = torch.cuda.get_device_properties(device_id)
-print("Found %d GPUs available. Using GPU %d (%s) of compute capability %d.%d with "
-          "%.1fGb total memory.\n" %
-          (torch.cuda.device_count(),
-          device_id,
-          gpu_properties.name,
-          gpu_properties.major,
-          gpu_properties.minor,
-          gpu_properties.total_memory / 1e9))
-EOF
-
 python mytest.py
 ```
 
@@ -154,12 +145,8 @@ This script can then be submitted to Slurm to run in a background batch node usi
 sbatch < test_script.slurm
 ```
 
-
-
-
-
 ## Getting help
 
-As always, please feel welcome to email [orcd-help@mit.edu](mailto:orcd-help@mit.edu)
+As always, please feel welcome to email <orcd-help@mit.edu>
 with questions, comments or suggestions. We would be happy to hear from you!
 
