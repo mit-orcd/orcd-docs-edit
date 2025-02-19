@@ -91,8 +91,8 @@ The full script will look something like this:
         # Do something with num
         # Your code goes here
     ```
-=== "Julia" title="iterate_over_arr.jl"
-    ```julia
+=== "Julia" 
+    ```julia title="iterate_over_arr.jl"
 
     # Replace with your array of inputs
     # This example uses numbers 1-256
