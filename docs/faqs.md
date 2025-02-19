@@ -31,3 +31,15 @@ access the software. Often, our clusters do not meet these requirements, so
 we generally do not allow this software to be on our systems. Please refer to
 the terms of use of the software and direct any questions to
 <orcd-help@mit.edu>.
+
+**Can you increase the time limit for my job?**
+
+For public partitions on Engaging, such as `mit_normal`, we cannot increase the
+time limit for any particular job, as these resources are shared. For jobs that
+need to run longer than the time limit on the partition, we encourage
+checkpointing, which is a way of periodically saving progress so that subsequent
+jobs can pick up where another job left off. The implementation of checkpointing
+is domain specific and can vary greatly. You can find more information on
+checkpointing [here](https://rc-docs.northeastern.edu/en/latest/best-practices/checkpointing.html).
+
+For partitions owned by labs, please email <orcd-help-engaging@mit.edu>.
