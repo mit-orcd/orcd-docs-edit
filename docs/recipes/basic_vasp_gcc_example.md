@@ -3,9 +3,6 @@ tags:
  - Engaging
  - Howto Recipes
  - MPI
- - cuda
- - cuda aware mpi
- - GPU
  - VASP
  - Rocky Linux
 ---
@@ -14,7 +11,7 @@ tags:
 
 ## About VASP
 
-[VASP](https://www.vasp.at) is a first principles simulation tool for electronic structure and quantum mechanical molelcular dynamics computations. The name VASP is an acronym of Vienna Ab-initio Simulation Package. The VASP software is used in quantum chemistry to simulate the properties and structure of atomic scale materials. VASP can compute
+[VASP](https://www.vasp.at) is a first principles simulation tool for electronic structure and quantum mechanical molecular dynamics computations. The name VASP is an acronym of Vienna Ab-initio Simulation Package. The VASP software is used in quantum chemistry to simulate the properties and structure of atomic scale materials. VASP can compute
 detailed atomic structure of molecules, finding terms such as bond lengths and vibration frequencies.
 
 ## Building VASP software
@@ -27,29 +24,28 @@ VASP using the GNU compiler stack. The recipe shows commands for a Rocky Linux s
     * To use VASP a research group must obtain a license from the VASP team as described here [here](https://www.vasp.at/sign_in/registration_form/).
     * This example assumes you have access to a Slurm partition and are working with a Rocky Linux environment.
 
-#### 1. Extract VASP source code files
+### 1. Extract VASP source code files
 
 Once a licensed copy of VASP has been obtained the source code files must be extracted from the tar file that can be
 downloaded by license holders from the [VASP portal site](https://www.vasp.at/sign_in/portal/). The command
 
 ```bash
-tar -xzvf vasp.6.4.2.tgz
+--8<-- "docs/recipes/scripts/vasp/compile_and_test_steps.sh:extract"
 ```
 
-will extract the source files and their directory tree. This command should be executed in a sub-directory where you will
-store the compiled VASP programs. 
+will extract the source files and their directory tree. This command should be executed in a sub-directory where you will store the compiled VASP programs. 
 
 Once the code has been extracted, switch to use the VASP directory for the remaining steps
 
 ```bash
-cd vasp.6.4.2
+--8<-- "docs/recipes/scripts/vasp/compile_and_test_steps.sh:cd"
 ```
 
 ??? tip
 
      For different versions of VASP, the download file name and directory name will be different. In that case, remember to adjust the example commands above accordingly.
 
-#### 2. Configure the compiler options file
+### 2. Configure the compiler options file
 
 The VASP software is distributed with multiple example compiler options files. 
 These are in the sub-directory `arch/`. 
@@ -57,57 +53,47 @@ For this example we will use the GNU compiler options file `makefile.include.gnu
 To activate the chosen options, copy the options file into the top-level VASP directory.
 
 ```bash
-cp arch/makefile.include.gnu_omp makefile.include
+--8<-- "docs/recipes/scripts/vasp/compile_and_test_steps.sh:makefile"
 ```
 
-#### 3. Activate the relevant modules
+### 3. Activate the relevant modules
 
-To build the vasp program from the licensed source code several tools and libraries are needed. 
+To build the VASP program from the licensed source code several tools and libraries are needed. 
 The modules below add the needed software. 
 The `gcc` and `openmpi` modules provide compilers (gcc) and computational tools (openmpi) 
 needed for parallel computing with VASP. 
 The `lapack`, `scalapack`, `fftw` and `openblas` toos are numerical libraries that VASP uses.
 
 ```bash
-module load gcc/12.2.0-x86_64
-module load openmpi/4.1.4-pmi-cuda-ucx-x86_64
-module load netlib-lapack/3.10.1-x86_64
-module load netlib-scalapack/2.2.0-x86_64
-module load fftw/3.3.10-x86_64
-module load openblas/0.3.21-x86_64
+--8<-- "docs/recipes/scripts/vasp/compile_and_test_steps.sh:module"
 ```
 
-#### 4. Set environment variables that are needed for compilation
+### 4. Set environment variables that are needed for compilation
 
-The compilation scripts that come with VASP include variables that must be set to
-the clusters local values. Here we set environment variables to hold those settings.
+The compilation scripts that come with VASP include variables that must be set to the clusters local values. Here we set environment variables to hold those settings.
 
 ```bash
-SCALAPACK_ROOT=`module -t show  netlib-scalapack 2>&1 | grep CMAKE_PREFIX_PATH | awk -F, '{print $2}'  | awk -F\" '{print $2}'`
-FFTW_ROOT=`pkgconf --variable=prefix fftw3`
-OPENBLAS_ROOT=$(dirname `pkgconf --variable=libdir openblas`)
+--8<-- "docs/recipes/scripts/vasp/compile_and_test_steps.sh:env-var"
 ```
 
-#### 5. Compile the VASP code
+### 5. Compile the VASP code
 
-To compile the VASP code use the `make` program, passing it the environment variable settings as
-shown. The settings shown will also build the Fortran 90 modules that VASP includes.
+To compile the VASP code use the `make` program, passing it the environment variable settings as shown. The settings shown will also build the Fortran 90 modules that VASP includes.
 
 ```bash
+--8<-- "docs/recipes/scripts/vasp/compile_and_test_steps.sh:make"
 make -j OPENBLAS_ROOT=$OPENBLAS_ROOT FFTW_ROOT=$FFTW_ROOT SCALAPACK_ROOT=$SCALAPACK_ROOT MODS=1 DEPS=1
 ```
 
 ### 6. Check the VASP executables
 
-The above commands should generate VASP executable programs `bin/vasp_std`, `bin/vasp_gam` and
-`bin/vasp_ncl`. To test that these programs can execute the following commands can be used.
+The above commands should generate VASP executable programs `bin/vasp_std`, `bin/vasp_gam` and `bin/vasp_ncl`. To test that these programs can execute the following commands can be used.
 
 ```bash
-export LD_LIBRARY_PATH=${OPENBLAS_ROOT}/lib:${FFTW_ROOT}/lib:${SCALAPACK_ROOT}/lib:${LD_LIBRARY_PATH}
-bin/vasp_std
+--8<-- "docs/recipes/scripts/vasp/compile_and_test_steps.sh:test"
 ```
 
-if the code has compiled sucesfully the follow output should be generated. This output shows that the 
+if the code has compiled successfully the follow output should be generated. This output shows that the 
 VASP program can be run. The output shows an error because no input files have been configured.
 
 ```
@@ -146,72 +132,35 @@ VASP program can be run. The output shows an error because no input files have b
 STOP 1
 ```
 
-### 7. Example scripts to compile and run VASP
+### 7. Example scripts to compile and test
 
 The commands above can be combined into scripts as shown below. This example
 scripts that can either be run from the command line or submitted to Slurm 
 as a batch job.
 
-The following script shows compiling VASP 
+The following script shows compiling VASP and testing that the build completed successfully. Place and run this script from the directory where you put the VASP source .tgz file.
 
-```bash
-#!/bin/bash
-#SBATCH --time=12:00:00
-#SBATCH --partition=sched_mit_nse_r8
-#SBATCH -N 1
-#SBATCH --mem=0
+The call to `vasp_std` is expected to produce an error as in [6. Check the VASP executables](#6-check-the-vasp-executables) above. To run a full VASP experiment problem specific inputs and parameters must be added to the script for running (see [Running VASP]() below).
 
-cd /nobackup1c/users/${USER}
-tnam=`mktemp -d VASP__TEMP_XXXX`
-mkdir -p ${tnam}
-cd ${tnam}
-
-tar -xzvf /nobackup1c/users/${USER}/vasp.6.4.2.tgz
-cd vasp.6.4.2
-cp arch/makefile.include.gnu_omp makefile.include
-
-module load  gcc/12.2.0-x86_64
-module load openmpi/4.1.4-pmi-cuda-ucx-x86_64
-module load netlib-lapack/3.10.1-x86_64
-module load netlib-scalapack/2.2.0-x86_64
-module load fftw/3.3.10-x86_64
-module load openblas/0.3.21-x86_64
-
-SCALAPACK_ROOT=`module -t show  netlib-scalapack 2>&1 | grep CMAKE_PREFIX_PATH | awk -F, '{print $2}'  | awk -F\" '{print $2}'`
-FFTW_ROOT=`pkgconf --variable=prefix fftw3`
-OPENBLAS_ROOT=$(dirname `pkgconf --variable=libdir openblas`)
-
-make -j OPENBLAS_ROOT=$OPENBLAS_ROOT FFTW_ROOT=$FFTW_ROOT SCALAPACK_ROOT=$SCALAPACK_ROOT MODS=1 DEPS=1
-
+```bash title='compile_and_test.sh'
+--8<-- "docs/recipes/scripts/vasp/compile_and_test.sh"
 ```
 
-The following script shows running VASP  to check it has compiled correctly. To run a full VASP
-experiment problem specific inputs and parameters must be added to the script for running.
+## Creating a VASP Module
 
-```bash
-#!/bin/bash
-#SBATCH --time=12:00:00
-#SBATCH --partition=sched_mit_nse_r8
-#SBATCH -N 1
-#SBATCH --mem=0
+It can be convenient to create a module for VASP since it does have several dependencies. Below is an example modulefile. This modulefile assumes you have put VASP in `$HOME/software/VASP` and used the same dependency modules to build VASP as described in [Step 3 above](#3-activate-the-relevant-modules). If you have installed VASP in a different location or used different dependency modules you will need to adjust the module accordingly.
 
-cd /nobackup1c/users/${USER}
-# 
-tnam=VASP__temp_
-cd ${tnam}
-
-module load  gcc/12.2.0-x86_64
-module load openmpi/4.1.4-pmi-cuda-ucx-x86_64
-module load netlib-lapack/3.10.1-x86_64
-module load netlib-scalapack/2.2.0-x86_64
-module load fftw/3.3.10-x86_64
-module load openblas/0.3.21-x86_64
-
-SCALAPACK_ROOT=`module -t show  netlib-scalapack 2>&1 | grep CMAKE_PREFIX_PATH | awk -F, '{print $2}'  | awk -F\" '{print $2}'`
-FFTW_ROOT=`pkgconf --variable=prefix fftw3`
-OPENBLAS_ROOT=$(dirname `pkgconf --variable=libdir openblas`)
-
-export LD_LIBRARY_PATH=${OPENBLAS_ROOT}/lib:${FFTW_ROOT}/lib:${SCALAPACK_ROOT}/lib
-
-./bin/vasp_std
+```lua title='$HOME/software/modulefiles/vasp/6.4.3.lua'
+--8<-- "docs/recipes/scripts/vasp/modulefile.lua"
 ```
+
+## Running VASP
+
+To run VASP create a job script like the one below in the same directory as your input files. You may need to increase `ntasks` or `cpus-per-task` depending on the size of the problem. Update the location of your VASP module as needed. VASP has a [page of examples](https://www.vasp.at/wiki/index.php/Category:Examples) in their documentation that can be used for testing.
+
+```bash title='run_vasp.sh'
+--8<-- "docs/recipes/scripts/vasp/run_vasp.sh"
+```
+
+!!! note
+    During testing we found that VASP has a tendency to create a very large number of threads that can slow down the calculations and cause them to hang. To prevent that we've set the `$OMP_NUM_THREADS` environment variable in this script.
