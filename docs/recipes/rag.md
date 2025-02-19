@@ -14,12 +14,12 @@ retrieval-based and generative models to provide more accurate and contextually
 relevant responses.
 
 RAG also provides an interesting test case to make use of our resources on the
-cluster. Here, we provide instructions on how to run a RAG model on our
-documentation.
+cluster. Here, we provide instructions on how to run a RAG model using [our
+documentation](https://orcd-docs.mit.edu/).
 
 The code for developing this model can be found in this
 [GitHub repository](https://github.com/mit-orcd/orcd-rag). Feel free to use
-this repository as a guide to develop your own RAG model on a separate set of
+this repository as a guide to develop your own RAG model on separate
 documentation.
 
 ## Getting Started
@@ -30,14 +30,14 @@ We require that you run this model on a compute node. You can request an
 interactive session on a compute node with the following command:
 
 ```bash
-salloc -N 1 -n 4 -p mit_normal
+salloc -N 1 -n 16 -p mit_normal --mem=48G
 ```
 
 However, this work much more quickly with a GPU. If you have access to a
-partition on Engaging with a GPU, then specify your partition:
+partition on Engaging with a GPU, then specify your partition as such:
 
 ```bash
-salloc -N 1 -n 4 -p mit_normal_gpu --gres=gpu:l40s:1
+salloc -N 1 -n 8 -p mit_normal_gpu --gres=gpu:l40s:1
 ```
 
 I have specified an L40S GPU, which has 48GB of memory. You will need a GPU with
@@ -63,32 +63,42 @@ export HF_TOKEN="your_user_access_token"
 ### Running on a Container
 
 You can run the RAG model on our documentation using the Apptainer image we have
-saved to Engaging:
+saved to Engaging. We have the commands for doing so saved in a [shell script](https://github.com/mit-orcd/orcd-rag/blob/main/container/run_container.sh).
+To run the container, you can simply run the following:
 
 ```bash
-module load apptainer
-apptainer exec --nv \
-               --env HF_TOKEN=$HF_TOKEN \
-               --bind $HF_HOME:/tmp/.cache/huggingface \
-               /bin/bash -c 'export HF_HOME=/tmp/.cache/huggingface && python /tmp/rag.py'
+sh /orcd/software/community/001/stage/orcd-rag/container/run_container.sh
 ```
 
-The container runs out of the box, but we provide the option to select different
-models or vectorstores. 
+The first time you run this, the model will be downloaded from HuggingFace and
+cached, so it may take a while to get running. Subsequent times will be much
+quicker because the model has already been downloaded.
+
+Llama 3.1 8B takes about 15GB of space. The default cache location for
+HuggingFace models is `$HOME/.cache/huggingface`. If you do not have enough
+space in your home directory to store the model, you can set the `HF_HOME`
+environment variable to point to another diectory. For example, to save models
+to your scratch directory (depending on your storage setup), that would look
+something like this:
+
+```bash
+export HF_HOME=/home/$USER/orcd/r8/scratch
+```
+
+or:
+
+```bash
+export HF_HOME=/nobackup1/$USER
+```
 
 ### Running via a Python Environment
 
-The steps for running this model via a Python environment can be found on the
+You can avoid the container route and run this using a Python environment. The
+steps to do so can be found on the
 [GitHub repository](https://github.com/mit-orcd/orcd-rag).
 
 <!--
 TODO:
 - Check to see if running this on a CPU works, and how much memory is required
-- Input steps on pre-downloading the model before running the container
-    - Don't need to do this, just need to make sure HF_HOME is mounted
 - Specify the path to the .sif image when it's globally saved
-- Point container to global rag.py so that we can make edits?
-
-Python script:
-- Deal with the "Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation." message
 -->
