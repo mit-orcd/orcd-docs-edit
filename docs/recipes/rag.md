@@ -60,7 +60,7 @@ export HF_TOKEN="your_user_access_token"
 
 ## Running the Model
 
-### Running on a Container
+### Running in a Container
 
 You can run the RAG model on our documentation using the Apptainer image we have
 saved to Engaging. We have the commands for doing so saved in a [shell script](https://github.com/mit-orcd/orcd-rag/blob/main/container/run_container.sh).
