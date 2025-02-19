@@ -40,6 +40,7 @@ nav:
     - RELION: recipes/relion.md
     - VSCode: recipes/vscode.md
     - PyCharm: recipes/pycharm.md
+    - AlphaFold 3: recipes/af3.md
   - Acknowledging Us: acknowledgements.md
   - Data Security and Privacy: data-security.md
   - Acceptable Use and Code of Conduct: code-of-conduct.md
