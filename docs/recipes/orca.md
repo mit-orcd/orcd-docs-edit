@@ -26,7 +26,7 @@ Here are the steps to do so:
 - Upload the `.tar.xz` file to Engaging using `scp`:
 
 ```bash
-scp /path/to/orca_6_0_1_linux_x86-64_shared_openmpi416.tar.xz $USER@orcd-login001.mit.edu ~/
+scp /path/to/source/orca_6_0_1_linux_x86-64_shared_openmpi416.tar.xz $USER@orcd-login001.mit.edu /path/to/destination
 ```
 
 - On Engaging, extract the `tar.xz` file:
@@ -39,4 +39,33 @@ tar -xf orca_6_0_1_linux_x86-64_shared_openmpi416.tar.xz
 
 ```bash
 export PATH=/path/to/orca_6_0_1_linux_x86-64_shared_openmpi416:$PATH
+```
+
+## Running a Test Case
+
+To see if our installation was successful, we can run a test case adapted from
+the [ORCA 6.0 Tutorials](https://www.faccts.de/docs/orca/6.0/tutorials/first_steps/first_calc.html).
+
+First, create an empty directory:
+
+```bash
+mkdir ~/orca_test
+cd ~/orca_test
+```
+
+Next, create a test file:
+
+```title="water.inp"
+!HF DEF2-SVP
+* xyz 0 1
+O   0.0000   0.0000   0.0626
+H  -0.7920   0.0000  -0.4973
+H   0.7920   0.0000  -0.4973
+*
+```
+
+Run `orca` on this file and save the output to another file:
+
+```bash
+orca water.inp > water.out
 ```
