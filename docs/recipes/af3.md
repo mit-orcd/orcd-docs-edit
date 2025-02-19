@@ -1,4 +1,71 @@
+---
+tags:
+ - Engaging
+ - Howto Recipes
+---
+
 # Running AlphaFold 3 on Engaging
+
+[AlphaFold](https://deepmind.google/technologies/alphafold/) is an AI system
+developed by Google that is used for predicting protein structures. Here we
+provide a brief description of how to run this model on the Engaging computing
+cluster.
+
+## Getting Started
+
+For simplicity, in this example we are storing everything except for the
+AlphaFold dataset in a folder in our home directory on Engaging. We will use
+this folder as our working directory:
+
+```bash
+mkdir ~/af3
+export WORKDIR=~/af3
+```
+
+To run AlphaFold 3, we need to obtain a few files that we will store in our
+working directory:
+
+**Model weights**
+
+These can be obtained by making a request to Google DeepMind. Usually, requests
+are granted within a few days. To make a request, follow the instructions on
+the [AlphaFold 3 GitHub Repository](https://github.com/google-deepmind/alphafold3?tab=readme-ov-file#obtaining-model-parameters).
+
+When you get access, you will receive a link to download the parameters. After
+you download them, you can upload them to Engaging using `scp` on your local
+machine:
+
+```bash
+scp /path/to/source/af3.bin.zst $USER@orcd-login001.mit.edu:~/af3
+```
+
+On Engaging, decompress the file and move to a `models` directory:
+
+```bash
+cd $WORKDIR
+zstd -d af3.bin.zst
+mkdir -p models
+mv af3.bin models
+```
+
+**AlphaFold 3 code**
+
+Clone the [GitHub repository](https://github.com/google-deepmind/alphafold3):
+
+```bash
+git clone git@github.com:google-deepmind/alphafold3.git
+```
+
+**Container image**
+
+Google DeepMind provides instructions in their repository on running AlphaFold 3
+with Docker. Docker is not compatible with most HPC environments, so 
+
+## Running AlphaFold 3
+
+The last thing you will need to run AlphaFold 3 is the 
+
+## Running a Batch Job
 
 ```bash
 #!/bin/bash
@@ -16,7 +83,7 @@ module load apptainer
 DATABASES_DIR=/orcd/datasets/001/alphafold3
  
 # Get the current working directory of the script:
-WORKDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKDIR=$(dirname "$(realpath "$0")")
  
 apptainer exec \
 --bind $WORKDIR/af_input:/root/af_input \
