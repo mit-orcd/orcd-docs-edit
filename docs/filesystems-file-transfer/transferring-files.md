@@ -213,6 +213,10 @@ If you need to move files between ORCD systems you can do so one of two ways.
 scp USERNAME@orcd-login001.mit.edu:<path-to-engaging-file> USERNAME@satori-login-001.mit.edu:<path-to-satori-dir>
 ```
 
+!!! note
+    To transfer files to/from the new login nodes on Engaging, you will need to
+    authenticate with Duo.
+
 ## Graphical Applications for File Transfer
 
 There are a few applications you can download that will allow you to transfer files with  drag-and-drop, similar to how you would move files around on your own computer.
