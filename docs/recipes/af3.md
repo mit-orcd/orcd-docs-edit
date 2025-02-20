@@ -114,7 +114,7 @@ access to a partition with a GPU, replace the partition name as necessary.
     Request an interactive session with a GPU:
 
     ```bash
-    salloc -N 1 -n 8 -p mit_normal_gpu --gres=gpu:1
+    salloc -N 1 -n 16 -p mit_normal_gpu --gres=gpu:1
     ```
 
     Run this script:
@@ -153,7 +153,7 @@ access to a partition with a GPU, replace the partition name as necessary.
     #!/bin/bash
  
     #SBATCH -N 1
-    #SBATCH -n 8
+    #SBATCH -n 16
     #SBATCH -p mit_normal_gpu
     #SBATCH --gres=gpu:1
 
