@@ -1,5 +1,9 @@
 # Installing ORCA for Personal Use
 
+ORCA is a quantum chemistry software package designed for computational
+chemistry, featuring a wide range of methods including electronic structure
+theory.
+
 ORCA is a licensed software that is free for academic use, but it cannot be
 transferred to third parties (per the ORCA EULA). So, we cannot install newer
 versions system-wide. Users must create an account and install it personally.
@@ -26,7 +30,7 @@ Here are the steps to do so:
 - Upload the `.tar.xz` file to Engaging using `scp`:
 
 ```bash
-scp /path/to/source/orca_6_0_1_linux_x86-64_shared_openmpi416.tar.xz $USER@orcd-login001.mit.edu /path/to/destination
+scp /path/to/source/orca_6_0_1_linux_x86-64_shared_openmpi416.tar.xz $USER@orcd-login001.mit.edu:/path/to/destination
 ```
 
 - On Engaging, extract the `tar.xz` file:
