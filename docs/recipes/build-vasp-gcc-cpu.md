@@ -7,7 +7,7 @@ tags:
  - Rocky Linux
 ---
 
-# Example of a build of the VASP software.
+# Example Build of the VASP Software
 
 ## About VASP
 
