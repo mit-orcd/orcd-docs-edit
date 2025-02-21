@@ -34,7 +34,7 @@ nav:
     - MPI for Python: recipes/mpi4py.md
     - MuJoCo: recipes/mujoco.md
     - 'NVHPC with CUDA aware MPI': recipes/nvhpc-a100-with-cuda-and-mpi-example.md
-    - VASP: recipes/basic_vasp_gcc_example.md
+    - VASP: recipes/build-vasp-gcc-cpu.md
     - MPI jobs: recipes/mpi.md
     - RELION: recipes/relion.md
     - VSCode: recipes/vscode.md
