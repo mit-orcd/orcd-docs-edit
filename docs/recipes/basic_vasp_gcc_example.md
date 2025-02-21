@@ -22,7 +22,7 @@ VASP using the GNU compiler stack. The recipe shows commands for a Rocky Linux s
 !!! note "Prerequisites"
 
     * To use VASP a research group must obtain a license from the VASP team as described here [here](https://www.vasp.at/sign_in/registration_form/).
-    * This example assumes you have access to a Slurm partition and are working with a Rocky Linux environment.
+    * This example assumes you are working with a Rocky Linux environment.
 
 ### 1. Extract VASP source code files
 
@@ -70,7 +70,7 @@ The `lapack`, `scalapack`, `fftw` and `openblas` toos are numerical libraries th
 
 ### 4. Set environment variables that are needed for compilation
 
-The compilation scripts that come with VASP include variables that must be set to the clusters local values. Here we set environment variables to hold those settings.
+The compilation scripts that come with VASP include variables that must be set to the cluster's local values. Here we set environment variables to hold those settings.
 
 ```bash
 --8<-- "docs/recipes/scripts/vasp/compile_and_test_steps.sh:env-var"
@@ -82,18 +82,17 @@ To compile the VASP code use the `make` program, passing it the environment vari
 
 ```bash
 --8<-- "docs/recipes/scripts/vasp/compile_and_test_steps.sh:make"
-make -j OPENBLAS_ROOT=$OPENBLAS_ROOT FFTW_ROOT=$FFTW_ROOT SCALAPACK_ROOT=$SCALAPACK_ROOT MODS=1 DEPS=1
 ```
 
 ### 6. Check the VASP executables
 
-The above commands should generate VASP executable programs `bin/vasp_std`, `bin/vasp_gam` and `bin/vasp_ncl`. To test that these programs can execute the following commands can be used.
+The above commands should generate VASP executable programs `bin/vasp_std`, `bin/vasp_gam` and `bin/vasp_ncl`. To test that these programs can execute the following commands can be used:
 
 ```bash
 --8<-- "docs/recipes/scripts/vasp/compile_and_test_steps.sh:test"
 ```
 
-if the code has compiled successfully the follow output should be generated. This output shows that the 
+If the code has compiled successfully the follow output should be generated. This output shows that the 
 VASP program can be run. The output shows an error because no input files have been configured.
 
 ```
@@ -148,7 +147,7 @@ The call to `vasp_std` is expected to produce an error as in [6. Check the VASP 
 
 ## Creating a VASP Module
 
-It can be convenient to create a module for VASP since it does have several dependencies. Below is an example modulefile. This modulefile assumes you have put VASP in `$HOME/software/VASP` and used the same dependency modules to build VASP as described in [Step 3 above](#3-activate-the-relevant-modules). If you have installed VASP in a different location or used different dependency modules you will need to adjust the module accordingly.
+It can be convenient to create a module for VASP since it does have several dependencies. Below is an example modulefile. This modulefile assumes you have installed VASP 6.4.3, placed it in `$HOME/software/VASP`, and used the same dependency modules to build VASP as described in [Step 3 above](#3-activate-the-relevant-modules). If you have installed a different version of VASP, placed it in a different location, or used different dependency modules you will need to adjust the modulefile accordingly.
 
 ```lua title='$HOME/software/modulefiles/vasp/6.4.3.lua'
 --8<-- "docs/recipes/scripts/vasp/modulefile.lua"
@@ -156,11 +155,11 @@ It can be convenient to create a module for VASP since it does have several depe
 
 ## Running VASP
 
-To run VASP create a job script like the one below in the same directory as your input files. You may need to increase `ntasks` or `cpus-per-task` depending on the size of the problem. Update the location of your VASP module as needed. VASP has a [page of examples](https://www.vasp.at/wiki/index.php/Category:Examples) in their documentation that can be used for testing.
+To run VASP create a job script like the one below in the same directory as your input files. You may need to increase `ntasks` or `cpus-per-task` or allocation additional resources depending on the size of the problem. This script assumes you have [created a module](#creating-a-vasp-module) and placed the modulefile in in `$HOME/software/modulefiles`. Update the location of your VASP module as needed. VASP has a [page of examples](https://www.vasp.at/wiki/index.php/Category:Examples) in their documentation that can be used for testing.
 
 ```bash title='run_vasp.sh'
 --8<-- "docs/recipes/scripts/vasp/run_vasp.sh"
 ```
 
 !!! note
-    During testing we found that VASP has a tendency to create a very large number of threads that can slow down the calculations and cause them to hang. To prevent that we've set the `$OMP_NUM_THREADS` environment variable in this script.
+    During testing we found that VASP has a tendency to create a very large number of threads that can slow down the calculations and cause them to hang. To prevent that we've set the `$OMP_NUM_THREADS` environment variable to the number of `cpus-per-task` requested (`$SLURM_CPUS_PER_TASK`).
