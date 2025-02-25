@@ -1,3 +1,9 @@
+---
+tags:
+ - ORCA
+ - Engaging
+---
+
 # Installing ORCA for Personal Use
 
 ORCA is a quantum chemistry software package designed for computational
@@ -72,4 +78,44 @@ Run `orca` on this file and save the output to another file:
 
 ```bash
 orca water.inp > water.out
+```
+
+## Running ORCA with Multiple Processes
+
+To truly take advantage of the resources available to you on a high performance
+computing cluster, you can run ORCA in parallel. The version of ORCA we've
+downloaded uses MPI to handle parallel computation. Since we already have MPI
+installed on the cluster as a module, using it is pretty straightforward.
+
+When using ORCA with MPI, ORCA
+[recommends](https://www.faccts.de/docs/orca/6.0/manual/contents/calling.html#calling-the-program-with-multiple-processes)
+that you add MPI to your path and also add the paths to the ORCA and MPI
+libraries to your `LD_LIBRARY_PATH` environment variable:
+
+```bash
+module load openmpi # Adds openmpi to $PATH
+export LD_LIBRARY_PATH=/path/to/orca_6_0_1_linux_x86-64_shared_openmpi416/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/orcd/software/core/001/spack/pkg/openmpi/4.1.4/zahpnmk/lib:$LD_LIBRARY_PATH
+```
+
+!!! note
+    This example is for Engaging Rocky 8 nodes. For Engaging CentOS 7 nodes or
+    other clusters, you'll need to change the path to your OpenMPI library.
+
+We will also need to edit our input file to specify the number of processes:
+
+```title="water.inp"
+!HF DEF2-SVP PAL4 # For 4 processes
+* xyz 0 1
+O   0.0000   0.0000   0.0626
+H  -0.7920   0.0000  -0.4973
+H   0.7920   0.0000  -0.4973
+*
+```
+
+When we run ORCA with multiple processes, we need to use the full path to the
+ORCA binary:
+
+```bash
+/path/to/orca_6_0_1_linux_x86-64_shared_openmpi416/orca water.inp > water.out
 ```
