@@ -12,60 +12,62 @@ tags:
 Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library (MKL) in which linear algebra computations are optimized. The performance of C and Fortran codes can be improved on Intel CPUs if compiled with Intel compiler. It provides an MPI implemetation for MPI programs that run on multipe nodes. Users should choose the Intel compiler for intel CPUs when possible. 
 
 
-## Set up environment on Rocky 8 nodes
+## Set up environment 
 
-If you use Rocky 8 nodes, log in to an appropriate head node first,
-```
-ssh <user>@orcd-login003.mit.edu
-```
+=== "Rocky 8 nodes" 
 
-Load an intel module,
-```
-module load intel/2024.2.1
-```
+    If you use Rocky 8 nodes, log in to an appropriate head node first,
+    ```
+    ssh <user>@orcd-login003.mit.edu
+    ```
 
-Check commands for intel compiler and MPI and environment variables for MKL are ready for use,
-```
-$ which icx
-/orcd/software/community/001/rocky8/intel/2024.2.1/compiler/2024.2/bin/icx
-$ which ifort
-/orcd/software/community/001/rocky8/intel/2024.2.1/compiler/2024.2/bin/ifort
-$ which mpicc
-/orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpicc
-$ which mpiifort
-/orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpiifort
-$ echo $MKLROOT
-/orcd/software/community/001/rocky8/intel/2024.2.1/mkl/2024.2
-```
+    Load an intel module,
+    ```
+    module load intel/2024.2.1
+    ```
+
+    Check commands for intel compiler and MPI and environment variables for MKL are ready for use,
+    ```
+    $ which icx
+    /orcd/software/community/001/rocky8/intel/2024.2.1/compiler/2024.2/bin/icx
+    $ which ifort
+    /orcd/software/community/001/rocky8/intel/2024.2.1/compiler/2024.2/bin/ifort
+    $ which mpicc
+    /orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpicc
+    $ which mpiifort
+    /orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpiifort
+    $ echo $MKLROOT
+    /orcd/software/community/001/rocky8/intel/2024.2.1/mkl/2024.2
+    ```
 
 
-## Set up environment on CentOS 7 nodes
+=== "CentOS 7 nodes" 
 
-If you use CentOS 7 nodes, log in to an appropriate head node first,
-```
-ssh <user>@orcd-vlogin003.mit.edu
-```
+    If you use CentOS 7 nodes, log in to an appropriate head node first,
+    ```
+    ssh <user>@orcd-vlogin003.mit.edu
+    ```
 
-Load the modules for intel compiler, intel MPI and MKL,
-```
-module load intel/2018-01
-module load impi/2018-01
-module load mkl/2018-01 
-```
+    Load the modules for intel compiler, intel MPI and MKL,
+    ```
+    module load intel/2018-01
+    module load impi/2018-01
+    module load mkl/2018-01 
+    ```
 
-Check commands for intel compiler and MPI and environment variables for MKL are ready for use,
-```
-$ which icc
-/home/software/intel/2018-01/bin/icc
-$ which ifort
-/home/software/intel/2018-01/bin/ifort
-$ which mpicc
-/home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mpi/intel64/bin/mpicc
-$ which mpiifort
-/home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mpi/intel64/bin/mpiifort
-$ echo $MKLROOT
-/home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mkl/
-```
+    Check commands for intel compiler and MPI and environment variables for MKL are ready for use,
+    ```
+    $ which icc
+    /home/software/intel/2018-01/bin/icc
+    $ which ifort
+    /home/software/intel/2018-01/bin/ifort
+    $ which mpicc
+    /home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mpi/intel64/bin/mpicc
+    $ which mpiifort
+    /home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mpi/intel64/bin/mpiifort
+    $ echo $MKLROOT
+    /home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mkl/
+    ```
 
 ## Compile and run programs with Intel compiler
 
