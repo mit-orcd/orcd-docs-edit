@@ -71,37 +71,59 @@ Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library 
 
 ## Compile and run programs with Intel compiler
 
-Once the environment is set up in either of the preivous two sections, you can compile your C or Fortran codes like this,
-```
-icx -O3 name.c -o name
-ifort -O3 name.c -o name
-```
-or MPI codes,
-```
-mpicc -O3 name.c -o name
-mpiifort -O3 name.c -o name
-```
+=== "Rocky 8 nodes" 
+    Once the environment is set up, you can compile your C or Fortran codes like this,
+    ```
+    icx -O3 name.c -o name
+    ifort -O3 name.f90 -o name
+    ```
+    or MPI codes,
+    ```
+    mpicc -O3 name.c -o name
+    mpiifort -O3 name.f90 -o name
+    ```
 
-If you use GNU Make to build your program, set up the varialbes in the Makefile, 
-```
-CC=icc
-FC=ifort
-MPICC=mpicc
-MPIFC=mpiifort
-```
-Use the variable `MKLROOT` in the Makefile when needed.
+    If you use GNU Make to build your program, set up the varialbes in the Makefile, 
+    ```
+    CC=icx
+    FC=ifort
+    MPICC=mpicc
+    MPIFC=mpiifort
+    ```
+    Use the variable `MKLROOT` in the Makefile when needed.
 
-To run your program on Rocky 8 nodes, submit a job script specifying a partition with `-p <partition-name>` and the OS with `--constraint=rocky8`, and loading the intel module,
-```
-module load intel/2024.2.1
-``` 
+    Finally submit a job script specifying a partition with `-p <partition-name>` and loading the intel module,
+    ```
+    module load intel/2024.2.1
+    ``` 
 
-To run your program on CentOS 7 nodes, submit a job script specifying a partition with `-p <partition-name>` and the OS with `--constraint=centos7`, and loading the intel modules,
-```
-module load intel/2018-01
-module load impi/2018-01
-module load mkl/2018-01 
-``` 
+=== "CentOS 7 nodes" 
+    Once the environment is set up, you can compile your C or Fortran codes like this,
+    ```
+    icc -O3 name.c -o name
+    ifort -O3 name.f90 -o name
+    ```
+    or MPI codes,
+    ```
+    mpicc -O3 name.c -o name
+    mpiifort -O3 name.f90 -o name
+    ```
+
+    If you use GNU Make to build your program, set up the varialbes in the Makefile, 
+    ```
+    CC=icc
+    FC=ifort
+    MPICC=mpicc
+    MPIFC=mpiifort
+    ```
+    Use the variable `MKLROOT` in the Makefile when needed.
+
+    Finally submit a job script specifying a partition with `-p <partition-name>` and loading the intel module,
+    ```
+    module load intel/2018-01
+    module load impi/2018-01
+    module load mkl/2018-01 
+    ``` 
 
 
 ## References
