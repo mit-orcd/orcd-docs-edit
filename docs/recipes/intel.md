@@ -32,8 +32,8 @@ Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library 
     /orcd/software/community/001/rocky8/intel/2024.2.1/compiler/2024.2/bin/icx
     $ which ifort
     /orcd/software/community/001/rocky8/intel/2024.2.1/compiler/2024.2/bin/ifort
-    $ which mpiicc
-    /orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpiicc
+    $ which mpiicx
+    /orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpiicx
     $ which mpiifort
     /orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpiifort
     $ echo $MKLROOT
@@ -79,7 +79,7 @@ Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library 
     ```
     or MPI codes,
     ```
-    mpiicc -O3 name.c -o name
+    mpiicx -O3 name.c -o name
     mpiifort -O3 name.f90 -o name
     ```
 
@@ -87,7 +87,7 @@ Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library 
     ```
     CC=icx
     FC=ifort
-    mpiicc=mpiicc
+    MPICC=mpiicx
     MPIFC=mpiifort
     ```
     Use the variable `MKLROOT` in the Makefile when needed.
@@ -113,7 +113,7 @@ Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library 
     ```
     CC=icc
     FC=ifort
-    mpiicc=mpiicc
+    MPICC=mpiicc
     MPIFC=mpiifort
     ```
     Use the variable `MKLROOT` in the Makefile when needed.
