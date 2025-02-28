@@ -41,6 +41,7 @@ nav:
     - RELION: recipes/relion.md
     - VSCode: recipes/vscode.md
     - PyCharm: recipes/pycharm.md
+    - Intel compiler: recipes/intel.md
     - ORCA: recipes/orca.md
   - Acknowledging Us: acknowledgements.md
   - Data Security and Privacy: data-security.md
