@@ -64,6 +64,8 @@ Common node states are:
 - down: nodes that are not currently in service
 - drain: nodes that will be put in a `down` state once all jobs running on them are completed
 
+You can also use sinfo to see what resources each node has. The output can be quite long so we recommend limiting to a specific partition. For example, to see what 
+
 ## Running Jobs
 
 How you run your job depends on the type of job you would like to run. There are two "modes" for running jobs: interactive and batch jobs. Interactive jobs allow you to run interactively on a compute node in a shell. Batch jobs, on the other hand, are for running a pre-written script or executable. Interactive jobs are mainly used for testing, debugging, and interactive data analysis. Batch jobs are the traditional jobs you see on an HPC system and should be used when you want to run a script that doesn't require that you interact with it.
