@@ -21,7 +21,7 @@ module requests to <orcd-help-engaging@mit.edu>.
 
 **I am unable to install a package in R. How can I debug the issue?**
 
-We reccomend using Conda to manage R packages. Please refer to the
+We recommend using Conda to manage R packages. Please refer to the
 [R user guide](software/R.md).
 
 **Can I use export controlled software on the cluster?**
@@ -42,4 +42,33 @@ jobs can pick up where another job left off. The implementation of checkpointing
 is domain specific and can vary greatly. You can find more information on
 checkpointing [here](https://rc-docs.northeastern.edu/en/latest/best-practices/checkpointing.html).
 
-For partitions owned by labs, please email <orcd-help-engaging@mit.edu>.
+For partitions owned by other groups, please email <orcd-help-engaging@mit.edu>.
+
+**How do I get an account?**
+
+=== "Engaging"
+    If you have an MIT Kerberos account, then you can get an account on
+    Engaging. To register, navigate to the [Engaging OnDemand Portal](https://engaging-ood.mit.edu/)
+    and log in.
+
+=== "Satori"
+    If you have an MIT Kerberos account, then you can get an account on Satori.
+    To register, navigate to the [Satori Portal](https://satori-portal.mit.edu/)
+    and log in.
+
+=== "SuperCloud"
+    Access to SuperCloud is more restrictive and the account generation process
+    is more involved. For more information, see the
+    [SuperCloud documentation](https://mit-supercloud.github.io/supercloud-docs/requesting-account/).
+
+**How do I install a Python package?**
+
+See our documentation on [Python](software/python.md).
+
+**Why won't my application run on a different partition?**
+
+On Engaging, the older nodes (such as the `sched_mit_hill` and `newnodes`
+partitions) run on CentOS 7 while the newer nodes (such as `mit_normal` and
+`mit_preemptable`) run on the Rocky 8 operating system (OS). Each set of nodes
+has a different set of modules, so if you have set up software to run on one OS,
+it will probably not work on the other OS.
