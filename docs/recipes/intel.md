@@ -32,8 +32,8 @@ Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library 
     /orcd/software/community/001/rocky8/intel/2024.2.1/compiler/2024.2/bin/icx
     $ which ifort
     /orcd/software/community/001/rocky8/intel/2024.2.1/compiler/2024.2/bin/ifort
-    $ which mpicc
-    /orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpicc
+    $ which mpiicc
+    /orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpiicc
     $ which mpiifort
     /orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpiifort
     $ echo $MKLROOT
@@ -61,8 +61,8 @@ Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library 
     /home/software/intel/2018-01/bin/icc
     $ which ifort
     /home/software/intel/2018-01/bin/ifort
-    $ which mpicc
-    /home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mpi/intel64/bin/mpicc
+    $ which mpiicc
+    /home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mpi/intel64/bin/mpiicc
     $ which mpiifort
     /home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mpi/intel64/bin/mpiifort
     $ echo $MKLROOT
@@ -79,7 +79,7 @@ Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library 
     ```
     or MPI codes,
     ```
-    mpicc -O3 name.c -o name
+    mpiicc -O3 name.c -o name
     mpiifort -O3 name.f90 -o name
     ```
 
@@ -87,7 +87,7 @@ Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library 
     ```
     CC=icx
     FC=ifort
-    MPICC=mpicc
+    mpiicc=mpiicc
     MPIFC=mpiifort
     ```
     Use the variable `MKLROOT` in the Makefile when needed.
@@ -105,7 +105,7 @@ Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library 
     ```
     or MPI codes,
     ```
-    mpicc -O3 name.c -o name
+    mpiicc -O3 name.c -o name
     mpiifort -O3 name.f90 -o name
     ```
 
@@ -113,7 +113,7 @@ Intel compiler is optimized for intel CPUs. It provides the Math Kernel Library 
     ```
     CC=icc
     FC=ifort
-    MPICC=mpicc
+    mpiicc=mpiicc
     MPIFC=mpiifort
     ```
     Use the variable `MKLROOT` in the Makefile when needed.
