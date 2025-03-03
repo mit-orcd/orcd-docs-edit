@@ -184,6 +184,10 @@ Similar to the `cp` command, if you want to transfer an entire directory and all
     scp -r <local-file-name> USERNAME@txe1-login.mit.edu:<path-to-supercloud-dir>
     ```
 
+!!! note
+    To `scp` files to/from the new login nodes on Engaging, you will need to
+    authenticate with Duo.
+
 ### rsync
 
 The use of `rsync` is very similar to `scp`, but the behavior is different. By default `rsync` will not transfer files that are identical at both the source and destination. There are additional flags you can use to specify what `rsync` should do when files differ. The `rsync` command can be very useful when you want to "sync" updates to a directory or when transferring large directories. If a transfer fails during `rsync` you can re-run the command and it will pick up where it left off, rather than re-transfer everything.
@@ -202,6 +206,10 @@ Some useful flags include:
 
 You can run `rsync --help` to print out a full list of flags that can be used with the `rsync` command.
 
+!!! note
+    To `rsync` files to/from the new login nodes on Engaging, you will need to
+    authenticate with Duo.
+
 ### Moving files between ORCD Systems
 
 If you need to move files between ORCD systems you can do so one of two ways.
@@ -212,10 +220,6 @@ If you need to move files between ORCD systems you can do so one of two ways.
 ```bash title="Transferring files from Engaging to Satori"
 scp USERNAME@orcd-login001.mit.edu:<path-to-engaging-file> USERNAME@satori-login-001.mit.edu:<path-to-satori-dir>
 ```
-
-!!! note
-    To transfer files to/from the new login nodes on Engaging, you will need to
-    authenticate with Duo.
 
 ## Graphical Applications for File Transfer
 
