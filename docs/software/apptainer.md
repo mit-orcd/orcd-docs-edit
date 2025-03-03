@@ -34,9 +34,9 @@ Let us start with running an application with Singularity on the cluster first.
 
 === "Engaging"
 
-     Log in to a Rocky 8 head node,
+     Log in to a head node,
      ```
-     ssh <user>@eofe10.mit.edu
+     ssh <user>@orcd-login002.mit.edu
      ```
      Check available Apptainer versions in modules,
      ```
@@ -44,7 +44,7 @@ Let us start with running an application with Singularity on the cluster first.
      ```
      Load an Apptainer module and its dependency, for example, 
      ```
-     module load apptainer/1.1.7-x86_64  squashfuse/0.1.104-x86_64
+     module load apptainer/1.1.9
      ```
 
 === "OpenMind"
@@ -117,7 +117,7 @@ When the tests are completed, you can submit a batch job to run your program in 
      #SBATCH -n 2                         # two CPU cores
      #SBATCH -p mit_normal     # a partition with Rocky 8 nodes
      
-     module load apptainer/1.1.7-x86_64 squashfuse/0.1.104-x86_64   # load modules
+     module load apptainer/1.1.9   # load modules
      singularity exec my-image.sif python my-code.py   # Run the program 
      ```
 
@@ -177,7 +177,7 @@ The terms in `<>` are must-needed, while the terms in `[]` are optional, dependi
      #SBATCH --gres=gpu:1        # one GPU
      #SBATCH -p sched_mit_psfc_gpu_r8     # a partition with Rocky 8 nodes
 
-     module load apptainer/1.1.7-x86_64 squashfuse/0.1.104-x86_64   # load modules
+     module load apptainer/1.1.9   # load modules
      singularity exec --nv -B /nobakcup1,/pool001 my-image.sif python my-code.py   # Run the program
      ```
 
@@ -229,7 +229,10 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 === "OpenMind"
 
-     The flags `--fakeroot --writable` is to enable the write permission to modify files in the container. 
+     The flags `--fakeroot --writable` is to enable the write permission to modify files in the container. Get an interative session on node115 to obtain the `fackeroot` package.
+     ```
+     srun -t 120 -w node115 --pty bash
+     ```
 
     ??? note
         The `apt-get` command is to install software in the Ubuntu OS. This is supported by the by the `fakeroot` package, which is installed on node115 on OpenMind. Users need to install `fakeroot` in their home directories.  
