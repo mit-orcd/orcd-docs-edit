@@ -14,13 +14,13 @@ retrieval-based and generative models to provide more accurate and contextually
 relevant responses.
 
 RAG also provides an interesting test case to make use of our resources on the
-cluster. Here, we provide instructions on how to run a RAG model using [our
-documentation](https://orcd-docs.mit.edu/).
+cluster. Here, we provide instructions on how to run a RAG model to query and
+answer questions about [our ORCD documentation](https://orcd-docs.mit.edu/).
 
 The code for developing this model can be found in this
 [GitHub repository](https://github.com/mit-orcd/orcd-rag). Feel free to use
 this repository as a guide to develop your own RAG model on separate
-documentation.
+documents.
 
 ## Getting Started
 
@@ -33,7 +33,7 @@ interactive session on a compute node with the following command:
 salloc -N 1 -n 16 -p mit_normal --mem=48G
 ```
 
-However, this work much more quickly with a GPU. If you have access to a
+However, this works much more quickly with a GPU. If you have access to a
 partition on Engaging with a GPU, then specify your partition as such:
 
 ```bash
@@ -52,11 +52,30 @@ process for doing so:
 1. [Create a HuggingFace account](https://huggingface.co/)
 2. Request access to [meta-llama/Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)
 3. Create a [user access token](https://huggingface.co/settings/tokens)
-4. Save your user access token as an environment variable on Engaging:
 
-```bash
-export HF_TOKEN="your_user_access_token"
-```
+    You will need to adjust the settings of your user access token so that you
+    can download and run the model. To do so, navigate to your HuggingFace
+    profile, then click "Edit Profile" > "Access Tokens" and edit the
+    permissions for your access token:
+
+    ![HF access token permissions](../images/RAG/hf_token_permissions.png)
+
+    Edit your token permissions to match the following:
+
+    ![HF token permission settings](../images/RAG/hf_token_permission_settings.png)
+
+4. Export your access token as an environment variable on Engaging and add to
+your `.bash_profile` so it can be saved for future uses:
+
+    ```bash
+    export HF_TOKEN="your_user_access_token"
+    echo 'export HF_TOKEN="your_user_access_token"' >> ~/.bash_profile
+    ```
+
+    !!! note
+        You will not be able to copy your HF token again from the HF website. If
+        you do not save it somewhere, you will need to generate a new one every
+        time you run this.
 
 ## Running the Model
 
@@ -78,7 +97,7 @@ quicker because the model has already been downloaded.
 Llama 3.1 8B takes about 15GB of space. The default cache location for
 HuggingFace models is `$HOME/.cache/huggingface`. If you do not have enough
 space in your home directory to store the model, you can set the `HF_HOME`
-environment variable to point to another diectory. For example, to save models
+environment variable to point to another directory. For example, to save models
 to your scratch directory (depending on your storage setup), that would look
 something like this:
 
