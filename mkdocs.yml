@@ -41,6 +41,7 @@ nav:
     - RELION: recipes/relion.md
     - VSCode: recipes/vscode.md
     - PyCharm: recipes/pycharm.md
+    - AlphaFold 3: recipes/af3.md
     - RAG: recipes/rag.md
     - Intel compiler: recipes/intel.md
     - ORCA: recipes/orca.md
