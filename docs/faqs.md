@@ -1,6 +1,6 @@
 # Frequently Asked Questions
 
-**How do I get GPU access?**
+### How do I get GPU access?
 
 Currently we have many public GPUs available to the MIT community on Satori and
 we are working on getting more on Engaging. You can request GPUs for your job
@@ -9,22 +9,22 @@ by following [this documentation](running-jobs/requesting-resources.md#gpus).
 If your lab would like to purchase GPUs to be hosted on Engaging, please contact
 <orcd-help-engaging@mit.edu>.
 
-**How do I check the status of my job?**
+### How do I check the status of my job?
 
 Instructions for checking job status can be found
 [here](running-jobs/overview.md#checking-job-status).
 
-**How can I submit a module request?**
+### How can I submit a module request?
 
 We are open to creating new modules for the Engaging cluster. You can submit all
 module requests to <orcd-help-engaging@mit.edu>.
 
-**I am unable to install a package in R. How can I debug the issue?**
+### I am unable to install a package in R. How can I debug the issue?
 
 We recommend using Conda to manage R packages. Please refer to the
 [R user guide](software/R.md).
 
-**Can I use export controlled software on the cluster?**
+### Can I use export controlled software on the cluster?
 
 Export controlled software has specific requirements around who is allowed to
 access the software. Often, our clusters do not meet these requirements, so
@@ -32,7 +32,7 @@ we generally do not allow this software to be on our systems. Please refer to
 the terms of use of the software and direct any questions to
 <orcd-help@mit.edu>.
 
-**Can you increase the time limit for my job?**
+### Can you increase the time limit for my job?
 
 For public partitions on Engaging, such as `mit_normal`, we cannot increase the
 time limit for any particular job, as these resources are shared. For jobs that
@@ -44,7 +44,7 @@ checkpointing [here](https://rc-docs.northeastern.edu/en/latest/best-practices/c
 
 For partitions owned by other groups, please email <orcd-help-engaging@mit.edu>.
 
-**How do I get an account?**
+### How do I get an account?
 
 === "Engaging"
     If you have an MIT Kerberos account, then you can get an account on
@@ -61,14 +61,34 @@ For partitions owned by other groups, please email <orcd-help-engaging@mit.edu>.
     is more involved. For more information, see the
     [SuperCloud documentation](https://mit-supercloud.github.io/supercloud-docs/requesting-account/).
 
-**How do I install a Python package?**
+### How do I install a Python package?
 
 See our documentation on [Python](software/python.md).
 
-**Why won't my application run on a different partition?**
+### Why won't my application run on a different partition?
 
 On Engaging, the older nodes (such as the `sched_mit_hill` and `newnodes`
 partitions) run on CentOS 7 while the newer nodes (such as `mit_normal` and
 `mit_preemptable`) run on the Rocky 8 operating system (OS). Each set of nodes
 has a different set of modules, so if you have set up software to run on one OS,
 it will probably not work on the other OS.
+
+### How do I run Jupyter notebooks?
+
+You can run Jupyter a few different ways:
+
+1. Web portal for the cluster you're using
+2. [VS Code](recipes/vscode.md)
+3. Port forwarding
+
+We have a document with more details coming soon.
+
+### Xfce desktop has failed to start. How can I fix this?
+
+This issue is often caused by Conda setup commands existing in your `~/.bashrc`
+file. This happens when you run `conda init` when using Miniforge or another
+Anaconda install. We recommend **not** running `conda init` as it can lead to
+errors such as this one.
+
+To fix this, remove or comment out all conda setup commands from your
+`~/.bashrc` file.
