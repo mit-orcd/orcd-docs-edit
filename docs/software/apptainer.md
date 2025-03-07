@@ -198,45 +198,48 @@ The terms in `<>` are must-needed, while the terms in `[]` are optional, dependi
 
 ## Build Singularity images
 
-In the previous section, it is assumed that all needed packages have been installed in the image. If some needed packages do not exist in the image, users need to build a new image. 
+In the previous section, it is assumed that all needed packages have been installed in the image. Users need to build a new image if some needed packages do not exist in the image. 
 
 To save work for the building process, search for an image providing the right OS and necessary dependencies to support your target application, then use it as a base image and build your target application on top of it. 
 
 The following is an example of building Python packages such as Pytorch and Pandas in a container image. 
 
-First, download a Docker image that provides the Ubuntu OS and have Python and PyTorch installed already,
+First, download a Docker image that provides the Ubuntu OS and has Python and PyTorch installed already,
 ```
 singularity build --sandbox my-image  docker://bitnami/pytorch:latest
 ```
 
 The command `build` here does not build anything yet, but just downloads the image and converts it to a new format. The flag `--sandbox` tells `build` to convert the image to the Sandbox format, which is convenient for installing packages interactively. 
 
-Log in to the container shell, then you can install system packages using `apt-get` as is on an Ubuntu machine and build Python packages using `pip install`, taking Pandas for example, 
+Now you can install additional packages in the base image. In many installation processes, it requires virtual root privilege, which is enabled by the `fakeroot` command here. 
+
+=== "Engaging"
+     Log in a head node that provides the `fakeroot` command,
+     ```
+     ssh <user>@orcd-login004.mit.edu
+     ```
+
+=== "OpenMind"
+
+     Get an interative session on node115 that provides the `fakeroot` command,
+     ```
+     srun -t 120 -w node115 --pty bash
+     ```
+
+Start a container shell with the flags `--writable --fakeroot `, which enables the write permission and virtual root privileges in the container, and then you can install your packages. Here is an exmaple, 
 ```
-$ singularity shell --writable my-image
+$ singularity shell --writable --fakeroot my-image
 Apptainer> apt-get update
 Apptainer> pip install pandas
 Apptainer> python 
 Python 3.8.17 (default, Jun 16 2023, 21:48:21) 
 [GCC 10.2.1 20210110] on linux
 Type "help", "copyright", "credits" or "license" for more information.
+>>> import torch
 >>> import pandas as pd
 ```
 
-=== "Engaging"
+Here the `apt-get` is to install system software on an Ubuntu machine, which is supported by the `fakeroot` flag. The `pip install` is to build Python packages. Finally, the package Pandas is built in the base image with PyTorch. 
 
-     The flag `--writable` is to enable the write permission to modify files in the container. 
+Alternatively, you can build a Docker image on a laptop/desktop such as MAC or PC, transfer it to the cluster, and run it with Singularity. Many packages have been developed and built in the Docker environment, so this approach is more convenient in many cases. 
 
-=== "OpenMind"
-
-     The flags `--fakeroot --writable` is to enable the write permission to modify files in the container. Get an interative session on node115 to obtain the `fackeroot` package.
-     ```
-     srun -t 120 -w node115 --pty bash
-     ```
-
-    ??? note
-        The `apt-get` command is to install software in the Ubuntu OS. This is supported by the by the `fakeroot` package, which is installed on node115 on OpenMind. Users need to install `fakeroot` in their home directories.  
-
-Once the needed package are built in the image, you can use it as was shown in the preivious sections. 
-
-Alternatively, you can build a container image on other machines on which you have `root` or `sudo` access. One way is to build a Docker image on a laptop/desktop such as MAC or PC. Another way is to build a Singularity image on a Linux machine that has Apptainer/Singularity installed. Once the image is built completely, transfer it to the cluster, and run it with Singularity.
