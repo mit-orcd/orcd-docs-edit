@@ -87,6 +87,19 @@ computing cluster, you can run ORCA in parallel. The version of ORCA we've
 downloaded uses MPI to handle parallel computation. Since we already have MPI
 installed on the cluster as a module, using it is pretty straightforward.
 
+First, you will need to request adequate resources. Make sure the resources you
+request match what you specify in your ORCA input file:
+
+```bash
+salloc -N 1 -n 4 -p mit_normal
+```
+
+!!! note
+    While this example is using an interactive job, we recommend using a batch
+    job for longer-running programs. See
+    [here](../running-jobs/overview.md#running-jobs) for more information on
+    running jobs.
+
 When using ORCA with MPI, ORCA
 [recommends](https://www.faccts.de/docs/orca/6.0/manual/contents/calling.html#calling-the-program-with-multiple-processes)
 that you add MPI to your path and also add the paths to the ORCA and MPI
