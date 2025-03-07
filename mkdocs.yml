@@ -18,10 +18,11 @@ nav:
     - Overview: software/overview.md
     - Modules: software/modules.md
     - Python: software/python.md
-    - Container: software/apptainer.md
-    - Compiling Codes: software/compile.md
     - Julia: software/julia.md
     - R: software/R.md
+    - Other Software: software/building-software.md
+    - Containers: software/apptainer.md
+    - Compiling Codes: software/compile.md
 #    - Installing Software: 
 #    - Singularity/Apptainer: 
 #    - Licensed Software: 
