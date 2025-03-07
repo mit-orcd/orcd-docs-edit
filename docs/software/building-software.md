@@ -2,7 +2,7 @@
 
 If you need software that is not not a Python, Julia, or R package and available as a [module](modules.md) on the cluster (current modules can be seen with the command module avail) you can request this software be compiled as a module by reaching out to <orcd-help-engaging@mit.edu>. If you expect there won't be many others who will be using this software, or if you need a special version of software for your job, you can compile the software yourself for personal use.
 
-(mention recipes)
+For some common software we have written recipes for how to build them on Engaging. Check the "ORCD Recipes" section on the sidebar, or check out the [Howto Recipes](../tags.md#howto-recipes) on the Index page.
 
 You can usually install whatever software you need in any directory you have write access to: your home, pool, or shared storage. This means the installation will be in this directory, rather than in a system-wide directory available for everyone. Most software can be installed this way, but it is not always well documented. If the binaries, or the executable files, for the software are available, you can put those in your home directory and add that path to your `$PATH` environment variable (see the Environment Variables unit in the section on the Linux Command Line for more information). Otherwise, you may have to build the software from source.
 
