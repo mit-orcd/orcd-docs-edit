@@ -78,7 +78,6 @@ or the resources allocated to your notebook.
     notebook. When you open a notebook, select the kernel for your desired
     language.
 
-
 ### VS Code
 
 Follow [these instructions](./vscode.md) to set up VS Code to run on a compute
@@ -87,7 +86,8 @@ node.
 Open a Jupyter notebook and click the top right button to select a kernel. You
 can select "Python Environments" for any Conda environments or "Jupyter Kernel"
 to find Julia or R environments. If you have installed R with Conda, you can
-find your Conda environment under "Jupyter Kernel."
+find your Conda environment under "Jupyter Kernel." `jupyterlab` must be
+installed to your Conda environment.
 
 ### Port Forwarding
 
