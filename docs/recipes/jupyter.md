@@ -26,7 +26,8 @@ or the resources allocated to your notebook.
 
 === "Engaging"
 
-    - Link to web portal: [https://engaging-ood.mit.edu/](https://engaging-ood.mit.edu/)
+    - Link to web portal:
+    [https://engaging-ood.mit.edu/](https://engaging-ood.mit.edu/)
 
     - Select "Interactive Apps" --> "Jupyter Notebook"
 
@@ -52,7 +53,8 @@ or the resources allocated to your notebook.
 
 === "Satori"
 
-    - Link to web portal: [https://satori-portal.mit.edu/](https://satori-portal.mit.edu/)
+    - Link to web portal:
+    [https://satori-portal.mit.edu/](https://satori-portal.mit.edu/)
 
     - Select "Interactive Apps" --> "Jupyter Notebook" or
     "Jupyter Notebook [Experimental]"
@@ -69,7 +71,8 @@ or the resources allocated to your notebook.
 
 === "SuperCloud"
 
-    - Link to web portal: [https://txe1-portal.mit.edu/](https://txe1-portal.mit.edu/)
+    - Link to web portal:
+    [https://txe1-portal.mit.edu/](https://txe1-portal.mit.edu/)
 
     - Select "jupyter" and follow the on-screen instructions to create a Jupyter
     notebook. When you open a notebook, select the kernel for your desired
@@ -96,27 +99,63 @@ reliable.
 
 Port forwarding consists of running the notebook on a compute node, and then
 accessing the notebook on your local machine by SSH tunnelling through a login
-node. The following example uses Engaging, but the process is similar for other
-clusters available at MIT.
+node.
 
-First request a compute node with your desired resources:
+First request a compute node with the resources you'll need for your Jupyter
+session (here we are requesting 1 node with 4 CPU cores):
 
-```bash
-salloc -N 1 -n 4 -p mit_normal
-```
+=== "Engaging"
 
-Make a note of the node that your job is running on. In this example, we're
-running on `node1600`.
+    ```bash
+    salloc -N 1 -n 4 -p mit_normal
+    ```
+
+=== "Satori"
+
+    ```bash
+    srun -N 1 -n 4 --pty /bin/bash
+    ```
+
+=== "SuperCloud"
+
+    ```bash
+    LLsub -i -s 4
+    ```
+
+!!! note
+    See [Requesting Resources](../running-jobs/requesting-resources.md) for more
+    information.
+
+Make a note of the node that your job is running on by running `hostname` from
+the command line.
 
 Even if you are using a different language with Jupyter, Jupyter is tightly
 linked to Python, so you will need to use a Conda environment with
 `jupyterlab` installed:
 
-```bash
-module load miniforge
-conda create -n jupyter_env jupyterlab
-conda activate jupyter_env
-```
+=== "Engaging"
+
+    ```bash
+    module load miniforge
+    conda create -n jupyter_env jupyterlab
+    conda activate jupyter_env
+    ```
+
+=== "Satori"
+
+    ```bash
+    module load anaconda3
+    conda create -n jupyter_env jupyterlab
+    conda activate jupyter_env
+    ```
+
+=== "SuperCloud"
+
+    ```bash
+    module load anaconda
+    conda create -n jupyter_env jupyterlab
+    conda activate jupyter_env
+    ```
 
 Now, we can run the notebook. To be able to access it on our local machine, we
 need to add a few arguments:
@@ -144,18 +183,47 @@ local machine. Through "tunneling," however, we can access this node through
 a login node, which is accessble from our local machine.
 
 In a second terminal window, set up an SSH tunnel to your Jupyter notebook
-that's running on the compute node:
+that's running on the compute node, filling in the node name, port number, and
+username as necessary:
 
-```bash
-ssh -L <local port>:<node>:<remote port> <USER>@orcd-login001.mit.edu
-```
+=== "Engaging"
 
-In general, it's easier if you keep the local port and the remote port as the
-same number:
+    ```bash
+    ssh -L <local port>:<node>:<remote port> <USER>@orcd-login001.mit.edu
+    ```
 
-```bash
-ssh -L 8888:node1600:8888 <USER>@orcd-login001.mit.edu
-```
+    In general, it's easier if you keep the local port and the remote port as
+    the same number:
+
+    ```bash
+    ssh -L 8888:node1600:8888 <USER>@orcd-login001.mit.edu
+    ```
+
+=== "Satori"
+
+    ```bash
+    ssh -L <local port>:<node>:<remote port> <USER>@satori-login-001.mit.edu
+    ```
+
+    In general, it's easier if you keep the local port and the remote port as
+    the same number:
+
+    ```bash
+    ssh -L 8888:node0031:8888 <USER>@satori-login-001.mit.edu
+    ```
+
+=== "SuperCloud"
+
+    ```bash
+    ssh -L <local port>:<node>:<remote port> <USER>@txe1-login.mit.edu
+    ```
+
+    In general, it's easier if you keep the local port and the remote port as
+    the same number:
+
+    ```bash
+    ssh -L 8888:d-5-3-4:8888 <USER>@txe1-login.mit.edu
+    ```
 
 Now you can access Jupyter in an internet browser:
 
@@ -178,12 +246,11 @@ notebook.
 
 ### Julia
 
-You will need to add the `IJulia` package to your
-environment for Jupyter to recognize the Julia kernel. You can do so from
-the command line:
+You will need to add the `IJulia` package to your environment for Jupyter to
+recognize the Julia kernel. You can do so from the command line:
 
 ```bash title="Bash"
-module load julia/1.8.5
+module load julia
 julia
 ```
 ```julia title="Julia"
@@ -203,11 +270,29 @@ See our [Julia documentation](../software/julia.md) for more information.
 To run R in a Jupyter notebook, you need to create a Conda environment with
 both `r-irkernel` and `jupyterlab` installed:
 
-```bash
-module load miniforge
-conda create -n r_jupyter_env jupyterlab r-irkernel
-conda activate r_jupyter_env
-```
+=== "Engaging"
+
+    ```bash
+    module load miniforge
+    conda create -n r_jupyter_env jupyterlab r-irkernel
+    conda activate r_jupyter_env
+    ```
+
+=== "Satori"
+
+    ```bash
+    module load anaconda3
+    conda create -n r_jupyter_env jupyterlab r-irkernel
+    conda activate r_jupyter_env
+    ```
+
+=== "SuperCloud"
+
+    ```bash
+    module load anaconda
+    conda create -n r_jupyter_env jupyterlab r-irkernel
+    conda activate r_jupyter_env
+    ```
 
 Most R packages are available through Conda.
 
@@ -227,16 +312,16 @@ the instructions for [VS Code](#vs-code) or [port forwarding](#port-forwarding)
 and request a GPU in your Slurm job. See [our documentation on requesting
 resources](../running-jobs/requesting-resources.md#gpus) for more information.
 
-**My kernel is not recognized. What do I do?**
+**Jupyter does not recognize the kernel for my environment. What do I do?**
 
 First, make sure you have `r-irkernel` installed if you're using R, `IJulia`
 installed (and built) if you're using Julia, and `jupyterlab` installed to
 your Conda environment.
 
-On VS Code, you may need to specify the path to the `conda` binary of the Conda installation you're
-using. This can be done by editing the "Python: Conda Path" setting.
-For example, if you're using the `miniforge/23.11.0-0` module on Engaging,
-then the path would be:
+On VS Code, you may need to specify the path to the `conda` binary of the Conda
+installation you're using. This can be done by editing the "Python: Conda Path"
+setting. For example, if you're using the `miniforge/24.3.0-0` module on
+Engaging, then the path would be:
 
 ```
 /orcd/software/core/001/pkg/miniforge/24.3.0-0/condabin/conda
