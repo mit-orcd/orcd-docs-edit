@@ -81,7 +81,7 @@ You can run Jupyter a few different ways:
 2. [VS Code](recipes/vscode.md)
 3. Port forwarding
 
-We have a document with more details coming soon.
+See our [Jupyter documentation](recipes/jupyter.md).
 
 ### Xfce desktop has failed to start. How can I fix this?
 
