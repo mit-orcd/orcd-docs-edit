@@ -280,9 +280,10 @@ you need into your home directory on the system. If your code is in
 github you can use git commands on the system to clone your repository
 to your home directory. You can also transfer your files to your home
 directory from your computer by using the commands `scp` or `rsync`. Read
-the page on Transferring Files for the system you are using to learn
-how to use these commands and transfer what you need to your home
-directory.
+the page on
+[Transferring Files](./filesystems-file-transfer/transferring-files.md) for the
+system you are using to learn how to use these commands and transfer what you
+need to your home directory.
 
 You can use `scp` or `rsync` from the command line on your local computer for any ORCD system. Both commands work similarly to the `cp` command, following the pattern `<command> <source> <destination>`, the only difference being that you will need to include the hostname of the system you are transferring to or from. For this reason you *must* run this command from the terminal on your computer *before you've logged in*.
 
@@ -294,7 +295,8 @@ To transfer a file from your computer to the ORCD system:
     scp <file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
     ```
 
-    (You can use any of the login nodes listed above)
+    (You can use any of the login nodes listed above. Note that you will need to
+    authenticate with Duo)
 
 === "Satori"
 
