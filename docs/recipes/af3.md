@@ -4,8 +4,6 @@ tags:
  - Howto Recipes
 ---
 
-<!-- TODO: Change the path to the Apptainer image (2 references in this doc) -->
-
 # Running AlphaFold 3 on Engaging
 
 [AlphaFold](https://deepmind.google/technologies/alphafold/) is an AI system
