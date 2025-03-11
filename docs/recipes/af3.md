@@ -4,8 +4,6 @@ tags:
  - Howto Recipes
 ---
 
-<!-- TODO: Change the path to the Apptainer image (2 references in this doc) -->
-
 # Running AlphaFold 3 on Engaging
 
 [AlphaFold](https://deepmind.google/technologies/alphafold/) is an AI system
@@ -84,7 +82,7 @@ converted this to an Apptainer image and saved it globally on Engaging located
 at:
 
 ```
-/orcd/software/community/001/stage/apptainer_images/alphafold3.sif
+/orcd/software/community/001/container_images/alphafold3/20250311/alphafold3.sif
 ```
 
 ## Running AlphaFold 3
@@ -144,7 +142,7 @@ access to a partition with a GPU, replace the partition name below as necessary:
 
     # Enter the path to the AF3 dataset and container image:
     DATABASES_DIR=/orcd/datasets/001/alphafold3
-    IMAGE_PATH=/orcd/software/community/001/stage/apptainer_images/alphafold3.sif
+    IMAGE_PATH=/orcd/software/community/001/container_images/alphafold3/20250311/alphafold3.sif
 
     # Enter the directory of the AF3 material:
     WORKDIR=~/af3
@@ -180,7 +178,7 @@ access to a partition with a GPU, replace the partition name below as necessary:
 
     # Enter the path to the AF3 dataset and container image:
     DATABASES_DIR=/orcd/datasets/001/alphafold3
-    IMAGE_PATH=/orcd/software/community/001/stage/apptainer_images/alphafold3.sif
+    IMAGE_PATH=/orcd/software/community/001/container_images/alphafold3/20250311/alphafold3.sif
 
     # Enter the directory of the AF3 material:
     WORKDIR=~/af3

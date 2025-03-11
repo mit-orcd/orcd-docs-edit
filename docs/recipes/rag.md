@@ -87,7 +87,7 @@ saved to Engaging. We have the commands for doing so saved in a
 To run the container, you can simply run the following:
 
 ```bash
-sh /orcd/software/community/001/stage/orcd-rag/container/run_container.sh
+sh /orcd/software/community/001/pkg/orcd-rag/container/run_container.sh
 ```
 
 The first time you run this, the model will be downloaded from HuggingFace and
@@ -119,6 +119,7 @@ steps to do so can be found on the
 
 <!--
 TODO:
-- Specify the path to the .sif image when it's globally saved
 - Include instructions for adding flags when that's ready
+    - As part of this, include an option in the script to point to your own
+    vector store
 -->
