@@ -6,11 +6,11 @@ tags:
  - Howto Recipes
 ---
 
-# Run Deepl Learning Codes on GPUs
+# Run Deep Learning Codes on GPUs
 
  Deep leaning is the fundation of artificial intelligence nowadays. Deep leaning programs can be accelerated substantially on GPUs. 
  
-PyTorch is a popular Python package for working on deep learning project.
+PyTorch is a popular Python package for working on deep learning projects.
 
 This page shows recipes to run Pytorch programs on GPUs. 
 
@@ -36,10 +36,10 @@ This page shows recipes to run Pytorch programs on GPUs.
 
      We use a PyTorch eample, which trains a Convolutional neural network (CNN) based on the CIFAR10 data set. Refer to [description of this example](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html). 
      
-     Download the codes [for CPU](./codes/cnn_cifar10_cpu.py) and [for GPU](./codes/cnn_cifar10_gpu.py).
+     Download the [codes for CPU](./scripts/torch-gpu/cnn_cifar10_cpu.py) and [for GPU](./scripts/torch-gpu/cnn_cifar10_gpu.py).
      ```
-     wget https://mit-orcd.github.io/orcd-docs-previews/PR/PR89/recipes/torch-gpu/codes/cnn_cifar10_cpu.py
-     wget https://mit-orcd.github.io/orcd-docs-previews/PR/PR89/recipes/torch-gpu/codes/cnn_cifar10_gpu.py
+     wget 
+     wget 
      ```
      
      Prepare a job script named `job.sh` like this,
