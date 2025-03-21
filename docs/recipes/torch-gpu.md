@@ -6,11 +6,13 @@ tags:
  - Howto Recipes
 ---
 
-# Run PyTorch on GPUs
+# Run Deepl Learning Codes on GPUs
 
-PyTorch is a popular Python package for working on deep learning project. Deep leaning codes can be accelerated substantially on GPUs. 
+ Deep leaning is the fundation of artificial intelligence nowadays. Deep leaning programs can be accelerated substantially on GPUs. 
+ 
+PyTorch is a popular Python package for working on deep learning project.
 
-This page shows recipes to run PyTorch codes on CPU, a single GPU and multiple GPUs. 
+This page shows recipes to run Pytorch programs on GPUs. 
 
 
 ## Installing PyTorch
@@ -35,6 +37,10 @@ This page shows recipes to run PyTorch codes on CPU, a single GPU and multiple G
      We use a PyTorch eample, which trains a Convolutional neural network (CNN) based on the CIFAR10 data set. Refer to [description of this example](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html). 
      
      Download the codes [for CPU](./codes/cnn_cifar10_cpu.py) and [for GPU](./codes/cnn_cifar10_gpu.py).
+     ```
+     wget https://mit-orcd.github.io/orcd-docs-previews/PR/PR89/recipes/torch-gpu/codes/cnn_cifar10_cpu.py
+     wget https://mit-orcd.github.io/orcd-docs-previews/PR/PR89/recipes/torch-gpu/codes/cnn_cifar10_gpu.py
+     ```
      
      Prepare a job script named `job.sh` like this,
      ```
@@ -71,12 +77,13 @@ This page shows recipes to run PyTorch codes on CPU, a single GPU and multiple G
      ```
      and check if the program runs on a GPU with the `nvtop` command.
 
-## Run PyTorch on multiple GPUs with data parallel
 
-There are defferent schemes on
+## Run PyTorch on multiple GPUs
 
-### Data parallel
 === "Engaging"
+
+    The PyTorch 
+
     test. 
      
 
