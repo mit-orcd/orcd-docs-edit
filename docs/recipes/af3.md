@@ -52,6 +52,7 @@ cd $WORKDIR
 zstd -d af3.bin.zst
 mkdir models
 mv af3.bin models
+rm af3.bin.zst
 ```
 
 **Container image**
