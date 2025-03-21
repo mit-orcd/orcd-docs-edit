@@ -32,16 +32,11 @@ This page shows recipes to run Pytorch programs on GPUs.
 
 ## Run PyTorch on CPU and a single GPU
 
-=== "Engaging"
+We use a PyTorch eample, which trains a Convolutional neural network (CNN) based on the CIFAR10 data set. Refer to [description of this example](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html). 
+     
+ Download the [codes for CPU](./scripts/torch-gpu/cnn_cifar10_cpu.py) and [for GPU](./scripts/torch-gpu/cnn_cifar10_gpu.py). 
 
-     We use a PyTorch eample, which trains a Convolutional neural network (CNN) based on the CIFAR10 data set. Refer to [description of this example](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html). 
-     
-     Download the [codes for CPU](./scripts/torch-gpu/cnn_cifar10_cpu.py) and [for GPU](./scripts/torch-gpu/cnn_cifar10_gpu.py).
-     ```
-     wget 
-     wget 
-     ```
-     
+ === "Engaging"    
      Prepare a job script named `job.sh` like this,
      ```
      #!/bin/bash
@@ -65,26 +60,25 @@ This page shows recipes to run Pytorch programs on GPUs.
      ```
      sbatch job.sh
      ```
-     The first program will run on CPU and the seocond will run on a GPU. 
 
-     While the job is running, check the hostname that it runs on,
-     ```
-     squeue -u $USER
-     ```
-     and then log in the node,
-     ```
-     ssh <nodeXXX>
-     ```
-     and check if the program runs on a GPU with the `nvtop` command.
+The first program will run on CPU and the seocond will run on a GPU. 
+
+While the job is running, check the hostname that it runs on,
+```
+squeue -u $USER
+```
+and then log in the node,
+```
+ssh <nodeXXX>
+```
+and check if the program runs on a GPU with the `nvtop` command.
 
 
 ## Run PyTorch on multiple GPUs
 
+There are various parallelisms to implement deep leaning programs on GPUs, including data parallel and tensor parallel. 
+
+### Data parallel
+
 === "Engaging"
-
-    The PyTorch 
-
-    test. 
-     
-
-
+    test
