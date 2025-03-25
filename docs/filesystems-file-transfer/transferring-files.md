@@ -247,17 +247,20 @@ If you are using Engaging or Satori, you can use the file browser by selecting F
 
 ## Globus
 
-Globus is a tool that helps transfer data between designated endpoints. These transfers can be initiated through the Globus webpage, don't require staying logged in through the entire transfer, and will restart automatically if something fails during the transfer. There are endpoints on a few ORCD systems with basic Globus features. Please note that these basic Globus endpoints will transfer data unencrypted. An MIT Globus subscription with more features is coming soon!
+Globus is a tool that helps transfer data between designated collections. These transfers can be initiated through the Globus webpage, don't require staying logged in through the entire transfer, and will restart automatically if something fails during the transfer.
 
-To transfer data log into [Globus](https://www.globus.org/) with your MIT credentials. On the "File Manager" tab in one of the two "Collection" boxes search for the endpoint for the system you want to transfer data to or from. The column on the left should list where you want to transfer from, the column on the right should list where you want to transfer to. Endpoints on ORCD systems are listed below.
+A Globus collection is a pointer to a place on a filesystem that contains files and folders, plus the policies and permissions for accessing those files and folders. A Globus collection allows access to files, folders, and their subdirectories.
 
-| System | Globus Endpoint | 
+To transfer data log into [Globus](https://www.globus.org/) with your MIT credentials. On the "File Manager" tab in one of the two "Collection" boxes search for the collection for the system you want to transfer data to or from. The column on the left should list where you want to transfer from, the column on the right should list where you want to transfer to. Collections on ORCD systems are listed below.
+
+| System | Globus Collection | 
 | ----------- | ----------- |
-| Engaging | mithpc#engaging | 
+| Engaging Home Directories | MIT ORCD Engaging Home Collection | 
+| Engaging (Legacy) | mithpc#engaging | 
 | Satori | mithpc#satori | 
 | OpenMind | mithpc#openmind | 
 
-To transfer data to or from your own computer you will need to set up a personal endpoint. Follow the instructions on the page for your system listed [here](https://docs.globus.org/globus-connect-personal/).
+To transfer data to or from your own computer or another system that does not have a designated Globus Collection, you will need to set up a personal Collection. Follow the instructions on the page for your system listed [here](https://docs.globus.org/globus-connect-personal/).
 
 More documentation on transferring files through Globus can be found on the [Globus Documentation Pages](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/). Globus also has an [FAQ](https://docs.globus.org/faq/globus-connect-endpoints/) that is helpful for answering any questions you might have.
 
