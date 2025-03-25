@@ -1,8 +1,8 @@
 # Building Software
 
-If you need software that is not not a Python, Julia, or R package and available as a [module](modules.md) on the cluster (current modules can be seen with the command module avail) you can request this software be compiled as a module by reaching out to <orcd-help-engaging@mit.edu>. If you expect there won't be many others who will be using this software, or if you need a special version of software for your job, you can compile the software yourself for personal use.
+If you need software that is not a Python, Julia, or R package and available as a [module](modules.md) on the cluster (current modules can be seen with the command module avail) you can request this software be compiled as a module by reaching out to <orcd-help-engaging@mit.edu>. If you expect there won't be many others who will be using this software, or if you need a special version of software for your job, you can compile the software yourself for personal use.
 
-For some common software we have written recipes for how to build them on Engaging. Check the "ORCD Recipes" section on the sidebar, or check out the [Howto Recipes](../tags.md#howto-recipes) on the Index page.
+For some common software we have written recipes for how to build them on Engaging. Check the "ORCD Recipes" section on the sidebar, or check out the [Howto Recipes](../tags.md#tag:howto-recipes) on the Index page.
 
 You can usually install whatever software you need in any directory you have write access to: your home, pool, or shared storage. This means the installation will be in this directory, rather than in a system-wide directory available for everyone. Most software can be installed this way, but it is not always well documented. If the binaries, or the executable files, for the software are available, you can put those in your home directory and add that path to your `$PATH` environment variable (see the Environment Variables unit in the section on the Linux Command Line for more information). Otherwise, you may have to build the software from source.
 
@@ -58,7 +58,7 @@ This will allocate 1 node from the `mit_normal` partition with 4 CPUs for compil
 
 ## Step 3: Load Any Dependency Modules
 
-Make sure you have a `gcc` module loaded with a the `module list` command. If you don't see one, pick one of the more recent versions and load it with the `module load` command.
+Make sure you have a `gcc` module loaded with the `module list` command. If you don't see one, pick one of the more recent versions and load it with the `module load` command.
 
 If your software uses `cmake` to build, you will also need to load a cmake module:
 
@@ -118,7 +118,7 @@ This step can take a long time depending on the size of the software you are bui
 If you ran the configure step with `cmake`, sometimes `cmake` will run this step for you. You will get a message that there is nothing to do.
 
 !!! Tip
-    Once nice thing about `make` is if it gets interrupted it will pick up where it left off. If you do happen to get logged out while running `make`, make sure you have [set up your environment](#step-3-load-any-dependency-modules) in the same way you did the first time. This includes loading modules or setting environment variables.
+    One nice thing about `make` is if it gets interrupted it will pick up where it left off. If you do happen to get logged out while running `make`, make sure you have [set up your environment](#step-3-load-any-dependency-modules) in the same way you did the first time. This includes loading modules or setting environment variables.
 
 ## Step 6: Install Software
 
