@@ -45,11 +45,10 @@ or the resources allocated to your notebook.
     create a Jupyter notebook and select the language you would like to use.
 
     !!! note
-        The Engaging web portal is currently running on CentOS 7, so it has a
-        different set of modules from the Rocky 8 nodes. To check which modules
-        are available on CentOS 7 nodes,
-        [SSH to a CentOS 7 node](../accessing-orcd/ssh-login.md) and type
-        `module avail`.
+        The Engaging web portal is currently running on CentOS 7, which has a
+        different set of modules from Rocky 8 nodes. If you would like to run
+        a Jupyter notebook on Rocky 8, you will need to follow either the [VS
+        Code](#vs-code) or [port forwarding](#port-forwarding) method.
 
 === "Satori"
 
