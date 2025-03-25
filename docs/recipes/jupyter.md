@@ -64,7 +64,7 @@ or the resources allocated to your notebook.
     `jupyterlab` installed.
 
     - If you'd like to run [R](#r), enter the name of your custom Conda
-    environment that has R installed.
+    environment that has `r-irkernel` installed.
 
     - When the session is ready, click "Connect to Jupyter." From here you can
     create a Jupyter notebook and select the language you would like to use.
@@ -80,7 +80,7 @@ or the resources allocated to your notebook.
 
 ### VS Code
 
-Follow [these instructions](./vscode.md) to set up VS Code to run on a compute
+First, follow [these instructions](./vscode.md) to set up VS Code to run on a compute
 node.
 
 Open a Jupyter notebook and click the top right button to select a kernel. You
@@ -94,14 +94,13 @@ installed to your Conda environment.
 Port forwarding offers the most flexibility in setting up your Jupyter notebook
 but the setup is slightly more involved. With port forwarding, the rendering
 is handled through your internet browser while computation is done on the
-cluster. This method is also more lightweight than VS Code and can be more
-reliable.
+cluster. This method is more lightweight than VS Code and can be more reliable.
 
-Port forwarding consists of running the notebook on a compute node, and then
+Port forwarding consists of running the notebook on a compute node and then
 accessing the notebook on your local machine by SSH tunnelling through a login
 node.
 
-First request a compute node with the resources you'll need for your Jupyter
+First, request a compute node with the resources you'll need for your Jupyter
 session (here we are requesting 1 node with 4 CPU cores):
 
 === "Engaging"
@@ -294,11 +293,15 @@ both `r-irkernel` and `jupyterlab` installed:
     conda activate r_jupyter_env
     ```
 
-Most R packages are available through Conda.
+Most R packages are available through Conda, so feel free to install other
+packages you need to this environment.
 
 See our [R documentation](../software/R.md) for more information.
 
 ### Python
+
+To run Python Jupyter notebooks, install `jupyterlab` to whatever Conda
+environment that contains the packages you need.
 
 See our [Python documentation](../software/python.md) for more information.
 
@@ -321,11 +324,25 @@ your Conda environment.
 On VS Code, you may need to specify the path to the `conda` binary of the Conda
 installation you're using. This can be done by editing the "Python: Conda Path"
 setting. For example, if you're using the `miniforge/24.3.0-0` module on
-Engaging, then the path would be:
+Engaging, the path would be:
 
 ```
 /orcd/software/core/001/pkg/miniforge/24.3.0-0/condabin/conda
 ```
 
-To see the kernels that Jupyter recognizes, activate a Conda environment with
+To see all kernels that Jupyter recognizes, activate a Conda environment with
 `jupyterlab` installed and run `jupyter kernelspec list`.
+
+**I tried to install `jupyterlab` to my Conda environment, but the installation
+failed. How can I run a Jupyter notebook with the dependencies I need?**
+
+It's best to install the packages you need when you create a Conda environment
+rather than one-by-one after the environemnt has been created. This will make
+Conda more likely to solve your environment succesfully. For example:
+
+```bash
+conda create -n jupyter_env jupyterlab pandas pytorch
+```
+
+See [Conda Environments](../software/python.md#conda-environments) for
+more information.
