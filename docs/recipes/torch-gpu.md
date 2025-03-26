@@ -32,11 +32,10 @@ This page shows recipes to run Pytorch programs on GPUs.
 
 ## PyTorch on CPU and a single GPU
 
-We use an example code training a Convolutional neural network (CNN) based on the CIFAR10 data set. Refer to [description of this example](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html). 
-     
- Download the [codes for CPU](./scripts/torch-gpu/cnn_cifar10_cpu.py) and [for GPU](./scripts/torch-gpu/cnn_cifar10_gpu.py). 
+We use an example code training a convolutional neural network (CNN) with the CIFAR10 data set. Refer to [description of this example](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html). Download the [codes for CPU](./scripts/torch-gpu/cnn_cifar10_cpu.py) and [for GPU](./scripts/torch-gpu/cnn_cifar10_gpu.py). 
 
- === "Engaging"    
+=== "Engaging"  
+
      Prepare a job script named `job.sh` like this,
      ```
      #!/bin/bash
@@ -75,15 +74,14 @@ and check if the program runs on a GPU with the `nvtop` command.
 
 ## PyTorch on multiple GPUs
 
-There are various parallelisms to implement distributed deep leaning programs on mulitple GPUs, including data parallel and tensor parallel. 
+There are various parallelisms to implement distributed deep leaning on mulitple GPUs, including data parallel, tensor parallel, pipeline parallel, and expert parallel. Here are recipes to run programs on multiple GPUs based on the frist two parallelisms. 
 
 ### Data parallel
 
-We use an exmaple code that trains a linear network based on a random data set. The Pytorch package [Distributed Data Parallel](https://PyTorch.org/docs/stable/notes/ddp.html) is used. Refer to [description of this example](https://pytorch.org/tutorials/beginner/ddp_series_multigpu.html).  
-
-Download the codes [datautils.py](./scripts/torch-gpu/datautils.py) and [multigpu.py](./scripts/torch-gpu/multigpu.py). 
+We use an exmaple code that trains a linear network with a random data set, based on [Distributed Data Parallel](https://PyTorch.org/docs/stable/notes/ddp.html) package in PyTorch. Refer to [description of this example](https://pytorch.org/tutorials/beginner/ddp_series_multigpu.html). Download the codes [datautils.py](./scripts/torch-gpu/datautils.py) and [multigpu.py](./scripts/torch-gpu/multigpu.py). 
 
 === "Engaging"
+
     Prepare a job script named `job.sh` like this,
      ```
      #!/bin/bash
