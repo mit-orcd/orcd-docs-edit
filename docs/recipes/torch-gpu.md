@@ -6,7 +6,7 @@ tags:
  - Howto Recipes
 ---
 
-# Run Deep Learning Codes on GPUs
+# Deep Learning with Pytorch on GPUs
 
  Deep leaning is the fundation of artificial intelligence nowadays. Deep leaning programs can be accelerated substantially on GPUs. 
  
@@ -30,9 +30,9 @@ This page shows recipes to run Pytorch programs on GPUs.
      conda install pytorch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 pytorch-cuda=12.4 -c pytorch -c nvidia
      ```
 
-## Run PyTorch on CPU and a single GPU
+## PyTorch on CPU and a single GPU
 
-We use a PyTorch eample, which trains a Convolutional neural network (CNN) based on the CIFAR10 data set. Refer to [description of this example](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html). 
+We use an example code training a Convolutional neural network (CNN) based on the CIFAR10 data set. Refer to [description of this example](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html). 
      
  Download the [codes for CPU](./scripts/torch-gpu/cnn_cifar10_cpu.py) and [for GPU](./scripts/torch-gpu/cnn_cifar10_gpu.py). 
 
@@ -45,7 +45,6 @@ We use a PyTorch eample, which trains a Convolutional neural network (CNN) based
      #SBATCH -t 30
      #SBATCH -n 2
      #SBATCH --mem=10GB
-     #SBATCH -o output/%N-%J.out
      
      module load cuda/12.4.0
      module load miniforge/24.3.0-0
@@ -74,11 +73,36 @@ ssh <nodeXXX>
 and check if the program runs on a GPU with the `nvtop` command.
 
 
-## Run PyTorch on multiple GPUs
+## PyTorch on multiple GPUs
 
-There are various parallelisms to implement deep leaning programs on GPUs, including data parallel and tensor parallel. 
+There are various parallelisms to implement distributed deep leaning programs on mulitple GPUs, including data parallel and tensor parallel. 
 
 ### Data parallel
 
+We use an exmaple code that trains a linear network based on a random data set. The Pytorch package [Distributed Data Parallel](https://PyTorch.org/docs/stable/notes/ddp.html) is used. Refer to [description of this example](https://pytorch.org/tutorials/beginner/ddp_series_multigpu.html).  
+
+Download the codes [datautils.py](./scripts/torch-gpu/datautils.py) and [multigpu.py](./scripts/torch-gpu/multigpu.py). 
+
 === "Engaging"
-    test
+    Prepare a job script named `job.sh` like this,
+     ```
+     #!/bin/bash
+     ```
+     then submit it,
+     ```
+     sbatch job.sh
+     ```
+
+The program will run on 4 GPUs on a single node. 
+
+Check if the program runs on multiple GPUs using the `nvtop` command as described in the above section.  
+
+=== "Engaging"
+    To run on multiple GPUs on multiple nodes, modify the job script like this,
+     ```
+     #!/bin/bash
+     ```
+
+The program will run on 2 ndoes with 4 GPUs on each node. 
+
+
