@@ -8,8 +8,8 @@ tags:
 
 Jupyter notebooks provide a way to run code in an interactive environment. While
 most prominently used for [Python](../software/python.md), Jupyter supports a
-range of languages, such as [Julia](../software/julia.md),
-[R](../software/R.md), and Java.
+range of languages, such as [Julia](../software/julia.md) and
+[R](../software/R.md).
 
 ## Choosing an Approach
 
@@ -77,10 +77,13 @@ or the resources allocated to your notebook.
     notebook. When you open a notebook, select the kernel for your desired
     language.
 
+    See the [SuperCloud documentation on Jupyter](https://mit-supercloud.github.io/supercloud-docs/jupyter-notebooks/)
+    for more information.
+
 ### VS Code
 
-First, follow [these instructions](./vscode.md) to set up VS Code to run on a compute
-node.
+First, follow [these instructions](./vscode.md) to set up VS Code to run on a
+compute node.
 
 Open a Jupyter notebook and click the top right button to select a kernel. You
 can select "Python Environments" for any Conda environments or "Jupyter Kernel"
@@ -105,13 +108,13 @@ session (here we are requesting 1 node with 4 CPU cores):
 === "Engaging"
 
     ```bash
-    salloc -N 1 -n 4 -p mit_normal
+    salloc -N 1 -c 4 -p mit_normal
     ```
 
 === "Satori"
 
     ```bash
-    srun -N 1 -n 4 --pty /bin/bash
+    srun -N 1 -c 4 --pty /bin/bash
     ```
 
 === "SuperCloud"
@@ -162,9 +165,18 @@ need to add a few arguments:
 jupyter-lab --ip=0.0.0.0 --port=8888
 ```
 
-The port can be any number between 1024 and 9999. When you run the notebook,
-the output will contain a link with a token that allows you to access the
-notebook:
+The port can be any number between 1024 and 99999.
+
+!!! note
+    You can also set the port to one that you know is open as such:
+
+    ```bash
+    port=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()')
+    jupyter-lab --ip=0.0.0.0 --port=$port
+    ```
+
+When you run the notebook, the output will contain a link with a token that
+allows you to access the notebook:
 
 ```
 http://127.0.0.1:<remote port>/lab?token=<token>
@@ -180,9 +192,9 @@ We cannot use this link directly yet because that node is not available from our
 local machine. Through "tunneling," however, we can access this node through
 a login node, which is accessble from our local machine.
 
-In a second terminal window, set up an SSH tunnel to your Jupyter notebook
-that's running on the compute node, filling in the node name, port number, and
-username as necessary:
+In a second terminal window on your local machine, set up an SSH tunnel to your
+Jupyter notebook that's running on the compute node, filling in the node name,
+port number, and username as necessary:
 
 === "Engaging"
 
