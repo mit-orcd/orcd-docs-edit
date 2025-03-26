@@ -15,11 +15,11 @@ nav:
     - Transferring Files:  filesystems-file-transfer/transferring-files.md
 #    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
   - Software:
+    - Overview: software/overview.md
     - Compiling Codes: software/compile.md
     - Containers: software/apptainer.md
     - Julia: software/julia.md
     - Modules: software/modules.md
-    - Overview: software/overview.md
     - Python: software/python.md
     - R: software/R.md
     - Other Software: software/building-software.md
