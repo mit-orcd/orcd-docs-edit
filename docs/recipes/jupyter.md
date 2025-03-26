@@ -165,7 +165,7 @@ need to add a few arguments:
 jupyter-lab --ip=0.0.0.0 --port=8888
 ```
 
-The port can be any number between 1024 and 99999.
+The port can be any number between 1024 and 65535.
 
 !!! note
     You can also set the port to one that you know is open as such:
