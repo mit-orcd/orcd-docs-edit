@@ -78,29 +78,71 @@ There are various parallelisms to implement distributed deep leaning on mulitple
 
 ### Data parallel
 
-We use an exmaple code that trains a linear network with a random data set, based on [Distributed Data Parallel](https://PyTorch.org/docs/stable/notes/ddp.html) package in PyTorch. Refer to [description of this example](https://pytorch.org/tutorials/beginner/ddp_series_multigpu.html). Download the codes [datautils.py](./scripts/torch-gpu/datautils.py) and [multigpu.py](./scripts/torch-gpu/multigpu.py). 
+Data parallel allows traning a model with multiple batches of data simultaneously. The model has to fit into the GPU memory. 
+
+We use an exmaple code that trains a linear network with a random data set, based on the [Distributed Data Parallel](https://PyTorch.org/docs/stable/notes/ddp.html) package in PyTorch. Refer to the description of [this example for multiple GPUs within one node](https://pytorch.org/tutorials/beginner/ddp_series_multigpu.html) and [for multiple GPUs across multiple nodes](https://pytorch.org/tutorials/intermediate/ddp_series_multinode.html). 
+
+Download the codes [datautils.py](./scripts/torch-gpu/datautils.py), [multigpu.py](./scripts/torch-gpu/multigpu.py), and [multinode.py](./scripts/torch-gpu/multinode.py).
 
 === "Engaging"
 
-    Prepare a job script named `job.sh` like this,
+    To run the program on multiple GPUs within one node, prepare a job script named `job.sh` like this,
      ```
      #!/bin/bash
+     #SBATCH -p mit_normal_gpu
+     #SBATCH --job-name=ddp
+     #SBATCH -N 1
+     #SBATCH -n 4
+     #SBATCH --mem=20GB
+     #SBATCH --gres=gpu:4   
+     #SBATCH -o output/%x-%N-%J.out
+
+     module load miniforge/23.11.0-0
+     source activate pytorch
+
+     echo "======== Run on multiple GPUs ======"
+     # Set 100 epochs and save checkpoints every 20 epochs
+     python multigpu.py --batch_size=1024 100 20
      ```
      then submit it,
      ```
      sbatch job.sh
      ```
 
-The program will run on 4 GPUs on a single node. 
+The PyTorch program will run on 4 GPUs on a single node. The training prcesses happens on 4 batches of data simultaneously. 
 
 Check if the program runs on multiple GPUs using the `nvtop` command as described in the above section.  
 
 === "Engaging"
-    To run on multiple GPUs on multiple nodes, modify the job script like this,
+
+    To run on multiple GPUs across two nodes, prepare a job script like this,
      ```
      #!/bin/bash
+     #SBATCH -p mit_normal_gpu
+     #SBATCH --job-name=ddp-2nodes
+     #SBATCH -N 2
+     #SBATCH -n 4
+     #SBATCH --mem=20GB
+     #SBATCH --gpus-per-node=4 
+     #SBATCH -o output/%x-%N-%J.out
+
+     module load miniforge/23.11.0-0
+     source activate pytorch
+
+     echo "======== Run on multiple GPUs ======"
+     # Set 100 epochs and save checkpoints every 20 epochs
+     torchrun python multinode.py --batch_size=1024 100 20
+     ```
+     then submit it,
+     ```
+     sbatch job.sh
      ```
 
-The program will run on 2 ndoes with 4 GPUs on each node. 
+The `torchrun` command launches the program on 2 nodes with 4 GPUs on each node. The training prcesses happens on 8 batches of data simultaneously. Refer to details of torchrun on [this page](https://pytorch.org/docs/stable/elastic/run.html).
+
+
+### Tensor parallel
+
+Data
 
 
