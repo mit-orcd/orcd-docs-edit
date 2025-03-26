@@ -15,25 +15,23 @@ cluster.
     These instructions assume that you have access to a partition with a GPU on
     Engaging. If you do not have such access, then you may be able to run this
     on a CPU, but this would require editing the [code distribution provided by
-    Google DeepMind](https://github.com/google-deepmind/alphafold3/tree/main).
+    Google DeepMind](https://github.com/google-deepmind/alphafold3/tree/main)
+    and rebuilding the Apptainer image.
 
 ## Getting Started
 
-For simplicity, in this example, we are storing everything except for the
-AlphaFold dataset in a folder in our home directory on Engaging. We will use
-this folder as our working directory:
+For simplicity, in this example, we will create a folder in our home directory
+to use as our working directory:
 
 ```bash
 mkdir ~/af3
 export WORKDIR=~/af3
 ```
 
-To run AlphaFold 3, we need to obtain a few files that we will store in our
-working directory:
-
 **Model weights**
 
-These can be obtained by submitting a request to Google DeepMind. Usually,
+Each user needs to obtain the model weights individually due to licensing
+restrictions. These can be obtained by submitting a request to Google DeepMind. Usually,
 requests are granted within a few days. To make a request, follow the
 instructions on the
 [AlphaFold 3 GitHub Repository](https://github.com/google-deepmind/alphafold3?tab=readme-ov-file#obtaining-model-parameters).
@@ -54,42 +52,19 @@ cd $WORKDIR
 zstd -d af3.bin.zst
 mkdir models
 mv af3.bin models
-```
-
-**AlphaFold 3 code**
-
-Clone the [GitHub repository](https://github.com/google-deepmind/alphafold3):
-
-```bash
-git clone git@github.com:google-deepmind/alphafold3.git
-```
-
-You will need to have an
-[SSH key with GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account?tool=webui)
-set up on Engaging. If you have not done this, you can clone using the web URL:
-
-```bash
-git clone https://github.com/google-deepmind/alphafold3.git
+rm af3.bin.zst
 ```
 
 **Container image**
 
 Google DeepMind provides instructions in their repository on running AlphaFold 3
 with Docker. Docker is not compatible with most HPC environments, so we need
-to run a pre-build container using Apptainer. Thankfully, there is [one already
-built on DockerHub](https://hub.docker.com/r/cford38/alphafold3). We can convert
-this image into Apptainer format by running the following commands (preferably
-on a compute node):
+to run a pre-built container using Apptainer. We have an image saved globally on Engaging located
+at:
 
-```bash
-module load apptainer
-apptainer pull alphafold3.sif docker://cford38/alphafold3
 ```
-
-This will generate `alphafold3.sif`. A `.sif` file is a "Singularity (Apptainer)
-Image Format" file, which packages applications and their dependencies into a
-single file. This is comparable to a Docker image except it is optimized for
-HPC environments.
+/orcd/software/community/001/container_images/alphafold3/20250321/alphafold3.sif
+```
 
 ## Running AlphaFold 3
 
@@ -146,8 +121,9 @@ access to a partition with a GPU, replace the partition name below as necessary:
  
     module load apptainer
 
-    # Enter the path to the AF3 dataset:
+    # Enter the path to the AF3 dataset and container image:
     DATABASES_DIR=/orcd/datasets/001/alphafold3
+    IMAGE_PATH=/orcd/software/community/001/container_images/alphafold3/20250321/alphafold3.sif
 
     # Enter the directory of the AF3 material:
     WORKDIR=~/af3
@@ -156,11 +132,10 @@ access to a partition with a GPU, replace the partition name below as necessary:
         --bind $WORKDIR/af_input:/root/af_input \
         --bind $WORKDIR/af_output:/root/af_output \
         --bind $WORKDIR/models:/root/models \
-        --bind $WORKDIR/alphafold3:/root/alphafold3 \
         --bind $DATABASES_DIR:/root/public_databases \
         --nv \
-        alphafold3.sif \
-        python /root/alphafold3/run_alphafold.py \
+        $IMAGE_PATH \
+        python /alphafold3/run_alphafold.py \
         --json_path=/root/af_input/fold_input.json \
         --model_dir=/root/models \
         --output_dir=/root/af_output \
@@ -181,8 +156,9 @@ access to a partition with a GPU, replace the partition name below as necessary:
 
     module load apptainer
 
-    # Enter the path to the AF3 dataset:
+    # Enter the path to the AF3 dataset and container image:
     DATABASES_DIR=/orcd/datasets/001/alphafold3
+    IMAGE_PATH=/orcd/software/community/001/container_images/alphafold3/20250321/alphafold3.sif
 
     # Enter the directory of the AF3 material:
     WORKDIR=~/af3
@@ -191,11 +167,10 @@ access to a partition with a GPU, replace the partition name below as necessary:
         --bind $WORKDIR/af_input:/root/af_input \
         --bind $WORKDIR/af_output:/root/af_output \
         --bind $WORKDIR/models:/root/models \
-        --bind $WORKDIR/alphafold3:/root/alphafold3 \
         --bind $DATABASES_DIR:/root/public_databases \
         --nv \
-        alphafold3.sif \
-        python /root/alphafold3/run_alphafold.py \
+        $IMAGE_PATH \
+        python /alphafold3/run_alphafold.py \
         --json_path=/root/af_input/fold_input.json \
         --model_dir=/root/models \
         --output_dir=/root/af_output \

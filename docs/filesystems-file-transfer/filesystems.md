@@ -13,7 +13,7 @@ See the table below for a description of each storage space. If your account was
     | ----------- | ----------- |----------- |----------- |----------- |
     | Home Directory <br> Flash  | `/home/<username>` | 200 GB | Backed up with snapshots | Use for important files and software |
     | Pool <br> Hard Disk | `/home/<username>/orcd/c7/pool` | 1 TB | Disaster recovery backup | Storing larger datasets |
-    | Scratch <br> Flash | `/home/<username>/orcd/c7/scratch` | 4 TB | **Not backed up** | Scratch space for I/O heavy jobs |
+    | Scratch <br> Flash | `/home/<username>/orcd/c7/scratch` | 1 TB | **Not backed up** | Scratch space for I/O heavy jobs |
 
     !!! warning  "Scratch is Not Backed Up"
         Scratch is meant for temporary storage while running compute jobs. It is not meant for long term storage and **is not backed up**. **If you have not logged in for 6 months files in scratch will be deleted**. Any files that you would like to keep long-term should be copied onto another storage location with backup.

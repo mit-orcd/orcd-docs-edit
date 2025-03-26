@@ -16,12 +16,13 @@ nav:
 #    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
   - Software:
     - Compiling Codes: software/compile.md
-    - Container: software/apptainer.md
+    - Containers: software/apptainer.md
     - Julia: software/julia.md
     - Modules: software/modules.md
     - Overview: software/overview.md
     - Python: software/python.md
     - R: software/R.md
+    - Other Software: software/building-software.md
 #    - Installing Software: 
 #    - Singularity/Apptainer: 
 #    - Licensed Software: 
@@ -50,6 +51,7 @@ nav:
   - Data Security and Privacy: data-security.md
   - Acceptable Use and Code of Conduct: code-of-conduct.md
   - Getting Help: getting-help.md
+  - FAQs: faqs.md
   - Index: tags.md
 
 theme: 
