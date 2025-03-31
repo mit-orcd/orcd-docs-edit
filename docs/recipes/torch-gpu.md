@@ -29,10 +29,7 @@ On this page, we inttoruce recipes to run deep-learning programs wtih Pytorch on
      source activate torch
      pip install torch
      ```
-
-     with CUDA support is by default. 
-     Check if CUDA is installed. 
-     Check NCCL. 
+     This installs PyTorch with CUDA support by default, which enables it running on GPUs. 
 
 ## PyTorch on CPU and a single GPU
 
@@ -143,7 +140,7 @@ With the flag `--nproc_per_node=4`, the `torchrun` command will run the program 
 
 The flags with `rdzv` (meaning the Rendezvous tool) are required by `torchrun` to coordinate multiple processes. The flag `--rdzv-id=$SLURM_JOB_ID` sets to the `rdzv` ID be the job ID, but it can be any random number. The flag `--rdzv-endpoint=localhost:1234 ` is to set the host and the port. Use `localhost` when there is only one node. The port can be any 4-digit number lager than 1024.   
 
-??? GPU communication within one node
+??? "GPU communication within one node"
     The NVIDIA Collective Communications Library (NCCL) is set as backend in the PyTorch programs `multigpu.py` and `multigpu_torchrun.py`, so the data communication bewteen GPUs within one node benifits from the high bandwidth of NVLinks. 
 
 
@@ -195,39 +192,42 @@ There are two key points in this approach.
 
 The `srun` command lanches a `torchrun` process on each of the two nodes, as the `#SBATCH` flags `-N 2` and `--ntasks-per-node=1` request for tow nodes with one task per node.
 
-The `#SBATCH` flags `--cpus-per-task=4` and `--gpus-per-node=4` request 4 GPU cores and 4 GPUs on each node. Accordingly, the `torchrun` flags are set as `--nnodes=$SLURM_NNODES --nproc-per-node=$SLURM_CPUS_PER_TASK`, so that the `torchrun` command runs the program on 4 CPU cores and 4 GPUs on each of the two nodes. That says the training prcesses happens on 8 GPUs. 
+The `#SBATCH` flags `--cpus-per-task=4` and `--gpus-per-node=4` request 4 GPU cores and 4 GPUs on each node. Accordingly, the `torchrun` flags are set as `--nnodes=$SLURM_NNODES --nproc-per-node=$SLURM_CPUS_PER_TASK`, so that the `torchrun` command runs the program on 4 CPU cores and 4 GPUs on each of the two nodes. That says the program runs on 8 GPUs. 
 
 The flags with `rdzv` are required by `torchrun` to coordinate processes across nodes. The `--rdzv-backend=c10d` is to use a C10d store (by default TCPStore) as the rendezvous backend, the  advantage of which is that it requires no 3rd-party dependency. The `--rdzv-endpoint=$master_node_ip:1234 ` is to set up the IP address and port of the the master node. The IP address is obtained in a previous part in the job script.
 
 Refer to details of torchrun on [this page](https://pytorch.org/docs/stable/elastic/run.html).
 
-??? GPU communication within one node nad across nodes
+??? "GPU communication within one node nad across nodes"
     The NCCL is set as backend in the PyTorch program `multinode.py`, so the data communication bewteen GPUs within one node benifits from the high bandwidth of NVLinks, and the data communication bewteen GPUs acress nodes benifits from the bandwidth of Infiniband network. 
-
-
-
 
 
 ### Model parallel
 
-In a training process of deep learning, the model size is big, especially for the large language models (LLMs) based on the transformer architecture. When the module does not fit in a GPU memory, normal data parallel mentioned above does not work. There is a [Fully Sharded Data Parallel (FSDP)](https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/) approach in PyTorch to split the model into multiple GPUs so that the memory requreiment fits, but this approach is still within the data parallel framework and does not gain additional speed up beyond data parallel. 
+Usually the model size is big in deep-learning training processes especially for the large language models (LLMs) based on the transformer architecture. When the model does not fit in the memory of a single GPU, the normal data parallelism mentioned in the previous secction does not work. There is a [Fully Sharded Data Parallel (FSDP)](https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/) approach in PyTorch to split the model into multiple GPUs so that the memory requreiment fits, but this approach is still within the data parallel framework and does not gain additional speedup beyond data parallel. 
 
-A more appropriate approach is model parallel, which split the model into the memory of multiple GPUs and speed up the computation too. There are various schemes of model parallel, such as pipeline parallel and tensor parallel. Usually, model parallel is applied on top of data parallel to gain further speed up. 
+A better approach is model parallel, which splits the model into the memory of multiple GPUs and speeds up the computation too. There are various schemes of model parallel, such as pipeline parallel (PP) and tensor parallel (TP). Usually, model parallel is applied on top of data parallel to gain further speedup. 
 
-Her we use an example with hybrid FSDP
+Here we use an example that implements hybrid TP and FSDP (refered as TP + FSDP in the following), where the LLAMA2 model . Refer to [the description of this example](https://pytorch.org/tutorials/intermediate/TP_tutorial.html). Download the codes: [fsdp_tp_example.py](./scripts/torch-gpu/fsdp_tp_example.py) , [llama2_model.py]
 
-hybrid
+llama2_model.py  log_utils.py
 
-FSDP cross node, tp within a node, more data communication. 
+#### Single-node multi-GPU TP + FSDP
 
-https://github.com/pytorch/tutorials/blob/main/intermediate_source/TP_tutorial.rst
+We first introcude a recipe for for single-node multi-GPU TP + FSDP. The program `fsdp_tp_example.py` is set up for this purpose. 
 
-Download the codes 
+=== "Engaging"
 
-#### Single-node multi-GPU data parallel
-
-hybrid
-
-
+    To run on multiple GPUs across two nodes, prepare a job script like this,
+     ```
+     ```
 
 
+#### Multi-node multi-GPU tensor parallel
+
+FSDP cross node, less communication. 
+tp within a node, more data communication. 
+
+## Rference
+
+orcd github
