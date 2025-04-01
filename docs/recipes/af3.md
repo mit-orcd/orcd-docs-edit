@@ -71,7 +71,7 @@ at:
     [AlphaFold 3 GitHub repository](https://github.com/google-deepmind/alphafold3).
     As such, it does not change as their code base gets updated for bug fixes. If you would
     like us to update the image to reflect recent changes in the repository, let us know at
-    [orcd-help-engaging.mit.edu](orcd-help-engaging.mit.edu).
+    <orcd-help-engaging@mit.edu>.
 
 ## Running AlphaFold 3
 
