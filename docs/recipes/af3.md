@@ -66,6 +66,13 @@ at:
 /orcd/software/community/001/container_images/alphafold3/20250321/alphafold3.sif
 ```
 
+!!! note
+    The image that we have built uses a specific version of the
+    [AlphaFold 3 GitHub repository](https://github.com/google-deepmind/alphafold3).
+    As such, it does not change as their code base gets updated for bug fixes. If you would
+    like us to update the image to reflect recent changes in the repository, let us know at
+    [orcd-help-engaging.mit.edu](orcd-help-engaging.mit.edu).
+
 ## Running AlphaFold 3
 
 The last thing you will need to run AlphaFold 3 is the AlphaFold dataset.
