@@ -83,9 +83,7 @@ and check if the the GPU usage with the `nvtop` command.
 
 Deep learning programs can be further accelerated on multiple GPUs. 
 
-There are various parallelisms to enable distributed deep leaning on mulitple GPUs, including data parallel and model parallel. In the following two sections, we introduce recipes to run PyTorch programs on multiple GPUs based on these two parallelisms respectively. 
-
-### Data parallel
+There are various parallelisms to enable distributed deep leaning on mulitple GPUs, including data parallel and model parallel. We will introduce recipes for data parallel on this page.  
 
 Data parallel allows traning a model with multiple batches of data simultaneously. The model has to fit into the GPU memory.
 
@@ -96,9 +94,9 @@ We use an exmaple code that trains a linear network with a random data set, base
 Download the codes for this example: [datautils.py](./scripts/torch-gpu/datautils.py), [multigpu.py](./scripts/torch-gpu/multigpu.py), [multigpu_torchrun.py](./scripts/torch-gpu/multigpu_torchrun.py), and [multinode.py](./scripts/torch-gpu/multinode.py).
 
 
-#### Single-node multi-GPU data parallel
+### Single-node multi-GPU data parallel
 
-We first introcude a recipe for for single-node multi-GPU data parallel. The program `multigpu.py` is set up for this purpose. 
+In this section, we introcude a recipe for for single-node multi-GPU data parallel. The program `multigpu.py` is set up for this purpose. 
 
 === "Engaging"
 
@@ -144,9 +142,9 @@ The flags with `rdzv` (meaning the Rendezvous tool) are required by `torchrun` t
     The NVIDIA Collective Communications Library (NCCL) is set as backend in the PyTorch programs `multigpu.py` and `multigpu_torchrun.py`, so the data communication bewteen GPUs within one node benifits from the high bandwidth of NVLinks. 
 
 
-#### Multi-node multi-GPU data parallel
+### Multi-node multi-GPU data parallel
 
-Now we introcude a recipe to extend the above exmaple to multi-node multi-GPU data parallel. The program `multinode.py` is set up for this purpose. 
+Now we extend the above exmaple to multi-node multi-GPU data parallel. The program `multinode.py` is set up for this purpose. 
 
 There are two key points in this approach.
 
@@ -198,36 +196,8 @@ The flags with `rdzv` are required by `torchrun` to coordinate processes across 
 
 Refer to details of torchrun on [this page](https://pytorch.org/docs/stable/elastic/run.html).
 
-??? "GPU communication within one node nad across nodes"
-    The NCCL is set as backend in the PyTorch program `multinode.py`, so the data communication bewteen GPUs within one node benifits from the high bandwidth of NVLinks, and the data communication bewteen GPUs acress nodes benifits from the bandwidth of Infiniband network. 
+??? "GPU communication across nodes"
+    The NCCL is set as backend in the PyTorch program `multinode.py`, so the data communication bewteen GPUs within one node benifits from the high bandwidth of NVLinks, and the data communication bewteen GPUs across nodes benifits from the bandwidth of Infiniband network. 
 
 
-### Model parallel
 
-Usually the model size is big in deep-learning training processes especially for the large language models (LLMs) based on the transformer architecture. When the model does not fit in the memory of a single GPU, the normal data parallelism mentioned in the previous secction does not work. There is a [Fully Sharded Data Parallel (FSDP)](https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/) approach in PyTorch to split the model into multiple GPUs so that the memory requreiment fits, but this approach is still within the data parallel framework and does not gain additional speedup beyond data parallel. 
-
-A better approach is model parallel, which splits the model into the memory of multiple GPUs and speeds up the computation too. There are various schemes of model parallel, such as pipeline parallel (PP) and tensor parallel (TP). Usually, model parallel is applied on top of data parallel to gain further speedup. 
-
-Here we use an example that implements hybrid TP and FSDP (refered as TP + FSDP in the following), where the LLAMA2 model . Refer to [the description of this example](https://pytorch.org/tutorials/intermediate/TP_tutorial.html). Download the codes: [fsdp_tp_example.py](./scripts/torch-gpu/fsdp_tp_example.py) , [llama2_model.py]
-
-llama2_model.py  log_utils.py
-
-#### Single-node multi-GPU TP + FSDP
-
-We first introcude a recipe for for single-node multi-GPU TP + FSDP. The program `fsdp_tp_example.py` is set up for this purpose. 
-
-=== "Engaging"
-
-    To run on multiple GPUs across two nodes, prepare a job script like this,
-     ```
-     ```
-
-
-#### Multi-node multi-GPU tensor parallel
-
-FSDP cross node, less communication. 
-tp within a node, more data communication. 
-
-## Rference
-
-orcd github
