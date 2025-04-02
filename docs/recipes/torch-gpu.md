@@ -6,7 +6,7 @@ tags:
  - Howto Recipes
 ---
 
-# Deep Learning with Pytorch on GPUs
+# Deep Learning with PyTorch on GPUs
 
 Deep learning is the foundation of artificial intelligence nowadays. Deep learning programs can be accelerated substantially on GPUs. 
  
@@ -135,7 +135,9 @@ torchrun --nnodes=1 --nproc_per_node=4 --rdzv_id=$SLURM_JOB_ID --rdzv_endpoint="
 
 With the flags `--nnodes=1 --nproc-per-node=4`, the `torchrun` command will run the program on 4 GPUs within one node. 
 
-The flags with `rdzv` (meaning the Rendezvous tool) are required by `torchrun` to coordinate multiple processes. The flag `--rdzv-id=$SLURM_JOB_ID` sets to the `rdzv` ID be the job ID, but it can be any random number. The flag `--rdzv-endpoint=localhost:1234 ` is to set the host and the port. Use `localhost` when there is only one node. The port can be any 4- or 5-digit number lager than 1024.   
+The flags with `rdzv` (meaning the Rendezvous tool) are required by `torchrun` to coordinate multiple processes. The flag `--rdzv-id=$SLURM_JOB_ID` sets to the `rdzv` ID be the job ID, but it can be any random number. The flag `--rdzv-endpoint=localhost:1234 ` is to set the host and the port. Use `localhost` when there is only one node. The port can be any 4- or 5-digit number lager than 1024. 
+
+The `torchrun` command will be useful for running the program across multiple nodes in the next section. 
 
 ??? "GPU communication within one node"
     The NVIDIA Collective Communications Library (NCCL) is set as the backend in the PyTorch programs `multigpu.py` and `multigpu_torchrun.py`, so that the data communication between GPUs within one node benefits from the high bandwidth of NVLinks.  
