@@ -8,28 +8,28 @@ tags:
 
 # Deep Learning with Pytorch on GPUs
 
-Deep leaning is the fundation of artificial intelligence nowadays. Deep leaning programs can be accelerated substantially on GPUs. 
+Deep learning is the foundation of artificial intelligence nowadays. Deep learning programs can be accelerated substantially on GPUs. 
  
 PyTorch is a popular Python package for working on deep learning projects.
 
-On this page, we introduce recipes to run deep-learning programs on GPUs wtih Pytorch. 
+This page introduces recipes to run deep-learning programs on GPUs with Pytorch. 
 
 
 ## Installing PyTorch
 
 === "Engaging"
 
-     First, load a Miniforge module to provide python platform, 
+     First, load a Miniforge module to provide Python platform, 
      ```
      module load miniforge/24.3.0-0
      ```
-     Create a new environment and install PyToch,
+     Create a new environment and install PyTorch,
      ```
      conda create -n torch
      source activate torch
      pip install torch
      ```
-     This installs PyTorch with CUDA support by default, which enables it running on GPUs. 
+     This installs PyTorch with CUDA support by default, which enables it to run on GPUs.  
 
 ## PyTorch on CPU and a single GPU
 
@@ -62,13 +62,13 @@ We use an example code training a convolutional neural network (CNN) with the CI
      sbatch job.sh
      ```
 
-The `mit_normal_gpu` partition is for all MIT users. If your lab has a parititon with GPUs, you can use it too.  
+The `mit_normal_gpu` partition is for all MIT users. If your lab has a partition with GPUs, you can use it too.  
 
-The `#SBATCH` flags `-N 1 -n 2` requets two CPU cores on one node and the `--mem=10GB` means 10 GB of memory per node (not per core).
+The `#SBATCH` flags `-N 1 -n 2` requests two CPU cores on one node, and the `--mem=10GB` means 10 GB of memory per node (not per core).
 
-The programs `cnn_cifar10_cpu.py` and `cnn_cifar10_gpu.py` will run on CPUs and a GPU respectively. When the problme size is large, the program will be accelerated on a GPU. 
+The programs `cnn_cifar10_cpu.py` and `cnn_cifar10_gpu.py` will run on CPUs and a GPU, respectively. When the problem size is large, the program will be accelerated on a GPU. 
 
-While the job is running, you can check if the program runs on GPU. First, check the hostname that it runs on,
+While the job is running, you can check if the program runs on a GPU. First, check the hostname that it runs on,
 ```
 squeue -u $USER
 ```
@@ -83,20 +83,20 @@ and check the GPU usage with the `nvtop` command.
 
 Deep learning programs can be further accelerated on multiple GPUs. 
 
-There are various parallelisms to enable distributed deep leaning on mulitple GPUs, including data parallel and model parallel. We will focus on data parallel on this page.  
+There are various parallelisms to enable distributed deep learning on multiple GPUs, including data parallel and model parallel. We will focus on data parallel on this page.   
 
-Data parallel allows traning a model with multiple batches of data simultaneously. The model has to fit into the GPU memory.
+Data parallel allows training a model with multiple batches of data simultaneously. The model has to fit into the GPU memory.
 
 On a cluster, there are many nodes and multiple GPUs on each node. We will first introduce a recipe to run PyTorch programs with multiple GPUs within one node, and then extend it to multiple nodes. 
 
-We use an exmaple code that trains a linear network with a random data set, which is implemented with the [Distributed Data Parallel](https://PyTorch.org/docs/stable/notes/ddp.html) package in PyTorch. Refer to the description of this example [for multiple GPUs within one node](https://pytorch.org/tutorials/beginner/ddp_series_multigpu.html) and [for multiple GPUs across multiple nodes](https://pytorch.org/tutorials/intermediate/ddp_series_multinode.html). 
+We use an example code that trains a linear network with a random data set, which is implemented with the [Distributed Data Parallel](https://PyTorch.org/docs/stable/notes/ddp.html) package in PyTorch. Refer to the description of this example [for multiple GPUs within one node](https://pytorch.org/tutorials/beginner/ddp_series_multigpu.html) and [for multiple GPUs across multiple nodes](https://pytorch.org/tutorials/intermediate/ddp_series_multinode.html). 
 
 Download the codes for this example: [datautils.py](./scripts/torch-gpu/datautils.py), [multigpu.py](./scripts/torch-gpu/multigpu.py), [multigpu_torchrun.py](./scripts/torch-gpu/multigpu_torchrun.py), and [multinode.py](./scripts/torch-gpu/multinode.py).
 
 
 ### Single-node multi-GPU data parallel
 
-In this section, we introcude a recipe for single-node multi-GPU data parallel. The program `multigpu.py` is set up for this purpose. 
+In this section, we introduce a recipe for single-node multi-GPU data parallel. The program `multigpu.py` is set up for this purpose. 
 
 === "Engaging"
 
@@ -138,12 +138,12 @@ With the flags `--nnodes=1 --nproc-per-node=4`, the `torchrun` command will run 
 The flags with `rdzv` (meaning the Rendezvous tool) are required by `torchrun` to coordinate multiple processes. The flag `--rdzv-id=$SLURM_JOB_ID` sets to the `rdzv` ID be the job ID, but it can be any random number. The flag `--rdzv-endpoint=localhost:1234 ` is to set the host and the port. Use `localhost` when there is only one node. The port can be any 4- or 5-digit number lager than 1024.   
 
 ??? "GPU communication within one node"
-    The NVIDIA Collective Communications Library (NCCL) is set as backend in the PyTorch programs `multigpu.py` and `multigpu_torchrun.py`, so that the data communication bewteen GPUs within one node benifits from the high bandwidth of NVLinks. 
+    The NVIDIA Collective Communications Library (NCCL) is set as the backend in the PyTorch programs `multigpu.py` and `multigpu_torchrun.py`, so that the data communication between GPUs within one node benefits from the high bandwidth of NVLinks.  
 
 
 ### Multi-node multi-GPU data parallel
 
-Now we extend the above exmaple to multi-node multi-GPU data parallel. The program `multinode.py` is set up for this purpose. 
+Now we extend the above example to multi-node multi-GPU data parallel. The program `multinode.py` is set up for this purpose.
 
 There are two key points in this approach.
 
@@ -186,16 +186,14 @@ There are two key points in this approach.
      sbatch job.sh
      ```
 
-As the `#SBATCH` flags `-N 2` and `--ntasks-per-node=1` request for two nodes with one task per node, the `srun` command lanches a `torchrun` command on each of the two nodes.
+As the `#SBATCH` flags `-N 2` and `--ntasks-per-node=1` request for two nodes with one task per node, the `srun` command launches a `torchrun` command on each of the two nodes.
 
 The `#SBATCH` flags `--cpus-per-task=4` and `--gpus-per-node=4` request 4 GPU cores and 4 GPUs on each node. Accordingly, the `torchrun` flags are set as `--nnodes=$SLURM_NNODES --nproc-per-node=$SLURM_CPUS_PER_TASK`, so that the `torchrun` command runs the program on 4 GPUs on each of the two nodes. That says the program runs on 8 GPUs, and thus the training process happens on 8 batches of data simultaneously. 
 
-The flags with `rdzv` are required by `torchrun` to coordinate processes across nodes. The `--rdzv-backend=c10d` is to use a C10d store (by default TCPStore) as the rendezvous backend, the  advantage of which is that it requires no 3rd-party dependency. The `--rdzv-endpoint=$master_node_ip:1234 ` is to set up the IP address and the port of the the master node. The IP address is obtained in a previous part in the job script.
+The flags with `rdzv` are required by `torchrun` to coordinate processes across nodes. The `--rdzv-backend=c10d` is to use a C10d store (by default TCPStore) as the rendezvous backend, the advantage of which is that it requires no 3rd-party dependency. The `--rdzv-endpoint=$master_node_ip:1234 ` is to set up the IP address and the port of the master node. The IP address is obtained in a previous part of the job script.
 
 Refer to details of torchrun on [this page](https://pytorch.org/docs/stable/elastic/run.html).
 
 ??? "GPU communication across nodes"
-    The NCCL is set as backend in the PyTorch program `multinode.py`, so that the data communication bewteen GPUs within one node benifits from the high bandwidth of NVLinks, and the data communication bewteen GPUs across nodes benifits from the bandwidth of Infiniband network. 
-
-
+    The NCCL is set as backend in the PyTorch program `multinode.py`, so that the data communication between GPUs within one node benefits from the high bandwidth of NVLinks, and the data communication between GPUs across nodes benefits from the bandwidth of the Infiniband network. 
 
