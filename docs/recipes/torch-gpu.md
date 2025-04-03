@@ -130,7 +130,10 @@ Check if the program runs on multiple GPUs using the `nvtop` command as describe
 
 There is another way to run a Pytorch prgram with multiple GPUs, that is to use the `torchrun` command. The program for this purpose is `multigpu_torchrun.py`. In the above job script, change the last line to this, 
 ```
-torchrun --nnodes=1 --nproc_per_node=4 --rdzv_id=$SLURM_JOB_ID --rdzv_endpoint="localhost:1234" multigpu_torchrun.py --batch_size=1024 100 20
+torchrun --nnodes=1 --nproc_per_node=4 \
+         --rdzv_id=$SLURM_JOB_ID \
+         --rdzv_endpoint="localhost:1234" \
+         multigpu_torchrun.py --batch_size=1024 100 20
 ```
 
 With the flags `--nnodes=1 --nproc-per-node=4`, the `torchrun` command will run the program on 4 GPUs within one node. 
@@ -192,7 +195,7 @@ As the `#SBATCH` flags `-N 2` and `--ntasks-per-node=1` request for two nodes wi
 
 The `#SBATCH` flags `--cpus-per-task=4` and `--gpus-per-node=4` request 4 GPU cores and 4 GPUs on each node. Accordingly, the `torchrun` flags are set as `--nnodes=$SLURM_NNODES --nproc-per-node=$SLURM_CPUS_PER_TASK`, so that the `torchrun` command runs the program on 4 GPUs on each of the two nodes. That says the program runs on 8 GPUs, and thus the training process happens on 8 batches of data simultaneously. 
 
-The flags with `rdzv` are required by `torchrun` to coordinate processes across nodes. The `--rdzv-backend=c10d` is to use a C10d store (by default TCPStore) as the rendezvous backend, the advantage of which is that it requires no 3rd-party dependency. The `--rdzv-endpoint=$master_node_ip:1234 ` is to set up the IP address and the port of the master node. The IP address is obtained in a previous part of the job script.
+The flags with `rdzv` are required by `torchrun` to coordinate processes across nodes. The `--rdzv-backend=c10d` is to use a C10d store (by default TCPStore) as the rendezvous backend, the advantage of which is that it requires no 3rd-party dependency. The `--rdzv-endpoint=$master_node_ip:1234` is to set up the IP address and the port of the master node. The IP address is obtained in a previous part of the job script.
 
 Refer to details of torchrun on [this page](https://pytorch.org/docs/stable/elastic/run.html).
 
