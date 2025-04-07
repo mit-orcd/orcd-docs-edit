@@ -6,7 +6,7 @@ tags:
  - Howto Recipes
 ---
 
-# Intermediate Distributed Deep Leaning with PyTorch
+# Intermediate Distributed Deep Learning with PyTorch
 
 Deep leaning is the foundation of artificial intelligence nowadays. Deep leaning programs can be accelerated substantially on GPUs. 
  
@@ -85,7 +85,7 @@ and check the GPU usage with the `nvtop` command.
 
 ### Single-node multi-GPU FSDP
 
-We extend this exeample to multiple GPUs on a single node. 
+Now we extend this exeample to multiple GPUs on a single node with FSDP. 
 
 === "Engaging"  
 
@@ -109,7 +109,7 @@ We extend this exeample to multiple GPUs on a single node.
      sbatch job.sh
      ```
 
-As is set up in the protram `FSDP_mnist.py`, it will run on all GPUs reqeusted in Slurm, that is 4. That says the model is split into 4 shards with each shard stored on a GPU, and the training process happens on 4 batches of data simutanesously. 
+As is set up in the program `FSDP_mnist.py`, it will run on all GPUs reqeusted in Slurm, that is 4. That says the model is split into 4 shards with each shard stored on a GPU, and the training process happens on 4 batches of data simutanesously. 
 
 
 ## Hybrid Fully Sharded Data Parallel and Tensor Parallel 
@@ -189,7 +189,7 @@ Finally, we extend this exampel on multiple GPUs across multiple nodes.
      sbatch job.sh
      ```
 
-The configuration of `#SBATCH` and `torchrun` flags is similar to that in [the basic recipes of data parallel](./torch-gpu.md). 
+The configuration of `#SBATCH` and `torchrun` flags is similar to that in [the basic recipe of data parallel](./torch-gpu.md). 
 
 The program runs on 8 GPUs with 4 per node. As is set up in the code `fsdp_tp_example.py`, the training process happens on 4 batches of data with FSDP,  and the model is trained with TP computation on 2 GPUs for each batch of data.
 
@@ -198,7 +198,3 @@ The program runs on 8 GPUs with 4 per node. As is set up in the code `fsdp_tp_ex
 
     The inter-node communication is much slower than the intra-node one. The communicating data size of TP is much larger than that of FSDP. The topology of GPU Communication is set up (in the code `fsdp_tp_example.py`) in a way that TP communication is intra-node and FSDP communication is inter-node node, so that the usage of bandwidth is optimized. 
 
-
-## References
-
-orcd github
