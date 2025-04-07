@@ -199,6 +199,6 @@ The program runs on 8 GPUs with 4 per node. As is set up in the code `fsdp_tp_ex
     The inter-node communication is much slower than the intra-node one. The communicating data size of TP is much larger than that of FSDP. The topology of GPU Communication is set up (in the code `fsdp_tp_example.py`) in a way that TP communication is intra-node and FSDP communication is inter-node node, so that the usage of bandwidth is optimized. 
 
 
-## Rference
+## References
 
 orcd github
