@@ -50,7 +50,7 @@ We use an example code training a convolutional neural network (CNN) with the CI
      #SBATCH --mem=10GB
      
      module load miniforge/24.3.0-0
-     source activate pytorch
+     source activate torch
      
      echo "~~~~~~~~ Run the program on CPU ~~~~~~~~~"
      time python cnn_cifar10_cpu.py
@@ -111,7 +111,7 @@ In this section, we introduce a recipe for single-node multi-GPU data parallel. 
      #SBATCH --gres=gpu:4   
 
      module load miniforge/24.3.0-0
-     source activate pytorch
+     source activate torch
 
      echo "======== Run on multiple GPUs ========"
      # Set 100 epochs and save checkpoints every 20 epochs
@@ -170,7 +170,7 @@ There are two key points in this approach.
      #SBATCH --mem=20GB
 
      module load miniforge/24.3.0-0
-     source activate pytorch
+     source activate torch
 
      # Get IP address of the master node
      nodes=( $( scontrol show hostnames $SLURM_JOB_NODELIST ) )
