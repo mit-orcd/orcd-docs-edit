@@ -37,10 +37,6 @@ If you don't already have an account, click on the tab for the system you are in
 The first thing you should do when you get a new account is verify that
 you can log in. The different ORCD systems provide multiple ways to log in, including both ssh and web portals. Links to instructions for the different systems are below.
 
-=== "Engaging"
-
-    See the [Logging into Engaging](https://engaging-web.mit.edu/eofe-wiki/logging_in/) page for full documentation.
-
 === "Satori"   
     
     See the [Logging into Satori](https://mit-satori.github.io/satori-ssh.html) page for full documentation.
