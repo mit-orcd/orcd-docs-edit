@@ -8,7 +8,7 @@ tags:
 
 # Intermediate Distributed Deep Learning with PyTorch
 
-Deep leaning is the foundation of artificial intelligence nowadays. Deep leaning programs can be accelerated substantially on GPUs. 
+Deep learning is the foundation of artificial intelligence nowadays. Deep learning programs can be accelerated substantially on GPUs.  
  
 There are various parallelisms to enable distributed deep learning on multiple GPUs, including data parallel and model parallel. 
 
@@ -16,28 +16,28 @@ We have introduced [basic recipes of data parallel with PyTorch](./torch-gpu.md)
 
 In data parallel, the model has to fit into the GPU memory. However, large model sizes are required for large language models (LLMs) based on the transformer architecture. When the model does not fit into the memory of a single GPU, the normal data parallelism does not work. 
 
-On this page, we will introudce intermediate recipes to train large models on multiple GPUs with PyTorch. 
+On this page, we will introduce intermediate recipes to train large models on multiple GPUs with PyTorch. 
 
-First, there is a [Fully Sharded Data Parallel (FSDP)](https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/) approach to split the model into multiple GPUs so that the memory requreiment fits. A shard of the model is stored in each GPU and communication between GPUs happens during the training process. We will introcude FSDP recipes in the first section. 
+First, there is a [Fully Sharded Data Parallel (FSDP)](https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/) approach to split the model into multiple GPUs so that the memory requirement fits. A shard of the model is stored in each GPU, and communication between GPUs happens during the training process. We will introduce FSDP recipes in the first section. 
 
-However, FSDP is within the data parallel framework and does not gain additional speedup. Better approaches are based on model parallel, which not only splits the model into multiple GPUs but also accelerate the training process with parallel sharded computations. There are various schemes of model parallel, such as pipeline parallel (PP) and tensor parallel (TP). Usually, model parallel is applied on top of data parallel to gain further speedup. We will focus on recipes of hybrid Fully Sharded Data Parallel and Tensor Parallel (refered as FSDP + TP) in the second section. 
+However, FSDP is within the data parallel framework and does not gain additional speedup. Better approaches are based on model parallel, which not only splits the model into multiple GPUs but also accelerates the training process with parallel sharded computations. There are various schemes of model parallel, such as pipeline parallel (PP) and tensor parallel (TP). Usually, model parallel is applied on top of data parallel to gain further speedup. In the second section, we will focus on recipes of hybrid Fully Sharded Data Parallel and Tensor Parallel (referred to as FSDP + TP) . 
 
 
 ## Installing PyTorch
 
 === "Engaging"
 
-     First, load a Miniforge module to provide python platform, 
+     First, load a Miniforge module to provide Python platform, 
      ```
      module load miniforge/24.3.0-0
      ```
-     Create a new environment and install PyToch,
+     Create a new environment and install PyTorch,
      ```
      conda create -n torch
      source activate torch
      pip install torch
      ```
-     This installs PyTorch with CUDA support by default, which enables it running on GPUs. 
+     This installs PyTorch with CUDA support by default, which enables it to run on GPUs. 
 
 
 ## Fully Sharded Data Parallel 
@@ -76,7 +76,7 @@ While the job is running, you can check if the program runs on a GPU. First, che
 ```
 squeue -u $USER
 ```
-and then log in the node,
+and then log in to the node,
 ```
 ssh <nodeXXX>
 ```
@@ -85,7 +85,7 @@ and check the GPU usage with the `nvtop` command.
 
 ### Single-node multi-GPU FSDP
 
-Now we extend this exeample to multiple GPUs on a single node with FSDP. 
+Now we extend this example to multiple GPUs on a single node with FSDP. 
 
 === "Engaging"  
 
@@ -109,20 +109,20 @@ Now we extend this exeample to multiple GPUs on a single node with FSDP.
      sbatch job.sh
      ```
 
-As is set up in the program `FSDP_mnist.py`, it will run on all GPUs reqeusted in Slurm, that is 4 in this case. That says the model is split into 4 shards with each shard stored on a GPU, and the training process happens on 4 batches of data simutanesously. Communication between GPUs happens under the hood. 
+As set up in the program `FSDP_mnist.py`, it will run on all GPUs requested in Slurm, that is 4 in this case. That says the model is split into 4 shards, each stored on a GPU, and the training process happens on 4 batches of data simultaneously. Communication between GPUs happens under the hood. 
 
 
 ## Hybrid Fully Sharded Data Parallel and Tensor Parallel 
 
-Tensor parallel can be applied on top of data parall to gain further speed up. In thie section, we introduce recipes of hybrid FSDP and TP.
+Tensor parallel can be applied on top of data parallel to gain further speedup. In this section, we introduce recipes of hybrid FSDP and TP.
 
 We use an example that implements FSDP + TP on LLAMA2 (Large Language Model Meta AI 2). Refer to [the description of this example](https://pytorch.org/tutorials/intermediate/TP_tutorial.html). Download the codes: [fsdp_tp_example.py](./scripts/torch-gpu-2/fsdp_tp_example.py), [llama2_model.py](./scripts/torch-gpu-2/llama2_model.py), and [log_utils.py](./scripts/torch-gpu-2/log_utils.py).
 
 ### Single-node multi-GPU FSDP + TP
 
-First, let's look run the example on multiple GPUs within a single node. 
+First, let's run the example on multiple GPUs within a single node. 
 
-The code `fsdp_tp_example.py` is set up for this purpose. The TP size is set to be 2 in the code. The total number of GPUs should be equal to a multiple of the TP size, that is an even number in this case, then the FSDP size is equal to the number of GPUs devided by the TP size.
+The code `fsdp_tp_example.py` is set up for this purpose. The TP size is set to be 2 in the code. The total number of GPUs should be equal to a multiple of the TP size, that is, an even number in this case, then the FSDP size is equal to the number of GPUs divided by the TP size.
 
 === "Engaging"
      To run this example on multiple GPUs, prepare a job script like this,
@@ -194,7 +194,7 @@ The configuration of the `#SBATCH` and `torchrun` flags is similar to that in [t
 The program runs on 8 GPUs with 4 GPUs per node. As is set up in the code `fsdp_tp_example.py`, the training process happens on 4 batches of data with FSDP,  and the model is trained with TP sharded computation on 2 GPUs for each batch of data.
 
 ??? "Topology of GPU Communication"
-    The NVIDIA Collective Communications Library (NCCL) is set as backend in all of the PyTorch programs here, so that the communication between GPUs within one node benefits from the high bandwidth of NVLinks, and the communication between GPUs across nodes benefits from the bandwidth of the Infiniband network. 
+    The NVIDIA Collective Communications Library (NCCL) is set as the backend in all of the PyTorch programs here, so that the communication between GPUs within one node benefits from the high bandwidth of NVLinks, and the communication between GPUs across nodes benefits from the bandwidth of the Infiniband network. 
 
-    The intra-node GPU-GPU communication speed is much faster than the inter-node. The communication overhead of TP is much larger than that of FSDP. The topology of GPU communication is set up (in the code `fsdp_tp_example.py`) in a way that TP communication is intra-node and FSDP communication is inter-node node, so that the usage of network bandwidth is optimized. 
+    The intra-node GPU-GPU communication speed is much faster than the inter-node. The communication overhead of TP is much larger than that of FSDP. The topology of GPU communication is set up (in the code `fsdp_tp_example.py`) in a way that TP communication is intra-node and FSDP communication is inter-node, so that the usage of network bandwidth is optimized. 
 
