@@ -46,7 +46,7 @@ We use an example code [to train a convolutional neural network (CNN) with the M
 
 We will first run the example on a single GPU and then extend it to [multiple GPUs with FSDP](https://pytorch.org/tutorials/intermediate/FSDP_tutorial.html).
 
-Download the codes [mnist_gpu.py](./scripts/torch-gpu/mnist_gpu.py) and [FSDP_mnist.py](./scripts/torch-gpu/FSDP_mnist.py) for these two cases respectively. 
+Download the codes [mnist_gpu.py](./scripts/torch-gpu-2/mnist_gpu.py) and [FSDP_mnist.py](./scripts/torch-gpu-2/FSDP_mnist.py) for these two cases respectively. 
 
 ### An example with a single GPU 
 
@@ -116,7 +116,7 @@ As is set up in the program `FSDP_mnist.py`, it will run on all GPUs reqeusted i
 
 Tensor parallel can be applied on top of data parall to gain further speed up. In thie section, we introduce recipes of hybrid FSDP and TP.
 
-We use an example that implements FSDP + TP on LLAMA2 (Large Language Model Meta AI 2). Refer to [the description of this example](https://pytorch.org/tutorials/intermediate/TP_tutorial.html). Download the codes: [fsdp_tp_example.py](./scripts/torch-gpu/fsdp_tp_example.py), [llama2_model.py](./scripts/torch-gpu/llama2_model.py), and [log_utils.py](./scripts/torch-gpu/log_utils.py).
+We use an example that implements FSDP + TP on LLAMA2 (Large Language Model Meta AI 2). Refer to [the description of this example](https://pytorch.org/tutorials/intermediate/TP_tutorial.html). Download the codes: [fsdp_tp_example.py](./scripts/torch-gpu-2/fsdp_tp_example.py), [llama2_model.py](./scripts/torch-gpu-2/llama2_model.py), and [log_utils.py](./scripts/torch-gpu-2/log_utils.py).
 
 ### Single-node multi-GPU FSDP + TP
 
