@@ -30,3 +30,26 @@ There are three main steps or milestones for moving to a new system. These will 
 ### Where can I get help?
 
 The ORCD team can help with migrating data and workloads to Engaging. ORCD has regular office hours (see the [Office Hours Schedule](https://orcd.mit.edu/news-and-events/office-hours)). You can also request help through <orcd-help@mit.edu>.
+
+### How can I get an account on Engaging?
+
+It is fairly quick and simple to create your account Engaging. Accounts on the engaging cluster are connected to your MIT institutional kerberos id. To get an account log into the [Engaging OnDemand Web Portal](https://engaging-ood.mit.edu). Connecting to Engaging OnDemand for the first time automatically activates an account with basic access to resources. See [this page](accessing-orcd/ondemand-login.md) for instructions on how to log in. After you log in wait a few minutes for your account setup to complete before starting to run jobs.
+
+## Differences Between SuperCloud and Engaging
+
+SuperCloud and Engaging are both shared HPC systems that use Slurm. Their high-level architecture is the same, both have login nodes and compute nodes connected by a network filesystems that can be accessed from each node. However, there are differences in the systems, practices, and policies between the two. This section describes some of those differences that are most helpful to know.
+
+- Engaging maintenance is on the **3rd Tuesday** of each month
+- Groups on Engaging are managed through Moira, so once groups are created the group admins can add or remove people themselves
+- Engaging can be accessed both inside and outside the United States
+- Compute nodes on Engaging can access the internet
+- Engaging uses an OnDemand Web Portal that provides similar functionality to the SuperCloud Web Portal
+
+### Running Jobs
+
+- Nodes on Engaging are not exclusive by user, one node can have multiple users running jobs
+- Engaging partitions can have multiple different types of nodes, see the [Partitions section](running-jobs/overview.md#partitions) for more information
+- 
+
+
+
