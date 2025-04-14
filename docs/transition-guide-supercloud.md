@@ -47,6 +47,7 @@ Check your [User Profile page](https://txe1-portal.mit.edu/profile/user_profile.
 
 SuperCloud and Engaging are both shared HPC systems that use Slurm. Their high-level architecture is the same, both have login nodes and compute nodes connected by a network filesystems that can be accessed from each node. However, there are differences in the systems, practices, and policies between the two. This section describes some of those differences that are most helpful to know.
 
+- Engaging accounts can be created by anyone with an MIT kerberos, see [above](#how-can-i-get-an-account-on-engaging)
 - Engaging maintenance is on the **3rd Tuesday** of each month
 - Groups on Engaging are managed through Moira, so once groups are created the group admins can add or remove people themselves
 - Engaging can be accessed both inside and outside the United States
