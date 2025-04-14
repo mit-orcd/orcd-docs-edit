@@ -4,35 +4,56 @@ nav:
   - Home: index.md
   - ORCD Systems: orcd-systems.md
   - Getting Started Tutorial: getting-started.md
+  - Accessing ORCD Systems:
+    - Logging in with OnDemand: accessing-orcd/ondemand-login.md
+    - Logging in with SSH via Terminal: accessing-orcd/ssh-login.md
+    - SSH Key Setup: accessing-orcd/ssh-setup.md
+    - VSCode Remote SSH: recipes/vscode.md
   - Filesystems and File Transfer:
     - General Use Filesystems:  filesystems-file-transfer/filesystems.md
     - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
     - Transferring Files:  filesystems-file-transfer/transferring-files.md
 #    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
+  - Software:
+    - Overview: software/overview.md
+    - Compiling Codes: software/compile.md
+    - Containers: software/apptainer.md
+    - Julia: software/julia.md
+    - Modules: software/modules.md
+    - Python: software/python.md
+    - R: software/R.md
+    - Other Software: software/building-software.md
+#    - Installing Software: 
+#    - Singularity/Apptainer: 
+#    - Licensed Software: 
+  - Running Jobs:
+    - Scheduler Overview: running-jobs/overview.md
+    - Requesting Resources: running-jobs/requesting-resources.md
+    - Job Arrays: running-jobs/job-arrays.md
+#    - Slurm Partitions: running-jobs/
+#    - How To Run Different Workloads: running/page3.md
   - ORCD Recipes:
-#    - recipes/gurobi.md
-    - MuJoCo: recipes/mujoco.md
-    - 'NVHPC with CUDA aware MPI': recipes/nvhpc-a100-with-cuda-and-mpi-example.md
+    - AlphaFold 3: recipes/af3.md
     - GROMACS: recipes/gromacs.md
+    - Intel compiler: recipes/intel.md
+    - Jupyter: recipes/jupyter.md
     - MPI for Python: recipes/mpi4py.md
-    - MPI jobs: recipes/mpi.md
+    - MPI Jobs: recipes/mpi.md
+    - MuJoCo: recipes/mujoco.md
+    - NVHPC with CUDA aware MPI: recipes/nvhpc-a100-with-cuda-and-mpi-example.md
+    - ORCA: recipes/orca.md
+    - PyCharm: recipes/pycharm.md
+    - PyTorch on GPUs: recipes/torch-gpu.md
+    - RAG: recipes/rag.md
     - RELION: recipes/relion.md
+    - VASP: recipes/build-vasp-gcc-cpu.md
     - VSCode: recipes/vscode.md
+    - X11: recipes/X11.md
   - Acknowledging Us: acknowledgements.md
   - Data Security and Privacy: data-security.md
   - Acceptable Use and Code of Conduct: code-of-conduct.md
-#  - Basic software and package installation:
-#    - Environment Modules: software/page1.md
-#    - Installing packages/libraries in Julia, Python, R: software/page2.md
-#    - Other software installs/requests: software/page3.md
-#  - Running Jobs:
-#    - Scheduler Overview: running/page1.md
-#    - Slurm Partitions: running/page2.md
-#    - How To Run Different Workloads: running/page3.md
-#  - How Tos:
-#    - howto/page1.md
-#    - howto/page2.md
   - Getting Help: getting-help.md
+  - FAQs: faqs.md
   - Index: tags.md
 
 theme: 
@@ -60,7 +81,8 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      url_download: true
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true 

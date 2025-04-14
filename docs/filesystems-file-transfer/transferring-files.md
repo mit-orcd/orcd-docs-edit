@@ -6,9 +6,10 @@ For most of these options you will need to know the hostname of the node where y
 
 === "Engaging"
 
-    - `eofe4.mit.edu`
-    - `eofe9.mit.edu`
-    - `eofe10.mit.edu`
+    - `orcd-login001.mit.edu`
+    - `orcd-login002.mit.edu`
+    - `orcd-login003.mit.edu`
+    - `orcd-login004.mit.edu`
 
 === "Satori"
 
@@ -61,7 +62,7 @@ To transfer a file from your local computer to an ORCD system you would use the 
 === "Engaging"
 
     ``` bash
-    scp <file-name> USERNAME@eofe9.mit.edu:<path-to-engaging-dir>
+    scp <file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
     ```
 
 === "Satori"
@@ -86,7 +87,7 @@ For example, let's say you have the local file `myscript.py` and you want to tra
 === "Engaging"
 
     ``` bash
-    scp myscript.py USERNAME@eofe9.mit.edu:/home/USERNAME/mycode/
+    scp myscript.py USERNAME@orcd-login001.mit.edu:/home/USERNAME/mycode/
     ```
 
 === "Satori"
@@ -111,7 +112,7 @@ To transfer the other direction (from an ORCD system to your local computer) swi
 === "Engaging"
 
     ``` bash
-    scp USERNAME@eofe9.mit.edu:<path-to-engaging-file> <path-to-local-dir>
+    scp USERNAME@orcd-login001.mit.edu:<path-to-engaging-file> <path-to-local-dir>
     ```
 
 === "Satori"
@@ -136,7 +137,7 @@ If you were to have the file `results.csv` that you want to copy from the `outpu
 === "Engaging"
 
     ``` bash
-    scp USERNAME@eofe9.mit.edu:/home/USERNAME/output/results.csv .
+    scp USERNAME@orcd-login001.mit.edu:/home/USERNAME/output/results.csv .
     ```
 
 === "Satori"
@@ -163,7 +164,7 @@ Similar to the `cp` command, if you want to transfer an entire directory and all
 === "Engaging"
 
     ``` bash
-    scp -r <file-name> USERNAME@eofe9.mit.edu:<path-to-engaging-dir>
+    scp -r <file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
     ```
 
 === "Satori"
@@ -183,6 +184,10 @@ Similar to the `cp` command, if you want to transfer an entire directory and all
     scp -r <local-file-name> USERNAME@txe1-login.mit.edu:<path-to-supercloud-dir>
     ```
 
+!!! note
+    To `scp` files to/from the new login nodes on Engaging, you will need to
+    authenticate with Duo.
+
 ### rsync
 
 The use of `rsync` is very similar to `scp`, but the behavior is different. By default `rsync` will not transfer files that are identical at both the source and destination. There are additional flags you can use to specify what `rsync` should do when files differ. The `rsync` command can be very useful when you want to "sync" updates to a directory or when transferring large directories. If a transfer fails during `rsync` you can re-run the command and it will pick up where it left off, rather than re-transfer everything.
@@ -201,6 +206,10 @@ Some useful flags include:
 
 You can run `rsync --help` to print out a full list of flags that can be used with the `rsync` command.
 
+!!! note
+    To `rsync` files to/from the new login nodes on Engaging, you will need to
+    authenticate with Duo.
+
 ### Moving files between ORCD Systems
 
 If you need to move files between ORCD systems you can do so one of two ways.
@@ -209,7 +218,7 @@ If you need to move files between ORCD systems you can do so one of two ways.
 2. Run the `scp` or `rsync` command on your local system and specify the hostnames and paths for each of the source and destination systems. For example to move a file from Engaging to Satori using `scp` you would run:
 
 ```bash title="Transferring files from Engaging to Satori"
-scp USERNAME@eofe9.mit.edu:<path-to-engaging-file> USERNAME@satori-login-001.mit.edu:<path-to-satori-dir>
+scp USERNAME@orcd-login001.mit.edu:<path-to-engaging-file> USERNAME@satori-login-001.mit.edu:<path-to-satori-dir>
 ```
 
 ## Graphical Applications for File Transfer
@@ -236,4 +245,19 @@ For documentation on how to download and transfer files on the SuperCloud Web Po
 
 If you are using Engaging or Satori, you can use the file browser by selecting Files -> Home Directory in the menu bar at the top of the page. You can drag and drop files into and out of this page or use the "Upload" and "Download" buttons. Select multiple files by holding the Control (or Command) key and clicking on the files you'd like to select. Those files can then be downloaded with the "Download" button.
 
+## Globus
+
+Globus is a tool that helps transfer data between designated endpoints. These transfers can be initiated through the Globus webpage, don't require staying logged in through the entire transfer, and will restart automatically if something fails during the transfer. There are endpoints on a few ORCD systems with basic Globus features. Please note that these basic Globus endpoints will transfer data unencrypted. An MIT Globus subscription with more features is coming soon!
+
+To transfer data log into [Globus](https://www.globus.org/) with your MIT credentials. On the "File Manager" tab in one of the two "Collection" boxes search for the endpoint for the system you want to transfer data to or from. The column on the left should list where you want to transfer from, the column on the right should list where you want to transfer to. Endpoints on ORCD systems are listed below.
+
+| System | Globus Endpoint | 
+| ----------- | ----------- |
+| Engaging | mithpc#engaging | 
+| Satori | mithpc#satori | 
+| OpenMind | mithpc#openmind | 
+
+To transfer data to or from your own computer you will need to set up a personal endpoint. Follow the instructions on the page for your system listed [here](https://docs.globus.org/globus-connect-personal/).
+
+More documentation on transferring files through Globus can be found on the [Globus Documentation Pages](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/). Globus also has an [FAQ](https://docs.globus.org/faq/globus-connect-endpoints/) that is helpful for answering any questions you might have.
 
