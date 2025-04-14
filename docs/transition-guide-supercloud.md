@@ -58,6 +58,7 @@ SuperCloud and Engaging are both shared HPC systems that use Slurm. Their high-l
 - Nodes on Engaging are not exclusive by user, one node can have multiple users running jobs.
 - Engaging partitions have a different naming convention and can have multiple different types of nodes. You must specify a partition when you launch jobs. See the [Partitions section](running-jobs/overview.md#partitions) for more information.
 - The wrapper commands that start with `LL` are not available on Engaging, however the Slurm commands (start with `s`, such as `sbatch`) behave similarly. See the [Running Jobs Overview page ](running-jobs/overview.md) and the [Requesting Resources page](running-jobs/requesting-resources.md).
+- MIT PIs and DLCIs can purchase additional compute nodes to add to Engaging. Their groups have priority access on these nodes. The MIT community can run preemptable jobs on these nodes when they are idle through the `mit_preemptable` partition. These jobs are preempted, or stopped, when someone from the group that owns the nodes runs a job on them. If your group is interested in purchasing compute nodes reach out to <orcd-help@mit.edu>.
 
 ### Storage
 
