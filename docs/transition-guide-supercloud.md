@@ -33,7 +33,7 @@ The ORCD team can help with migrating data and workloads to Engaging. ORCD has r
 
 ### How can I get an account on Engaging?
 
-It is fairly quick and simple to create your account Engaging. Accounts on the engaging cluster are connected to your MIT institutional kerberos id. To get an account log into the [Engaging OnDemand Web Portal](https://engaging-ood.mit.edu). Connecting to Engaging OnDemand for the first time automatically activates an account with basic access to resources. See [this page](accessing-orcd/ondemand-login.md) for instructions on how to log in. After you log in wait a few minutes for your account setup to complete before starting to run jobs.
+It is fairly quick and simple to create your account Engaging. Accounts on the engaging cluster are connected to your MIT institutional Kerberos id. To get an account log into the [Engaging OnDemand Web Portal](https://engaging-ood.mit.edu). Connecting to Engaging OnDemand for the first time automatically activates an account with basic access to resources. See [this page](accessing-orcd/ondemand-login.md) for instructions on how to log in. After you log in wait a few minutes for your account setup to complete before starting to run jobs.
 
 ### How do I know whether I have a Lincoln Collaboration?
 
@@ -45,11 +45,13 @@ Check your [User Profile page](https://txe1-portal.mit.edu/profile/user_profile.
 
 ## Differences Between SuperCloud and Engaging
 
-SuperCloud and Engaging are both shared HPC systems that use Slurm. Their high-level architecture is the same, both have login nodes and compute nodes connected by a network filesystems that can be accessed from each node. However, there are differences in the systems, practices, and policies between the two. This section describes some of those differences that are most helpful to know.
+SuperCloud and Engaging are both shared HPC systems that use Slurm. Their high-level architecture is the same, both have login nodes and compute nodes connected by a network and filesystems that can be accessed from each node. However, there are differences in the systems, practices, and policies between the two. This section describes some of those differences that are most helpful to know.
+
+### General Differences
 
 - Engaging accounts can be created by anyone with an MIT kerberos, see [above](#how-can-i-get-an-account-on-engaging)
 - Engaging maintenance is on the **3rd Tuesday** of each month
-- Groups on Engaging are managed through Moira, so once groups are created the group admins can add or remove people themselves
+- Groups on Engaging are managed through Moira, once groups are created the group admins can add or remove people themselves
 - Engaging can be accessed both inside and outside the United States
 - Compute nodes on Engaging can access the internet
 - Engaging uses an OnDemand Web Portal that provides similar functionality to the SuperCloud Web Portal
@@ -63,7 +65,7 @@ SuperCloud and Engaging are both shared HPC systems that use Slurm. Their high-l
 
 ### Storage
 
-- While each user on SuperCloud gets a home directory, on Engaging each user gets three spaces: home, pool, and scratch. Quotas on Engaging are also smaller than on SuperCloud. See [General Use Filesystems](filesystems-file-transfer/filesystems.md) for a description of each, what they are meant for, and their quotas.
+- While each user on SuperCloud has a home directory, on Engaging each user has three spaces: home, pool, and scratch. Quotas on Engaging are also smaller than on SuperCloud. See [General Use Filesystems](filesystems-file-transfer/filesystems.md) for a description of each, what they are meant for, and their quotas.
 - Each PI can request 5TB of shared group storage on Engaging.
 - Additional storage space can be rented. See [Project Specific Filesystems](filesystems-file-transfer/project-filesystems.md) for more information and email <orcd-help@mit.edu> if you are interested in purchasing storage for your group.
 
