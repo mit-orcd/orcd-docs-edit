@@ -3,8 +3,9 @@
 ### How do I get GPU access?
 
 Currently we have many public GPUs available to the MIT community on Satori and
-we are working on getting more on Engaging. You can request GPUs for your job
-by following [this documentation](running-jobs/requesting-resources.md#gpus).
+we are working on getting more on Engaging. If you have access to a partition
+with GPUs (e.g., if your lab has purchased some), you can request GPUs for your
+job by following [this documentation](running-jobs/requesting-resources.md#gpus).
 
 If your lab would like to purchase GPUs to be hosted on Engaging, please contact
 <orcd-help-engaging@mit.edu>.
@@ -28,21 +29,26 @@ We recommend using Conda to manage R packages. Please refer to the
 
 Export controlled software has specific requirements around who is allowed to
 access the software. Often, our clusters do not meet these requirements, so
-we generally do not allow this software to be on our systems. Please refer to
-the terms of use of the software and direct any questions to
+we generally do not allow such software to be used on our systems. Please refer
+to the terms of use of the software and direct any questions to
 <orcd-help@mit.edu>.
 
-### Can you increase the time limit for my job?
+### How do I increase the time limit for my job?
+
+Use the `-t` flag in your job script. If you do not specify, Slurm will give
+you the maximum time limit for that partition. You can check the maximum time
+limit by running `sinfo -p <partition name>`.
 
 For public partitions on Engaging, such as `mit_normal`, we cannot increase the
-time limit for any particular job, as these resources are shared. For jobs that
-need to run longer than the time limit on the partition, we encourage
+maximum job time limit, as these resources are shared. For jobs that
+need to run longer than the time limit, we encourage
 checkpointing, which is a way of periodically saving progress so that subsequent
-jobs can pick up where another job left off. The implementation of checkpointing
+jobs can pick up where previous jobs left off. The implementation of checkpointing
 is domain specific and can vary greatly. You can find more information on
 checkpointing [here](https://rc-docs.northeastern.edu/en/latest/best-practices/checkpointing.html).
 
-For partitions owned by other groups, please email <orcd-help-engaging@mit.edu>.
+For increasing the maximum time limit on partitions owned by other groups,
+please email <orcd-help-engaging@mit.edu>.
 
 ### How do I get an account?
 
@@ -92,3 +98,36 @@ errors such as this one.
 
 To fix this, remove or comment out all conda setup commands from your
 `~/.bashrc` file.
+
+### How do I use Git on the cluster?
+
+Git is highly encouraged for use on the cluster. It is useful for backing up
+code and version control, especially when collaborating with others.
+
+We recommend setting up an SSH key with GitHub for security and convenience. To
+do this, follow these steps:
+
+1. [SSH](accessing-orcd/ssh-login.md) to the cluster you're using
+
+2. Enter the following from the command line:
+
+    ```bash
+    ssh-keygen -t ed25519 -C "$USER@mit.edu"
+    ```
+
+3. Press "enter" to save your private and public keys to the default `~/.ssh`
+location. When prompted, optionally enter a passphrase for higher security. You
+will now have two new files in your `~/.ssh` directory: `id_ed25519` and
+`id_ed25519.pub`.
+
+4. Print the contents of your **public key** (using `cat id_ed25519.pub`) and
+copy the output
+
+5. Navigate to [GitHub.com](github.com) > click your profile in the top right
+corner > select "Settings" > "SSH and GPG keys" > "New SSH key"
+
+6. Add a title (e.g., "engaging"), paste your **public key**, and click "Add
+SSH key"
+
+See [GitHub's documentation on SSH keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=linux) for more information.
+
