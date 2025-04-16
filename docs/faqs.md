@@ -104,8 +104,9 @@ To fix this, remove or comment out all conda setup commands from your
 Git is highly encouraged for use on the cluster. It is useful for backing up
 code and version control, especially when collaborating with others.
 
-We recommend setting up an SSH key with GitHub for security and convenience. To
-do this, follow these steps:
+We recommend setting up an SSH key with GitHub for security and convenience.
+This allows you to use the "SSH" link rather than the "HTTPS" link when cloning
+repositories. To set up an SSH key, follow these steps:
 
 1. [SSH](accessing-orcd/ssh-login.md) to the cluster you're using
 
