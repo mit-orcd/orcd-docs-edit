@@ -123,11 +123,10 @@ will now have two new files in your `~/.ssh` directory: `id_ed25519` and
 4. Print the contents of your **public key** (using `cat id_ed25519.pub`) and
 copy the output
 
-5. Navigate to [GitHub.com](github.com) > click your profile in the top right
+5. Navigate to [GitHub.com](https://github.com) > click your profile in the top right
 corner > select "Settings" > "SSH and GPG keys" > "New SSH key"
 
 6. Add a title (e.g., "engaging"), paste your **public key**, and click "Add
 SSH key"
 
 See [GitHub's documentation on SSH keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=linux) for more information.
-
