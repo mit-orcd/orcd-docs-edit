@@ -89,4 +89,16 @@ The final table at the bottom shows the process(es) running on the GPU(s) you ha
 
 
 ## nvtop
-TODO - fill in this portion
+```nvtop``` is like ```htop```, except for monitoring GPU usage. It enables you to see the real-time statistics of your job on the GPU, including memory, compute, and power consumption.
+
+### How to Run nvtop
+
+The principles of usage are very similar to that of htop, and here we will outline them. ssh into the node on which you are running a job using a GPU (```ssh NODENAME```) and run ```nvtop```. You can refer to the htop section [above](#how-to-run-htop) for more details on the ssh process. After running nvtop, you will see your usage updating in real time. Below we show an example of using this to monitor the GPU usage of [RAG](https://orcd-docs.mit.edu/recipes/rag/). If you don't yet have a GPU application and would like to get a sense of how to use nvtop, RAG could be a good example to start with. 
+
+![](../images/application-analysis/nvtop-pre-computation.png)
+
+In the first image above, we have only loaded the model and have not yet asked a prompt which kicks off computation. As we expect, we see that the model takes considerable memory, but the compute of the GPU is not being used. 
+
+![](../images/application-analysis/nvtop-during-computation.png)
+
+In the second image above, we see the results of nvtop when we have queried the RAG model, and therefore started computation on the GPU. We see that the GPU compute is now being at 99%. We can also see that the power and temperature of the system have shot up.Normally at this step, you would evaluate whether you want to request more or less memory in the future and whether the job can be modified to use the GPU's compute more efficiently.
