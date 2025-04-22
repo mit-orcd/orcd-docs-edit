@@ -43,6 +43,79 @@ The SuperCloud documentation on [Requesting an Account](https://mit-supercloud.g
 
 Check your [User Profile page](https://txe1-portal.mit.edu/profile/user_profile.php) on the SuperCloud Web portal. The "Lincoln Laboratory Collaboration" section is in the column on the right and should list any collaborations you or your advisor/PI might have. If any collaborations are missing you can follow the instructions at the top of the page to update your information. Please indicate your collaborator status before May 1 any interruption to your ability to run jobs.
 
+### How can I use my Python virtual environments or Conda environments on Engaging?
+
+If you have [Python virtual environments](software/python.md#python-virtual-environments) or [Conda environments](software/python.md#conda-environments) on SuperCloud that you would like to use on Engaging, we recommend recreating them on Engaging. Simply copying over environment files is **not expected to work** due to setup differences between the two clusters.
+
+For both types of environments, the general process is to save the environment specifications to a file to be used for regeneration on Engaging.
+
+!!!note
+    For more information on using Python on Engaging, see our
+    [Python documentation](software/python.md).
+
+#### Python virtual environments
+
+Save contents of python venv to a `requirements.txt` file:
+
+```bash
+module load anaconda/2023b
+source /path/to/my_venv/bin/activate
+pip freeze > my_venv_requirements.txt
+```
+
+Transfer file to Engaging:
+
+```bash
+scp my_venv_requirements.txt <username>@orcd-login001.mit.edu:/path/to/dest
+```
+
+!!!note
+    Your SuperCloud username is most likely different from your Engaging username, which is your MIT kerberos.
+
+On Engaging, your `requirements.txt` file should now appear in the directory you specified. Recreate it with the following commands:
+
+```bash
+module load miniforge
+python -m venv my_venv
+source my_venv/bin/activate
+pip install -r my_venv_requirements.txt
+```
+
+!!!note
+    The Python version in SuperCloud's Anaconda module is different than the
+    version provided by the Miniforge module on Engaging. If this is a problem,
+    we recommend creating a Conda environment with your desired version of
+    Python installed.
+
+#### Conda environments
+
+You can check all Conda environments you have created using `conda info --envs`.
+As Conda environments can take up lots of space, we recommend going through and
+choosing to transfer only the environments that you are still using.
+
+For each Conda environment you'd like to transfer, take the following steps:
+
+On SuperCloud:
+
+```bash
+module load anaconda/2023b
+conda activate my_env
+conda env export --no-builds | grep -v "^prefix: " > my_env.yml
+```
+
+Transfer `.yml` file to Engaging:
+
+```bash
+scp my_env.yml <username>@orcd-login001.mit.edu:/path/to/dest
+```
+
+Recreate environment on Engaging:
+
+```bash
+module load miniforge
+conda env create -f my_env.yml
+```
+
 ## Differences Between SuperCloud and Engaging
 
 SuperCloud and Engaging are both shared HPC systems that use Slurm. Their high-level architecture is the same, both have login nodes and compute nodes connected by a network and filesystems that can be accessed from each node. However, there are differences in the systems, practices, and policies between the two. This section describes some of those differences that are most helpful to know.
