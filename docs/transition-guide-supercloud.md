@@ -190,7 +190,7 @@ cd globusconnectpersonal-x.y.z #replace x.y.z with version
 ./globusconnectpersonal
 ```
 
-Follow the instructions to set it up, it will direct you to a link where you will be prompted to log in. Use your MIT credentials to log in. There will be a code for you to copy and enter at the command line where you ran `./globusconnectpersonal`. This will connect this installation to your account. It will also ask you for a name for your Collection, this will be a private one only you can see. 
+The `./globusconnectpersonal` command will walk you through setting up Globus on SuperCloud. During the process it will direct you to a link where you will be prompted to log in. Use your MIT credentials to log in. There will be a code for you to copy and enter at the command line where you ran `./globusconnectpersonal`. This will connect this installation to your account on Globus. It will also ask you for a name for your Collection, use something descriptive that you will remember (something like "My SuperCloud Collection" is sufficient). This collection will be private, other Globus users will not be able to find it.
 
 To run Globus Connect personal use the command `./globusconnectpersonal -start`. We recommend starting Globus Connect Personal in a job on the `download` partition. This can be done with the following script:
 
