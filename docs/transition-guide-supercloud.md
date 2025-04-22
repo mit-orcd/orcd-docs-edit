@@ -143,4 +143,103 @@ SuperCloud and Engaging are both shared HPC systems that use Slurm. Their high-l
 - Additional storage space can be rented. See [Project Specific Filesystems](filesystems-file-transfer/project-filesystems.md) for more information and email <orcd-help@mit.edu> if you are interested in purchasing storage for your group.
 
 
+## Migrating Data from SuperCloud
 
+This section describes some recipes for migrating data from SuperCloud to Engaging, but some advice will apply to other systems.
+
+### Step 1: What to Transfer
+
+First, this is a good opportunity to decide what you need and what you don't need. Take a look at your home and group directories and decide what you need to keep. Transferring a lot of data (more than a few TB) or files (order of 1 million files) can take a long time. 
+
+!!! warning "Remove files carefully"
+    Remove files you no longer need very carefully. Remember, `rm` on Linux is permanent and the SuperCloud storage is not backed up!
+
+### Step 2: Where to Transfer
+
+Next figure out where you are going to transfer the data. ORCD has some base storage [described here](filesystems-file-transfer/filesystems.md), with additional [storage available for purchase](filesystems-file-transfer/project-filesystems.md).
+
+Check your SuperCloud storage utilization to see how much space you use. You can see both your home directory and your group storage on your [User Profile Page](https://txe1-portal.mit.edu/profile/user_profile.php). If this is more than what the Engaging quotas can support you may want to check what you can clean up. Your group may also want to purchase additional storage.
+
+For long-term archival storage of data that you need to keep, but will never or rarely need to access, consider purchasing archival storage such as [AWS Glacier](https://aws.amazon.com/s3/storage-classes/glacier/). For storage that you may need to access, but don't need to compute, [MIT IS&T provides some storage options](https://kb.mit.edu/confluence/display/istcontrib/Data+Storage+and+Collaboration+Options) for MIT students, staff, and faculty.
+
+### Step 3: Transfer Your Data
+
+If you don't have a lot of data to transfer you can use `scp` or `rsync` to transfer files at the command line. Log into either system and run your `scp` or `rsync` command from there. The best option is to do this on the download partition on SuperCloud as a batch job. You would use a batch script that looks something like this:
+
+```bash title="transfer.sh"
+#!/bin/bash
+
+#SBATCH --partition=download
+
+rsync -ruP path/to/source USERNAME@orcd-login001.mit.edu:/path/to/destination/supercloud-files/
+```
+
+!!! warning "Do not directly copy SuperCloud home into Engaging home"
+    Be careful not to copy your SuperCloud home directory directly into your Engaging home directory. Doing so may overwrite files in your Engaging home directory, including files such as `.bashrc` which can cause issues. Instead create a subdirectory and transfer your files there.
+
+If you have a lot of data and are having trouble with `rsync` or `scp` failing before the transfer is complete, Engaging has Globus collections that can make transfer easier. Globus will manage the file transfer for you to make sure everything transfers properly.
+
+#### Using Globus to Transfer Data
+
+The first step is to install Globus Connect Personal on SuperCloud. Log into SuperCloud and run the following in your home directory:
+
+```bash
+wget https://downloads.globus.org/globus-connect-personal/linux/stable/globusconnectpersonal-latest.tgz
+tar xzf globusconnectpersonal-latest.tgz
+cd globusconnectpersonal-x.y.z #replace x.y.z with version
+./globusconnectpersonal
+```
+
+The `./globusconnectpersonal` command will walk you through setting up Globus on SuperCloud. During the process it will direct you to a link where you will be prompted to log in. Use your MIT credentials to log in. There will be a code for you to copy and enter at the command line where you ran `./globusconnectpersonal`. This will connect this installation to your account on Globus. It will also ask you for a name for your Collection, use something descriptive that you will remember (something like "My SuperCloud Collection" is sufficient). This collection will be private, other Globus users will not be able to find it.
+
+To run Globus Connect personal use the command `./globusconnectpersonal -start`. We recommend starting Globus Connect Personal in a job on the `download` partition. This can be done with the following script:
+
+```bash
+#!/bin/bash
+
+#SBATCH -p download
+
+~/globusconnectpersonal-3.2.6/globusconnectpersonal -start
+```
+
+This assumes version 3.2.6 installed in your home directory.
+
+!!! note "Copying Files in Group Directories"
+    By default Globus Connect Personal will allow you to transfer files in your home directory. If you need to transfer files in a group directory you will have to specify that directory when you run `glogbusconnectpersonal -start` by adding the `-restrict-paths` flag. For example:
+
+    ```
+    globusconnectpersonal -start -restrict-paths /home/gridsan/$USER,/home/gridsan/[groupname]
+    ```
+
+To initiate the transfer go to [https://www.globus.org/](https://www.globus.org/), log in, and click "File Manager".
+
+In the left pane search for your SuperCloud Personal collection using the name you gave it during setup. In the right pane search for the collection where you want to transfer the data:
+
+- MIT ORCD Engaging Home Collection - For home, pool, and scratch. Use the symlinks under the "orcd" directory to get to your pool and scratch.
+- MIT ORCD Engaging Data Collection - For lab purchased storage spaces
+- MIT ORCD Engaging Complete Collection - Use if you cannot find your destination at the above. This collection starts at `/orcd/` on the Engaging filesystem.
+
+If you need help finding the target directory on Engaging with Globus send an email to <orcd-help@mit.edu> or stop by [office hours]((https://orcd.mit.edu/news-and-events/office-hours)) and we can help you.
+
+Once you have selected your target collection navigate to the directory where you want to transfer your data. Create a directory called "SuperCloud" and select it.
+
+Select the items you want to transfer from SuperCloud in the left pane, or "Select all" to transfer your entire home directory. Symlinks (to group directories) and their contents are not transferred.
+
+!!! hint "Deselect dot . files"
+    Click "Show Hidden Items" to deselect . files. Your .bashrc and any conda environments will not work on another system and could cause issues.
+
+
+Under Transfer and Timer options select:
+
+- Skip files on source with errors
+- Fail on quota errors
+- Encrypt transfer
+- Consider:
+    - Excluding dot files (ex: .bashrc). Check "Apply filter rules to the transfer" and set to exclude all matching `.*` (see screenshot below)
+    - Sync, This is helpful if you've already transferred files and only want to transfer new files
+
+![Globus Transfer and Timer Options](images/globus_transfer_settings.png)
+
+Once you have selected your source files, destination, and transfer settings click the "Start" button on the left pane (the SuperCloud side). You can view the transfer progress on the "Activity" page, and Globus will send you an email when the transfer is done.
+
+If Globus Connect Personal stops on SuperCloud, for example if the job ends, restart it in the same way and Globus should continue the transfer where it left off.
