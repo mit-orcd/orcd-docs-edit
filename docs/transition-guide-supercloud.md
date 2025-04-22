@@ -152,7 +152,7 @@ Once you have selected your target collection navigate to the directory where yo
 
 Select the items you want to transfer from SuperCloud in the left pane, or "Select all" to transfer your entire home directory. Symlinks (to group directories) and their contents are not transferred.
 
-!!! hint "Deselect dot (.) files"
+!!! hint "Deselect dot . files"
     Click "Show Hidden Items" to deselect . files. Your .bashrc and any conda environments will not work on another system and could cause issues.
 
 
@@ -161,8 +161,11 @@ Under Transfer and Timer options select:
 - Skip files on source with errors
 - Fail on quota errors
 - Encrypt transfer
-- Apply filter rules to the transfer- May be best to exclude dot (.) files (see screenshot)
-- Consider: sync, if you have already transferred some files
+- Consider:
+    - Excluding dot files (ex: .bashrc). Check "Apply filter rules to the transfer" and set to exclude all matching `.*` (see screenshot below)
+    - Sync, This is helpful if you've already transferred files and only want to transfer new files
+
+![Globus Transfer and Timer Options](images/globus_transfer_settings.png)
 
 Once you have selected your source files, destination, and transfer settings click the "Start" button on the left pane (the SuperCloud side). You can view the transfer progress on the "Activity" page, and Globus will send you an email when the transfer is done.
 
