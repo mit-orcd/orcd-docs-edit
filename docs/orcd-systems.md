@@ -43,7 +43,6 @@ Connecting to the cluster for the first time through its [web portal](https://en
 
 ### Engaging Quick Links
 
-- Additional Documentation: [https://engaging-web.mit.edu/eofe-wiki/](https://engaging-web.mit.edu/eofe-wiki/)
 - OnDemand web portal: [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu)
 - Help: Send email to <orcd-help-engaging@mit.edu>
 
