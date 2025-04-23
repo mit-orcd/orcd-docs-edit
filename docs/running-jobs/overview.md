@@ -24,12 +24,12 @@ The `sinfo` command will tell you the names of the partitions you have access, w
 
 The standard partitions that the full MIT community has access to are:
 
-| Partition Name | Purpose | Hardware Type(s) | Time Limit | Resource Limit |
+| <div style="width:10em">Partition Name</div> | Purpose | Hardware Type(s) | Time Limit | Resource Limit |
 | ----------- | ----------- |----------- |----------- |----------- |
 | `mit_normal` | Longer running batch and interactive jobs that do not need a GPU | CPU only | 12 hours | 96 cores |
-| `mit_normal_gpu` (Coming Soon) | Batch and interactive jobs that need a GPU | GPUs (L4, L40S, H100) | 12 hours | TBA |
+| `mit_normal_gpu` (Coming Soon) | Batch and interactive jobs that need a GPU | GPUs (L4, L40S, H100, H200) | 12 hours | TBA |
 | `mit_quicktest` | Short batch and interactive jobs, meant for testing | CPU only | 15 minutes | 48 cores |
-| `mit_preemptable` (Coming Soon) | Low-priority preemtable jobs- jobs that may be stopped by another job with higher priority | Mixed | 48 hours | TBA |
+| `mit_preemptable` | Low-priority preemtable jobs- jobs that may be stopped by another job with higher priority | CPU-only, GPUs (A100, L40S, H100, H200) | 48 hours | 1024 cores, 4 GPUs |
 
 !!! note "Older Partitions"
     There are a few additional partitions that contain older nodes. These nodes run on a different operating system (Centos 7) than the ones above and therefore have a different software stack. Software built or installed on Rocky 8 or newer nodes will most likely not work on these older nodes. These partitions include `sched_mit_hill`, `newnodes`, `sched_any`, `sched_engaging_default`, and `sched_quicktest`.
@@ -64,7 +64,24 @@ Common node states are:
 - down: nodes that are not currently in service
 - drain: nodes that will be put in a `down` state once all jobs running on them are completed
 
-You can also use sinfo to see what resources each node has. The output can be quite long so we recommend limiting to a specific partition. For example, to see what 
+You can also use `sinfo` to see what resources each node has. The output can be quite long so we recommend limiting to a specific partition. For example, to see what node types are in the `mit_preemptable` partition, run the command:
+
+```
+sinfo -p mit_preemptable -O Partition,Nodes,CPUs,Memory,Gres -e
+```
+
+In the output you'll see a summary of how many nodes of each configuration is in the partition. You can include multiple partitions by providing a comma separated list to the `-p` flag. The output shows the Partition, number of nodes, number of CPUs, amount of Memory (in MB), and any GPUs available on the node:
+
+```
+PARTITION           NODES               CPUS                MEMORY              GRES                
+mit_preemptable     6                   192                 1547000             (null)              
+mit_preemptable     48                  96                  386000              (null)              
+mit_preemptable     2                   96                  1547000             (null)              
+mit_preemptable     2                   96                  773000              (null)            
+mit_preemptable     2                   240                 2063000             gpu:h200:8          
+mit_preemptable     1                   64                  1031000             gpu:l40s:4          
+mit_preemptable     1                   64                  1031000             gpu:h100:4
+```
 
 ## Running Jobs
 
