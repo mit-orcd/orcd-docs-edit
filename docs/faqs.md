@@ -131,3 +131,33 @@ corner > select "Settings" > "SSH and GPG keys" > "New SSH key"
 SSH key"
 
 See [GitHub's documentation on SSH keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=linux) for more information.
+
+### How do I install PyTorch on Satori?
+
+Satori uses a ppc64le architecture, which is unfortunately not supported by the
+newer versions of many Python packages. As a result, the newest version of
+PyTorch that is available on Satori is version 2.1.2.
+
+The following channels offer more packages that work on the ppc64le
+architecture:
+
+- `https://ftp.osuosl.org/pub/open-ce/current`
+- `https://opence.mit.edu`
+- `https://public.dhe.ibm.com/ibmdl/export/pub/software/server/ibm-ai/conda/`
+- `conda-forge`
+
+You can add these channels with the following command:
+
+```bash
+conda config --prepend channels <channel>
+```
+
+Some users have had more success installing their own version of Miniconda,
+which can be accomplished as such:
+
+```bash
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-ppc64le.sh .
+chmod +x ./Miniconda3-latest-Linux-ppc64le.sh
+./Miniconda3-latest-Linux-ppc64le.sh -b -p ./mc3
+source ./mc3/bin/activate
+```
