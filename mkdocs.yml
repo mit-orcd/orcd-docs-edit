@@ -29,6 +29,7 @@ nav:
   - Running Jobs:
     - Scheduler Overview: running-jobs/overview.md
     - Requesting Resources: running-jobs/requesting-resources.md
+    - Application Analysis: running-jobs/application-analysis.md
     - Job Arrays: running-jobs/job-arrays.md
 #    - Slurm Partitions: running-jobs/
 #    - How To Run Different Workloads: running/page3.md

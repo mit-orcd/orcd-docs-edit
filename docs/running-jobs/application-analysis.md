@@ -1,5 +1,5 @@
 # Analyzing Job Resource Usage
-Here we provide an overview for how to analyze the resources your jobs use, utilizing the commands ```htop```, ```nvidia-smi```, and ```nvtop```. Using these tools are important for both optimizing your code and only requesting the amount of resources your jobs need, leaving more resources open for others to use. A good place to start before using the commands we outline in this doc is with the ```sacct``` command, and its documentation can be found [here](https://orcd-docs.mit.edu/running-jobs/requesting-resources/#memory).
+Here we provide an overview for how to analyze the resources your jobs use, utilizing the commands ```htop```, ```nvidia-smi```, and ```nvtop```. Using these tools is important for both optimizing your code as well as only requesting the amount of resources your jobs need, leaving more resources open for others to use. A good place to start before using the commands we outline here is with the documentation on [Requesting Resources](https://orcd-docs.mit.edu/running-jobs/requesting-resources).
 
 ## htop
 
@@ -13,7 +13,7 @@ The next step is to ssh to the node where your job is running. Run the command `
 
 ![htop ssh](../images/application-analysis/htop_ssh.png)
 
-In the above image, you can see we have run ssh node1600, and the command prompt now indicates we are on that node. From here we can run:
+In the above image, you can see we have run ```ssh node1600```, and the command prompt now indicates we are on that node. From here we can run:
 
 ```htop -u USERNAME```
 
@@ -57,11 +57,11 @@ The nvidia-smi command is useful for evaluating how your GPU-accelerated applica
 Like htop in the previous unit, you must be on the same node as your job to run nvidia-smi to monitor it. Further, because it is a GPU utility, if you try to run nvidia-smi on a node without a GPU you will get a command not found error. And, similar to htop, you will only see statistics for the GPU(s) you have allocated to your job, so if you are on a node with GPUs but didn't request any, you won't see any listed. For more information about how to request GPUs for your job, see the pages on [Requesting Resources](https://orcd-docs.mit.edu/running-jobs/requesting-resources/#gpus) and [Scheduler Overview](https://orcd-docs.mit.edu/running-jobs/overview).
 
 
-First, get the name of the node your job is running on. You can do this by running the ```squeue --me``` command. The last column has the node name. In the image below you can see the node name, node2804, in the last line of the squeue output. The next step is to ssh to the node where your job is running. Run the command ssh NODENAME, where NODENAME is the name of the node you just found. If you are running an interactive job, open a new terminal tab or window and log into Engaging and ssh to the node from there. Note that you can only ssh to nodes where you have a job running, and you should exit the node once you are done monitoring your job with the exit command.
+First, get the name of the node your job is running on. You can do this by running the ```squeue --me``` command. The last column has the node name. In the image below you can see the node name, node2804, in the last line of the squeue output. The next step is to ssh to the node where your job is running. Run the command ```ssh NODENAME```, where NODENAME is the name of the node you just found. If you are running an interactive job, open a new terminal tab or window and log into Engaging and ssh to the node from there. Note that you can only ssh to nodes where you have a job running, and you should exit the node once you are done monitoring your job with the exit command.
 
 ![](../images/application-analysis/nvidia-smi_ssh.png)
 
-In the above image, you can see we have run ssh node2804, and the command prompt now indicates we are on that node. From here we can run the nvidia-smi command as shown.
+In the above image, you can see we have run ```ssh node2804```, and the command prompt now indicates we are on that node. From here we can run the nvidia-smi command as shown.
 
 ### Using nvidia-smi
 
@@ -89,16 +89,16 @@ The final table at the bottom shows the process(es) running on the GPU(s) you ha
 
 
 ## nvtop
-```nvtop``` is like ```htop```, except for monitoring GPU usage. It enables you to see the real-time statistics of your job on the GPU, including memory, compute, and power consumption.
+```nvtop``` is like ```htop```, except for monitoring GPU usage. Like ```nvidia-smi```, ```nvtop``` enables you to see the real-time statistics of your job on the GPU, including memory, compute, and power consumption. It additionally shows a sliding history of GPU compute and memory usage as well as a snapshot of CPU usage. ```nvtop``` in general shows more information than ```nvidia-smi``` and has a different look. It is up to the user's preference to pick one or use both.
 
 ### How to Run nvtop
 
-The principles of usage are very similar to that of htop, and here we will outline them. ssh into the node on which you are running a job using a GPU (```ssh NODENAME```) and run ```nvtop```. You can refer to the htop section [above](#how-to-run-htop) for more details on the ssh process. After running nvtop, you will see your usage updating in real time. Below we show an example of using this to monitor the GPU usage of [RAG](https://orcd-docs.mit.edu/recipes/rag/). If you don't yet have a GPU application and would like to get a sense of how to use nvtop, RAG could be a good example to start with. 
+The principles of usage are very similar to that of [htop](#htop), and we will outline them here. First, ssh into the node on which you are running a job using a GPU (```ssh NODENAME```) and run ```nvtop```. You can refer to the htop section [above](#how-to-run-htop) for more details on finding the nodename as well as the ssh process. After running nvtop, you will see your usage updating in real time. Below we show an example of using this to monitor the GPU usage of [RAG](https://orcd-docs.mit.edu/recipes/rag/). If you don't yet have a GPU application and would like to get a sense of how to use nvtop, RAG could be a good example to start with. 
 
 ![](../images/application-analysis/nvtop-pre-computation.png)
 
-In the first image above, we have only loaded the model and have not yet asked a prompt which kicks off computation. As we expect, we see that the model takes considerable memory, but the compute of the GPU is not being used. 
+In the first image above, we have only loaded the model and have not yet asked a prompt which kicks off computation. As we expect, we see that the model takes considerable memory (31GB out of the possible 45GB), but the compute of the GPU is not being used.
 
 ![](../images/application-analysis/nvtop-during-computation.png)
 
-In the second image above, we see the results of nvtop when we have queried the RAG model, and therefore started computation on the GPU. We see that the GPU compute is now being at 99%. We can also see that the power and temperature of the system have shot up.Normally at this step, you would evaluate whether you want to request more or less memory in the future and whether the job can be modified to use the GPU's compute more efficiently.
+In the second image above, we see the results of nvtop after we have queried the RAG model, and therefore started computation on the GPU. In the bottom section, we see that both the GPU and CPU compute are now at 99%. We can observe the GPU and CPU memory usage on this line as well. On the top right, we see that "RX", data reception rate, and "TX", data transmission rate, have increased. These metrics are for data transfer between the CPU and GPU. We can also notice that the power and temperature of the system have shot up. At this point, you could evaluate whether you want to request more or less memory in the future and whether the job can be modified to use the GPU's compute more efficiently.
