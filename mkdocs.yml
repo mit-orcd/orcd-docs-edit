@@ -27,6 +27,7 @@ nav:
 #    - Singularity/Apptainer: 
 #    - Licensed Software: 
   - Running Jobs:
+    - Available Resources: running-jobs/available-resources.md
     - Scheduler Overview: running-jobs/overview.md
     - Requesting Resources: running-jobs/requesting-resources.md
     - Job Arrays: running-jobs/job-arrays.md
