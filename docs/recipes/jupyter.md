@@ -206,7 +206,7 @@ port number, and username as necessary:
     the same number:
 
     ```bash
-    ssh -L 8888:node1600:8888 <USER>@orcd-login001.mit.edu
+    ssh -L 8888:<node>:8888 <USER>@orcd-login001.mit.edu
     ```
 
 === "Satori"
