@@ -27,9 +27,9 @@ The standard partitions that the full MIT community has access to are:
 | <div style="width:10em">Partition Name</div> | Purpose | Hardware Type(s) | Time Limit | Resource Limit |
 | ----------- | ----------- |----------- |----------- |----------- |
 | `mit_normal` | Longer running batch and interactive jobs that do not need a GPU | CPU only | 12 hours | 96 cores |
-| `mit_normal_gpu` (Coming Soon) | Batch and interactive jobs that need a GPU | GPUs (L4, L40S, H100, H200) | 12 hours | TBA |
+| `mit_normal_gpu` (Coming Soon) | Batch and interactive jobs that need a GPU | GPUs (L40S, H100, H200) | 12 hours | TBA |
 | `mit_quicktest` | Short batch and interactive jobs, meant for testing | CPU only | 15 minutes | 48 cores |
-| `mit_preemptable` | Low-priority preemtable jobs- jobs that may be stopped by another job with higher priority | CPU-only, GPUs (A100, L40S, H100, H200) | 48 hours | 1024 cores, 4 GPUs |
+| `mit_preemptable` | Low-priority [preemtable jobs](#preemptable-jobs)- jobs that may be stopped by another job with higher priority | CPU-only, GPUs (A100, L40S, H100, H200) | 48 hours | 1024 cores, 4 GPUs |
 
 !!! note "Older Partitions"
     There are a few additional partitions that contain older nodes. These nodes run on a different operating system (Centos 7) than the ones above and therefore have a different software stack. Software built or installed on Rocky 8 or newer nodes will most likely not work on these older nodes. These partitions include `sched_mit_hill`, `newnodes`, `sched_any`, `sched_engaging_default`, and `sched_quicktest`.
@@ -40,7 +40,7 @@ If you are part of a group that has purchased nodes you may see additional parti
 
 We provide the `mit_preemptable` partition so that nodes owned by a group or PI can be used by researchers outside that group when those nodes are idle. When someone from the group that owns the node runs a job on their partition, the scheduler will stop, or preempt, any job that is running on the lower-priority `mit_preemptable` partition. Jobs running on `mit_preemptable` should be checkpointed so that they don't lose their progress when the job is stopped.
 
-<!-- section on seeing node stats in partition, partition rules -->
+To make your batch jobs requeue if they are stopped on `mit_preemptable`, add the `--requeue` flag to your job submission. If your job has a recent checkpoint it should pick up where it left off once additional resources are available. You can read more about [job flags](#job-flags) below.
 
 ## Checking Available Resources
 
