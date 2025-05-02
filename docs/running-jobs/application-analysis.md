@@ -93,7 +93,11 @@ The final table at the bottom shows the process(es) running on the GPU(s) you ha
 
 ### How to Run nvtop
 
-The principles of usage are very similar to that of [htop](#htop), and we will outline them here. First, ssh into the node on which you are running a job using a GPU (```ssh NODENAME```) and run ```nvtop```. You can refer to the htop section [above](#how-to-run-htop) for more details on finding the nodename as well as the ssh process. After running nvtop, you will see your usage updating in real time. Below we show an example of using this to monitor the GPU usage of [RAG](https://orcd-docs.mit.edu/recipes/rag/). If you don't yet have a GPU application and would like to get a sense of how to use nvtop, RAG could be a good example to start with. 
+The principles of usage are very similar to that of [htop](#htop), and we will outline them here. First, ssh into the node on which you are running a job using a GPU (```ssh NODENAME```) and run ```nvtop```. You can refer to the htop section [above](#how-to-run-htop) for more details on finding the nodename as well as the ssh process. 
+
+### Using nvtop
+
+After running nvtop, you will see your usage updating in real time. Below we show an example of using this to monitor the GPU usage of [RAG](https://orcd-docs.mit.edu/recipes/rag/). If you don't yet have a GPU application and would like to get a sense of how to use nvtop, RAG could be a good example to start with. 
 
 ![](../images/application-analysis/nvtop-static.png)
 
@@ -101,7 +105,7 @@ Above, we see a display that comes up after running ```nvtop```. Highlighted in 
 
 ![](../images/application-analysis/nvtop-compute.png)
 
-In the image above, we have only loaded the model and have not yet asked a prompt which kicks off computation. As we expect, we see that the model takes considerable memory (31GB out of the possible 45GB), but the compute of the GPU is not being used. These can be seen in two places on the screen, highlighted in yellow.
+In the image above, we have only loaded the model and have not yet asked a prompt which kicks off computation. As we expect, we see that the model takes considerable memory (31GB out of the possible 45GB), but the compute of the GPU is not being used. These can be seen in two places on the screen, highlighted in yellow. Note however that some applications, like JAX, artificially fill the memory of a GPU even if that memory is not needed. This can lead to an inaccurate picture of GPU utilization, and it would be good to check whether your application could be doing this.
 
 ![](../images/application-analysis/nvtop-history.png)
 
