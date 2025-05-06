@@ -27,6 +27,7 @@ nav:
 #    - Singularity/Apptainer: 
 #    - Licensed Software: 
   - Running Jobs:
+    - Public Partition Resources: running-jobs/available-resources.md
     - Scheduler Overview: running-jobs/overview.md
     - Requesting Resources: running-jobs/requesting-resources.md
     - Application Analysis: running-jobs/application-analysis.md
