@@ -206,7 +206,7 @@ port number, and username as necessary:
     the same number:
 
     ```bash
-    ssh -L 8888:node1600:8888 <USER>@orcd-login001.mit.edu
+    ssh -L 8888:<node>:8888 <USER>@orcd-login001.mit.edu
     ```
 
 === "Satori"
@@ -219,7 +219,7 @@ port number, and username as necessary:
     the same number:
 
     ```bash
-    ssh -L 8888:node0031:8888 <USER>@satori-login-001.mit.edu
+    ssh -L 8888:<node>:8888 <USER>@satori-login-001.mit.edu
     ```
 
 === "SuperCloud"
@@ -232,7 +232,7 @@ port number, and username as necessary:
     the same number:
 
     ```bash
-    ssh -L 8888:d-5-3-4:8888 <USER>@txe1-login.mit.edu
+    ssh -L 8888:<node>:8888 <USER>@txe1-login.mit.edu
     ```
 
 Now you can access Jupyter in an internet browser:
