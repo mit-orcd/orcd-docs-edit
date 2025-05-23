@@ -31,6 +31,8 @@ The standard partitions that the full MIT community has access to are:
 | `mit_quicktest` | Short batch and interactive jobs, meant for testing | CPU only | 15 minutes | 48 cores |
 | `mit_preemptable` | Low-priority [preemtable jobs](#preemptable-jobs)- jobs that may be stopped by another job with higher priority | CPU-only, GPUs (A100, L40S, H100, H200) | 48 hours | 1024 cores, 4 GPUs |
 
+To see a summary of the nodes in each of these partitions, take a look at our [Available Resources](available-resources.md) page.
+
 !!! note "Older Partitions"
     There are a few additional partitions that contain older nodes. These nodes run on a different operating system (Centos 7) than the ones above and therefore have a different software stack. Software built or installed on Rocky 8 or newer nodes will most likely not work on these older nodes. These partitions include `sched_mit_hill`, `newnodes`, `sched_any`, `sched_engaging_default`, and `sched_quicktest`.
 

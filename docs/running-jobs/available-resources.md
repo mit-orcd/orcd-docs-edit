@@ -17,6 +17,14 @@
 | 47         | 2x48  | 376GB  | AMD EPYC 9474F 48-Core Processor |               | node1600-1616;node1618-1619;node1626-1631;node2503-2513;node2523-2525;node9800-9805;node9808-9809 |
 | 2          | 2x48  | 754GB  | AMD EPYC 9474F 48-Core Processor |               | node9806-9807                                                                                     |
 
+#### mit_normal_gpu
+
+| NODE_COUNT | OS     | CORES_PER_SOCKET | SOCKETS | MEMORY  | MODEL_NAME                   | GPU_COUNT | GPU_TYPE              | GPU_MEMORY |
+| ---------- | ------ | ---------------- | ------- | ------- | ---------------------------- | --------- | --------------------- | ---------- |
+| 49          | rocky8 | 32               | 2       | 1031000 | INTELR XEONR PLATINUM 8562Y+ | 4         | NVIDIA L40S           | 46068 MiB  |
+| 8          | rocky8 | 60               | 2       | 2063000 | INTELR XEONR PLATINUM 8580   | 8         | NVIDIA H200           | 143771 MiB |
+| 1          | rocky8 | 32               | 2       | 1031000 | IntelR XeonR Platinum 8462Y+ | 4         | NVIDIA H100 80GB HBM3 | 81559 MiB  |
+
 #### mit_preemptable (GPU)
 
 | Nodes | Cores | Memory | CPU model                             | GPUs | GPU type              | GPU memory | Misc. features | Node list                                                    |
@@ -35,11 +43,6 @@
 | 6          | 2x96  | 1510GB | AMD EPYC 9654 96-Core Processor  |               | node1620-1625               |
 | 19         | 2x48  | 376GB  | AMD EPYC 9474F 48-Core Processor |               | node1600-1616;node1618-1619 |
 
-<!-- #### mit_normal_gpu
 
-| NODE_COUNT | OS     | CORES_PER_SOCKET | SOCKETS | MEMORY  | MODEL_NAME                   | GPU_COUNT | GPU_TYPE              | GPU_MEMORY | NODELIST      |
-| ---------- | ------ | ---------------- | ------- | ------- | ---------------------------- | --------- | --------------------- | ---------- | ------------- |
-| 1          | rocky8 | 32               | 2       | 1031000 | INTELR XEONR PLATINUM 8562Y+ | 4         | NVIDIA L40S           | 46068 MiB  | node2804      |
-| 1          | rocky8 | 32               | 2       | 1031000 | IntelR XeonR Platinum 8462Y+ | 4         | NVIDIA H100 80GB HBM3 | 81559 MiB  | node2906      |
-| 2          | rocky8 | 60               | 2       | 2063000 | INTELR XEONR PLATINUM 8580   | 8         | NVIDIA H200           | 143771 MiB | node2433-2434 | -->
+
 
