@@ -24,10 +24,10 @@ The `sinfo` command will tell you the names of the partitions you have access, w
 
 The standard partitions that the full MIT community has access to are:
 
-| <div style="width:10em">Partition Name</div> | Purpose | Hardware Type(s) | Time Limit | Resource Limit |
+| <div style="width:10em">Partition Name</div> | Purpose | Hardware Type(s) | Max Time Limit | Resource Limit |
 | ----------- | ----------- |----------- |----------- |----------- |
 | `mit_normal` | Longer running batch and interactive jobs that do not need a GPU | CPU only | 12 hours | 96 cores |
-| `mit_normal_gpu` (Coming Soon) | Batch and interactive jobs that need a GPU | GPUs (L40S, H100, H200) | 12 hours | TBA |
+| `mit_normal_gpu` | Batch and interactive jobs that need a GPU | GPUs (L40S, H100, H200) | 6 hours | 2 GPUs, 32 cores |
 | `mit_quicktest` | Short batch and interactive jobs, meant for testing | CPU only | 15 minutes | 48 cores |
 | `mit_preemptable` | Low-priority [preemtable jobs](#preemptable-jobs)- jobs that may be stopped by another job with higher priority | CPU-only, GPUs (A100, L40S, H100, H200) | 48 hours | 1024 cores, 4 GPUs |
 
