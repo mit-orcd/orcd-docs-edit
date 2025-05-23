@@ -64,23 +64,23 @@ Common node states are:
 - down: nodes that are not currently in service
 - drain: nodes that will be put in a `down` state once all jobs running on them are completed
 
-You can also use `sinfo` to see what resources each node has. The output can be quite long so we recommend limiting to a specific partition. For example, to see what node types are in the `mit_preemptable` partition, run the command:
+You can also use `sinfo` to see what resources each node has. The output can be quite long so we recommend limiting to a specific partition(s). For example, to see what node types are in the `mit_normal` and `mit_normal_gpu` partitions, run the command:
 
 ```
-sinfo -p mit_preemptable -O Partition,Nodes,CPUs,Memory,Gres -e
+sinfo -p mit_normal,mit_normal_gpu -O Partition,Nodes,CPUs,Memory,Gres -e
 ```
 
-In the output you'll see a summary of how many nodes of each configuration is in the partition. You can include multiple partitions by providing a comma separated list to the `-p` flag. The output shows the Partition, number of nodes, number of CPUs, amount of Memory (in MB), and any GPUs available on the node:
+In the output you'll see a summary of how many nodes of each configuration is in the partition. You can include multiple partitions by providing a comma separated list to the `-p` flag. The output shows the partition, number of nodes, number of CPUs, amount of Memory (in MB), and any GPUs available on the node:
 
 ```
 PARTITION           NODES               CPUS                MEMORY              GRES                
-mit_preemptable     6                   192                 1547000             (null)              
-mit_preemptable     48                  96                  386000              (null)              
-mit_preemptable     2                   96                  1547000             (null)              
-mit_preemptable     2                   96                  773000              (null)            
-mit_preemptable     2                   240                 2063000             gpu:h200:8          
-mit_preemptable     1                   64                  1031000             gpu:l40s:4          
-mit_preemptable     1                   64                  1031000             gpu:h100:4
+mit_normal          32                  96                  386000              (null)              
+mit_normal          2                   64                  386000              (null)              
+mit_normal          6                   192                 1547000             (null)              
+mit_normal          12                  96                  386223              (null)              
+mit_normal_gpu      1                   64                  1031314             gpu:h100:4(S:0-1)   
+mit_normal_gpu      8                   120                 2063213             gpu:h200:8(S:0-1)   
+mit_normal_gpu      49                  64                  1031314             gpu:l40s:4(S:0-1)
 ```
 
 ## Running Jobs
