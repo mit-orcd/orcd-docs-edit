@@ -24,12 +24,14 @@ The `sinfo` command will tell you the names of the partitions you have access, w
 
 The standard partitions that the full MIT community has access to are:
 
-| Partition Name | Purpose | Hardware Type(s) | Time Limit | Resource Limit |
+| <div style="width:10em">Partition Name</div> | Purpose | Hardware Type(s) | Max Time Limit | Resource Limit |
 | ----------- | ----------- |----------- |----------- |----------- |
 | `mit_normal` | Longer running batch and interactive jobs that do not need a GPU | CPU only | 12 hours | 96 cores |
-| `mit_normal_gpu` (Coming Soon) | Batch and interactive jobs that need a GPU | GPUs (L4, L40S, H100) | 12 hours | TBA |
+| `mit_normal_gpu` | Batch and interactive jobs that need a GPU | GPUs (L40S, H100, H200) | 6 hours | 2 GPUs, 32 cores |
 | `mit_quicktest` | Short batch and interactive jobs, meant for testing | CPU only | 15 minutes | 48 cores |
-| `mit_preemptable` (Coming Soon) | Low-priority preemtable jobs- jobs that may be stopped by another job with higher priority | Mixed | 48 hours | TBA |
+| `mit_preemptable` | Low-priority [preemtable jobs](#preemptable-jobs)- jobs that may be stopped by another job with higher priority | CPU-only, GPUs (A100, L40S, H100, H200) | 48 hours | 1024 cores, 4 GPUs |
+
+To see a summary of the nodes in each of these partitions, take a look at our [Available Resources](available-resources.md) page.
 
 !!! note "Older Partitions"
     There are a few additional partitions that contain older nodes. These nodes run on a different operating system (Centos 7) than the ones above and therefore have a different software stack. Software built or installed on Rocky 8 or newer nodes will most likely not work on these older nodes. These partitions include `sched_mit_hill`, `newnodes`, `sched_any`, `sched_engaging_default`, and `sched_quicktest`.
@@ -40,7 +42,7 @@ If you are part of a group that has purchased nodes you may see additional parti
 
 We provide the `mit_preemptable` partition so that nodes owned by a group or PI can be used by researchers outside that group when those nodes are idle. When someone from the group that owns the node runs a job on their partition, the scheduler will stop, or preempt, any job that is running on the lower-priority `mit_preemptable` partition. Jobs running on `mit_preemptable` should be checkpointed so that they don't lose their progress when the job is stopped.
 
-<!-- section on seeing node stats in partition, partition rules -->
+To make your batch jobs requeue if they are stopped on `mit_preemptable`, add the `--requeue` flag to your job submission. If your job has a recent checkpoint it should pick up where it left off once additional resources are available. You can read more about [job flags](#job-flags) below.
 
 ## Checking Available Resources
 
@@ -64,7 +66,24 @@ Common node states are:
 - down: nodes that are not currently in service
 - drain: nodes that will be put in a `down` state once all jobs running on them are completed
 
-You can also use sinfo to see what resources each node has. The output can be quite long so we recommend limiting to a specific partition. For example, to see what 
+You can also use `sinfo` to see what resources each node has. The output can be quite long so we recommend limiting to a specific partition(s). For example, to see what node types are in the `mit_normal` and `mit_normal_gpu` partitions, run the command:
+
+```
+sinfo -p mit_normal,mit_normal_gpu -O Partition,Nodes,CPUs,Memory,Gres -e
+```
+
+In the output you'll see a summary of how many nodes of each configuration is in the partition. You can include multiple partitions by providing a comma separated list to the `-p` flag. The output shows the partition, number of nodes, number of CPUs, amount of Memory (in MB), and any GPUs available on the node:
+
+```
+PARTITION           NODES               CPUS                MEMORY              GRES                
+mit_normal          32                  96                  386000              (null)              
+mit_normal          2                   64                  386000              (null)              
+mit_normal          6                   192                 1547000             (null)              
+mit_normal          12                  96                  386223              (null)              
+mit_normal_gpu      1                   64                  1031314             gpu:h100:4(S:0-1)   
+mit_normal_gpu      8                   120                 2063213             gpu:h200:8(S:0-1)   
+mit_normal_gpu      49                  64                  1031314             gpu:l40s:4(S:0-1)
+```
 
 ## Running Jobs
 
