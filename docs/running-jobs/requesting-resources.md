@@ -116,13 +116,15 @@ If the `MaxRSS` value is larger than what you have requested, or you run out of 
 
 ## GPUs
 
-The `--gres` flag is used to request GPUs in the following way:
+GPUs are available through the `mit_normal_gpu` partition. You can also run [preemptable](./overview.md#preemptable-jobs) GPU jobs on the `mit_preemptable` partition.
+
+To request a GPU use the `--gres` flag is in the following way:
 
 ```bash
 --gres=gpu:[GPU_TYPE]:[#GPUS]
 ```
 
-For example, to request 1 L40S GPU, use the flag `--gres=gpu:l40s:1`, or to request 2 H100 GPUs use the flag `--gres=gpu:h100:2`.
+For example, to request 1 L40S GPU, use the flag `--gres=gpu:l40s:1`, or to request 2 H100 GPUs use the flag `--gres=gpu:h200:2`. If you don't request a GPU type you will be allocated an L40S GPU.
 
 You can see how many GPUs of which type are on each node in a partition using the `sinfo` command. For example, to check `mit_normal_gpu` run the command:
 
