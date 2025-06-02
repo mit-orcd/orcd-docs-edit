@@ -67,7 +67,10 @@ Download the codes [mnist_gpu.py](./scripts/torch-gpu-2/mnist_gpu.py) and [FSDP_
 
      python mnist.py
      ```
-     then submit it,
+     
+     Here we sepecify the GPU type of H200 with `--gres=gpu:h200:1`. If a default type of GPU (i.e. L40S) is nneded, Use `--gres=gpu:1` instead. 
+
+     Submit the job script,
      ```
      sbatch job.sh
      ```
