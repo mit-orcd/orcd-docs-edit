@@ -158,3 +158,6 @@ chmod +x ./Miniconda3-latest-Linux-ppc64le.sh
 ./Miniconda3-latest-Linux-ppc64le.sh -b -p ./mc3
 source ./mc3/bin/activate
 ```
+
+### Why doesn't my password work when I try to run the sudo command?
+Regular users are not allowed to use sudo on engaging. Engaging is a shared environment. Sudo enables root-level access which allows our system administrators to modify system files, install software and change permissions. If misused unintentionally or accidentally, it could compromise the entire cluster. Therefore, use of sudo is reserved for Engaging system administrators who work to secure, maintain and tune the cluster. If you need specific software and you are having difficultly installing it, please contact orcd-help@mit.edu and someone on the staff can assist you. Please see `https://orcd-docs.mit.edu/software/overview/` for more information. 
