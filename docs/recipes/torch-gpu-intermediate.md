@@ -60,7 +60,7 @@ Download the codes [mnist_gpu.py](./scripts/torch-gpu-2/mnist_gpu.py) and [FSDP_
      #SBATCH -N 1
      #SBATCH -n 1
      #SBATCH --mem=20GB
-     #SBATCH --gres=gpu:1  
+     #SBATCH --gres=gpu:h200:1  
 
      module load miniforge/24.3.0-0
      source activate torch
@@ -97,7 +97,7 @@ Now we extend this example to multiple GPUs on a single node with FSDP.
      #SBATCH -N 1
      #SBATCH -n 4
      #SBATCH --mem=20GB
-     #SBATCH --gres=gpu:4
+     #SBATCH --gres=gpu:h200:4
 
      module load miniforge/24.3.0-0
      source activate torch
@@ -122,7 +122,7 @@ We use an example that implements FSDP + TP on LLAMA2 (Large Language Model Meta
 
 First, let's run the example on multiple GPUs within a single node. 
 
-The code `fsdp_tp_example.py` is set up for this purpose. The TP size is set to be 2 in the code. The total number of GPUs should be equal to a multiple of the TP size, that is, an even number in this case, then the FSDP size is equal to the number of GPUs divided by the TP size.
+The code `fsdp_tp_example.py` is set up for this purpose. The TP size is set to be 2 in the code. The total number of GPUs should be equal to a multiple of the TP size, then the FSDP size is equal to the number of GPUs divided by the TP size.
 
 === "Engaging"
      To run this example on multiple GPUs, prepare a job script like this,
@@ -133,7 +133,7 @@ The code `fsdp_tp_example.py` is set up for this purpose. The TP size is set to 
      #SBATCH -N 1
      #SBATCH -n 4
      #SBATCH --mem=30GB
-     #SBATCH --gres=gpu:4
+     #SBATCH --gres=gpu:h200:4
 
      module load miniforge/24.3.0-0
      source activate torch
@@ -150,7 +150,7 @@ The code `fsdp_tp_example.py` is set up for this purpose. The TP size is set to 
 
 With the flags `--nnodes=1 --nproc-per-node=4`, the `torchrun` command will run the program on 4 GPUs within one node. The training process happens on 2 batches of data with FSDP, and the model is trained with TP sharded computation on 2 GPUs for each batch of data.
 
-The flags with `rdzv` (meaning the Rendezvous protocol) are required by `torchrun` to coordinate multiple processes. The flag `--rdzv-id=$SLURM_JOB_ID` sets to the `rdzv` ID be the job ID, but it can be any random number. The flag `--rdzv-endpoint=localhost:1234 ` is to set the host and the port. Use `localhost` when there is only one node. The port can be any 4- or 5-digit number larger than 1024. 
+The flags with `rdzv` (meaning the Rendezvous protocol) are required by `torchrun` to coordinate multiple processes. The flag `--rdzv-id=$SLURM_JOB_ID` sets to the `rdzv` ID to be the job ID, but it can be any random number. The flag `--rdzv-endpoint=localhost:1234 ` is to set the host and the port. Use `localhost` when there is only one node. The port can be any 4- or 5-digit number larger than 1024. 
 
 
 ### Multi-node multi-GPU FSDP + TP
@@ -165,7 +165,7 @@ Finally, we run this example on multiple GPUs across multiple nodes.
      #SBATCH -N 2
      #SBATCH --ntasks-per-node=1
      #SBATCH --cpus-per-task=4
-     #SBATCH --gpus-per-node=4 
+     #SBATCH --gpus-per-node=h200:4 
      #SBATCH --mem=30GB
 
      module load miniforge/24.3.0-0
