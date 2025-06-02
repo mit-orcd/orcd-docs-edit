@@ -42,7 +42,7 @@ However, FSDP does not gain additional speedup beyond the data parallel framewor
 
 ## Fully Sharded Data Parallel 
 
-We use an example code [to train a convolutional neural network (CNN) with the MNIST data set](https://github.com/pytorch/examples/tree/main/mnist). 
+We use [an example code](https://github.com/pytorch/examples/tree/main/mnist) to train a convolutional neural network (CNN) with the MNIST data set.
 
 We will first run the example on a single GPU and then extend it to [multiple GPUs with FSDP](https://pytorch.org/tutorials/intermediate/FSDP_tutorial.html).
 
