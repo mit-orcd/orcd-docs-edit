@@ -20,7 +20,7 @@ On this page, we will introduce intermediate recipes to train large models on mu
 
 First, there is a [Fully Sharded Data Parallel (FSDP)](https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/) approach to split the model into multiple GPUs so that the memory requirement fits. A shard of the model is stored in each GPU, and communication between GPUs happens during the training process. We will introduce FSDP recipes in the first section. 
 
-However, FSDP is within the data parallel framework and does not gain additional speedup. Better approaches are based on model parallel, which not only splits the model into multiple GPUs but also accelerates the training process with parallel sharded computations. There are various schemes of model parallel, such as pipeline parallel (PP) and tensor parallel (TP). Usually, model parallel is applied on top of data parallel to gain further speedup. In the second section, we will focus on recipes of hybrid Fully Sharded Data Parallel and Tensor Parallel (referred to as FSDP + TP) . 
+However, FSDP does not gain additional speedup beyond the data parallel framework. Better approaches are based on model parallel, which not only splits the model into multiple GPUs but also accelerates the training process with parallel sharded computations. There are various schemes of model parallel, such as pipeline parallel (PP) and tensor parallel (TP). Usually, model parallel is applied on top of data parallel to gain further speedup. In the second section, we will focus on recipes of hybrid Fully Sharded Data Parallel and Tensor Parallel (referred to as FSDP + TP) . 
 
 
 ## Installing PyTorch
