@@ -45,7 +45,8 @@ nav:
     - NVHPC with CUDA aware MPI: recipes/nvhpc-a100-with-cuda-and-mpi-example.md
     - ORCA: recipes/orca.md
     - PyCharm: recipes/pycharm.md
-    - PyTorch on GPUs: recipes/torch-gpu.md
+    - PyTorch on GPUs - I: recipes/torch-gpu.md
+    - PyTorch on GPUs - II: recipes/torch-gpu-intermediate.md
     - RAG: recipes/rag.md
     - RELION: recipes/relion.md
     - VASP: recipes/build-vasp-gcc-cpu.md
