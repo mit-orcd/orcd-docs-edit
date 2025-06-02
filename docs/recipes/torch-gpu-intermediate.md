@@ -174,7 +174,7 @@ Finally, we run this example on multiple GPUs across multiple nodes.
      module load miniforge/24.3.0-0
      source activate torch
      
-     # Get IP address
+     # Get IP address of the master node
      nodes=( $( scontrol show hostnames $SLURM_JOB_NODELIST ) )
      nodes_array=($nodes)
      master_node=${nodes_array[0]}
@@ -194,7 +194,7 @@ Finally, we run this example on multiple GPUs across multiple nodes.
 
 The configuration of the `#SBATCH` and `torchrun` flags is similar to that in [the basic recipe of data parallel](./torch-gpu.md). 
 
-The program runs on 8 GPUs with 4 GPUs per node. As is set up in the code `fsdp_tp_example.py`, the training process happens on 4 batches of data with FSDP,  and the model is trained with TP sharded computation on 2 GPUs for each batch of data.
+The program runs on 8 GPUs with 4 per node. As is set up in the code `fsdp_tp_example.py`, the training process happens on 4 batches of data with FSDP,  and the model is trained with TP sharded computation on 2 GPUs for each batch of data.
 
 ??? "Topology of GPU Communication"
     The NVIDIA Collective Communications Library (NCCL) is set as the backend in all of the PyTorch programs here, so that the communication between GPUs within one node benefits from the high bandwidth of NVLinks, and the communication between GPUs across nodes benefits from the bandwidth of the Infiniband network. 
