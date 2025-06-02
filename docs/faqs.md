@@ -2,7 +2,7 @@
 
 ### How do I get GPU access?
 
-We now have public GPUs available on Engaging! Take a look at [this documentation](running-jobs/requesting-resources.md#gpus) to see how to request them for your job.
+We have L40S and H200 GPUs available on Engaging through the `mit_normal_gpu` partition. There are also a variety of GPU types available through the [`mit_preemptable`](running-jobs/overview.md#preemptable-jobs) partition. Take a look at [this documentation](running-jobs/requesting-resources.md#gpus) to see how to request them for your job.
 
 If your lab would like to purchase GPUs to be hosted on Engaging, please contact
 <orcd-help-engaging@mit.edu>.
