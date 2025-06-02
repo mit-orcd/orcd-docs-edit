@@ -2,10 +2,7 @@
 
 ### How do I get GPU access?
 
-Currently we have many public GPUs available to the MIT community on Satori and
-we are working on getting more on Engaging. If you have access to a partition
-with GPUs (e.g., if your lab has purchased some), you can request GPUs for your
-job by following [this documentation](running-jobs/requesting-resources.md#gpus).
+We now have public GPUs available on Engaging! Take a look at [this documentation](running-jobs/requesting-resources.md#gpus) to see how to request them for your job.
 
 If your lab would like to purchase GPUs to be hosted on Engaging, please contact
 <orcd-help-engaging@mit.edu>.
