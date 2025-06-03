@@ -357,3 +357,5 @@ conda create -n jupyter_env jupyterlab pandas pytorch
 
 See [Conda Environments](../software/python.md#conda-environments) for
 more information.
+
+- Adding an additional example line
