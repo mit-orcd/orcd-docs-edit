@@ -67,11 +67,6 @@ theme:
     - content.tabs.link
   palette:
     primary: blue grey
-markdown_extensions:
-    - toc:
-        permalink: True
-    - attr_list
-    - admonition
 plugins:
   - search
   - tags:
@@ -91,4 +86,8 @@ markdown_extensions:
       alternate_style: true 
   - admonition
   - pymdownx.details
+  - toc:
+      permalink: True
+  - attr_list
+  - admonition
 copyright: <a href="https://accessibility.mit.edu/">Accessibility</a>
