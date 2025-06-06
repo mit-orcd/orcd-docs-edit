@@ -24,10 +24,7 @@ For most of these options you will need to know the hostname of the node where y
 
     - `txe1-login.mit.edu`
 
-For more information specific to the system you are using, you can consult your system's documentation here:
-=== "Engaging"
-
-    Engaging does not have an additional documentation page.
+System-specific information on transferring files for Satori, SuperCloud, or OpenMind, click on one of the following tabs. This page discusses transferring files for Engaging.
 
 === "Satori"
 
@@ -45,13 +42,13 @@ For more information specific to the system you are using, you can consult your 
 
 Two of the most common commands used to transfer files are `scp` and `rsync`. You will need to run both of these commands from your local computer, before logging into any ORCD system. In order to use these two command you will need:
 
-- The hostname of the remote machine you are transferring files or from (usually the login node)
-- The path on the remote machine where you are copying the file to or from
+- The hostname of the remote machine you are transferring files to or from, these are listed [above](#transferring-files)
+- The full path on the remote machine where you are copying the file to or from
 - To be able to ssh to the remote machine where you are transferring files to or from
 
 Both `scp` and `rsync` work similar to `cp`, in that you specify a source (where the file is coming from) and destination (where the file is going to).
 
-Unless you have your paths memorized, the easiest way to do this is to have two terminals open. One logged into the ORCD system you are transferring files to or from, one not logged in. In each navigate to the respective directories where the file exists or you want to transfer it to. In the local tab navigate to where you want to put the transferred file or to to the file you want to transfer. In the ORCD system tab use the `pwd` command to print out the path to your current location. You can use this to run the `scp` or `rsync` command.
+Unless you have your paths memorized, the easiest way to do this is to have two terminals open. The first terminal is logged into the ORCD system you are transferring files to or from, the second is on your local computer, logged in to an ORCD system. In each navigate to the respective directories where the file exists or you want to transfer it to. In the local tab navigate to where you want to put the transferred file or to to the file you want to transfer. In the ORCD system tab use the `pwd` command to print out the path to your current location. You can use this to run the `scp` or `rsync` command.
 
 ### scp
 
