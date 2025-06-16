@@ -59,12 +59,14 @@ mit_normal    up   12:00:00     29   idle  node[1600-1625,1706,1806-1807]
 
 Common node states are:
 
-- idle: nodes that are fully available
-- mix: nodes that have some, but not all, resources allocated
-- alloc: nodes that are fully allocated
-- resv: nodes that are reserved and only available to people in their reservation
-- down: nodes that are not currently in service
-- drain: nodes that will be put in a `down` state once all jobs running on them are completed
+- `idle`: nodes that are fully available
+- `mix`: nodes that have some, but not all, resources allocated
+- `alloc`: nodes that are fully allocated
+- `resv`: nodes that are reserved and only available to people in their reservation
+- `drained`: nodes that are unavailable for use per system administrator request, usually for maintenance purposes. It is shown as `drain*` due the default 5-column limit.
+- `drng`: nodes that are currently allocated a job, but will not be allocated additional jobs. The node state will be changed to state drained when the last job on it completes. 
+- `down`: nodes that are unavailable for use
+- `plnd`: nodes that are planned by the backfill scheduler for a higher priority job
 
 You can also use `sinfo` to see what resources each node has. The output can be quite long so we recommend limiting to a specific partition(s). For example, to see what node types are in the `mit_normal` and `mit_normal_gpu` partitions, run the command:
 
