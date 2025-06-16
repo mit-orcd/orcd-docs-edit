@@ -63,9 +63,9 @@ Common node states are:
 - `mix`: nodes that have some, but not all, resources allocated
 - `alloc`: nodes that are fully allocated
 - `resv`: nodes that are reserved and only available to people in their reservation
-- `drained`: nodes that are unavailable for use per system administrator request, usually for maintenance purposes. It is shown as `drain*` due the default 5-column limit.
+- `drained`: nodes that are unavailable for use per system administrator request, usually for maintenance purposes. It is shown as `drain*` due to the default 5-column limit.
 - `drng`: nodes that are currently allocated a job, but will not be allocated additional jobs. The node state will be changed to state drained when the last job on it completes. 
-- `down`: nodes that are unavailable for use
+- `down`: nodes that are unavailable for use. 
 - `plnd`: nodes that are planned by the backfill scheduler for a higher priority job
 
 You can also use `sinfo` to see what resources each node has. The output can be quite long so we recommend limiting to a specific partition(s). For example, to see what node types are in the `mit_normal` and `mit_normal_gpu` partitions, run the command:
