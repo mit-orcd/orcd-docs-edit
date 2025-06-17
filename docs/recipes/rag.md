@@ -75,7 +75,7 @@ your `.bash_profile` so it can be saved for future uses:
 
 You can run the RAG model on our documentation using the Apptainer image we have
 saved to Engaging. We have the commands for doing so saved in a
-[shell script](https://github.com/mit-orcd/orcd-rag/blob/main/container/run_container.sh).
+[shell script](https://github.com/mit-orcd/orcd-rag/blob/main/container/run_rag_with_container.sh).
 To run the container, you can simply run the following:
 
 ```bash
