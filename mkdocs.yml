@@ -36,6 +36,7 @@ nav:
 #    - How To Run Different Workloads: running/page3.md
   - ORCD Recipes:
     - AlphaFold 3: recipes/af3.md
+    - CryoSPARC: recipes/cryosparc.md
     - GROMACS: recipes/gromacs.md
     - Intel compiler: recipes/intel.md
     - Jupyter: recipes/jupyter.md
