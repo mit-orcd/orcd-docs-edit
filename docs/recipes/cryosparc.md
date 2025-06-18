@@ -6,7 +6,6 @@ tags:
 ---
 
 <!-- TODO:
-- Add notes on how to see what resource limits you have
 - Test out the workflow when maintenance is done
 - Test if you can use an environment variable in cluster_info.json
 - Create one cluster for each GPU type
@@ -107,7 +106,8 @@ scheduler. This is the preferred setup for Engaging so that GPU resources are
 not allocated to your job when they are not in use.
 
 Create the following two files within the `$CRYOSPARC_WORKDIR/cryosparc_master`
-directory:
+directory. You will need to hard-code the path to the `cryosparc_worker`
+directory (using the `$CRYOSPARC_WORKDIR` environment variable will not work):
 
 ```bash title="cluster_info.json"
 --8<-- "docs/recipes/scripts/cryosparc/cluster_info.json"
@@ -168,19 +168,26 @@ what we specified in the master node installation script. The local port (to the
 left of the node name) can be any number greater than 1024 that is not already
 in use on your machine. For simplicity, we have kept the port numbers the same.
 
+!!! tip
+    Use `tail -f` on your output file to see the output as it's being printed.
+
 Now, using your web browser, navigate to
 [http://localhost:61000](http://localhost:61000). At the login prompt, enter
 the username and password you specified when you added yourself as a user:
 
-<!-- Insert image of login here -->
+![CryoSPARC Login](../images/cryosparc/cryosparc_login.png)
 
 Then, you should see the following user interface:
 
-<!-- Insert image of UI here -->
+![CryoSPARC Home Page](../images/cryosparc/cryosparc_home_page.png)
 
 When you're finished using CryoSPARC, run `scancel <job id>` to terminate your
 master session. The Job ID was printed when you submitted your job and you can
 also find it in your output file.
+
+!!! note
+    Try not to cancel your job before CryoSPARC has successfully started (e.g., during the "configuring database" phase), as
+    this can cause issues starting it the next time.
 
 ## FAQs
 
