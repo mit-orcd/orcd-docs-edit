@@ -29,7 +29,7 @@ documents.
 You will need to request an interactive session with a GPU:
 
 ```bash
-salloc -N 1 -n 8 -p mit_normal_gpu -G l40s:1
+salloc -N 1 -n 8 --mem-per-cpu=4G -p mit_normal_gpu -G l40s:1
 ```
 
 I have specified an L40S GPU, which has 48GB of memory. You will need a GPU with
