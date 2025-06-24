@@ -5,15 +5,6 @@ tags:
  - Engaging
 ---
 
-<!-- TODO:
-- Test out the workflow when maintenance is done
-- Test if you can use an environment variable in cluster_info.json
-- Create one cluster for each GPU type
-- Create a cluster for mit_preemptable
-- Add images
-- Make sure slurm job ID gets printed correctly from batch script
--->
-
 # Installing CryoSPARC on Engaging
 
 CryoSPARC is a software platform for rapid, automated processing and analysis of
@@ -107,7 +98,8 @@ not allocated to your job when they are not in use.
 
 Create the following two files within the `$CRYOSPARC_WORKDIR/cryosparc_master`
 directory. You will need to hard-code the path to the `cryosparc_worker`
-directory (using the `$CRYOSPARC_WORKDIR` environment variable will not work):
+directory in `cluster_info.json` (using the `$CRYOSPARC_WORKDIR` environment
+variable will not work):
 
 ```bash title="cluster_info.json"
 --8<-- "docs/recipes/scripts/cryosparc/cluster_info.json"
