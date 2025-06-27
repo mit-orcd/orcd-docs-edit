@@ -18,11 +18,11 @@ If you don't already have an account, click on the tab for the system you are in
 
 === "Engaging"
 
-    Login into the respective OnDemand Portal [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait couple minutes for the system to create all the pieces for your account before submitting your first job.
+    Login into the respective OnDemand Portal [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait a couple of minutes for the system to create all the pieces for your account before submitting your first job.
 
 === "Satori"
 
-    Login into the respective OnDemand Portal [https://satori-portal.mit.edu/](https://satori-portal.mit.edu/) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait couple minutes for the system to create all the pieces for your account before submitting your first job.
+    Login into the respective OnDemand Portal [https://satori-portal.mit.edu/](https://satori-portal.mit.edu/) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait a couple of minutes for the system to create all the pieces for your account before submitting your first job.
 
 === "SuperCloud"
 
@@ -72,7 +72,7 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
     ssh USERNAME@orcd-login001.mit.edu
     ```
 
-    If you are prompted for a password enter your Kerberos password.  You can add an ssh key if you do not want to enter your Kerberos password at login, see the [SSH Login](accessing-orcd/ssh-setup.md) page for more information. All login nodes require Two-Factor Authentication.
+    If you are prompted for a password enter your Kerberos password.  You can add an ssh key if you do not want to enter your Kerberos password at login, see the [SSH Key](accessing-orcd/ssh-setup.md) page for more information. All login nodes require Two-Factor Authentication.
 
 === "Satori"    
     Satori has two login nodes: `satori-login-001` and `satori-login-002`. Replace `USERNAME` below with your Kerberos username and use the login node you would like to log in with, the example below is using `satori-login-001`.
@@ -81,7 +81,7 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
     ssh USERNAME@satori-login-001.mit.edu
     ```
 
-    If you are prompted for a password enter your Kerberos password. You can add an ssh key if you do not want to enter your Kerberos password at login.
+    If you are prompted for a password enter your Kerberos password. You can add an [ssh key](accessing-orcd/ssh-setup.md) if you do not want to enter your Kerberos password at login.
 
 === "SuperCloud"
 
@@ -101,13 +101,13 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
     ssh USERNAME@openmind.mit.edu
     ```
 
-    If you are prompted for a password enter your Kerberos password. You can add an ssh key if you do not want to enter your Kerberos password at login.
+    If you are prompted for a password enter your Kerberos password. You can add an [ssh key](accessing-orcd/ssh-setup.md) if you do not want to enter your Kerberos password at login.
 
 ### Web Portal
 
 === "Engaging"
 
-    You can log into OnDemand Web Portal with the link: [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu). For full detailed instructions please see the [Engaging Documentation](accessing-orcd/ondemand-login.md).
+    You can log into OnDemand Web Portal with the link: [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu). For full detailed instructions please see the [OnDemand Documentation](accessing-orcd/ondemand-login.md).
 
 === "Satori"   
 
@@ -119,12 +119,12 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
 
 === "OpenMind"   
     
-    OpenMind does not currently have a web portal, but there are plans to add one in the future. Check back, and in the meantime check out OpenMind's documentation on the [FastX Remote Desktop](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-use-Xfast-remote-desktop%3F). You may find it provides what you are looking for.
+    OpenMind does not have a web portal. However, check out OpenMind's documentation on the [FastX Remote Desktop](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-use-Xfast-remote-desktop%3F). You may find it provides what you are looking for.
 
 ## Shared HPC Clusters
 
 Each ORCD system is a shared HPC cluster. You are sharing this
-resources with a number of other researchers, staff, and students so it
+resources with a number of other researchers, staff, and students, so it
 is important that you read this page and use the system as intended.
 
 Being a cluster, there are several machines connected together with a
@@ -190,15 +190,15 @@ directories. The list of directories that lead to a particular directory
 or file is called its **path**. In Linux, directories on a path are
 separated by forward slashes `/`. It is also important to note that
 everything in Linux is case sensitive, so a file `myScript.sh` is not
-the same as the file `myscript.sh`. When you first log in you are in you
+the same as the file `myscript.sh`. When you first log in, you are in your
 **home directory**. Your home directory is where you can put all the
 code and data you need to run your job. Your home directory is not
-accessible to other users, if you need a space to share files with other
+accessible to other users, so if you need a space to share files with other
 users, let us know and we can make a shared **group directory** for you.
 
 === "Engaging"
 
-    The path to your home directory on Satori is `/home/<USERNAME>`, where `<USERNAME>` is your username. The character `~` is also shorthand for your home directory in any Linux commands.
+    The path to your home directory on Engaging is `/home/<USERNAME>`, where `<USERNAME>` is your username. The character `~` is also shorthand for your home directory in any Linux commands.
 
 === "Satori"
 
@@ -251,7 +251,7 @@ Finally, click on the box below for a list of Linux Commands. If you are new to 
         -   `tail filename`: shows the last 10 lines of a file (useful when
             you are monitoring a log file or output file to see that the
             values are correct)
-            -   t`ail <number> filename`: show you the last &lt;number\>
+            -   `tail <number> filename`: show you the last &lt;number\>
                 lines of a file.
             -   `tail -f filename`: shows you new lines as they are written
                 to the end of the file. Press CMD+C or Control+C to exit.
@@ -311,7 +311,7 @@ To transfer a file from your computer to the ORCD system:
 === "OpenMind"
 
     ``` bash
-    scp <local-file-name> <user>@openmind-dtn.mit.edu:<path-to-openmind-dir>
+    scp <local-file-name> USERNAME@openmind-dtn.mit.edu:<path-to-openmind-dir>
     ```
 
 To transfer a file from an ORCD system to your computer:
@@ -341,7 +341,7 @@ To transfer a file from an ORCD system to your computer:
 === "OpenMind"
 
     ``` bash
-    scp <user>@openmind-dtn.mit.edu:<path-to-openmind-dir>/<file-name> <path-to-local-dest>
+    scp USERNAME@openmind-dtn.mit.edu:<path-to-openmind-dir>/<file-name> <path-to-local-dest>
     ```
 
 Similar to `cp`, use the `-r` flag to copy over an entire directory and its contents. 
@@ -371,7 +371,7 @@ Similar to `cp`, use the `-r` flag to copy over an entire directory and its cont
 === "OpenMind"
 
     ``` bash
-    scp -r <local-dir-name> <user>@openmind-dtn.mit.edu:<path-to-openmind-dir>
+    scp -r <local-dir-name> USERNAME@openmind-dtn.mit.edu:<path-to-openmind-dir>
     ```
 
 The `rsync` command can be used similarly and has some additional flags you can use. It also can be used to transfer only new or modified files to the destination, which makes it easy to keep a directory in "sync".
