@@ -149,7 +149,7 @@ you will need to consolidate your documents into a single directory and
 Then, run this command, specifying the path to your directory of documents:
 
 ```bash
-sh /orcd/software/community/001/pkg/orcd-rag/container/create_vector_store_with_container.sh --docs_dir /path/to/documents
+sh /orcd/software/community/001/pkg/orcd-rag/container/create_vector_store_with_container.sh --docs_path /path/to/documents
 ```
 
 This will create a vector database located at `~/.cache/orcd_rag/vector_stores/<docs name>_vector_store`.
