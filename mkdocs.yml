@@ -41,7 +41,7 @@ nav:
     - Jupyter: recipes/jupyter.md
     - MPI for Python: recipes/mpi4py.md
     - MPI Jobs: recipes/mpi.md
-    - MuJoCo: recipes/mujoco.md
+    # - MuJoCo: recipes/mujoco.md
     - NVHPC with CUDA aware MPI: recipes/nvhpc-a100-with-cuda-and-mpi-example.md
     - ORCA: recipes/orca.md
     - PyCharm: recipes/pycharm.md
