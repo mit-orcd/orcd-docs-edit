@@ -3,8 +3,8 @@ tags:
  - Engaging
  - SuperCloud
  - Howto Recipes
- - MuJoCo
 ---
+
 # Installing and Using MuJoCo
 
 MuJoCo is a free and open source physics engine that aims to facilitate research and development in robotics, biomechanics, graphics and animation, and other areas where fast and accurate simulation is needed.
@@ -35,11 +35,11 @@ First, make sure the `MUJOCO_PY_MUJOCO_PATH` and `LD_LIBRARY_PATH` environment v
 --8<-- "docs/recipes/scripts/mujoco/mujoco-binaries.sh:env-var"
 ```
 
-If any of these are not set properly you can set them as described above (see [here for MUJOCO_PY_MUJOCO_PATH, LD_LIBRARY_PATH](#install-the-mujoco-binaries).
+If any of these are not set properly you can set them as described above (see [here for MUJOCO_PY_MUJOCO_PATH and LD_LIBRARY_PATH](#install-the-mujoco-binaries)).
 
 === "Engaging"
 
-    Next load either a Python or Anaconda module. In this example I loaded the latest anaconda3 module (run `module avail anaconda` to see the current list of available anaconda modules):
+    Next load either a Python or Anaconda module. In this example I loaded the `miniforge` module (run `module avail miniforge` to see the current list of available Anaconda modules):
 
     ```bash
     --8<-- "docs/recipes/scripts/mujoco/mujoco-engaging-setup.sh:module"
@@ -51,10 +51,10 @@ If any of these are not set properly you can set them as described above (see [h
     --8<-- "docs/recipes/scripts/mujoco/mujoco-engaging-setup.sh:install"
     ```
 
-    Start up python and import mujoco_py to complete the build process:
+    Start up python and import `mujoco_py` to complete the build process:
 
-    ```bash
-    --8<-- "docs/recipes/scripts/mujoco/mujoco-engaging-setup.sh:python"
+    ```python
+    import mujoco_py
     ```
 
 === "SuperCloud"
@@ -75,9 +75,9 @@ If any of these are not set properly you can set them as described above (see [h
     --8<-- "docs/recipes/scripts/mujoco/mujoco-supercloud-setup.sh:pkgs"
     ```
 
-    Since you are installing into virtual environment, **do not use the `--user` flag**.
+    Since you are installing into a virtual environment, **do not use the `--user` flag**.
 
-    Once you’ve installed the packages you need, start Python and import mujoco_py to finish the build:
+    Once you’ve installed the packages you need, start Python and import `mujoco_py` to finish the build:
 
     ``` bash
     --8<-- "docs/recipes/scripts/mujoco/mujoco-supercloud-setup.sh:python"
@@ -98,7 +98,7 @@ If you’d like you can run the few example lines listed on install section of t
 
 ## Using MuJoCo in a Job
 
-To use MuJoCo you’ll need to first load the same Python or Anaconda module you used to install mujoco-py. If you installed it into a conda environment or python virtual environment, load that environment as well. We recommend you do this in your job submission script rather than in your .bashrc or at the command line before you submit the job. This way you know your job is configured properly every time it runs.
+To use MuJoCo you’ll need to first load the same Python or Anaconda module you used to install mujoco-py. If you installed it into a conda environment or python virtual environment, load that environment as well. We recommend you do this in your job submission script rather than in your `.bashrc` or at the command line before you submit the job. This way you know your job is configured properly every time it runs.
 
 You can use the following test scripts to test your MuJoCo setup in a job environment, and as a starting point for your own job:
 
@@ -111,6 +111,7 @@ You can use the following test scripts to test your MuJoCo setup in a job enviro
     ``` bash title="submit_test.sh"
     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/submit_test_engaging.sh"
     ```
+
 === "SuperCloud"
 
     Now whenever you use mujoco-py the installation will need to be on the local disk of the node(s) where you are running. In your job script you can add a few lines of code that will check whether the environment exists on the local disk, and if not copy it. You can run these lines during an interactive job as well.

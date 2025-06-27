@@ -4,7 +4,7 @@ tar -xzf mujoco-2.3.0-linux-x86_64.tar.gz
 -8<-- [end:login]
 
 -8<-- [start:path]
-export MUJOCO_PY_MUJOCO_PATH=$HOME/path/to/mujoco230/
+export MUJOCO_PY_MUJOCO_PATH=$HOME/path/to/mujoco-2.3.0/
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MUJOCO_PY_MUJOCO_PATH/bin
 -8<-- [end:path]
 

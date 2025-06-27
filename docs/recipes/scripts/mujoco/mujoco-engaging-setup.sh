@@ -1,5 +1,5 @@
 -8<-- [start:module]
-module load anaconda3/2022.10
+module load miniforge
 -8<-- [end:module]
 
 -8<-- [start:install]
