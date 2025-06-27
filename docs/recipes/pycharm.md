@@ -1,6 +1,5 @@
 ---
 tags:
- - PyCharm
  - Howto Recipes
  - Best Practices
 ---
@@ -15,8 +14,7 @@ Furthermore, PyCharm has a free license for students and teachers.
 
 To use PyCharm on the cluster, the setup is similar to [VS Code](vscode.md).
 However, PyCharm uses a lot more memory and compute power to run, so it is
-essential that you run it on a compute node. Trying to connect PyCharm to a
-login node will probably not work.
+essential that you run it on a compute node.
 
 !!! note
     To use PyCharm on a compute node, an SSH key is necessary. If you haven't
@@ -27,6 +25,12 @@ login node will probably not work.
     PyCharm is not available on SuperCloud because SuperCloud does not support
     [file locking](https://mit-supercloud.github.io/supercloud-docs/file-locking/).
 
+## Download PyCharm
+
+Follow [this link](https://www.jetbrains.com/pycharm/download) to download and
+install PyCharm on your local computer. Make sure you select the version that
+matches the architecture of your machine.
+
 ## Requesting a Compute Node
 
 To run PyCharm on a compute node, you first need to request an interactive job
@@ -34,7 +38,7 @@ with at least 4 cores on the cluster. PyCharm recommends using 4 cores so that t
 application can run more quickly. Request more resources as required by your code.
 
 ```bash
-salloc -N 1 -n 4 -p mit_normal
+salloc -N 1 -n 4 --mem-per-cpu=4G -p mit_normal
 ```
 
 !!! note
@@ -65,7 +69,7 @@ Host engaging-compute
 
 ## Starting PyCharm
 
-Currently, PyCharm does not work well with Duo authentication. To get around
+PyCharm can be finnicky with Duo authentication. To get around
 this, connect to the [MIT VPN](https://ist.mit.edu/vpn) so that Duo is not
 required.
 
