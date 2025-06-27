@@ -13,16 +13,16 @@ While the software stack will be different on each system, there are three gener
 | Category  | Description |
 |-----------|-------------|
 | _Core_      | Commonly used or fundamental software and libraries that are fully supported. Core software is expected to work until it is officially deprecated, and often newer versions are provided to replace them. |
-| _Community_ | Software that has been built and installed by request, but is not commonly used. Support is on a best-effort basis. Should work when built but not guaranteed to work indefinitely or when replaced with newer versions when deprecated, except by request. |
-| _Deprecated_ | Software that is no longer supported or expected to work. May be kept for legacy reasons, or will soon be removed. If software you are using is listed as deprecated or soon to be deprecated migrate to the newer version (if available) or request a newer version (if not available). If migrating to a newer version is not an option you may be able to run your application with Singularity. |
+| _Community_ | Software that has been built and installed by request, but is not commonly used. Support is on a best-effort basis. These should work when built but are not guaranteed to work indefinitely or when replaced with newer versions when deprecated, except by request. |
+| _Deprecated_ | Software that is no longer supported or expected to work. May be kept for legacy reasons, or will soon be removed. If software you are using is listed as deprecated or soon to be deprecated, migrate to the newer version (if available) or request a newer version (if not available). If migrating to a newer version is not an option you may be able to run your application with [Apptainer](apptainer.md). |
 
-Each individual ORCD system may not label or organize their software in this way. However, this is the support model that will be used going forward. Engaging, in particular, will organize its software in this way.
+Each individual ORCD system may not label or organize their software in this way. However, this is the support model that will be used going forward. Engaging, in particular, organizes its software in this way.
 
 Here are some general notes by system on this for Engaging and SuperCloud. Click on the tab for the system you are interested in:
 
 === "Engaging"
 
-    Engaging nodes are one of two operating systems: Centos 7 and Rocky 8. Each operating system has its own software stack.
+    Engaging nodes are one of two operating systems: Centos 7 (`sched_mit_hill` partition) and Rocky 8 (`mit_normal`, `mit_normal_gpu`, `mit_preemptable`, and `mit_quicktest` partitions). Each operating system has its own software stack.
 
     Centos 7 has been around for longer, so it has more software installed. These nodes have a very large list of [modules](modules.md), older ones that no longer work have not necessarily been removed but can be considered deprecated. Centos 7 nodes will either be retired or migrated to Rocky 8 in the near future, so when given the choice use Rocky 8 nodes.
 
@@ -38,11 +38,11 @@ One of the first steps for getting a workflow running on a new system is to set 
 
 ### Check if the Software or Package is Already Installed
 
-As mentioned above, there is a lot of software already installed. Using the software we've installed saves you time. This software may also perform better or be better configured to use the system. For example, it may be installed in a faster part of the filesystem or configured to use special hardware available on the cluster.
+As mentioned above, there is a lot of software already installed. Using the software we've installed saves you time. This software may also perform better or be better configured to use on the system. For example, it may be installed in a faster part of the filesystem or configured to use special hardware available on the cluster.
 
 For software check the `module avail` command (see the page on [modules](modules.md) for more information). Some software is available without a module, you can check if a particular command is available using the `which` command at the command line. For example, run `which git` to see if the `git` command is available. If it is, the path to the `git` command will print to the screen.
 
-Common languages like [Python](), [Julia](), and [R]() are provided through modules as well. Packages for these are sometimes provided along with the installation. A quick way to check if a package is available is to try to import it.
+Common languages like [Python](python.md), [Julia](julia.md), and [R](R.md) are provided through modules as well. Packages for these are sometimes provided along with the installation. A quick way to check if a package is available is to try to import it.
 
 ### Install the Software or Package
 
@@ -55,7 +55,7 @@ If we don't have the software you need, you can often install it yourself. You w
 
 Sometimes you can find pre-built binaries for the software you want. These are the easiest to install. Often you will need to build the software you need. See the page on [Installing Software]() for more information. You may also check the Recipes section of these pages to see if there is an existing recipe for installing the software you are interested in.
 
-For [Python](), [Julia](), and [R]() packages, each of these have their own package managers for installing packages. See the respective documentation pages linked above for each of these.
+For [Python](python.md), [Julia](julia.md), and [R](R.md) packages, each of these have their own package managers for installing packages. See the respective documentation pages linked above for each of these.
 
 !!! Note
     Satori is unique in that its nodes have a different architecture than those in other ORCD systems. They are IBM machines with the ppc64le architecture. There is some software that does not support this architecture. When selecting pre-built software, be sure to select the one for ppc64le.
