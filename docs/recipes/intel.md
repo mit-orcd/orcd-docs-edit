@@ -1,7 +1,5 @@
 ---
 tags:
- - Intel
- - Compiler
  - C
  - Fortran
  - Howto Recipes
