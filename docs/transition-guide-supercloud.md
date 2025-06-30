@@ -213,11 +213,7 @@ This assumes version 3.2.6 installed in your home directory.
 
 To initiate the transfer go to [https://www.globus.org/](https://www.globus.org/), log in, and click "File Manager".
 
-In the left pane search for your SuperCloud Personal collection using the name you gave it during setup. In the right pane search for the collection where you want to transfer the data:
-
-- MIT ORCD Engaging Home Collection - For home, pool, and scratch. Use the symlinks under the "orcd" directory to get to your pool and scratch.
-- MIT ORCD Engaging Data Collection - For lab purchased storage spaces
-- MIT ORCD Engaging Complete Collection - Use if you cannot find your destination at the above. This collection starts at `/orcd/` on the Engaging filesystem.
+In the left pane search for your SuperCloud Personal collection using the name you gave it during setup. In the right pane search for the [MIT ORCD Engaging Collection](https://app.globus.org/file-manager?origin_id=ec54b570-cac5-47f7-b2a1-100c2078686f) collection.
 
 If you need help finding the target directory on Engaging with Globus send an email to <orcd-help@mit.edu> or stop by [office hours](https://orcd.mit.edu/news-and-events/office-hours) and we can help you.
 
