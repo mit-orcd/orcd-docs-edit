@@ -26,31 +26,23 @@ documents.
 
 ### Working on a Compute Node
 
-We require that you run this model on a compute node. You can request an
-interactive session on a compute node with the following command:
+You will need to request an interactive session with a GPU:
 
 ```bash
-salloc -N 1 -n 16 -p mit_normal --mem=48G
-```
-
-However, this works much more quickly with a GPU. If you have access to a
-partition on Engaging with a GPU, then specify your partition as such:
-
-```bash
-salloc -N 1 -n 8 -p mit_normal_gpu --gres=gpu:l40s:1
+salloc -N 1 -n 8 --mem-per-cpu=4G -p mit_normal_gpu -G l40s:1
 ```
 
 I have specified an L40S GPU, which has 48GB of memory. You will need a GPU with
-at least 40GB of memory for this model to work.
+at least 40GB of memory to use the 8B model.
 
 ### Getting Access to HuggingFace
 
-The LLMs used in this pipeline are from HuggingFace. By default, we use Llama
-3.1, which is gated and requires users to request access. You can follow this
-process for doing so:
+The LLMs used in this pipeline are from HuggingFace. By default, we use a model
+from Mistral, which is gated and requires users to request access. You can
+follow this process for doing so:
 
 1. [Create a HuggingFace account](https://huggingface.co/)
-2. Request access to [meta-llama/Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)
+2. Request access to [mistralai/Ministral-8B-Instruct-2410](https://huggingface.co/mistralai/Ministral-8B-Instruct-2410)
 3. Create a [user access token](https://huggingface.co/settings/tokens)
 
     You will need to adjust the settings of your user access token so that you
@@ -83,18 +75,18 @@ your `.bash_profile` so it can be saved for future uses:
 
 You can run the RAG model on our documentation using the Apptainer image we have
 saved to Engaging. We have the commands for doing so saved in a
-[shell script](https://github.com/mit-orcd/orcd-rag/blob/main/container/run_container.sh).
+[shell script](https://github.com/mit-orcd/orcd-rag/blob/main/container/run_rag_with_container.sh).
 To run the container, you can simply run the following:
 
 ```bash
-sh /orcd/software/community/001/pkg/orcd-rag/container/run_container.sh
+sh /orcd/software/community/001/pkg/orcd-rag/container/run_rag_with_container.sh
 ```
 
 The first time you run this, the model will be downloaded from HuggingFace and
 cached, so it may take a while to get running. Subsequent times will be much
 quicker because the model has already been downloaded.
 
-Llama 3.1 8B takes about 15GB of space. The default cache location for
+The 8B model takes about 15GB of space. The default cache location for
 HuggingFace models is `$HOME/.cache/huggingface`. If you do not have enough
 space in your home directory to store the model, you can set the `HF_HOME`
 environment variable to point to another directory. For example, to save models
@@ -102,7 +94,7 @@ to your scratch directory (depending on your storage setup), that would look
 something like this:
 
 ```bash
-export HF_HOME=/home/$USER/orcd/r8/scratch
+export HF_HOME=/home/$USER/orcd/scratch
 ```
 
 or:
@@ -113,13 +105,55 @@ export HF_HOME=/nobackup1/$USER
 
 ### Running via a Python Environment
 
-You can avoid the container route and run this using a Python environment. The
-steps to do so can be found on the
+You can avoid the container route and run this using a Python environment. This
+method is recommended if you would like to make any advanced changes to the
+pipeline. The steps to do so can be found on this
 [GitHub repository](https://github.com/mit-orcd/orcd-rag).
 
-<!--
-TODO:
-- Include instructions for adding flags when that's ready
-    - As part of this, include an option in the script to point to your own
-    vector store
--->
+## Customization
+
+To customize this pipeline to fit your needs, aside from editing the
+[code base](https://github.com/mit-orcd/orcd-rag) itself, you can use the
+provided optional flags when you call the script. To see what customizations are
+available, use the `--help` flag:
+
+```bash
+sh /orcd/software/community/001/pkg/orcd-rag/container/run_rag_with_container.sh --help
+```
+
+This will allow you to adjust model temperature, change the path to use a
+different set of documents, use a different LLM (doing this successfully will
+likely take some editing of the code base), or pass a set of queries to run
+in a batch setting.
+
+### Using Your Own Documents
+
+Be default, the pipeline is set up to run RAG on the
+[ORCD documentation](https://orcd-docs.mit.edu/). However, this is designed to
+be easily adaptable to any set of documents you choose.
+
+If you have created a vector store of documents, you can specify the path to
+those documents when you run the pipeline using the `--vector_store_path` flag:
+
+```bash
+sh /orcd/software/community/001/pkg/orcd-rag/container/run_rag_with_container.sh --vector_store_path /path/to/vector/store
+```
+
+#### Creating a Vector Store
+
+The RAG pipeline requires that documents be stored in a vector database ("vector
+store"), so that relevant information can be queried efficiently. We have
+included code for creating a vector store based on `.md` or `.pdf` files. First,
+you will need to consolidate your documents into a single directory and
+[upload them to Engaging](../filesystems-file-transfer/transferring-files.md#scp).
+Then, run this command, specifying the path to your directory of documents:
+
+```bash
+sh /orcd/software/community/001/pkg/orcd-rag/container/create_vector_store_with_container.sh --docs_path /path/to/documents
+```
+
+This will create a vector database located at `~/.cache/orcd_rag/vector_stores/<docs name>_vector_store`.
+
+!!! note
+    Large files (especially PDFs) may need to be split into smaller files to
+    avoid exceeding memory limits on the GPU.
