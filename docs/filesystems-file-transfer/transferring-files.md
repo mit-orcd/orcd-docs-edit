@@ -301,7 +301,7 @@ Some of the most common options are:
 - [FileZilla](https://filezilla-project.org/) (Mac, Windows, and Linux)
 - [WinSCP](https://winscp.net/eng/index.php) (Windows only)
 
-To use these you will need to know the hostname of the ORCD system you are accessing, either one of the login nodes or a dedicated data transfer node. See the list of hostnames at the top of this page to see which you should use for the system you are transferring files to.
+To use these you will need to know the hostname of the ORCD system you are accessing, either one of the login nodes or a dedicated data transfer node. See the list of hostnames at the top of the [Command Line](#command-line) section to see which you should use for the system you are transferring files to.
 
 
 
