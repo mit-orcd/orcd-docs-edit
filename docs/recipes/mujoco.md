@@ -2,8 +2,12 @@
 tags:
  - Engaging
  - SuperCloud
+ - Physics
  - Howto Recipes
 ---
+
+!!! warning
+    This page has been archived. The information present is not updated and may no longer be accurate.
 
 # Installing and Using MuJoCo
 
