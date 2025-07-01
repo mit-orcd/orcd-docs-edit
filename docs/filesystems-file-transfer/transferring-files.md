@@ -285,7 +285,7 @@ You can run `rsync --help` to print out a full list of flags that can be used wi
 ### Moving files between ORCD Systems
 
 If you need to move files between ORCD systems you ssh to one of the ORCD systems and initiate the transfer from that system to the other. Once you are logged into one system the process is the same as if you were to transfer files to or from your own computer. For example to move a file from Satori to Engaging using `scp` you would first log into Satori and then use `scp` to transfer the file:
-```bash title="Transferring files from Engaging to Satori"
+```bash title="Transferring files from Satori to Engaging"
 ssh USERNAME@satori-login001.mit.edu
 scp <path-to-satori-file> USERNAME@orcd-login001.mit.edu:<path-to-engaging-directory>
 ```
