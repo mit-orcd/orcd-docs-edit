@@ -12,7 +12,7 @@ For system-specific information on transferring files for Satori, SuperCloud, or
 
 === "SuperCloud"
 
-    [SuperCloud Transferring Files Documentation Page](https://supercloud.mit.edu/accessing-and-transferring-data-and-files)
+    [SuperCloud Transferring Files Documentation Page](https://mit-supercloud.github.io/supercloud-docs/transferring-files/)
 
 === "OpenMind"
 
