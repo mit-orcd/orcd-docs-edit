@@ -2,7 +2,93 @@
 
 There are a few different ways to transfer files depending on your goals, the data you are transferring, and what you are comfortable with. On this page we cover the different methods of transferring files, as well as touch on how to transfer files between systems.
 
-For most of these options you will need to know the hostname of the node where you will be transferring files. This is often a login node, but may also be a dedicated data transfer node. Select the system you are using to see options for the hostname here:
+We recommend using [OnDemand](#ondemand) for every-day file transfer and [Globus](#globus) for transferring large files or large numbers of files. For those who prefer to use the command line you can use [scp or rsync](#command-line).
+
+For system-specific information on transferring files for Satori, SuperCloud, or OpenMind, click on one of the following tabs. This page discusses transferring files for Engaging.
+
+=== "Satori"
+
+    [Satori Transferring Files Documentation Page](https://mit-satori.github.io/satori-getting-started.html#transferring-files)
+
+=== "SuperCloud"
+
+    [SuperCloud Transferring Files Documentation Page](https://mit-supercloud.github.io/supercloud-docs/transferring-files/)
+
+=== "OpenMind"
+
+    [OpenMind Transferring Files Documentation Page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-transfer-files%3F)
+
+## OnDemand
+
+Engaging and Satori both have an OnDemand web portal. SuperCloud has its own custom portal.
+
+=== "Engaging"
+
+    [Engaging OnDemand Portal](https://engaging-ood.mit.edu/)
+
+=== "Satori"
+
+    [Satori OnDemand Portal](https://satori-portal.mit.edu/)
+
+=== "SuperCloud"
+    [SuperCloud Web Portal](https://txe1-portal.mit.edu) ([Documentation](https://mit-supercloud.github.io/supercloud-docs/transferring-files/#downloading-files-through-the-web-portal))
+
+With the Engaging and Satori OnDemand portals you can do the following using the File Browser:
+
+- Upload and download files and directories
+- Rename, move, and delete files and directories
+- View and edit files
+
+Once you are logged into OnDemand, you can use the File Browser by selecting Files -> Home Directory in the menu bar at the top left of the page.
+
+To upload and download you can drag and drop files and directories between your File Browser window and your desktop Finder/Explorer windows. You can also use the "Upload" and "Download" buttons. Select multiple files by holding the Control (or Command) key and clicking on the files you'd like to select. Those files can then be downloaded with the "Download" button.
+
+### Viewing and Editing Files
+
+The File Browser is also the easiest way to view and edit files in place. Click on the file that you would like to view or edit. Then click either the "View" or "Edit" buttons directly above the list of files.
+
+The editor has some nice features like line numbers and syntax highlighting for most languages. You can also change the display colors, the font size, and whether you'd like the words to wrap. Click "Save" to save any edits you made.
+
+## Globus
+
+If you are moving more than a few files, or your files are particularly large, we recommend using Globus. Globus is a tool that helps transfer large amounts of data between systems. We have Globus collections set up on each ORCD system. Collections are the mechanism Globus uses for accessing data.
+
+Some advantages of using Globus are:
+
+- It is easy to initiate transfers through the Globus webpage
+- You don't need to stay logged into Globus through the entire transfer
+- If your transfer is interrupted it will continue automatically where it left off once the connection is re-established
+
+To transfer data:
+
+1. **Log in:** Log into [Globus](https://www.globus.org/) with your MIT credentials.
+2. **Select your source and destination collections:** In the "File Manager" tab in each of the two "Collection" boxes search for the collections for the systems you want to transfer data between ([MIT ORCD Engaging Collection](https://app.globus.org/file-manager?origin_id=ec54b570-cac5-47f7-b2a1-100c2078686f) for Engaging, or see below for a full list of ORCD  Collections). To transfer data to or from your own computer you will need to set up Globus Connect Personal. Follow the instructions on the page for your system listed [here](https://docs.globus.org/globus-connect-personal/).
+3. **Navigate to your source and destination directories:** On the source side navigate to the source directory and select the files and/or directories you'd like to transfer. On the destination side navigate to the location where you'd like to copy your files
+4. **Select any additional settings:** Click on "Transfer and Timer Options" for additional settings, such as syncing new or changed files and scheduling recurring transfers.
+5. **Initiate the transfer:** Once you have selected the files and options you want, press the "Start" button on the source column.
+6. **Monitor your transfer (optional):** Click on "Activity" to view the status of your active transfers. You will also get an email when you transfer is complete, or if Globus runs into any issues with the transfer.
+
+The Globus Documentation has a [tutorial](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/) with screenshots to demonstrate this process.
+
+Here is a list of Globus Collections on ORCD systems:
+
+| System | Globus Collection | 
+| ----------- | ----------- |
+| Engaging | [MIT ORCD Engaging Collection](https://app.globus.org/file-manager?origin_id=ec54b570-cac5-47f7-b2a1-100c2078686f) | 
+| Satori | [mithpc#satori](https://app.globus.org/file-manager?destination_id=4841ad03-4878-4d3a-bb58-babb32074cef) | 
+| OpenMind | mithpc#openmind | 
+
+More documentation on transferring files through Globus can be found on the [Globus Documentation Pages](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/). Globus also has an [FAQ](https://docs.globus.org/faq/transfer-sharing/) that is helpful for answering any questions you might have.
+
+## Command Line
+
+The most common commands used to transfer files are `scp` and `rsync`. You will need to run both of these commands from your local computer, before logging into any ORCD system. In order to use these two commands you will need:
+
+- The hostname of the remote machine you are transferring files to or from, these are listed below
+- The full path on the remote machine where you are copying the file to or from
+- The ability to ssh to the remote machine where you are transferring files to or from
+
+The hostname of the node where you will be transferring files is often a login node, but may also be a dedicated data transfer node. Select the system you are using to see options for the hostname here:
 
 === "Engaging"
 
@@ -24,34 +110,20 @@ For most of these options you will need to know the hostname of the node where y
 
     - `txe1-login.mit.edu`
 
-For more information specific to the system you are using, you can consult your system's documentation here:
-=== "Engaging"
+Both `scp` and `rsync` work similar to `cp`, in that you specify a source (where the file is coming from) and destination (where the file is going to). The main difference is that you will need to specify the hostname of the remote system.
 
-    Engaging does not have an additional documentation page.
+```bash
+# using cp to copy files within the same system
+cp /path/to/source /path/to/destination
 
-=== "Satori"
+# using scp to copy files from the local system to <hostname>
+scp /path/to/source <hostname>:/path/to/destination
 
-    [Satori Transferring Files Documentation Page](https://mit-satori.github.io/satori-getting-started.html#transferring-files)
+# using scp to copy files from <hostname> to the local system
+scp <hostname>:/path/to/source /path/to/destination
+```
 
-=== "SuperCloud"
-
-    [SuperCloud Transferring Files Documentation Page](https://supercloud.mit.edu/accessing-and-transferring-data-and-files)
-
-=== "OpenMind"
-
-    [OpenMind Transferring Files Documentation Page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-transfer-files%3F)
-
-## Transferring Files with the Command Line
-
-Two of the most common commands used to transfer files are `scp` and `rsync`. You will need to run both of these commands from your local computer, before logging into any ORCD system. In order to use these two command you will need:
-
-- The hostname of the remote machine you are transferring files or from (usually the login node)
-- The path on the remote machine where you are copying the file to or from
-- To be able to ssh to the remote machine where you are transferring files to or from
-
-Both `scp` and `rsync` work similar to `cp`, in that you specify a source (where the file is coming from) and destination (where the file is going to).
-
-Unless you have your paths memorized, the easiest way to do this is to have two terminals open. One logged into the ORCD system you are transferring files to or from, one not logged in. In each navigate to the respective directories where the file exists or you want to transfer it to. In the local tab navigate to where you want to put the transferred file or to to the file you want to transfer. In the ORCD system tab use the `pwd` command to print out the path to your current location. You can use this to run the `scp` or `rsync` command.
+Unless you have your paths memorized, the easiest way to do this is to have two terminals open. The first terminal is logged into Engaging or other remote system, the second is on your local computer. In each navigate to the respective source and destination directories. In the Engaging tab you can run the `pwd` command to print out the path to your current location and copy the output to use in the `scp` or `rsync` command.
 
 ### scp
 
@@ -62,7 +134,7 @@ To transfer a file from your local computer to an ORCD system you would use the 
 === "Engaging"
 
     ``` bash
-    scp <file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
+    scp <local-file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
     ```
 
 === "Satori"
@@ -132,7 +204,7 @@ To transfer the other direction (from an ORCD system to your local computer) swi
     scp USERNAME@txe1-login.mit.edu:<path-to-supercloud-file> <path-to-local-dir>
     ```
 
-If you were to have the file `results.csv` that you want to copy from the `output` directory in your home directory to the current directory on your computer the command would be:
+If you were to have the file `results.csv` that you want to copy from the `output` directory in your remote home directory to the current directory on your computer the command would be:
 
 === "Engaging"
 
@@ -164,29 +236,29 @@ Similar to the `cp` command, if you want to transfer an entire directory and all
 === "Engaging"
 
     ``` bash
-    scp -r <file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
+    scp -r <local-directory-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
     ```
 
 === "Satori"
 
     ``` bash
-    scp -r <local-file-name> USERNAME@satori-login-001.mit.edu:<path-to-satori-dir>
+    scp -r <local-directory-name> USERNAME@satori-login-001.mit.edu:<path-to-satori-dir>
     ```
 === "OpenMind"
 
     ``` bash
-    scp -r <local-file-name> USERNAME@openmind-dtn.mit.edu:<path-to-openmind-dir>
+    scp -r <local-directory-name> USERNAME@openmind-dtn.mit.edu:<path-to-openmind-dir>
     ```
 
 === "SuperCloud"
 
     ``` bash
-    scp -r <local-file-name> USERNAME@txe1-login.mit.edu:<path-to-supercloud-dir>
+    scp -r <local-directory-name> USERNAME@txe1-login.mit.edu:<path-to-supercloud-dir>
     ```
 
 !!! note
-    To `scp` files to/from the new login nodes on Engaging, you will need to
-    authenticate with Duo.
+    To `scp` files to/from the login nodes on Engaging, you will need to
+    authenticate with Duo. You may get a Duo push without any indication from the command line.
 
 ### rsync
 
@@ -207,19 +279,17 @@ Some useful flags include:
 You can run `rsync --help` to print out a full list of flags that can be used with the `rsync` command.
 
 !!! note
-    To `rsync` files to/from the new login nodes on Engaging, you will need to
-    authenticate with Duo.
+    To `rsync` files to/from the login nodes on Engaging, you will need to
+    authenticate with Duo. You may get a Duo push without any indication from the command line.
 
 ### Moving files between ORCD Systems
 
-If you need to move files between ORCD systems you can do so one of two ways.
-
-1. ssh to one of the ORCD systems and initiate the transfer from that system to the other. Once you are logged into one system the process is the same as if you were to transfer files to or from your own computer.
-2. Run the `scp` or `rsync` command on your local system and specify the hostnames and paths for each of the source and destination systems. For example to move a file from Engaging to Satori using `scp` you would run:
-
-```bash title="Transferring files from Engaging to Satori"
-scp USERNAME@orcd-login001.mit.edu:<path-to-engaging-file> USERNAME@satori-login-001.mit.edu:<path-to-satori-dir>
+If you need to move files between ORCD systems you ssh to one of the ORCD systems and initiate the transfer from that system to the other. Once you are logged into one system the process is the same as if you were to transfer files to or from your own computer. For example to move a file from Satori to Engaging using `scp` you would first log into Satori and then use `scp` to transfer the file:
+```bash title="Transferring files from Satori to Engaging"
+ssh USERNAME@satori-login001.mit.edu
+scp <path-to-satori-file> USERNAME@orcd-login001.mit.edu:<path-to-engaging-directory>
 ```
+You can also `ssh` into Engaging and initiate the transfer from there using a similar command.
 
 ## Graphical Applications for File Transfer
 
@@ -231,33 +301,7 @@ Some of the most common options are:
 - [FileZilla](https://filezilla-project.org/) (Mac, Windows, and Linux)
 - [WinSCP](https://winscp.net/eng/index.php) (Windows only)
 
-To use these you will need to know the hostname of the ORCD system you are accessing, either one of the login nodes or a dedicated data transfer node. See the list of hostnames at the top of this page to see which you should use for the system you are transferring files to.
+To use these you will need to know the hostname of the ORCD system you are accessing, either one of the login nodes or a dedicated data transfer node. See the list of hostnames at the top of the [Command Line](#command-line) section to see which you should use for the system you are transferring files to.
 
-## Transferring Files with a Web Portal
 
-Most ORCD systems have some form of portal that can be accessed through your browser and used to transfer or download files. Engaging and Satori both use OnDemand. SuperCloud has its own custom portal.
-
-- [Engaging OnDemand Portal](https://engaging-ood.mit.edu/)
-- [Satori OnDemand Portal](https://satori-portal.mit.edu/)
-- [SuperCloud Web Portal](https://txe1-portal.mit.edu) ([Documentation](https://mit-supercloud.github.io/supercloud-docs/transferring-files/#downloading-files-through-the-web-portal))
-
-For documentation on how to download and transfer files on the SuperCloud Web Portal, see the link above.
-
-If you are using Engaging or Satori, you can use the file browser by selecting Files -> Home Directory in the menu bar at the top of the page. You can drag and drop files into and out of this page or use the "Upload" and "Download" buttons. Select multiple files by holding the Control (or Command) key and clicking on the files you'd like to select. Those files can then be downloaded with the "Download" button.
-
-## Globus
-
-Globus is a tool that helps transfer data between designated endpoints. These transfers can be initiated through the Globus webpage, don't require staying logged in through the entire transfer, and will restart automatically if something fails during the transfer. There are endpoints on a few ORCD systems with basic Globus features. Please note that these basic Globus endpoints will transfer data unencrypted. An MIT Globus subscription with more features is coming soon!
-
-To transfer data log into [Globus](https://www.globus.org/) with your MIT credentials. On the "File Manager" tab in one of the two "Collection" boxes search for the endpoint for the system you want to transfer data to or from. The column on the left should list where you want to transfer from, the column on the right should list where you want to transfer to. Endpoints on ORCD systems are listed below.
-
-| System | Globus Endpoint | 
-| ----------- | ----------- |
-| Engaging | mithpc#engaging | 
-| Satori | mithpc#satori | 
-| OpenMind | mithpc#openmind | 
-
-To transfer data to or from your own computer you will need to set up a personal endpoint. Follow the instructions on the page for your system listed [here](https://docs.globus.org/globus-connect-personal/).
-
-More documentation on transferring files through Globus can be found on the [Globus Documentation Pages](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/). Globus also has an [FAQ](https://docs.globus.org/faq/globus-connect-endpoints/) that is helpful for answering any questions you might have.
 
