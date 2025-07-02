@@ -30,7 +30,9 @@ If you don't already have an account, click on the tab for the system you are in
 
 === "OpenMind"
 
-    OpenMind will be available to the general MIT Community starting 2024. Those currently eligible can follow the instructions on the [Getting an Account](https://github.mit.edu/MGHPCC/OpenMind/wiki/Cookbook:-Getting-started#account) page.
+    OpenMind will be retired later this year. BCS users are encouraged to transition their workflows to Engaging, where they can use the `ou_bcs_low`, `ou_bcs_normal`, and `ou_bcs_high` partitions for access to GPUs. All other MIT users can access these resources through the `mit_preemptable` partition on Engaging.
+    
+    If you are in BCS and you would still like an account on OpenMind, see the [Getting an Account](https://github.mit.edu/MGHPCC/OpenMind/wiki/Cookbook:-Getting-started#account) page on OpenMind's documentation..
 
 ## Logging In
 
