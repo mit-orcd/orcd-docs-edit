@@ -4,21 +4,21 @@ tags:
  - Howto Recipes
  - H100
 ---
+
+!!! warning
+    This page has been archived. The information present is not updated and may no longer be accurate.
+
 # Getting started on 8-way H100 nodes on Satori
 
 This page provides information on how to run a first job on the IBM Watson AI Lab H100 GPU nodes on Satori.
 The page describes how to request an access to the Slurm partition associated 
-with the H100 nodes and
-how to run a first example pytorch script on the systems. 
+with the H100 nodes and how to run a first example pytorch script on the systems. 
 
 A first set of H100 GPU systems has been added to Satori.
-These are for priority use by IBM Watson AI Lab research collaborators.
-They are also available for general opportunistic use when they are idle.
-
+These are for priority use by IBM Watson AI Lab research collaborators only.
 <!--
 What slurm flags are needed to use these nodes for "general opportunistic use"?
 -->
-
 
 Currently (2023-06-19) there are 4 H100 systems installed. 
 Each system has 8 H100 GPU cards, two Intel 8468 CPUs each with
@@ -28,7 +28,7 @@ Below are some instructions for getting started with these systems.
 
 ## Access to the nodes
 
-To access the nodes in the priority group you need your satori login id to be listed in the WebMoira 
+To access the nodes in the priority group you need your Satori login id to be listed in the WebMoira 
 group [https://groups.mit.edu/webmoira/list/sched_oliva](https://groups.mit.edu/webmoira/list/sched_oliva). 
 Either Alex Andonian and Vincent Sitzmann are able to add accounts to the `sched_oliva` Moira list.
 
