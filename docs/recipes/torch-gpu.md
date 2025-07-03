@@ -1,7 +1,7 @@
 ---
 tags:
  - Engaging
- - Pytorch
+ - PyTorch
  - GPU
  - Howto Recipes
 ---
@@ -12,14 +12,19 @@ Deep learning is the foundation of artificial intelligence nowadays. Deep learni
  
 PyTorch is a popular Python package for working on deep learning projects.
 
-This page introduces recipes to run deep-learning programs on GPUs with Pytorch. 
+This page introduces recipes to run deep-learning programs on GPUs with PyTorch. 
+
+??? "GPU requirements"
+     The last two examples require four and eight GPUs, which is more than the default maximum of two on the `mit_normal_gpu` partition.
+     If you have access to another partition through which you can access more GPUs, you can use that partition instead.
+     If not, you can still run the four GPU example with the `mit_premptable` partition.
 
 
 ## Installing PyTorch
 
 === "Engaging"
 
-     First, load a Miniforge module to provide Python platform, 
+     First, load a Miniforge module to provide a Python platform, 
      ```
      module load miniforge/24.3.0-0
      ```
@@ -33,7 +38,7 @@ This page introduces recipes to run deep-learning programs on GPUs with Pytorch.
 
 ## PyTorch on CPU and a single GPU
 
-We start with a recipe to run PyTorch on CPU and a single GPU.
+We start with a recipe to run PyTorch on one CPU and one GPU.
 
 We use an example code training a convolutional neural network (CNN) with the CIFAR10 data set. Refer to [description of this example](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html). Download the codes [for CPU](./scripts/torch-gpu/cnn_cifar10_cpu.py) and [for GPU](./scripts/torch-gpu/cnn_cifar10_gpu.py). 
 
@@ -76,7 +81,8 @@ and then log in the node,
 ```
 ssh <nodeXXX>
 ```
-and check the GPU usage with the `nvtop` command.
+and check the GPU usage with the `nvtop` command. Documentation for `nvtop` can be found [here](https://orcd-docs.mit.edu/running-jobs/application-analysis/#nvtop).
+Note that this program can take around 20 minutes to run.
 
 
 ## PyTorch on multiple GPUs
@@ -126,9 +132,9 @@ The `-N 1 -n 4 --gres=gpu:4` flags request 4 CPU cores and 4 GPUs on one node. F
 
 As is set up in the code `multigpu.py`, it will run on all of the GPUs requested in Slurm, which means 4 GPUs within one node in this case. The training process happens on 4 batches of data simultaneously. 
 
-Check if the program runs on multiple GPUs using the `nvtop` command as described in the previous section.  
+You can try to check if the program runs on multiple GPUs using the `nvtop` command as described in the previous section, but the program runs so fast that this might be challenging. You can also check in the Slurm out file that GPUs with different IDs were utilized.
 
-There is another way to run a Pytorch prgram with multiple GPUs, that is to use the `torchrun` command. The program for this purpose is `multigpu_torchrun.py`. In the above job script, change the last line to this, 
+There is another way to run a PyTorch prgram with multiple GPUs, that is to use the `torchrun` command. The program for this purpose is `multigpu_torchrun.py`. In the above job script, change the last line to this, 
 ```
 torchrun --nnodes=1 --nproc_per_node=4 \
          --rdzv_id=$SLURM_JOB_ID \
