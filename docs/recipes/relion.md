@@ -6,6 +6,9 @@ tags:
  - Howto Recipes
 ---
 
+!!! warning
+    This page has been archived. The information present is not updated and may no longer be accurate.
+
 # Installing and Using RELION
 
 RELION (for REgularised LIkelihood OptimisatioN, pronounce rely-on) is a software package that employs an empirical Bayesian approach for electron cryo-microscopy (cryo-EM) structure determination. 
@@ -61,7 +64,7 @@ It is all set for the installation.
 
 ### Use RELION
 
-There is a nice Graphical User Interface (GUI) for RELION. To use the GUI, first log in Satori with x-forwardig support,
+There is a nice Graphical User Interface (GUI) for RELION. To use the GUI, first log in Satori with x-forwarding support,
 ```
 ssh -Y <user>@satori-login-002.mit.edu
 ```
