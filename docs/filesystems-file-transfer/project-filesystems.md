@@ -31,7 +31,7 @@ For more information, including pricing, and to purchase storage please send an 
 
 Individual group storage is configured so that access is limited to a set
 of accounts belonging to a web moira list that is defined for the group
-store. The owner and administrators of group storage can manage
+storage. The owner and administrators of group storage can manage
 access themselves, by modifying the membership of an associated moira list
 under **https://groups.mit.edu/webmoira/list/[list_name]**. The name of the
 list corresponds to a UNIX group name associated with the ORCD shared 
