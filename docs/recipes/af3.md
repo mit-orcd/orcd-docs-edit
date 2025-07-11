@@ -191,5 +191,3 @@ access to a partition with a GPU, replace the partition name below as necessary:
     ```
 
 Output is saved to the `af_output` directory.
-
-- Adding an additional example line
