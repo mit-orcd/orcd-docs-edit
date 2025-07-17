@@ -1,9 +1,10 @@
 #!/bin/bash
 
 #SBATCH -N 1
-#SBATCH -n 8
+#SBATCH -n 1
 #SBATCH --mem-per-cpu=4G
 #SBATCH -p mit_normal
+#SBATCH -t 12:00:00
 #SBATCH -J cryosparc_master
 #SBATCH -o output/cryosparc_master-%N-%j.out
 #SBATCH --signal=B:10@60 # send the signal '10' at 60s before job finishes

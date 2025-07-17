@@ -5,13 +5,19 @@ tags:
  - Engaging
 ---
 
+<!-- TODO:
+- Add reservation to cluster connect 
+- Add mit_normal cluster?
+-->
+
 # Installing CryoSPARC on Engaging
 
 CryoSPARC is a software platform for rapid, automated processing and analysis of
 cryo-electron microscopy (cryo-EM) data to determine high-resolution 3D
 structures of biological macromolecules.
 
-This guide has been adapted from [these instructions](https://guide.cryosparc.com/setup-configuration-and-management/how-to-download-install-and-configure/downloading-and-installing-cryosparc).
+This guide offers a way to install this software in the user space, and has been
+adapted from [these instructions](https://guide.cryosparc.com/setup-configuration-and-management/how-to-download-install-and-configure/downloading-and-installing-cryosparc).
 
 ## Getting Started
 
@@ -21,9 +27,9 @@ First, connect to the Engaging cluster:
 ssh $USER@orcd-login001.mit.edu
 ```
 
-You will need to obtain a CryoSPARC license ID. Licenses are free for
-academic use. You can request a license ID [here](https://guide.cryosparc.com/setup-configuration-and-management/how-to-download-install-and-configure/obtaining-a-license-id). Once you have
-received your license ID, save it as an environment variable for future uses:
+You will need to obtain a CryoSPARC license ID [here](https://guide.cryosparc.com/setup-configuration-and-management/how-to-download-install-and-configure/obtaining-a-license-id).
+Licenses are free for academic use. Once you have received your license ID, save
+it as an environment variable for future uses:
 
 ```bash
 echo 'export CRYOSPARC_LICENSE_ID="<your_license_id>"' >> ~/.bash_profile
@@ -52,7 +58,7 @@ tar -xf cryosparc_worker.tar.gz cryosparc_worker
 The CryoSPARC software setup requires two different installations:
 `cryosparc_master` and `cryosparc_worker`. The "master" software is used for
 running the user interface and scheduling jobs on the worker nodes, while the
-"worker" software is used for performing calculations.
+"worker" software is used for running computations.
 
 You will need to run the installation on a compute node. To do this, request
 an interactive session:
@@ -69,7 +75,7 @@ Run this script to install the master node software:
 --8<-- "docs/recipes/scripts/cryosparc/install_master.sh"
 ``` 
 
-Once this installation is complete, you can start running CryoSPARC.
+Once this installation is complete, you can start running CryoSPARC:
 
 ```bash
 # Add cryosparc_master to your path:
@@ -142,6 +148,18 @@ adapted here:
 ```bash title="run_cryosparc.sbatch"
 --8<-- "docs/recipes/scripts/cryosparc/run_cryosparc.sbatch"
 ```
+
+!!! note
+    If you have a rental reservation on `mit_normal` so that you can have longer
+    runtimes for the master node software, you will need to add the following
+    flags to your job script:
+
+    ```bash
+    #SBATCH -t DD-HH:MM:SS # Enter a longer runtime here
+    #SBATCH --reservation=<rental_reservation_id>
+    #SBATCH --qos=<rental_reservation_id>
+    #SBATCH --account=<rental_reservation_id>
+    ```
 
 You can run this script with the command `sbatch run_cryosparc.sbatch`.
 
