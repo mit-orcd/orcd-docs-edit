@@ -160,4 +160,21 @@ source ./mc3/bin/activate
 ```
 
 ### Why doesn't my password work when I try to run the sudo command?
+
 Regular users are not allowed to use sudo on engaging. Engaging is a shared environment. Sudo enables root-level access which allows our system administrators to modify system files, install software and change permissions. If misused unintentionally or accidentally, it could compromise the entire cluster. Therefore, use of sudo is reserved for engaging system administrators who work to secure, maintain, and tune the cluster. If you need specific software and you are having difficultly installing it, contact orcd-help@mit.edu and someone on the staff can assist you. Please see `https://orcd-docs.mit.edu/software/overview/` for more information. 
+
+### What is the `mit_preemptable` partition? What is preemption?
+
+The `mit_preemptable` partition allows you to run programs on lab-owned nodes while they're not being used. While this partition has higher resource limits and longer runtimes than other public partitions like `mit_normal` and `mit_normal_gpu`, jobs submitted to `mit_preemptable` are **low priority** and **preemptable**. This means that your job will get cancelled ("preempted") if someone requests the same resources through another partition. For example, if you are running a GPU training job that uses four L40S GPUs on node2804, and someone requests one GPU on node2804 through `mit_normal_gpu`, then your job will get preempted because node2804 only has four GPUs.
+
+If you would like your job to automatically resubmit if it gets preempted, then use the `--requeue` flag in your submission script.
+
+Because of the possibility of job interruptions on `mit_preemptable`, we advise that you incorporate checkpointing into your program. Checkpointing is a way that you can save your progress if your job stops unexpectedly. The way this works varies depending on the software you're using, so we encourage you to check your software's documentation for any information on checkpointing.
+
+### I got locked out of my Engaging account. How do I restore my access?
+
+People often get locked out of their account due to repeated failed authentication attempts, specifically from Duo 2FA. This is usually caused by third-party software that connects to Engaging over SSH, such as VS Code. Your account will be automatically re-activated after a bit of time.
+
+### I cannot connect to a compute node using VS Code remote SSH.
+
+Sometimes, when following [our instructions for running VS Code on the cluster](recipes/vscode.md), users are prompted to enter their password when they connect to the compute node and they get "permission denied." This is most often because they do not have an SSH key set up on Engaging. You can do so following [these instructions](accessing-orcd/ssh-setup.md).
