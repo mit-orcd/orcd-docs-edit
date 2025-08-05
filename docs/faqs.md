@@ -165,20 +165,11 @@ Regular users are not allowed to use sudo on engaging. Engaging is a shared envi
 
 ### What is the `mit_preemptable` partition? What is preemption?
 
-The `mit_preemptable` partition allows you to run programs on lab-owned nodes while they're not being used. While this partition has higher resource limits and longer runtimes than other public partitions like `mit_normal` and `mit_normal_gpu`, jobs submitted to `mit_preemptable` are **low priority** and **preemptable**. This means that your job will get cancelled ("preempted") if someone requests the same resources through another partition. For example, if you are running a GPU training job that uses four L40S GPUs on node2804, and someone requests one GPU on node2804 through `mit_normal_gpu`, then your job will get preempted because node2804 only has four GPUs.
-
-If you would like your job to automatically resubmit if it gets preempted, then use the `--requeue` flag in your submission script.
-
-Because of the possibility of job interruptions on `mit_preemptable`, we advise that you incorporate checkpointing into your program. Checkpointing is a way that you can save your progress if your job stops unexpectedly. The way this works varies depending on the software you're using, so we encourage you to check your software's documentation for any information on checkpointing.
-
-<!-- (point to running jobs overview) -->
+The `mit_preemptable` partition allows you to run programs on lab-owned nodes while they're not being used. While this partition has higher resource limits and longer runtimes than other public partitions like `mit_normal` and `mit_normal_gpu`, jobs submitted to `mit_preemptable` are **low priority** and **preemptable**. See [Preemptable Jobs](running-jobs/overview.md#preemptable-jobs) for more information.
 
 ### I got locked out of my Engaging account. How do I restore my access?
 
-People often get locked out of their account due to repeated failed authentication attempts, specifically from Duo 2FA. This is usually caused by third-party software that connects to Engaging over SSH, such as VS Code. Your account will be automatically re-activated after a bit of time.
-
-<!-- Connection timeout
-Max reconnetion attempts -->
+People often get locked out of their account due to repeated failed authentication attempts, specifically from Duo 2FA. This is usually caused by third-party software that connects to Engaging over SSH, such as [VS Code](recipes/vscode.md#other-vscode-best-practices-tips-and-tricks). Your account will be automatically re-activated after a bit of time.
 
 ### I cannot connect to a compute node using VS Code remote SSH.
 
