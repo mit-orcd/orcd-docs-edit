@@ -171,9 +171,14 @@ If you would like your job to automatically resubmit if it gets preempted, then 
 
 Because of the possibility of job interruptions on `mit_preemptable`, we advise that you incorporate checkpointing into your program. Checkpointing is a way that you can save your progress if your job stops unexpectedly. The way this works varies depending on the software you're using, so we encourage you to check your software's documentation for any information on checkpointing.
 
+<!-- (point to running jobs overview) -->
+
 ### I got locked out of my Engaging account. How do I restore my access?
 
 People often get locked out of their account due to repeated failed authentication attempts, specifically from Duo 2FA. This is usually caused by third-party software that connects to Engaging over SSH, such as VS Code. Your account will be automatically re-activated after a bit of time.
+
+<!-- Connection timeout
+Max reconnetion attempts -->
 
 ### I cannot connect to a compute node using VS Code remote SSH.
 
