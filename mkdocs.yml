@@ -56,6 +56,7 @@ nav:
   - Acceptable Use and Code of Conduct: code-of-conduct.md
   - Getting Help: getting-help.md
   - FAQs: faqs.md
+  - Glossary: glossary.md
   - Index: tags.md
 
 theme: 
@@ -72,6 +73,7 @@ plugins:
       tags_file: tags.md
   - git-revision-date-localized
   - open-in-new-tab
+  - table-reader
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
