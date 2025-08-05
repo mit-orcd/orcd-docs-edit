@@ -73,7 +73,6 @@ plugins:
       tags_file: tags.md
   - git-revision-date-localized
   - open-in-new-tab
-  - table-reader
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
