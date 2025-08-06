@@ -155,7 +155,7 @@ MPI programs are based on distributed-memory parallelism, that says, each MPI ta
 
 Some programs are designed in a hybrid scheme such that MPI and OpenMP are combined to enable two-level parallelization. Set MPI tasks and OpenMP threads in hybrid programs based on the following equation,
 ```
-(Number of MPI Tasks) * (Nubmer of Threads) = Total Number of Cores          (1)
+(Number of MPI Tasks) * (Number of Threads) = Total Number of Cores          (1)
 ```
   
 ??? "Side note: hyperthreads" 
