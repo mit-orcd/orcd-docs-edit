@@ -4,6 +4,7 @@ tags:
  - MPI
  - RELION
  - Howto Recipes
+ - Install Recipe
 ---
 
 # Installing and Using RELION

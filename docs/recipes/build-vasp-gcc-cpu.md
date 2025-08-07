@@ -5,6 +5,7 @@ tags:
  - MPI
  - VASP
  - Rocky Linux
+ - Install Recipe
 ---
 
 # Example Build of the VASP Software
