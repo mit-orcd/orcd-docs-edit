@@ -14,7 +14,7 @@
 
 **Compute Node:** The primary nodes within an HPC cluster where the actual computational work of user jobs is performed.
 
-**Computing Cluster:** A collection of interconnected computers (nodes) that work together to perform complex computations, often used in high-performance computing (HPC) environments.
+**Computing Cluster:** A collection of interconnected computers (nodes) that work together to perform complex computations.
 
 **CPU Core:** The smallest unit of processing on a node that can be used by a job. In HPC, jobs can request a specific number of CPU cores to perform parallel tasks.
 
@@ -31,6 +31,8 @@
 **GUI (Graphical User Interface):** A user interface that allows users to interact with electronic devices through graphical icons and visual indicators, as opposed to text-based interfaces, typed command labels, or text navigation.
 
 **Home Directory:** A personal directory allocated to each user on the cluster, located at `/home/$USER`. This is the default working directory for users when they log in.
+
+**HPC (High-Performance Computing):** The use of supercomputers and parallel processing techniques to solve complex computational problems that require significant processing power and memory.
 
 **Interactive Job:** A job that allows users to interact with the application or process while it is running, typically through a command line interface or graphical user interface.
 
@@ -49,7 +51,7 @@
 
 **MPI (Message Passing Interface):** A standardized library of functions for parallel computing that enables data communication between processes running across multiple CPU cores or nodes. It's primarily used for distributed-memory parallelism, where each process has its own memory.
 
-**Node:** An individual computing unit within an HPC cluster, which can be a physical or virtual machine. Each node typically has its own CPU cores and memory.
+**Node:** An individual computing unit within an HPC cluster, which can be a physical or virtual machine. Each node has its own CPU cores and memory.
 
 **OpenMP:** A shared-memory parallelism technique where different parts of a program run concurrently as "threads" within a single process, sharing the same memory space. OpenMP is a common standard for implementing multithreading.
 
