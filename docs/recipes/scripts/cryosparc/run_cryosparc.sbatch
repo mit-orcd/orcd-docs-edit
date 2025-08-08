@@ -40,6 +40,8 @@ cryosparcm start
 # Print instructions for pulling up the UI:
 cat 1>&2 <<END
 
+~~FOLLOW THE BELOW INSTRUCTIONS~~
+
 To open the CryoSPARC user interface, port forward to the compute node in a new shell window on your local computer:
 
 	ssh -L 61000:$(hostname):61000 ${USER}@orcd-login001.mit.edu

@@ -1,7 +1,7 @@
 ---
 tags:
  - CryoEM
- - Software installation
+ - Install Recipes
  - Engaging
 ---
 
@@ -32,7 +32,7 @@ Licenses are free for academic use. Once you have received your license ID, save
 it as an environment variable for future uses:
 
 ```bash
-echo 'export CRYOSPARC_LICENSE_ID="<your_license_id>"' >> ~/.bash_profile
+echo 'export CRYOSPARC_LICENSE_ID="your_license_id"' >> ~/.bash_profile
 source ~/.bash_profile
 ```
 
@@ -61,7 +61,7 @@ running the user interface and scheduling jobs on the worker nodes, while the
 "worker" software is used for running computations.
 
 You will need to run the installation on a compute node. To do this, request
-an interactive session:
+an interactive job:
 
 ```bash
 salloc -N 1 -n 8 --mem-per-cpu=4G -p mit_normal
@@ -98,9 +98,9 @@ cryosparcm createuser --email "${USER}@mit.edu" \
 
 #### Connect the Master Node to the Cluster
 
-The master node can be set up to submit jobs to the cluster using the Slurm
-scheduler. This is the preferred setup for Engaging so that GPU resources are
-not allocated to your job when they are not in use.
+The master node can be set up to submit jobs to other nodes on Engaging using
+the Slurm scheduler. This is the preferred setup for Engaging so that GPU
+resources are not allocated to your job when they are not in use.
 
 Create the following two files within the `$CRYOSPARC_WORKDIR/cryosparc_master`
 directory. You will need to hard-code the path to the `cryosparc_worker`
@@ -120,6 +120,16 @@ Now, from the same directory where you created these two files, run:
 ```bash
 cryosparcm cluster connect
 ```
+
+!!! note
+    In this example, we have specified the `mit_normal_gpu` partition for
+    running jobs. This partition is available to the entire MIT community.
+    As of August 2025, the time limit for jobs on this partition is 6 hours.
+    While this is suitable for many CryoSPARC jobs, some jobs require longer
+    runtimes. To run these longer jobs, you
+    will need to obtain a rental reservation on the `mit_normal_gpu`. Once you
+    have a reservation, add your reservation ID to
+    `cluster_script.sh` and run `cryosparcm cluster connect` again.
 
 ### Worker Node Setup
 
@@ -150,15 +160,13 @@ adapted here:
 ```
 
 !!! note
-    If you have a rental reservation on `mit_normal` so that you can have longer
-    runtimes for the master node software, you will need to add the following
-    flags to your job script:
+    If you have a rental reservation on `mit_normal` so that you can have longer runtimes for the master node software, add the following flags to `run_cryosparc.sbatch`:
 
     ```bash
     #SBATCH -t DD-HH:MM:SS # Enter a longer runtime here
     #SBATCH --reservation=<rental_reservation_id>
-    #SBATCH --qos=<rental_reservation_id>
-    #SBATCH --account=<rental_reservation_id>
+    #SBATCH --qos=<rental_reservation_qos_id>
+    #SBATCH --account=<rental_reservation_account_id>
     ```
 
 You can run this script with the command `sbatch run_cryosparc.sbatch`.
@@ -196,8 +204,7 @@ master session. The Job ID was printed when you submitted your job and you can
 also find it in your output file.
 
 !!! note
-    Try not to cancel your job before CryoSPARC has successfully started (e.g., during the "configuring database" phase), as
-    this can cause issues starting it the next time.
+    Try not to cancel your job before CryoSPARC has successfully started (e.g., during the "configuring database" phase), as this can cause issues starting it the next time.
 
 ## FAQs
 
