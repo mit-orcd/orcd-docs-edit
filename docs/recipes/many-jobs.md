@@ -15,10 +15,10 @@ It is straightforward to execute the command `sbatch` in a loop, but this approa
 
 A good practice is to use job array, which is much more effecient. Refer to [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-submit-a-job-array%3F) for details of job array. 
 
-However, if a user submits too many jobs in a short time period, even with a job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user on the cluster is set to be 500, so that there are not too many jobs are queueing in a time peiriod. It is good for a user to submit up to 500 jobs with a job array.
+However, if a user submits too many jobs in a short time period, even with a job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user on the cluster is set to be 500, so that there are not too many jobs queuing in a time peiriod. It is good for a user to submit up to 500 jobs with a job array.
 
 ??? "Terminology: job and job array"
-    On this page, the word job means either an invividualy job or a task in a job array. For example, submitting a job array with 100 tasks means submitting 100 jobs. 
+    On this page, the word job means either an individual job or a task in a job array. For example, submitting a job array with 100 tasks means submitting 100 jobs. 
 
 When a user needs to run a program for more than 500 times, it is recommended to combine serial execution and/or parallel execution with job array.
 
@@ -138,7 +138,7 @@ do
    for j in `seq 1 $N_PARALLEL`   # Loop for parallel executions
    do
      index=$(($nmax * $i + $id))  # Global index
-     python name.py $index &      # Run a program in background. 
+     python mycode.py $index &      # Run a program in background. 
    wait                           # Wait for all parallel executions complete, then go to the next iteration in the loop of serial executions.
 done 
 ``` 
