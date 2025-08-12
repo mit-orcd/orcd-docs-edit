@@ -49,7 +49,7 @@ The program is executed 10 times with different input parameters (i.e. the loop 
 Note that the serial execution increases the total run time. Request a wall time that is long enough for all the programs to be completed. 
 
 !!! "Pros and cons"
-    **This approach is good for programs with short run times.** If each program requires a long run time, the total run time may exceed the maximum wall time limit. 
+   **This approach is good for programs with short run times.** If each program requires a long run time, the total run time may exceed the maximum wall time limit. 
 
 
 ## Integrate serial execution and job array
@@ -77,7 +77,7 @@ done
  The array task ID (`$SLURM_ARRAY_TASK_ID`) and total number of tasks in the array (`$SLURM_ARRAY_TASK_COUNT`) are used to calculate the global index. Use the global index as the input parameter for the program.
 
 !!! "Best-case scenario"
-    **This approach is useful for submitting a large number of short run time programs beyond the per-user job limit.**
+   **This approach is useful for submitting a large number of short run time programs beyond the per-user job limit.**
 
 
 ## Parallel execution 
@@ -104,7 +104,8 @@ The main difference from the serial execution is taht an `&` mark is added at th
 
 The `wait` command in the last line ensures that the batch job will not be terminated until all background programs are completed.  
 
-**This approach is good when each program requires a small number of CPU cores and a small amount of memory.** If each program requires many CPU cores or large memory, executing multiple programs in parallel would require too many CPUs or too much memory, which may not fit within one node. 
+!!! "Pros and cons"
+   **This approach is good when each program requires a small number of CPU cores and a small amount of memory.** If each program requires many CPU cores or large memory, executing multiple programs in parallel would require too many CPUs or too much memory, which may not fit within one node. 
 
 
 ## Integrate parallel execution and job array
@@ -116,40 +117,34 @@ To scale up the number of programs, use job array together with parallel executi
 
 ## Integrate sequential execution, parallel execution and job array
 
-Here is an example of combining a sequential run, a parallel run, and a job array. ***This approach is useful for submitting a large number of programs beyond the per-user job limit, when each program requires a short run time and small resources (CPUs and memory)***. 
+To furhter scale up the number of programs, one may consider integrating sequential execution, parallel execution and job array. Here is an example job script to submit `10 * 10 * 100 = 10,000` programs.
 
-First, write a script to run multiple programs sequentially and parallelly,
-```
-# This is the bash script named run_hybrid.sh
-N_SERIAL=10
-N_PARALLEL=10
-for i in `seq 1 $N_SERIAL`        # Loop for serial runs
-do
-   for j in `seq 1 $N_PARALLEL`   # Loop for parallel runs
-   do
-     index=$(($1*$2+$i))          # Global index
-     python name.py $index &      # Run a python program in background. Use global index as input
-   done
-   wait                           # Wait for all parallel runs complete, then go to the next step in the outer loop.
-done 
-```
-Here is the job script to run the above script with a job array, 
 ```
 #!/bin/bash               # Bash shell
 #SBATCH -t 02:00:00       # Two hours
 #SBATCH -N 1              # 1 node
-#SBATCH --ntasks-per-core=1       # 1 task per CPU core: turn off hyperthreading.
-#SBATCH -n 20             # 20 physical CPU cores
+#SBATCH -n 20             # 20 CPU cores
 #SBATCH --mem=20GB        # 20 GB of memory
-#SBATCH --array=0-999     # Job array 
+#SBATCH --array=0-99      # Job array 
 
 nmax=$SLURM_ARRAY_TASK_COUNT     # Num of tasks per array
 id=$SLURM_ARRAY_TASK_ID          # Task ID
-./run_hybrid.sh $id $nmax        # Execute a bash script
-```
-With this, you submit `10 * 10 * 1,000 = 100,000` programs simultaneously, which is way beyond the per-user job limit.
 
-> Note: The examples here are in bash. Users can use Python to implement them similarly. 
+N_SERIAL=10
+N_PARALLEL=10
+for i in `seq 1 $N_SERIAL`        # Loop for serial executions
+do
+   for j in `seq 1 $N_PARALLEL`   # Loop for parallel executions
+   do
+     index=$(($nmax * $i + $id))  # Global index
+     python name.py $index &      # Run a program in background. 
+   wait                           # Wait for all parallel executions complete, then go to the next iteration in the loop of serial executions.
+done 
+``` 
+
+**This approach is useful for submitting a large number of programs beyond the per-user job limit, when each program requires a short run time and small resources (CPUs and memory)**. 
+
+
 
 
 
