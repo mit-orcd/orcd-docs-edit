@@ -112,7 +112,8 @@ The `wait` command in the last line ensures that the batch job will not be termi
 
 To scale up the number of programs, use job array together with parallel execution. For example, simply adding a line `#SBATCH --array=0-99` to the above script, users can submit `10 * 100 = 1,000` programs simultaneously. 
 
-**This approach is useful to submit a large number of programs beyond the per-user job limit, when each program requires small resources (CPUs and memory)**
+!!! "Best-case scenario"
+   **This approach is useful to submit a large number of programs beyond the per-user job limit, when each program requires small resources (CPUs and memory)**
 
 
 ## Integrate sequential execution, parallel execution and job array
@@ -142,9 +143,6 @@ do
 done 
 ``` 
 
-**This approach is useful for submitting a large number of programs beyond the per-user job limit, when each program requires a short run time and small resources (CPUs and memory)**. 
-
-
-
-
+!!! "Best-case scenario"
+   **This approach is useful for submitting a large number of programs beyond the per-user job limit, when each program requires a short run time and small resources (CPUs and memory)**. 
 
