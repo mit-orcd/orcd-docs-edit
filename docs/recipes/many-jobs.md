@@ -29,11 +29,13 @@ On this page, we will introduce serial execution and parallel execution, and how
 Serial execution means executing multiple programs serially within a job. Here is an example job script that runs 10 programs serially. 
 
 ```
-#!/bin/bash            # Bash shell
+#!/bin/bash
 #SBATCH -t 02:00:00    # tow hours
 #SBATCH -N 1           # 1 node
 #SBATCH -n 2           # 2 CPU cores
 #SBATCH --mem=2GB      # 2 GB of memory
+
+module load miniforge/24.3.0-0
 
 N_PROGRAMS=10
 for i in `seq 1 $N_PROGRAMS`     # Loop for serial execution
@@ -57,12 +59,14 @@ Note that the serial execution increases the total run time. Request a wall time
 To scale up the number of programs, use job array together with serial execution. Here is an example to submit `10 * 100 = 1,000` programs,
  
 ```
-#!/bin/bash                     # Bash shell
+#!/bin/bash
 #SBATCH -t 02:00:00             # Two hours
 #SBATCH -N 1                    # 1 node
 #SBATCH -n 2                    # 2 CPU cores
 #SBATCH --mem=2GB               # 2 GB of memory
 #SBATCH --array=0-99            # Job array 
+
+module load miniforge/24.3.0-0
 
 nmax=$SLURM_ARRAY_TASK_COUNT    # Num of tasks per array
 id=$SLURM_ARRAY_TASK_ID         # Task ID
@@ -84,11 +88,13 @@ done
 
 Parallel execution means executing multiple programs paralelly within a job. Here is an example job script that runs 10 programs parallelly. 
 ```
-#!/bin/bash            # Bash shell
+#!/bin/bash
 #SBATCH -t 00:30:00    # 30 minutes
 #SBATCH -N 1           # 1 node
 #SBATCH -n 20          # 20 CPU cores
 #SBATCH --mem=20GB     # 20 GB of memory
+
+module load miniforge/24.3.0-0
 
 N_PROGRAMS=10
 for i in `seq 1 $N_PROGRAMS` # Loop from 1 to number of programs
@@ -121,12 +127,14 @@ To scale up the number of programs, use job array together with parallel executi
 To furhter scale up the number of programs, one may consider integrating sequential execution, parallel execution and job array. Here is an example job script to submit `10 * 10 * 100 = 10,000` programs.
 
 ```
-#!/bin/bash               # Bash shell
+#!/bin/bash
 #SBATCH -t 02:00:00       # Two hours
 #SBATCH -N 1              # 1 node
 #SBATCH -n 20             # 20 CPU cores
 #SBATCH --mem=20GB        # 20 GB of memory
 #SBATCH --array=0-99      # Job array 
+
+module load miniforge/24.3.0-0
 
 nmax=$SLURM_ARRAY_TASK_COUNT     # Num of tasks per array
 id=$SLURM_ARRAY_TASK_ID          # Task ID
@@ -139,6 +147,7 @@ do
    do
      index=$(($nmax * $i + $id))  # Global index
      python mycode.py $index &      # Run a program in background. 
+   done 
    wait                           # Wait for all parallel executions complete, then go to the next iteration in the loop of serial executions.
 done 
 ``` 
