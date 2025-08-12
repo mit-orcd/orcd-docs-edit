@@ -50,8 +50,9 @@ The program is executed 10 times with different input parameters (i.e. the loop 
 
 Note that the serial execution increases the total run time. Request a wall time that is long enough for all the programs to complete. 
 
+
 !!! Pros and cons
-    **This approach is good for programs with short run times.** If each program requires a long run time, the total run time may exceed the maximum wall time limit. 
+    **This approach is good for programs with short run times.** If each program requires a long run time, the total run time may exceed the maximum wall time limit.    
 
 
 ## Integrate serial execution and job array
