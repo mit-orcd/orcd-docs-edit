@@ -17,8 +17,8 @@ A good practice is to use job array, which is much more effecient. Refer to [thi
 
 However, if a user submits too many jobs in a short time period, even with a job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user on the cluster is set to be 500, so that there are not too many jobs are queueing in a time peiriod. It is good for a user to submit up to 500 jobs with a job array.
 
-??? Number of jobs of an array
-    On this page, the word job means either an invividualy job or a task in a job array. For ecample, submitting a job array with 100 tasks means submitting 100 jobs. 
+??? "Number of jobs of an array"
+    On this page, the word job means either an invividualy job or a task in a job array. For example, submitting a job array with 100 tasks means submitting 100 jobs. 
 
 When a user needs to run a program for more than 500 times, it is recommended to combine serial execution and/or parallel execution with job array.
 
@@ -30,7 +30,7 @@ Serial execution means executing multiple programs serially within a job. Here i
 
 ```
 #!/bin/bash            # Bash shell
-#SBATCH -t 02:00:00    # Two hours
+#SBATCH -t 02:00:00    # tow hours
 #SBATCH -N 1           # 1 node
 #SBATCH -n 2           # 2 CPU cores
 #SBATCH --mem=2GB      # 2 GB of memory
@@ -48,7 +48,7 @@ The program is executed 10 times with different input parameters (i.e. the loop 
 
 Note that the serial execution increases the total run time. Request a wall time that is long enough for all the programs to be completed. 
 
-**This approach is good for short run time programs.** If each program requires a long run time, the total run time would exceed the maximum wall time limit. 
+**This approach is good for programs with short run times.** If each program requires a long run time, the total run time may exceed the maximum wall time limit. 
 
 
 ## Run multiple programs parallelly in a job
@@ -56,7 +56,7 @@ Note that the serial execution increases the total run time. Request a wall time
 Serial execution means executing multiple programs paralelly within a job. Here is an example job script that runs 10 programs parallelly. 
 ```
 #!/bin/bash            # Bash shell
-#SBATCH -t 02:00:00    # Two hours
+#SBATCH -t 00:30:00    # 30 minutes
 #SBATCH -N 1           # 1 node
 #SBATCH -n 20          # 20 CPU cores
 #SBATCH --mem=20GB     # 20 GB of memory
@@ -69,19 +69,17 @@ done
 wait          # Wait for all programs to be completed, then exit the batch job. 
 ```
 
-Each program uses 2 CPU cores and 2 GB of memory, so the job requires 20 CPU cores and 20 GB of memory in total. 
+Each program uses 2 CPU cores and 2 GB of memory, so the job requests 20 CPU cores and 20 GB of memory in total. 
 
-The main difference from the previous exampe is the `&` mark at the end of command that runs the program, which runs the program in the background, and all 10 programs start to run almost simultaneously.
+The main difference from the previous exampe is the `&` mark at the end of execution command, which runs the program in the background, and all 10 programs start to run almost simultaneously.
 
-The `wait` command at the end ensures that the batch job will not be terminated until all background programs are completed.  
+The `wait` command in the last line ensures that the batch job will not be terminated until all background programs are completed.  
 
-Use the loop index in the Python code to set up different input parameters for the program.
+**This approach is good when each program requires a small number of CPU cores and a small amount of memory.** If each program requires many CPU cores or large memory, executing multiple programs in parallel would require too many CPUs or too much memory, which may not fit within one node. 
 
-***This approach is good for cases when each program requires a small number of CPU cores and a small amount of memory.*** If each program requires many CPU cores or large memory, running multiple jobs in parallel would require too many CPUs or too much memory, which does not fit within one node. 
+## Combine parallel execution and job array
 
-## Combine parallel run and job array
-
-You can use job array on top of this approach to scale up the number of programs. For example, simply adding a line `#SBATCH --array=0-999` to the above script, you submit `10 * 1,000 = 10,000` programs simultaneously. ***This approach is useful to submit a large number of programs beyond the per-user job limit, when each program requires small resources (CPUs and memory)***.
+To scale up the number of programs, use job array together with parallel execution. For example, simply adding a line `#SBATCH --array=0-99` to the above script, users can submit `10 * 100 = 1000` programs simultaneously. **This approach is useful to submit a large number of programs beyond the per-user job limit, when each program requires small resources (CPUs and memory)**
 
 
 ## Combine sequential run and job array
