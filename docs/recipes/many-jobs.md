@@ -9,20 +9,20 @@ tags:
 
 === "Engaging"
 
-It often happens that users need to submit many jobs to run a program many times with different input parameters or files.  
+Users often need to submit many jobs to run a program many times with different input parameters or files.  
 
-It is straightforward to execute the command `sbatch` in a loop, but this approach is inefficient for job scheduling. When the interation number is large, it will slow down the Slurm scheduler and affects all users. 
+It is straightforward to execute the command `sbatch` in a loop, but this approach is inefficient for job scheduling. When the iteration number is large, it will slow down the Slurm scheduler and affect all users. 
 
-A good practice is to use job array, which is much more effecient. Refer to [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-submit-a-job-array%3F) for details of job array. 
+A good practice is to use a job array, which is much more efficient. Refer to [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-submit-a-job-array%3F) for details of job array. 
 
-However, if a user submits too many jobs in a short time period, even with a job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user on the cluster is set to be 500, so that there are not too many jobs queuing in a time peiriod. It is good for a user to submit up to 500 jobs with a job array.
+However, if a user submits too many jobs in a short time, even with a job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user on the cluster is set to be 500, so that there are not too many jobs queuing in a given time period. It is good for a user to submit up to 500 jobs with a job array.
 
 ??? "Terminology: job and job array"
     On this page, the word job means either an individual job or a task in a job array. For example, submitting a job array with 100 tasks means submitting 100 jobs. 
 
-When a user needs to run a program for more than 500 times, it is recommended to combine serial execution and/or parallel execution with job array.
+When a user needs to run a program more than 500 times, it is recommended to combine serial execution and/or parallel execution with a job array.
 
-On this page, we will introduce serial execution and parallel execution, and how to integrate them with job array. A Python code [mycode.py](./scripts/many-jobs/mycode.py) is used for all examples. 
+On this page, we will introduce serial execution and parallel execution, and how to integrate them with a job array. A Python code [mycode.py](./scripts/many-jobs/mycode.py) is used for all examples. 
 
 ## Serial execution
 
@@ -46,9 +46,9 @@ done
 
 Each program uses 2 CPU cores and 2 GB of memory.
 
-The program is executed 10 times with different input parameters (i.e. the loop index )for each time. The next execution will start after the current execution is completed. 
+The program is executed 10 times with different input parameters (i.e. the loop index ) each time. The next execution will start after the current execution is completed. 
 
-Note that the serial execution increases the total run time. Request a wall time that is long enough for all the programs to be completed. 
+Note that the serial execution increases the total run time. Request a wall time that is long enough for all the programs to complete. 
 
 !!!"Pros and cons"
    **This approach is good for programs with short run times.** If each program requires a long run time, the total run time may exceed the maximum wall time limit. 
@@ -56,7 +56,7 @@ Note that the serial execution increases the total run time. Request a wall time
 
 ## Integrate serial execution and job array
 
-To scale up the number of programs, use job array together with serial execution. Here is an example to submit `10 * 100 = 1,000` programs,
+To scale up the number of programs, use a job array together with serial execution. Here is an example to submit `10 * 100 = 1,000` programs,
  
 ```
 #!/bin/bash
@@ -81,12 +81,12 @@ done
  The array task ID (`$SLURM_ARRAY_TASK_ID`) and total number of tasks in the array (`$SLURM_ARRAY_TASK_COUNT`) are used to calculate the global index. Use the global index as the input parameter for the program.
 
 !!! "Best-case scenario"
-   **This approach is useful for submitting a large number of short run time programs beyond the per-user job limit.**
+   **This approach is useful for submitting a large number of short-run-time programs beyond the per-user job limit.**
 
 
 ## Parallel execution 
 
-Parallel execution means executing multiple programs paralelly within a job. Here is an example job script that runs 10 programs parallelly. 
+Parallel execution means executing multiple programs in parallel within a job. Here is an example job script that runs 10 programs in parallel. 
 ```
 #!/bin/bash
 #SBATCH -t 00:30:00    # 30 minutes
@@ -106,7 +106,7 @@ wait          # Wait for all programs to be completed, then exit the batch job.
 
 Each program uses 2 CPU cores and 2 GB of memory, so the job requests 20 CPU cores and 20 GB of memory in total. 
 
-The main difference from the serial execution is taht an `&` mark is added at the end of execution command, which runs the program in the background, and all 10 programs start to run almost simultaneously.
+The main difference from the serial execution is that an `&` mark is added at the end of the execution command, which runs the program in the background, and all 10 programs start to run almost simultaneously.
 
 The `wait` command in the last line ensures that the batch job will not be terminated until all background programs are completed.  
 
@@ -116,15 +116,15 @@ The `wait` command in the last line ensures that the batch job will not be termi
 
 ## Integrate parallel execution and job array
 
-To scale up the number of programs, use job array together with parallel execution. For example, simply adding a line `#SBATCH --array=0-99` to the above script, users can submit `10 * 100 = 1,000` programs simultaneously. 
+To scale up the number of programs, use a job array together with parallel execution. For example, simply adding a line `#SBATCH --array=0-99` to the above script, users can submit `10 * 100 = 1,000` programs simultaneously. 
 
 !!! "Best-case scenario"
    **This approach is useful to submit a large number of programs beyond the per-user job limit, when each program requires small resources (CPUs and memory)**
 
 
-## Integrate sequential execution, parallel execution and job array
+## Integrate sequential execution, parallel execution, and job array
 
-To furhter scale up the number of programs, one may consider integrating sequential execution, parallel execution and job array. Here is an example job script to submit `10 * 10 * 100 = 10,000` programs.
+To further scale up the number of programs, one may consider integrating sequential execution, parallel execution, and a job array. Here is an example job script to submit `10 * 10 * 100 = 10,000` programs.
 
 ```
 #!/bin/bash
@@ -146,12 +146,13 @@ do
    for j in `seq 1 $N_PARALLEL`   # Loop for parallel executions
    do
      index=$(($nmax * $i + $id))  # Global index
-     python mycode.py $index &      # Run a program in background. 
+     python mycode.py $index &      # Run a program in the background. 
    done 
-   wait                           # Wait for all parallel executions complete, then go to the next iteration in the loop of serial executions.
+   wait                           # Wait for all parallel executions to complete, then go to the next iteration in the loop of serial executions.
 done 
 ``` 
 
 !!! "Best-case scenario"
    **This approach is useful for submitting a large number of programs beyond the per-user job limit, when each program requires a short run time and small resources (CPUs and memory)**. 
+
 
