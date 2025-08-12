@@ -13,7 +13,7 @@ Users often need to submit many jobs to run a program many times with different 
 
 It is straightforward to execute the command `sbatch` in a loop, but this approach is inefficient for job scheduling. When the iteration number is large, it will slow down the Slurm scheduler and affect all users. 
 
-A good practice is to use a job array, which is much more efficient. Refer to [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-submit-a-job-array%3F) for details of job array. 
+A good practice is to use a job array, which is much more efficient. Refer to [this page](https://orcd-docs.mit.edu/running-jobs/job-arrays/) for details of job array. 
 
 However, if a user submits too many jobs in a short time, even with a job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user on the cluster is set to be 500, so that there are not too many jobs queuing in a given time period. It is good for a user to submit up to 500 jobs with a job array.
 
@@ -84,8 +84,9 @@ done
 !!! Note
     **This approach is useful for submitting a large number of short-run-time programs beyond the per-user job limit.**
 
+Also refer to [this page](https://orcd-docs.mit.edu/running-jobs/job-arrays/) for more examples of integrating serial execution and job array.
 
-## Parallel execution 
+## Parallel execution
 
 Parallel execution means executing multiple programs in parallel within a job. Here is an example job script that runs 10 programs in parallel. 
 ```
