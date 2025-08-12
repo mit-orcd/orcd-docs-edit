@@ -51,7 +51,7 @@ The program is executed 10 times with different input parameters (i.e. the loop 
 Note that the serial execution increases the total run time. Request a wall time that is long enough for all the programs to complete. 
 
 
-!!! "Pros and cons"
+!!! Note
     **This approach is good for programs with short run times.** If each program requires a long run time, the total run time may exceed the maximum wall time limit.    
 
 
@@ -81,7 +81,7 @@ done
 
  The array task ID (`$SLURM_ARRAY_TASK_ID`) and total number of tasks in the array (`$SLURM_ARRAY_TASK_COUNT`) are used to calculate the global index. Use the global index as the input parameter for the program.
 
-!!! "Best-case scenario"
+!!! Note
     **This approach is useful for submitting a large number of short-run-time programs beyond the per-user job limit.**
 
 
@@ -111,16 +111,16 @@ The main difference from the serial execution is that an `&` mark is added at th
 
 The `wait` command in the last line ensures that the batch job will not be terminated until all background programs are completed.  
 
-!!! "Pros and cons"
-   **This approach is good when each program requires a small number of CPU cores and a small amount of memory.** If each program requires many CPU cores or large memory, executing multiple programs in parallel would require too many CPUs or too much memory, which may not fit within one node. 
+!!! Note
+    **This approach is good when each program requires a small number of CPU cores and a small amount of memory.** If each program requires many CPU cores or large memory, executing multiple programs in parallel would require too many CPUs or too much memory, which may not fit within one node. 
 
 
 ## Integrate parallel execution and job array
 
 To scale up the number of programs, use a job array together with parallel execution. For example, simply adding a line `#SBATCH --array=0-99` to the above script, users can submit `10 * 100 = 1,000` programs simultaneously. 
 
-!!! "Best-case scenario"
-   **This approach is useful to submit a large number of programs beyond the per-user job limit, when each program requires small resources (CPUs and memory)**
+!!! Note
+    **This approach is useful to submit a large number of programs beyond the per-user job limit, when each program requires small resources (CPUs and memory)**
 
 
 ## Integrate sequential execution, parallel execution, and job array
@@ -153,7 +153,7 @@ do
 done 
 ``` 
 
-!!! "Best-case scenario"
-   **This approach is useful for submitting a large number of programs beyond the per-user job limit, when each program requires a short run time and small resources (CPUs and memory)**. 
+!!! Note
+    **This approach is useful for submitting a large number of programs beyond the per-user job limit, when each program requires a short run time and small resources (CPUs and memory)**. 
 
 
