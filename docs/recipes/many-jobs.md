@@ -11,19 +11,24 @@ tags:
 
 It often happens that users need to submit many jobs to run a program many times with different input parameters or files.  
 
-First, do not execute the command `sbatch` in a loop, because this is inefficient for job scheduling. When the interation number is large, it will slow down the Slurm scheduler and affects all users. 
+It is straightforward to execute the command `sbatch` in a loop, but this approach is inefficient for job scheduling. When the interation number is large, it will slow down the Slurm scheduler and affects all users. 
 
 A good practice is to use job array, which is much more effecient. Refer to [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-submit-a-job-array%3F) for details of job array. 
 
-However, a user submitted too many jobs in a short time period, even with job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user on the cluster is set to be 500. It is good for a user to submit up to 500 jobs with a job array.
+However, if a user submits too many jobs in a short time period, even with a job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user on the cluster is set to be 500, so that there are not too many jobs are queueing in a time peiriod. It is good for a user to submit up to 500 jobs with a job array.
 
-If a user needs to run a program for more than 500 times, it is recommended to combine serial execution and/or parallel execution with job array. 
+??? Number of jobs of an array
+    On this page, the word job means either an invividualy job or a task in a job array. For ecample, submitting a job array with 100 tasks means submitting 100 jobs. 
 
-On this page, we will introduce serial execution and parallel execution, and how to use them with job array. 
+When a user needs to run a program for more than 500 times, it is recommended to combine serial execution and/or parallel execution with job array.
 
-## Run multiple programs sequentially in a job
+On this page, we will introduce serial execution and parallel execution, and how to intergrate them with job array. 
 
-This script runs 10 programs sequentially in a job. Each program uses 2 CPU cores and 2 GB of memory.
+## Serial execution
+
+Serial execution means running within a job
+T
+his script runs 10 programs sequentially in a job. Each program uses 2 CPU cores and 2 GB of memory.
 ```
 #!/bin/bash            # Bash shell
 #SBATCH -t 02:00:00    # Two hours
