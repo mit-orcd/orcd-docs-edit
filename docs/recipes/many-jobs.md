@@ -17,7 +17,7 @@ A good practice is to use job array, which is much more effecient. Refer to [thi
 
 However, if a user submits too many jobs in a short time period, even with a job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user on the cluster is set to be 500, so that there are not too many jobs are queueing in a time peiriod. It is good for a user to submit up to 500 jobs with a job array.
 
-??? "Number of jobs of an array"
+??? "Terminology: job and job array"
     On this page, the word job means either an invividualy job or a task in a job array. For example, submitting a job array with 100 tasks means submitting 100 jobs. 
 
 When a user needs to run a program for more than 500 times, it is recommended to combine serial execution and/or parallel execution with job array.
@@ -76,7 +76,8 @@ done
 
  The array task ID (`$SLURM_ARRAY_TASK_ID`) and total number of tasks in the array (`$SLURM_ARRAY_TASK_COUNT`) are used to calculate the global index. Use the global index as the input parameter for the program.
 
-**This approach is useful for submitting a large number of short run time programs beyond the per-user job limit.**
+!!! "Best-case scenario"
+    **This approach is useful for submitting a large number of short run time programs beyond the per-user job limit.**
 
 
 ## Parallel execution 
