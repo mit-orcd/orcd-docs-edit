@@ -22,55 +22,57 @@ However, if a user submits too many jobs in a short time period, even with a job
 
 When a user needs to run a program for more than 500 times, it is recommended to combine serial execution and/or parallel execution with job array.
 
-On this page, we will introduce serial execution and parallel execution, and how to intergrate them with job array. 
+On this page, we will introduce serial execution and parallel execution, and how to intergrate them with job array. A Python code [mycode.py](./scripts/many-jobs/mycode.py) is used for all examples. 
 
 ## Serial execution
 
-Serial execution means running within a job
-T
-his script runs 10 programs sequentially in a job. Each program uses 2 CPU cores and 2 GB of memory.
+Serial execution means executing multiple programs serially within a job. Here is an example job script that runs 10 programs serially. 
+
 ```
 #!/bin/bash            # Bash shell
 #SBATCH -t 02:00:00    # Two hours
 #SBATCH -N 1           # 1 node
-#SBATCH --ntasks-per-core=1       # 1 task per CPU core: turn off hyperthreading.
-#SBATCH -n 2          # 2 physical CPU cores
+#SBATCH -n 2           # 2 CPU cores
 #SBATCH --mem=2GB      # 2 GB of memory
 
 N_PROGRAMS=10
-for i in `seq 1 $N_PROGRAMS`      # Loop from 1 to number of tasks (=10).
+for i in `seq 1 $N_PROGRAMS`     # Loop from 1 to number of tasks (=10).
 do
-   python name.py  $i    # Run a python program using the loop index as input 
+   python mycode.py  $i    # Run the program serially
 done
 ```
 
-Use the loop index in the Python code to set up different input parameters for the program. 
+Each program uses 2 CPU cores and 2 GB of memory.
 
-Note that this sequential run increases the total run time. You need to request a wall time that is long enough to complete all the programs. 
+The program is executed 10 times with different input parameters (i.e. the loop index )for each time. The next execution will start after the current execution is completed. 
 
-***This approach is good for short run time programs.*** If each program requires a long run time, the total run time would exceed the maximum wall time limit. 
+Note that the serial execution increases the total run time. Request a wall time that is long enough for all the programs to be completed. 
+
+**This approach is good for short run time programs.** If each program requires a long run time, the total run time would exceed the maximum wall time limit. 
 
 
 ## Run multiple programs parallelly in a job
 
-This script runs 10 programs parallelly in a job. Each program uses 2 CPU cores and 2 GB of memory, and thus the job requires 20 CPU cores and 20 GB of memory in total. 
+Serial execution means executing multiple programs paralelly within a job. Here is an example job script that runs 10 programs parallelly. 
 ```
 #!/bin/bash            # Bash shell
 #SBATCH -t 02:00:00    # Two hours
 #SBATCH -N 1           # 1 node
-#SBATCH --ntasks-per-core=1       # 1 task per CPU core: turn off hyperthreading.
-#SBATCH -n 20          # 20 physical CPU cores
+#SBATCH -n 20          # 20 CPU cores
 #SBATCH --mem=20GB     # 20 GB of memory
 
 N_PROGRAMS=10
-for i in `seq 1 $N_PROGRAMS`  # Loop from 1 to number of programs
+for i in `seq 1 $N_PROGRAMS` # Loop from 1 to number of programs
 do
-   python name.py $i &     # Run a python program in background, using the loop index as input 
+   python name.py $i &       # Run a program parallely in background
 done
 wait          # Wait for all programs to be completed, then exit the batch job. 
 ```
 
-The `&` mark is to put the program in the background, and then these 10 programs will run simultaneously.
+Each program uses 2 CPU cores and 2 GB of memory, so the job requires 20 CPU cores and 20 GB of memory in total. 
+
+The main difference from the previous exampe is the `&` mark at the end of command that runs the program, which runs the program in the background, and all 10 programs start to run almost simultaneously.
+
 The `wait` command at the end ensures that the batch job will not be terminated until all background programs are completed.  
 
 Use the loop index in the Python code to set up different input parameters for the program.
