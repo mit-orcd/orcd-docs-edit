@@ -22,7 +22,7 @@ However, if a user submits too many jobs in a short time period, even with a job
 
 When a user needs to run a program for more than 500 times, it is recommended to combine serial execution and/or parallel execution with job array.
 
-On this page, we will introduce serial execution and parallel execution, and how to intergrate them with job array. A Python code [mycode.py](./scripts/many-jobs/mycode.py) is used for all examples. 
+On this page, we will introduce serial execution and parallel execution, and how to integrate them with job array. A Python code [mycode.py](./scripts/many-jobs/mycode.py) is used for all examples. 
 
 ## Serial execution
 
@@ -36,7 +36,7 @@ Serial execution means executing multiple programs serially within a job. Here i
 #SBATCH --mem=2GB      # 2 GB of memory
 
 N_PROGRAMS=10
-for i in `seq 1 $N_PROGRAMS`     # Loop from 1 to number of tasks (=10).
+for i in `seq 1 $N_PROGRAMS`     # Loop for serial execution
 do
    python mycode.py  $i    # Run the program serially
 done
@@ -51,9 +51,36 @@ Note that the serial execution increases the total run time. Request a wall time
 **This approach is good for programs with short run times.** If each program requires a long run time, the total run time may exceed the maximum wall time limit. 
 
 
-## Run multiple programs parallelly in a job
+## Integrate serial execution and job array
 
-Serial execution means executing multiple programs paralelly within a job. Here is an example job script that runs 10 programs parallelly. 
+To scale up the number of programs, use job array together with serial execution. Here is an example to submit `10 * 100 = 1,000` programs,
+ 
+```
+#!/bin/bash                     # Bash shell
+#SBATCH -t 02:00:00             # Two hours
+#SBATCH -N 1                    # 1 node
+#SBATCH -n 2                    # 2 CPU cores
+#SBATCH --mem=2GB               # 2 GB of memory
+#SBATCH --array=0-99            # Job array 
+
+nmax=$SLURM_ARRAY_TASK_COUNT    # Num of tasks per array
+id=$SLURM_ARRAY_TASK_ID         # Task ID
+
+for i in `seq 1 10`             # Loop for serial execution
+do
+    index=$(($nmax * $i + $id))   # Calculate the global index
+    python mycode.py $index         # Use the global index as input
+done
+```
+
+ The array task ID (`$SLURM_ARRAY_TASK_ID`) and total number of tasks in the array (`$SLURM_ARRAY_TASK_COUNT`) are used to calculate the global index. Use the global index as the input parameter for the program.
+
+**This approach is useful for submitting a large number of short run time programs beyond the per-user job limit.**
+
+
+## Parallel execution 
+
+Parallel execution means executing multiple programs paralelly within a job. Here is an example job script that runs 10 programs parallelly. 
 ```
 #!/bin/bash            # Bash shell
 #SBATCH -t 00:30:00    # 30 minutes
@@ -64,57 +91,28 @@ Serial execution means executing multiple programs paralelly within a job. Here 
 N_PROGRAMS=10
 for i in `seq 1 $N_PROGRAMS` # Loop from 1 to number of programs
 do
-   python name.py $i &       # Run a program parallely in background
+   python mycode.py $i &       # Run a program parallely in background
 done
 wait          # Wait for all programs to be completed, then exit the batch job. 
 ```
 
 Each program uses 2 CPU cores and 2 GB of memory, so the job requests 20 CPU cores and 20 GB of memory in total. 
 
-The main difference from the previous exampe is the `&` mark at the end of execution command, which runs the program in the background, and all 10 programs start to run almost simultaneously.
+The main difference from the serial execution is taht an `&` mark is added at the end of execution command, which runs the program in the background, and all 10 programs start to run almost simultaneously.
 
 The `wait` command in the last line ensures that the batch job will not be terminated until all background programs are completed.  
 
 **This approach is good when each program requires a small number of CPU cores and a small amount of memory.** If each program requires many CPU cores or large memory, executing multiple programs in parallel would require too many CPUs or too much memory, which may not fit within one node. 
 
-## Combine parallel execution and job array
 
-To scale up the number of programs, use job array together with parallel execution. For example, simply adding a line `#SBATCH --array=0-99` to the above script, users can submit `10 * 100 = 1000` programs simultaneously. **This approach is useful to submit a large number of programs beyond the per-user job limit, when each program requires small resources (CPUs and memory)**
+## Integrate parallel execution and job array
 
+To scale up the number of programs, use job array together with parallel execution. For example, simply adding a line `#SBATCH --array=0-99` to the above script, users can submit `10 * 100 = 1,000` programs simultaneously. 
 
-## Combine sequential run and job array
-
-Here is an example of combining a sequential run and a job array. ***This approach is useful to submit a large number of short run time programs beyond the per-user job limit.*** 
-
-First, write a script to run multiple programs sequentially,
-```
-# This is the bash script named run_serial.sh
-for i in `seq 1 10`          # Loop for serial runs
-do
-    index=$(($1*$2+$i))      # Calculate global index
-    python name.py $index    # Use global index as input
-done
-```
-Here is the job script to run the above script with a job array, 
-```
-#!/bin/bash                     # Bash shell
-#SBATCH -t 02:00:00             # Two hours
-#SBATCH -N 1                    # 1 node
-#SBATCH --ntasks-per-core=1     # 1 task per CPU core: turn off hyperthreading.
-#SBATCH -n 2                    # 2 physical CPU cores
-#SBATCH --mem=2GB               # 2 GB of memory
-#SBATCH --array=0-999           # Job array 
-
-nmax=$SLURM_ARRAY_TASK_COUNT    # Num of tasks per array
-id=$SLURM_ARRAY_TASK_ID         # Task ID
-./run_serial.sh  $id  $nmax     # Execute a bash script
-```
-The input argument `$1` and `$2` of the run script is provided as the array task ID (`$SLURM_ARRAY_TASK_ID`) and total number of tasks in the array (`$SLURM_ARRAY_TASK_COUNT`), which are used to calculate the global index. Use the global index in the Python code to set up different input parameters for the program.
-
-With this, you submit `10 * 1,000 = 10,000` programs simultaneously, which is beyond the per-user job limit.
+**This approach is useful to submit a large number of programs beyond the per-user job limit, when each program requires small resources (CPUs and memory)**
 
 
-## Combine sequential run, parallel run, and job array
+## Integrate sequential execution, parallel execution and job array
 
 Here is an example of combining a sequential run, a parallel run, and a job array. ***This approach is useful for submitting a large number of programs beyond the per-user job limit, when each program requires a short run time and small resources (CPUs and memory)***. 
 
