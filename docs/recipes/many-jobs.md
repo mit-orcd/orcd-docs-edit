@@ -55,7 +55,7 @@ Note that the serial execution increases the total run time. Request a wall time
 
 ## Integrate serial execution and job array
 
-To scale up the number of programs, use a job array together with serial execution. Here is an example to submit `10 * 100 = 1,000` programs,
+To scale up the number of programs, use a job array together with serial execution. Here is an example job script.
  
 ```
 #!/bin/bash
@@ -77,10 +77,12 @@ do
 done
 ```
 
- The array task ID (`$SLURM_ARRAY_TASK_ID`) and total number of tasks in the array (`$SLURM_ARRAY_TASK_COUNT`) are used to calculate the global index. Use the global index as the input parameter for the program.
+The number of jobs (tasks) of the array is 100 and each job runs 10 programs serially, so `10 * 100 = 1,000` programs are submitted.
+
+The array task ID (`$SLURM_ARRAY_TASK_ID`) and total number of tasks in the array (`$SLURM_ARRAY_TASK_COUNT`) are used to calculate the global index. Use the global index as the input parameter for the program.
 
 !!! Note
-    **This approach is useful for submitting a large number of short-run-time programs beyond the per-user job limit.**
+    **This approach is useful for submitting a large number of short-run-time programs.**
 
 Also refer to [this page](https://orcd-docs.mit.edu/running-jobs/job-arrays/) for more examples of integrating serial execution and job array.
 
@@ -104,9 +106,9 @@ done
 wait          # Wait for all programs to be completed, then exit the batch job. 
 ```
 
-Each program uses 2 CPU cores and 2 GB of memory, so the job requests 20 CPU cores and 20 GB of memory in total. 
+Each program uses 2 CPU cores and 2 GB of memory, so the job requests 20 CPU cores and 20 GB of memory for 10 programs. 
 
-The main difference from the serial execution is that an `&` mark is added at the end of the execution command, which runs the program in the background, and all 10 programs start to run almost simultaneously.
+Here the main difference from the serial execution is that an `&` mark is added at the end of the execution command, which puts the program in the background, and all 10 programs start to run almost simultaneously.
 
 The `wait` command in the last line ensures that the batch job will not be terminated until all background programs are completed.  
 
@@ -116,15 +118,15 @@ The `wait` command in the last line ensures that the batch job will not be termi
 
 ## Integrate parallel execution and job array
 
-To scale up the number of programs, use a job array together with parallel execution. For example, simply adding a line `#SBATCH --array=0-99` to the above script, users can submit `10 * 100 = 1,000` programs simultaneously. 
+To scale up the number of programs, use a job array together with parallel execution. For example, simply adding a line `#SBATCH --array=0-99` to the above job script, users can submit `10 * 100 = 1,000` programs. 
 
 !!! Note
-    **This approach is useful to submit a large number of programs beyond the per-user job limit, when each program requires small resources (CPUs and memory)**
+    **This approach is useful to submit a large number of programs, when each program requires small resources (CPUs and memory).**
 
 
 ## Integrate sequential execution, parallel execution, and job array
 
-To further scale up the number of programs, one may consider integrating sequential execution, parallel execution, and a job array. Here is an example job script to submit `10 * 10 * 100 = 10,000` programs.
+To further scale up the number of programs, one may consider integrating sequential execution, parallel execution, and a job array. Here is an example job script. 
 
 ```
 #!/bin/bash
@@ -152,7 +154,7 @@ do
 done 
 ``` 
 
+The number of jobs (tasks) of the array is 100 and each job runs `10 * 10 = 100` programs in the nested loops of serial and parallel executions, so `100 * 100 = 10,000` programs are submitted.
+
 !!! Note
-    **This approach is useful for submitting a large number of programs beyond the per-user job limit, when each program requires a short run time and small resources (CPUs and memory)**. 
-
-
+    **This approach is useful for submitting a large number of programs, when each program requires a short run time and small resources (CPUs and memory).**
