@@ -36,7 +36,7 @@ Serial execution means executing multiple programs serially within a job. Here i
 module load miniforge/24.3.0-0
 
 N_PROGRAMS=10
-for i in `seq 1 $N_PROGRAMS`     # Loop for serial execution
+for i in `seq 1 $N_PROGRAMS`   # Loop for serial execution
 do
    python mycode.py  $i    # Run the program serially
 done
@@ -74,7 +74,7 @@ N_PROGRAMS=10
 for i in `seq 1 $N_PROGRAMS`             # Loop for serial execution
 do
     index=$(( $nmax * ($i -1) + $id ))   # Calculate the global index
-    python mycode.py $index       # Run the program serially, using the global index as input
+    python mycode.py $index     # Run the program serially, using the global index as input
 done
 ```
 
@@ -102,9 +102,9 @@ module load miniforge/24.3.0-0
 N_PROGRAMS=10
 for i in `seq 1 $N_PROGRAMS` # Loop from 1 to number of programs
 do
-   python mycode.py $i &       # Run a program parallely in background
+   python mycode.py $i &    # Run a program parallely in background
 done
-wait          # Wait for all programs to be completed, then exit the batch job. 
+wait   # Wait for all programs to be completed, then exit the batch job. 
 ```
 
 Each program uses 2 CPU cores and 2 GB of memory, so the job requests 20 CPU cores and 20 GB of memory for 10 programs. 
@@ -135,10 +135,10 @@ nmax=$SLURM_ARRAY_TASK_COUNT    # Num of tasks per array
 id=$SLURM_ARRAY_TASK_ID         # Task ID
 
 N_PROGRAMS=10
-for i in `seq 1 $N_PROGRAMS`     # Loop for serial execution
+for i in `seq 1 $N_PROGRAMS`    # Loop for serial execution
 do
     index=$(( $nmax * ($i - 1) + $id ))   # Calculate the global index
-    python mycode.py $index  &    # Run a program parallely in background, using the global index as input
+    python mycode.py $index  &   # Run a program parallely in background, using the global index as input
 done
 wait     # Wait for all programs to be completed, then exit the batch job. 
 ```
@@ -173,9 +173,9 @@ do
    for j in `seq 1 $N_PARALLEL`   # Loop for parallel executions
    do
      index=$(( $nmax * ( $N_PARALLEL * ($i-1) + ($j-1) ) + $id ))  # Global index
-     python mycode.py $index &      # Run a program in the background, using the global index as input. 
+     python mycode.py $index &    # Run a program in the background, using the global index as input. 
    done 
-   wait                           # Wait for all parallel executions to complete, then go to the next iteration in the loop of serial executions.
+   wait    # Wait for all parallel executions to complete, then go to the next iteration in the loop of serial executions.
 done 
 ``` 
 
