@@ -5,9 +5,7 @@ tags:
  - Howto Recipes
 ---
 
-# Serial and parallel executions
-
-=== "Engaging"
+# Advanced Job Array
 
 Users often need to submit many jobs to run a program many times with different input parameters or files.  
 
