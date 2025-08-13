@@ -70,10 +70,11 @@ module load miniforge/24.3.0-0
 nmax=$SLURM_ARRAY_TASK_COUNT    # Num of tasks per array
 id=$SLURM_ARRAY_TASK_ID         # Task ID
 
-for i in `seq 1 10`             # Loop for serial execution
+N_PROGRAMS=10
+for i in `seq 1 $N_PROGRAMS`             # Loop for serial execution
 do
-    index=$(($nmax * $i + $id))   # Calculate the global index
-    python mycode.py $index         # Use the global index as input
+    index=$(( $nmax * ($i -1) + $id ))   # Calculate the global index
+    python mycode.py $index       # Run the program serially, using the global index as input
 done
 ```
 
@@ -118,7 +119,31 @@ The `wait` command in the last line ensures that the batch job will not be termi
 
 ## Integrate parallel execution and job array
 
-To scale up the number of programs, use a job array together with parallel execution. For example, simply adding a line `#SBATCH --array=0-99` to the above job script, users can submit `10 * 100 = 1,000` programs. 
+To scale up the number of programs, use a job array together with parallel execution. Here is an example job script.
+
+```
+#!/bin/bash
+#SBATCH -t 02:00:00             # Two hours
+#SBATCH -N 1                    # 1 node
+#SBATCH -n 2                    # 2 CPU cores
+#SBATCH --mem=2GB               # 2 GB of memory
+#SBATCH --array=0-99            # Job array 
+
+module load miniforge/24.3.0-0
+
+nmax=$SLURM_ARRAY_TASK_COUNT    # Num of tasks per array
+id=$SLURM_ARRAY_TASK_ID         # Task ID
+
+N_PROGRAMS=10
+for i in `seq 1 $N_PROGRAMS`     # Loop for serial execution
+do
+    index=$(( $nmax * ($i - 1) + $id ))   # Calculate the global index
+    python mycode.py $index  &    # Run a program parallely in background, using the global index as input
+done
+wait     # Wait for all programs to be completed, then exit the batch job. 
+```
+
+The number of jobs (tasks) of the array is 100 and each job runs 10 programs in parallel, so `10 * 100 = 1,000` programs are submitted.
 
 !!! Note
     **This approach is useful to submit a large number of programs, when each program requires small resources (CPUs and memory).**
@@ -147,8 +172,8 @@ for i in `seq 1 $N_SERIAL`        # Loop for serial executions
 do
    for j in `seq 1 $N_PARALLEL`   # Loop for parallel executions
    do
-     index=$(($nmax * $i + $id))  # Global index
-     python mycode.py $index &      # Run a program in the background. 
+     index=$(( $nmax * ( $N_PARALLEL * ($i-1) + ($j-1) ) + $id ))  # Global index
+     python mycode.py $index &      # Run a program in the background, using the global index as input. 
    done 
    wait                           # Wait for all parallel executions to complete, then go to the next iteration in the loop of serial executions.
 done 
