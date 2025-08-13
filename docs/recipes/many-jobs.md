@@ -20,7 +20,7 @@ However, if a user submits too many jobs in a short time, even with a job array,
 
 When a user needs to run a program more than 500 times, it is recommended to combine serial execution and/or parallel execution with a job array.
 
-On this page, we will introduce serial execution and parallel execution, and how to integrate them with a job array. A Python code [mycode.py](./scripts/many-jobs/mycode.py) is used for all examples. 
+On this page, we will introduce serial execution and parallel execution, and how to integrate them with a job array. A simple Python code named [mycode.py](./scripts/many-jobs/mycode.py) is used for all examples. 
 
 ## Serial execution
 
