@@ -9,11 +9,11 @@ tags:
 
 Users often need to submit many jobs to run a program many times with different input parameters or files.  
 
-It is straightforward to execute the command `sbatch` in a loop, but this approach is inefficient for job scheduling. When the iteration number is large, it will slow down the Slurm scheduler and affect all users. 
+It is straightforward to execute the command `sbatch` in a loop, but this approach is inefficient for job scheduling. When the iteration number is large, it will slow down the Slurm scheduler and affect all users.
 
 A good practice is to use a job array, which is much more efficient. Refer to [this page](https://orcd-docs.mit.edu/running-jobs/job-arrays/) for details of job array. 
 
-However, if a user submits too many jobs in a short time, even with a job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user on the cluster is set to be 500, so that there are not too many jobs queuing in a given time period. It is good for a user to submit up to 500 jobs with a job array.
+However, if a user submits too many jobs in a short time, even with a job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user is set to be 500, so that there are not too many jobs queuing in a given time period. A user can submit up to 500 jobs with a job array.
 
 ??? "Terminology: job and job array"
     On this page, the word job means either an individual job or a task in a job array. For example, submitting a job array with 100 tasks means submitting 100 jobs. 
