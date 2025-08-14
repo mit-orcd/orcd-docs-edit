@@ -12,6 +12,9 @@ A pre-built program file that can be run directly without needing to be compiled
 #### CLI (Command Line Interface)
 A text-based user interface used to interact with software and operating systems by typing commands into a console or terminal.
 
+#### Conda Environment
+A self-contained directory that includes a set of installed packages and libraries, managed by the Conda package manager. Conda is typically used to manage Python environments.
+
 #### Container
 A lightweight, standalone, and executable software package that includes everything needed to run a piece of software, including the code, runtime, libraries, and system tools. Containers are isolated from each other and the host system, allowing for consistent and reproducible environments across different computing platforms.
 
@@ -97,8 +100,8 @@ A storage space on Engaging that is meant for handling large data sets but is no
 #### Process
 An instance of a running program, which can consist of one or more threads. Each process has its own memory space.
 
-#### Python Environment
-A self-contained directory that includes a specific version of Python and a set of installed Python packages. This allows users to manage dependencies and avoid conflicts between different projects.
+#### Python Virtual Environment
+A self-contained directory that includes a set of installed Python packages. This allows users to manage dependencies and avoid conflicts between different projects.
 
 #### Scratch Storage
 Temporary, high-speed storage areas optimized for I/O-heavy jobs. Data stored here is typically not backed up and is meant for actively running jobs rather than long-term storage. Scratch storage is hosted on SSDs.
