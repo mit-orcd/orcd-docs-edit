@@ -1,7 +1,7 @@
 ---
 tags:
  - Engaging
- - Pytorch
+ - PyTorch
  - GPU
  - Howto Recipes
 ---
@@ -27,18 +27,10 @@ However, FSDP does not gain additional speedup beyond the data parallel framewor
 
 === "Engaging"
 
-     First, load a Miniforge module to provide Python platform, 
+     First, load a Miniforge module to provide a Python platform with PyTorch and CUDA support preinstalled, 
      ```
      module load miniforge/24.3.0-0
      ```
-     Create a new environment and install PyTorch,
-     ```
-     conda create -n torch
-     source activate torch
-     pip install torch
-     ```
-     This installs PyTorch with CUDA support by default, which enables it to run on GPUs. 
-
 
 ## Fully Sharded Data Parallel 
 
@@ -63,12 +55,11 @@ Download the codes [mnist_gpu.py](./scripts/torch-gpu-2/mnist_gpu.py) and [FSDP_
      #SBATCH --gres=gpu:h200:1  
 
      module load miniforge/24.3.0-0
-     source activate torch
 
-     python mnist.py
+     python mnist_gpu.py
      ```
      
-     Here we sepecify the GPU type of H200 with `--gres=gpu:h200:1`. If a default type of GPU (i.e. L40S) is nneded, Use `--gres=gpu:1` instead. 
+     Here we sepecify the GPU type of H200 with `--gres=gpu:h200:1`. If one is not particular about the type of GPU, `--gres=gpu:1` can be used instead. 
 
      Submit the job script,
      ```
@@ -77,13 +68,13 @@ Download the codes [mnist_gpu.py](./scripts/torch-gpu-2/mnist_gpu.py) and [FSDP_
 
 While the job is running, you can check if the program runs on a GPU. First, check the hostname that it runs on,
 ```
-squeue -u $USER
+squeue --me
 ```
 and then log in to the node,
 ```
 ssh <nodeXXX>
 ```
-and check the GPU usage with the `nvtop` command.
+and check the GPU usage with the [`nvtop`](https://orcd-docs.mit.edu/running-jobs/application-analysis/#nvtop) command.
 
 
 ### Single-node multi-GPU FSDP
@@ -98,12 +89,11 @@ Now we extend this example to multiple GPUs on a single node with FSDP.
      #SBATCH -p mit_normal_gpu 
      #SBATCH --job-name=fsdp
      #SBATCH -N 1
-     #SBATCH -n 4
+     #SBATCH -n 2
      #SBATCH --mem=20GB
-     #SBATCH --gres=gpu:h200:4
+     #SBATCH --gres=gpu:h200:2
 
      module load miniforge/24.3.0-0
-     source activate torch
 
      python FSDP_mnist.py
      ```
@@ -112,7 +102,7 @@ Now we extend this example to multiple GPUs on a single node with FSDP.
      sbatch job.sh
      ```
 
-As set up in the program `FSDP_mnist.py`, it will run on all GPUs requested in Slurm, that is 4 in this case. That says the model is split into 4 shards, each stored on a GPU, and the training process happens on 4 batches of data simultaneously. Communication between GPUs happens under the hood. 
+As set up in the program `FSDP_mnist.py`, it will run on all GPUs requested in Slurm, that is 2 in this case. That says the model is split into 2 shards, each stored on a GPU, and the training process happens on 2 batches of data simultaneously. Communication between GPUs happens under the hood. 
 
 
 ## Hybrid Fully Sharded Data Parallel and Tensor Parallel 
@@ -130,21 +120,20 @@ The code `fsdp_tp_example.py` is set up for this purpose. The TP size is set to 
 === "Engaging"
      To run this example on multiple GPUs, prepare a job script like this,
      ```
-     #!/bin/bash
-     #SBATCH -p mit_normal_gpu
-     #SBATCH -t 60
-     #SBATCH -N 1
-     #SBATCH -n 4
-     #SBATCH --mem=30GB
-     #SBATCH --gres=gpu:h200:4
+     #!/bin/bash                                                                                          
+     #SBATCH -p mit_preemptable                                                                           
+     #SBATCH -t 60                                                                                        
+     #SBATCH -N 1                                                                                         
+     #SBATCH -n 4                                                                                         
+     #SBATCH --mem=30GB                                                                                   
+     #SBATCH --gres=gpu:h200:4                                                                            
 
      module load miniforge/24.3.0-0
-     source activate torch
-     
+
      torchrun --nnodes=1 --nproc_per_node=4 \
-              --rdzv_id=$SLURM_JOB_ID \
-              --rdzv_endpoint="localhost:1234" \
-              fsdp_tp_example.py 
+          --rdzv_id=$SLURM_JOB_ID \
+          --rdzv_endpoint="localhost:1234" \
+          fsdp_tp_example.py
      ```
      then submit it,
      ```
@@ -158,7 +147,7 @@ The flags with `rdzv` (meaning the Rendezvous protocol) are required by `torchru
 
 ### Multi-node multi-GPU FSDP + TP
 
-Finally, we run this example on multiple GPUs across multiple nodes. 
+Finally, we run this example on multiple GPUs across multiple nodes. Note that this example requires 8 GPUs which is more than the standard user has access to on Engaging. If you have access to more GPUs, run this example on the corresponding partition.
 
 === "Engaging"
      Prepare a job script like this,
@@ -172,7 +161,6 @@ Finally, we run this example on multiple GPUs across multiple nodes.
      #SBATCH --mem=30GB
 
      module load miniforge/24.3.0-0
-     source activate torch
      
      # Get IP address of the master node
      nodes=( $( scontrol show hostnames $SLURM_JOB_NODELIST ) )
