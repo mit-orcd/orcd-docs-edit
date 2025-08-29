@@ -21,7 +21,7 @@ Next, we ask the group to provide a budget and a timeframe. We use this informat
 work with our vendors to get quotes. Once the quotes have been agreed on, we forward them to the lab's administrator for purchase. For tracking purposes, the administrator forwards us the purchase order number once the order has been placed. On arrival to MGHPCC in Holyoke, hardware is carefully checked and installed in the racks. Operating system and networking and monitoring are installed and tested by the ORCD operations staff. Once completed, the Research Computing Support team runs a series of tests to confirm all is working as expected and then the hardware is released for use. 
 
 ### Maintenance
-Once your hardware is in place, our staff will take care of all maintenance of the operating system, patches, security, access to the network,  and access to the shared storage resources. Our operations staff will coordinate any hardware repairs with the vendor and will work with the vendor to make repairs as appropriate with the warranty. A five year warranty is required.
+Once your hardware is in place, our staff will take care of all maintenance of the operating system, patches, security, access to the network,  and access to the shared storage resources. Our operations staff will coordinate any hardware repairs with the vendor and will work with the vendor to make repairs as appropriate with the warranty. A five year warranty is required. These nodes would be part of the regular [monthly maintenance](https://mit-orcd.github.io/orcd-docs-previews/PR/PR144/orcd-systems/#maintenance-schedule)
 
 ### Slurm Partitions 
 Scientists may specify the configuration of their partitions within reason. Generally the partition time limit is constrained only by the engaging maintenance schedule, which is one day per month (the third Tuesday of each month). All machines are required to be in the mit_preemtable queue, which allows them to be used by non owners when the hardware is idle. We generally start with a standard popular slurm partition configuration and then work with the lab to modify as needed. 
@@ -29,6 +29,6 @@ Scientists may specify the configuration of their partitions within reason. Gene
 ### Testing and burn in
 ORCD staff maintains several testing suites to confirm that nodes are working as expected. We run these tests on all new hardware to confirm there are no problems before releasing the hardware for general use.
 
-### Retirement:
+### Retirement
 Hardware is retired after 5 years when the warranty period is over. The nodes are removed from the racks
 and recycled responsibly. 
