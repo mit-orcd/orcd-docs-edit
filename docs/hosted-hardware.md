@@ -16,7 +16,7 @@ is easily installed into engaging. This allows our operations team to manage far
 ORCD staff maintains relationships with multiple hardware vendors and is consistently negotiating for better pricing that is generally not available to lower volume customers. 
 
 ### Process
-We prefer to meet with the group about the type of work that is being done on the nodes and make recommendations. 
+We prefer to meet with the group and learn about the type of work that is being done on the nodes and make recommendations. 
 Next, we ask the group to provide a budget and a timeframe. We use this information to
 work with our vendors to get quotes. Once the quotes have been agreed on, we forward them to the lab's administrator for purchase. For tracking purposes, the administrator forwards us the purchase order number once the order has been placed. On arrival to MGHPCC in Holyoke, hardware is carefully checked and installed in the racks. Operating system and networking and monitoring are installed and tested by the ORCD operations staff. Once completed, the Research Computing Support team runs a series of tests to confirm all is working as expected and then the hardware is released for use. 
 
