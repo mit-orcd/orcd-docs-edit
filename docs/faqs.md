@@ -71,7 +71,7 @@ See our documentation on [Python](software/python.md).
 ### Why won't my application run on a different partition?
 
 On Engaging, the older nodes (such as the `sched_mit_hill` and `newnodes`
-partitions) run on CentOS 7 while the newer nodes (such as `mit_normal` and
+partitions) run on CentOS 7 while the newer nodes (such as `mit_normal`, `mit_normal_gpu` and
 `mit_preemptable`) run on the Rocky 8 operating system (OS). Each set of nodes
 has a different set of modules, so if you have set up software to run on one OS,
 it will probably not work on the other OS.
