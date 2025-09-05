@@ -5,11 +5,6 @@ tags:
  - Engaging
 ---
 
-<!-- TODO:
-- Add reservation to cluster connect 
-- Add mit_normal cluster?
--->
-
 # Installing CryoSPARC on Engaging
 
 CryoSPARC is a software platform for rapid, automated processing and analysis of
