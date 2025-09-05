@@ -22,6 +22,7 @@ nav:
     - Modules: software/modules.md
     - Python: software/python.md
     - R: software/R.md
+    - Licensed Software: software/licensed.md
     - Other Software: software/building-software.md
 #    - Installing Software: 
 #    - Singularity/Apptainer: 
