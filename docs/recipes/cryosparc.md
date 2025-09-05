@@ -97,34 +97,77 @@ The master node can be set up to submit jobs to other nodes on Engaging using
 the Slurm scheduler. This is the preferred setup for Engaging so that GPU
 resources are not allocated to your job when they are not in use.
 
-Create the following two files within the `$CRYOSPARC_WORKDIR/cryosparc_master`
-directory. You will need to hard-code the path to the `cryosparc_worker`
+We will now set up three different "lanes" for CryoSPARC jobs, each using a different
+partition on Engaging. You can choose to set up one, two, or all three of
+these lanes.
+
+Note that you will need to hard-code the path to the `cryosparc_worker`
 directory in `cluster_info.json` (using the `$CRYOSPARC_WORKDIR` environment
-variable will not work):
+variable will not work).
 
-```bash title="cluster_info.json"
---8<-- "docs/recipes/scripts/cryosparc/cluster_info.json"
-```
+=== "`mit_normal_gpu`"
 
-```bash title="cluster_script.sh"
---8<-- "docs/recipes/scripts/cryosparc/cluster_script.sh"
-```
+    Create a directory `${CRYOSPARC_WORKDIR}/cryosparc_master/cluster_mit_normal_gpu` and create the following two files within it:
 
-Now, from the same directory where you created these two files, run:
+    ```bash title="cluster_info.json"
+    --8<-- "docs/recipes/scripts/cryosparc/cluster_info_mit_normal_gpu.json"
+    ```
 
-```bash
-cryosparcm cluster connect
-```
+    ```bash title="cluster_script.sh"
+    --8<-- "docs/recipes/scripts/cryosparc/cluster_script_mit_normal_gpu.sh"
+    ```
 
-!!! note
-    In this example, we have specified the `mit_normal_gpu` partition for
-    running jobs. This partition is available to the entire MIT community.
-    As of August 2025, the time limit for jobs on this partition is 6 hours.
-    While this is suitable for many CryoSPARC jobs, some jobs require longer
-    runtimes. To run these longer jobs, you
-    will need to obtain a rental reservation on the `mit_normal_gpu`. Once you
-    have a reservation, add your reservation ID to
-    `cluster_script.sh` and run `cryosparcm cluster connect` again.
+    Now, from the same directory where you created these two files, run:
+
+    ```bash
+    cryosparcm cluster connect
+    ```
+
+    !!! note
+        In this example, we have specified the `mit_normal_gpu` partition for
+        running jobs. This partition is available to the entire MIT community.
+        As of September 2025, the time limit for jobs on this partition is 6 hours.
+        While this is suitable for many CryoSPARC jobs, some jobs require longer
+        runtimes. To run these longer jobs, you
+        will need to obtain a rental reservation on the `mit_normal_gpu`. Once you
+        have a reservation, add your reservation ID to
+        `cluster_script.sh` and run `cryosparcm cluster connect` again.
+
+=== "`mit_preemptable`"
+
+    Create a directory `${CRYOSPARC_WORKDIR}/cryosparc_master/cluster_mit_preemptable` and create the following two files within it:
+
+    ```bash title="cluster_info.json"
+    --8<-- "docs/recipes/scripts/cryosparc/cluster_info_mit_preemptable.json"
+    ```
+
+    ```bash title="cluster_script.sh"
+    --8<-- "docs/recipes/scripts/cryosparc/cluster_script_mit_preemptable.sh"
+    ```
+
+    Now, from the same directory where you created these two files, run:
+
+    ```bash
+    cryosparcm cluster connect
+    ```
+
+=== "`mit_normal`"
+
+    Create a directory `${CRYOSPARC_WORKDIR}/cryosparc_master/cluster_mit_normal` and create the following two files within it:
+
+    ```bash title="cluster_info.json"
+    --8<-- "docs/recipes/scripts/cryosparc/cluster_info_mit_normal.json"
+    ```
+
+    ```bash title="cluster_script.sh"
+    --8<-- "docs/recipes/scripts/cryosparc/cluster_script_mit_normal.sh"
+    ```
+
+    Now, from the same directory where you created these two files, run:
+
+    ```bash
+    cryosparcm cluster connect
+    ```
 
 ### Worker Node Setup
 
