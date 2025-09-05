@@ -1,7 +1,5 @@
 ---
 tags:
- - Engaging
- - Satori
  - Howto Recipes
  - NVHPC
  - MPI
@@ -27,16 +25,11 @@ The detailed steps that can be executed in an interactive Slurm session are expl
 
 The NVHPC environment is installed as a module and can be made visible in a session using the command
 
-=== "Engaging"
-    ```bash
-    module load nvhpc/24.5
-    ```
-=== "Satori"
-    ```bash
-    module load nvhpc/21.5
-    ```
+```bash
+module load nvhpc/24.5
+```
 
-This will add a specific version of the NVHPC software (version 24.5 on Engaging was released in 2024 and version 21.5 on Satori was released in 2021) to a shell or batch script. The software added includes compilers for C, C++ and Fortran; base GPU optimized numerical libraries for linear algebra, Fourier
+This will add a specific version of the NVHPC software (version 24.5 on Engaging was released in 2024) to a shell or batch script. The software added includes compilers for C, C++ and Fortran; base GPU optimized numerical libraries for linear algebra, Fourier
 transforms and others; and GPU optimized communication libraries supporting MPI, SHMEM and NCCL APIs.
 
 An environment variable, `NVHPC_ROOT`, is also set. This can be used in scripts to reference the locations of libraries
@@ -139,18 +132,12 @@ The `nvhpc` module defaults to using its builtin version of OpenMPI. The OpenMPI
 is passed into the OpenMPI runtime library. This option suppresses a warning that OpenMPI can generate when it encounters
 a network device card that is not present in a built-in list that OpenMPI has historically included.
 
-=== "Engaging"
-    ```bash
-    salloc -n 2 --gres=gpu:2
-    mpiexec --mca btl_openib_warn_no_device_params_found 0 -n 2 ./a.out 
-    ```
-=== "Satori"
-    ```bash
-    salloc -n 2 --gres=gpu:1
-    mpiexec -n 2 ./a.out 
-    ```
+```bash
+salloc -n 2 --gres=gpu:2
+mpiexec --mca btl_openib_warn_no_device_params_found 0 -n 2 ./a.out 
+```
 
-    Note the `salloc` command is only needed to run interactively from the login node. If you are running in a batch job or are already in an interactive job on a compute node you will not need to first run `salloc`.
+Note the `salloc` command is only needed to run interactively from the login node. If you are running in a batch job or are already in an interactive job on a compute node you will not need to first run `salloc`.
 
 Running this program using the command above should produce the following output, although some of the lines may be in different orders due to the asynchronous nature of the tasks.
 
@@ -167,67 +154,34 @@ rBuf_h[0] = 1.000000
 
 First create a file called "test.c" containing the [example C program above](#3-create-a-c-program-that-executes-some-simple-multi-task-multi-gpu-test-code). The job script file below will run all the steps described above for "test.c". It can be submitted to Slurm using the command `sbatch` followed by the filename holding the job script. The output will be written to a file named myjob.log-jobID where jobID is the ID of the specific job you ran.
 
-=== "Engaging"
-    ```bash title="test_cuda_and_mpi.sbatch"
-    #!/bin/bash                                                                                          
-    #SBATCH -n 2                                                                                         
-    #SBATCH --gres=gpu:2                                                                                 
-    #SBATCH -o myjob.log-%A                                                                              
-    #                                                                                                    
-    # Basic slurm job that tests GPU aware MPI in the NVHPC tool stack.                                  
-    #                                                                                                    
-    #                                                                                                    
-    #   To submit through Slurm use:                                                                     
-    #                                                                                                    
-    #   $ sbatch test_cuda_and_mpi.sbatch                                                                
-    #                                                                                                    
-    #   in terminal.                                                                                     
+```bash title="test_cuda_and_mpi.sbatch"
+#!/bin/bash                                                                                          
+#SBATCH -n 2                                                                                         
+#SBATCH --gres=gpu:2                                                                                 
+#SBATCH -o myjob.log-%A                                                                              
+#                                                                                                    
+# Basic slurm job that tests GPU aware MPI in the NVHPC tool stack.                                  
+#                                                                                                    
+#                                                                                                    
+#   To submit through Slurm use:                                                                     
+#                                                                                                    
+#   $ sbatch test_cuda_and_mpi.sbatch                                                                
+#                                                                                                    
+#   in terminal.                                                                                     
 
-    # Write a little log info                                                                            
-    echo "## Start time \""`date`"\""
-    echo "## Slurm job running on nodes \"${SLURM_JOB_NODELIST}\""
-    echo "## Slurm submit directory \"${SLURM_SUBMIT_DIR}\""
-    echo "## Slurm submit host \"${SLURM_SUBMIT_HOST}\""
-    echo " "
-
-
-    module load nvhpc/24.5
-    culibdir=$NVHPC_ROOT/cuda/lib64
-    cuincdir=$NVHPC_ROOT/cuda/include
-
-    mpicc test.c -I${cuincdir} -L${culibdir} -lcudart
-
-    mpiexec --mca btl_openib_warn_no_device_params_found 0 -n 2 ./a.out
-    ```
-=== "Satori"
-    ```bash title="test_cuda_and_mpi.sbatch"
-    #!/bin/bash                                                                                          
-    #SBATCH -n 2                                                                                         
-    #SBATCH --gres=gpu:1                                                                                 
-    #SBATCH -o myjob.log-%A                                                                              
-    #                                                                                                    
-    # Basic slurm job that tests GPU aware MPI in the NVHPC tool stack.                                  
-    #                                                                                                    
-    #                                                                                                    
-    #   To submit through Slurm use:                                                                     
-    #                                                                                                    
-    #   $ sbatch test_cuda_and_mpi.sbatch                                                                
-    #                                                                                                    
-    #   in terminal.                                                                                     
-
-    # Write a little log info                                                                            
-    echo "## Start time \""`date`"\""
-    echo "## Slurm job running on nodes \"${SLURM_JOB_NODELIST}\""
-    echo "## Slurm submit directory \"${SLURM_SUBMIT_DIR}\""
-    echo "## Slurm submit host \"${SLURM_SUBMIT_HOST}\""
-    echo " "
+# Write a little log info                                                                            
+echo "## Start time \""`date`"\""
+echo "## Slurm job running on nodes \"${SLURM_JOB_NODELIST}\""
+echo "## Slurm submit directory \"${SLURM_SUBMIT_DIR}\""
+echo "## Slurm submit host \"${SLURM_SUBMIT_HOST}\""
+echo " "
 
 
-    module load nvhpc/21.5
-    culibdir=$NVHPC_ROOT/cuda/lib64
-    cuincdir=$NVHPC_ROOT/cuda/include
+module load nvhpc/24.5
+culibdir=$NVHPC_ROOT/cuda/lib64
+cuincdir=$NVHPC_ROOT/cuda/include
 
-    mpicc test.c -I${cuincdir} -L${culibdir} -lcudart
+mpicc test.c -I${cuincdir} -L${culibdir} -lcudart
 
-    mpiexec --mca btl_openib_warn_no_device_params_found 0 -n 2 ./a.out 
-    ```
+mpiexec --mca btl_openib_warn_no_device_params_found 0 -n 2 ./a.out
+```

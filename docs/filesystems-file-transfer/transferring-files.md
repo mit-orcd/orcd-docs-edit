@@ -4,11 +4,7 @@ There are a few different ways to transfer files depending on your goals, the da
 
 We recommend using [OnDemand](#ondemand) for every-day file transfer and [Globus](#globus) for transferring large files or large numbers of files. For those who prefer to use the command line you can use [scp or rsync](#command-line).
 
-For system-specific information on transferring files for Satori, SuperCloud, or OpenMind, click on one of the following tabs. This page discusses transferring files for Engaging.
-
-=== "Satori"
-
-    [Satori Transferring Files Documentation Page](https://mit-satori.github.io/satori-getting-started.html#transferring-files)
+For system-specific information on transferring files for SuperCloud or OpenMind, click on one of the following tabs. This page discusses transferring files for Engaging.
 
 === "SuperCloud"
 
@@ -20,20 +16,16 @@ For system-specific information on transferring files for Satori, SuperCloud, or
 
 ## OnDemand
 
-Engaging and Satori both have an OnDemand web portal. SuperCloud has its own custom portal.
+Engaging has an OnDemand web portal. SuperCloud has its own custom portal.
 
 === "Engaging"
 
     [Engaging OnDemand Portal](https://engaging-ood.mit.edu/)
 
-=== "Satori"
-
-    [Satori OnDemand Portal](https://satori-portal.mit.edu/)
-
 === "SuperCloud"
     [SuperCloud Web Portal](https://txe1-portal.mit.edu) ([Documentation](https://mit-supercloud.github.io/supercloud-docs/transferring-files/#downloading-files-through-the-web-portal))
 
-With the Engaging and Satori OnDemand portals you can do the following using the File Browser:
+With the Engaging OnDemand portal you can do the following using the File Browser:
 
 - Upload and download files and directories
 - Rename, move, and delete files and directories
@@ -75,7 +67,6 @@ Here is a list of Globus Collections on ORCD systems:
 | System | Globus Collection | 
 | ----------- | ----------- |
 | Engaging | [MIT ORCD Engaging Collection](https://app.globus.org/file-manager?origin_id=ec54b570-cac5-47f7-b2a1-100c2078686f) | 
-| Satori | [mithpc#satori](https://app.globus.org/file-manager?destination_id=4841ad03-4878-4d3a-bb58-babb32074cef) | 
 | OpenMind | mithpc#openmind | 
 
 More documentation on transferring files through Globus can be found on the [Globus Documentation Pages](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/). Globus also has an [FAQ](https://docs.globus.org/faq/transfer-sharing/) that is helpful for answering any questions you might have.
@@ -96,11 +87,6 @@ The hostname of the node where you will be transferring files is often a login n
     - `orcd-login002.mit.edu`
     - `orcd-login003.mit.edu`
     - `orcd-login004.mit.edu`
-
-=== "Satori"
-
-    - `satori-login-001.mit.edu`
-    - `satori-login-002.mit.edu`
 
 === "OpenMind"
 
@@ -136,12 +122,7 @@ To transfer a file from your local computer to an ORCD system you would use the 
     ``` bash
     scp <local-file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
     ```
-
-=== "Satori"
-
-    ``` bash
-    scp <local-file-name> USERNAME@satori-login-001.mit.edu:<path-to-satori-dir>
-    ```
+    
 === "OpenMind"
 
     ``` bash
@@ -162,11 +143,6 @@ For example, let's say you have the local file `myscript.py` and you want to tra
     scp myscript.py USERNAME@orcd-login001.mit.edu:/home/USERNAME/mycode/
     ```
 
-=== "Satori"
-
-    ``` bash
-    scp  myscript.py USERNAME@satori-login-001.mit.edu:/home/USERNAME/mycode/
-    ```
 === "OpenMind"
 
     ``` bash
@@ -187,11 +163,6 @@ To transfer the other direction (from an ORCD system to your local computer) swi
     scp USERNAME@orcd-login001.mit.edu:<path-to-engaging-file> <path-to-local-dir>
     ```
 
-=== "Satori"
-
-    ``` bash
-    scp USERNAME@satori-login-001.mit.edu:<path-to-satori-file> <path-to-local-dir>
-    ```
 === "OpenMind"
 
     ``` bash
@@ -212,11 +183,6 @@ If you were to have the file `results.csv` that you want to copy from the `outpu
     scp USERNAME@orcd-login001.mit.edu:/home/USERNAME/output/results.csv .
     ```
 
-=== "Satori"
-
-    ``` bash
-    scp USERNAME@satori-login-001.mit.edu:/home/USERNAME/output/results.csv .
-    ```
 === "OpenMind"
 
     ``` bash
@@ -239,11 +205,6 @@ Similar to the `cp` command, if you want to transfer an entire directory and all
     scp -r <local-directory-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
     ```
 
-=== "Satori"
-
-    ``` bash
-    scp -r <local-directory-name> USERNAME@satori-login-001.mit.edu:<path-to-satori-dir>
-    ```
 === "OpenMind"
 
     ``` bash
@@ -284,10 +245,10 @@ You can run `rsync --help` to print out a full list of flags that can be used wi
 
 ### Moving files between ORCD Systems
 
-If you need to move files between ORCD systems you ssh to one of the ORCD systems and initiate the transfer from that system to the other. Once you are logged into one system the process is the same as if you were to transfer files to or from your own computer. For example to move a file from Satori to Engaging using `scp` you would first log into Satori and then use `scp` to transfer the file:
-```bash title="Transferring files from Satori to Engaging"
-ssh USERNAME@satori-login001.mit.edu
-scp <path-to-satori-file> USERNAME@orcd-login001.mit.edu:<path-to-engaging-directory>
+If you need to move files between ORCD systems you ssh to one of the ORCD systems and initiate the transfer from that system to the other. Once you are logged into one system the process is the same as if you were to transfer files to or from your own computer. For example to move a file from SuperCloud to Engaging using `scp` you would first log into SuperCloud and then use `scp` to transfer the file:
+```bash title="Transferring files from SuperCloud to Engaging"
+ssh USERNAME@txe1-login.mit.edu
+scp <path-to-SuperCloud-file> USERNAME@orcd-login001.mit.edu:<path-to-engaging-directory>
 ```
 You can also `ssh` into Engaging and initiate the transfer from there using a similar command.
 

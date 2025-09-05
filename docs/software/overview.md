@@ -57,9 +57,6 @@ Sometimes you can find pre-built binaries for the software you want. These are t
 
 For [Python](python.md), [Julia](julia.md), and [R](R.md) packages, each of these have their own package managers for installing packages. See the respective documentation pages linked above for each of these.
 
-!!! Note
-    Satori is unique in that its nodes have a different architecture than those in other ORCD systems. They are IBM machines with the ppc64le architecture. There is some software that does not support this architecture. When selecting pre-built software, be sure to select the one for ppc64le.
-
 ### Ask for Help
 
 If you are having trouble installing software you can reach out to <orcd-help@mit.edu> or one of the other lists on [Getting Help](../getting-help.md#email) for help. You can also stop by [office hours](../getting-help.md/#office-hours) if you prefer. Depending on the software and the system you are using, we may help walk you through installing it for yourself or install it in a community location.

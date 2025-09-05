@@ -34,22 +34,6 @@ To run on a compute node you will need at least 2 entries in this file. The firs
     !!! note
         To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to the [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
 
-=== "Satori"
-
-    ```yaml title="config"
-    Host satori-login
-      HostName satori-login-001.mit.edu
-      User USERNAME
-
-    Host satori-compute
-      User USERNAME
-      HostName nodename
-      ProxyJump satori-login
-    ```
-
-    !!! note
-        To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to the [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
-
 === "Open Mind"
 
     ```yaml title="config"
@@ -90,12 +74,6 @@ Open a terminal window and ssh into the login node. If you are not used to doing
     ssh orcd-login
     ```
 
-=== "Satori"
-
-    ```bash
-    ssh satori-login
-    ```
-
 === "Open Mind"
 
     ```bash
@@ -112,9 +90,6 @@ Once you are logged in start an interactive session. If you are planning to only
 
     [Engaging's Documentation for Running Jobs](https://orcd-docs.mit.edu/running-jobs/overview/)
     
-=== "Satori"
-
-    [Satori's Documentation for Running Jobs](https://mit-satori.github.io/satori-workload-manager-using-slurm.html)
 
 === "SuperCloud"
 
@@ -155,19 +130,6 @@ If your compute node is `node1234` then your config file should look something l
       ProxyJump orcd-login
     ```
 
-=== "Satori"
-
-    ```yaml title="config"
-    Host satori-login
-      HostName satori-login-001.mit.edu
-      User USERNAME
-
-    Host satori-compute
-      User USERNAME
-      HostName node1234
-      ProxyJump satori-login
-    ```
-
 === "Open Mind"
 
     ```yaml title="config"
@@ -196,10 +158,6 @@ You are ready to connect to the compute node you have allocated through your int
 === "Engaging"
 
     In the example config file above this would be `orcd-compute`.
-
-=== "Satori"
-
-    In the example config file above this would be `satori-compute`.
 
 === "Open Mind"
 
