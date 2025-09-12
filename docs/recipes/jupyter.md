@@ -50,24 +50,6 @@ or the resources allocated to your notebook.
         a Jupyter notebook on Rocky 8, you will need to follow either the [VS
         Code](#vs-code) or [port forwarding](#port-forwarding) method.
 
-=== "Satori"
-
-    - Link to web portal:
-    [https://satori-portal.mit.edu/](https://satori-portal.mit.edu/)
-
-    - Select "Interactive Apps" --> "Jupyter Notebook" or
-    "Jupyter Notebook [Experimental]"
-
-    - Follow the on-screen instructions to start a session. You are able to use
-    a custom Conda environment in the experimental notebook provided it has
-    `jupyterlab` installed.
-
-    - If you'd like to run [R](#r), enter the name of your custom Conda
-    environment that has `r-irkernel` installed.
-
-    - When the session is ready, click "Connect to Jupyter." From here you can
-    create a Jupyter notebook and select the language you would like to use.
-
 === "SuperCloud"
 
     - Link to web portal:
@@ -111,12 +93,6 @@ session (here we are requesting 1 node with 4 CPU cores):
     salloc -N 1 -c 4 -p mit_normal
     ```
 
-=== "Satori"
-
-    ```bash
-    srun -N 1 -c 4 --pty /bin/bash
-    ```
-
 === "SuperCloud"
 
     ```bash
@@ -138,14 +114,6 @@ linked to Python, so you will need to use a Conda environment with
 
     ```bash
     module load miniforge
-    conda create -n jupyter_env jupyterlab
-    conda activate jupyter_env
-    ```
-
-=== "Satori"
-
-    ```bash
-    module load anaconda3
     conda create -n jupyter_env jupyterlab
     conda activate jupyter_env
     ```
@@ -207,19 +175,6 @@ port number, and username as necessary:
 
     ```bash
     ssh -L 8888:<node>:8888 <USER>@orcd-login001.mit.edu
-    ```
-
-=== "Satori"
-
-    ```bash
-    ssh -L <local port>:<node>:<remote port> <USER>@satori-login-001.mit.edu
-    ```
-
-    In general, it's easier if you keep the local port and the remote port as
-    the same number:
-
-    ```bash
-    ssh -L 8888:<node>:8888 <USER>@satori-login-001.mit.edu
     ```
 
 === "SuperCloud"
@@ -284,14 +239,6 @@ both `r-irkernel` and `jupyterlab` installed:
 
     ```bash
     module load miniforge
-    conda create -n r_jupyter_env jupyterlab r-irkernel
-    conda activate r_jupyter_env
-    ```
-
-=== "Satori"
-
-    ```bash
-    module load anaconda3
     conda create -n r_jupyter_env jupyterlab r-irkernel
     conda activate r_jupyter_env
     ```

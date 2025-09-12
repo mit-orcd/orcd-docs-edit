@@ -9,7 +9,6 @@ tags:
 
 Engaging documentation can be found on these pages. If you haven't found your answer for other systems elsewhere in these pages, your answer may be in the documentation for the system you are using:
 
-- [Satori Documentation](https://mit-satori.github.io/)
 - [SuperCloud Documentation](https://supercloud.mit.edu/)
 - [OpenMind Documentation](https://github.mit.edu/MGHPCC/OpenMind/wiki)
 
@@ -19,7 +18,6 @@ If you can't find your answer in the documentation, please use one of the email 
 
 - General ORCD Questions: [orcd-help@mit.edu](mailto:orcd-help@mit.edu)
 - Engaging: [orcd-help-engaging@mit.edu](mailto:orcd-help-engaging@mit.edu)
-- Satori: [orcd-help-satori@mit.edu](mailto:orcd-help-satori@mit.edu)
 - OpenMind: [orcd-help-openmind@mit.edu](mailto:orcd-help-openmind@mit.edu)
 - SuperCloud: [supercloud@mit.edu](mailto:supercloud@mit.edu)
 

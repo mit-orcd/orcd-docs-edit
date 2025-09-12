@@ -70,21 +70,6 @@ Once you have your terminal set up for your specific operating system, you can u
     !!! Note
         You will be prompted to enter your MIT Kerberos password if you have not set up SSH keys. To set them up, please refer to our [SSH Key Setup Page](ssh-setup.md).
 
-=== "Satori"
-    Satori has 2 login nodes:  
-
-    - Use `satori-login-001.mit.edu` for submitting training jobs and related activities.
-    - Use `satori-login-002.mit.edu` for transferring large files/datasets and compiling software.
-
-    To login via the command line, run the SSH command:
-    ```bash 
-    ssh [username]@[host]
-    ```
-    Replace `[username]` with your MIT Kerberos username and `[host]` with the desired login node name (e.g., ssh your_name@satori-login-001.mit.edu).
-
-    !!! Note
-        You will be prompted to enter your MIT Kerberos password if you have not set up SSH keys. To set them up, please refer to our [SSH Key Setup Page](ssh-setup.md).
-
 === "SuperCloud"
     Accessing the SuperCloud system through SSH requires that your public ssh-key has been added to the `authorized_keys` file in your SuperCloud account. Follow the instructions on [this page](https://mit-supercloud.github.io/supercloud-docs/requesting-account/#generating-ssh-keys) to create your keys and add them to your account.
     

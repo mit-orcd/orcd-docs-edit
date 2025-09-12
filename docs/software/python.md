@@ -6,10 +6,6 @@ tags:
 # Installing Python Packages 
 
 There are a few different ways to install Python packages. Each ORCD system has its own set of Python modules and naming conventions for those modules, along with a set of recommendations for installing Python packages. This page is meant to give a general overview and link to those pages.
-    
-=== "Satori"
-
-    [Satori Installing Python Packages Documentation](https://mit-satori.github.io/satori-using-anaconda.html)
 
 === "SuperCloud"
 
@@ -49,19 +45,6 @@ Refer to the tab below to find out more about the Python modules available on th
     module load miniforge/24.3.0-0
     ```
     
-=== "Satori"
-
-    Satori Python and Anaconda modules are rather old so the advice is to install your own [miniforge](https://conda-forge.org/download/) or [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/). Home directories on Satori are quite small, so the recommendation is to install these into `/nobackup/users/$USER` where you have more space.
-
-    Once it is installed you will need to add channels to your conda configuration:
-
-    ```bash
-    conda config --prepend channels https://public.dhe.ibm.com/ibmdl/export/pub/software/server/ibm-ai/conda/
-    conda config --prepend channels https://opence.mit.edu
-    conda config --prepend channels https://ftp.osuosl.org/pub/open-ce/current
-    ```
-
-    These channels contain packages compiled for Satori's PowerPC architecture. You only need to run these commands once to add these channels to your configuration file.
 
 === "SuperCloud"
 
@@ -189,17 +172,6 @@ You'll also see mention of mamba environments. Mamba and conda are nearly the sa
 ### Creating Conda Environments
 
 First, load a conda or Anaconda module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules. See [Modules for Python](#modules-for-python) above for information about specific modules for the system you are using.
-
-!!!Note
-    If you are using Satori you will need to add channels to include packages compiled for PowerPC:
-
-    ```bash
-    conda config --prepend channels https://public.dhe.ibm.com/ibmdl/export/pub/software/server/ibm-ai/conda/
-    conda config --prepend channels https://opence.mit.edu
-    conda config --prepend channels https://ftp.osuosl.org/pub/open-ce/current
-    ```
-
-    See [Modules for Python](#modules-for-python) above for more information.
 
 If there is no anaconda module on the system you are using, or the modules available aren't sufficient for your work, we recommend installing [miniforge](https://conda-forge.org/download/) or [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/) in your home directory. Wwe have had the most  success with miniforge, which is distributed by conda-forge and is packaged with mamba. It is best to avoid installing the full Anaconda as it is very big and can fill up your home directory. One of the most common reasons for slow logins, job startups, and package imports are from a full anaconda installation in the home directory.
 
