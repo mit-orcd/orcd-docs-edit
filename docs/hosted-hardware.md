@@ -1,7 +1,6 @@
 ---
 tags:
   - Maintenance Schedule
-  - Linux
 ---
 
 # Hardware Purchases 
