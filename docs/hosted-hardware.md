@@ -6,7 +6,7 @@ tags:
 
 # Hardware Purchases 
 
-There are often cases where the public partitions (mit_preemptable, mit_normal and mit_normal_gpu) are not sufficient for a lab's computational needs. 
+There are often cases where the [public partitions](running-jobs/overview.md#partitions) (`mit_preemptable`, `mit_normal` and `mit_normal_gpu`) are not sufficient for a lab's computational needs. 
 In these cases we often recommend a hardware purchase to be hosted on Engaging. 
 
 Our recommendations are generally vendor agnostic. However, specific vendors give us very compelling pricing based 
