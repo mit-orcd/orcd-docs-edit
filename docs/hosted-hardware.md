@@ -25,7 +25,7 @@ Once your hardware is in place, our staff will take care of all maintenance of t
 ### Slurm Partitions 
 Scientists may specify the configuration of their partitions within reason. Generally the partition time limit is constrained only by the engaging maintenance schedule, which is one day per month (the third Tuesday of each month). All machines are required to be in the mit_preemtable queue, which allows them to be used by non owners when the hardware is idle. We generally start with a standard popular slurm partition configuration and then work with the lab to modify as needed. 
 
-Once the nodes have been tested, they are released for use. You may grant users access via MIT Moira.Your new nodes will have access controlled by your user group. To give users access to your nodes, the corresponding usergroup must be modified. For example: 
+Once the nodes have been tested, they are released for use. You may grant users access via MIT Moira. Your new nodes will have access controlled by your user group. To give users access to your nodes, the corresponding usergroup must be modified. For example: 
 
 orcd_ug_pi_"MIT kerberos of the pi"_all
 
