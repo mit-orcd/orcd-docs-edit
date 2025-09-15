@@ -11,7 +11,7 @@ In these cases we often recommend a hardware purchase to be hosted on Engaging.
 
 Our recommendations are generally vendor agnostic. However, specific vendors give us very compelling pricing based 
 on negotiated volume discounts. To keep maintenance costs lower, we strive to standardize on hardware that 
-is easily installed into engaging. This allows our operations team to manage far more hardware, more efficiently, than a cluster with heterogenous hardware. There are some variations of hardware for special edge cases, but they are exceedingly rare. 
+is easily installed into Engaging. This allows our operations team to manage far more hardware, more efficiently, than a cluster with heterogenous hardware. There are some variations of hardware for special edge cases, but they are exceedingly rare. 
 
 ORCD staff maintains relationships with multiple hardware vendors and is consistently negotiating for better pricing that is generally not available to lower volume customers. 
 
