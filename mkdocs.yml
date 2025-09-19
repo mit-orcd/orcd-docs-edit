@@ -36,6 +36,7 @@ nav:
 #    - Slurm Partitions: running-jobs/
 #    - How To Run Different Workloads: running/page3.md
   - ORCD Recipes:
+    - Advanced Job Array: recipes/many-jobs.md
     - AlphaFold 3: recipes/af3.md
     - GROMACS: recipes/gromacs.md
     - Intel compiler: recipes/intel.md
