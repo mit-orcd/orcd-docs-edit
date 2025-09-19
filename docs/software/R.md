@@ -20,12 +20,6 @@ When you create a Conda environment, you can specify exactly the packages you ne
     module load miniforge/24.3.0-0
     ```
 
-=== "Satori"
-
-    ```bash
-    module load anaconda3/2020.02-2ks5tch
-    ```
-
 === "SuperCloud"
 
     ```bash
@@ -85,13 +79,6 @@ There are currently a few different versions of R installed on our systems. You 
     R
     ```
 
-=== "Satori"
-
-    ```bash
-    module load r/4.0.3-ue52ngj
-    R
-    ```
-
 ### Installing Packages
 
 The pre-installed R modules come with a limited number of packages, but it is possible to install more. This can be acheived using the standard R command `install.packages("packageName")`.
@@ -146,8 +133,5 @@ You can also set the path from within R:
 Both of these commands essentially prepend your custom path to the library path that already existed.
 
 ## Further Resources
-
-
-[Satori: R on Satori](https://mit-satori.github.io/satori-R.html)
 
 [SuperCloud: Software and Package Management - R Libraries](https://mit-supercloud.github.io/supercloud-docs/software-packages/#r-libraries)

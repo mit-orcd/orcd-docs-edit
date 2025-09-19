@@ -28,12 +28,6 @@ or by specifying the module specifically:
     ```bash
     module load julia/1.8.5
     ```
-    
-=== "Satori"
-
-    ```bash
-    module load julia/1.5.3-rls2opu
-    ```
 
 === "SuperCloud"
 
@@ -74,9 +68,6 @@ settings are as follows:
 installations of Julia and their associated packages that are managed by
 Juliaup.
 
-    - On Satori, home directories are limited to 20 GB, so you may want to
-    change this location to `/nobackup/users/$USER`.
-
 2. Edit your `.bashrc` and `.bash_profile` files to automatically add the
 Juliaup-managed version of Julia to your `$PATH` environment variable.
 
@@ -92,9 +83,6 @@ Juliaup-managed version of Julia to your `$PATH` environment variable.
 
 Click [here](https://github.com/JuliaLang/juliaup) for more information on
 installing and using Juliaup.
-
-!!!Note
-    Currently, Juliaup is not compatible with Satori or SuperCloud.
 
 ## Using Different Julia Versions
 

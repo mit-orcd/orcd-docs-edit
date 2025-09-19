@@ -20,10 +20,6 @@ If you don't already have an account, click on the tab for the system you are in
 
     Login into the respective OnDemand Portal [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait a couple of minutes for the system to create all the pieces for your account before submitting your first job.
 
-=== "Satori"
-
-    Login into the respective OnDemand Portal [https://satori-portal.mit.edu/](https://satori-portal.mit.edu/) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait a couple of minutes for the system to create all the pieces for your account before submitting your first job.
-
 === "SuperCloud"
 
     Follow the instructions on the [Account Request Page](https://supercloud.mit.edu/requesting-account).
@@ -38,10 +34,6 @@ If you don't already have an account, click on the tab for the system you are in
 
 The first thing you should do when you get a new account is verify that
 you can log in. The different ORCD systems provide multiple ways to log in, including both ssh and web portals. Links to instructions for the different systems are below.
-
-=== "Satori"   
-    
-    See the [Logging into Satori](https://mit-satori.github.io/satori-ssh.html) page for full documentation.
 
 === "SuperCloud"   
     
@@ -76,15 +68,6 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
 
     If you are prompted for a password enter your Kerberos password.  You can add an ssh key if you do not want to enter your Kerberos password at login, see the [SSH Key](accessing-orcd/ssh-setup.md) page for more information. All login nodes require Two-Factor Authentication.
 
-=== "Satori"    
-    Satori has two login nodes: `satori-login-001` and `satori-login-002`. Replace `USERNAME` below with your Kerberos username and use the login node you would like to log in with, the example below is using `satori-login-001`.
-
-    ```bash
-    ssh USERNAME@satori-login-001.mit.edu
-    ```
-
-    If you are prompted for a password enter your Kerberos password. You can add an [ssh key](accessing-orcd/ssh-setup.md) if you do not want to enter your Kerberos password at login.
-
 === "SuperCloud"
 
     In order to log into SuperCloud with ssh you will need to add ssh keys to your account on the Web Portal. Follow the instructions on the [SuperCloud Getting Started](https://supercloud.mit.edu/getting-started) page to add your keys.
@@ -110,10 +93,6 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
 === "Engaging"
 
     You can log into OnDemand Web Portal with the link: [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu). For full detailed instructions please see the [OnDemand Documentation](accessing-orcd/ondemand-login.md).
-
-=== "Satori"   
-
-    You can log into the OnDemand Web Portal with the link: [https://satori-portal.mit.edu](https://satori-portal.mit.edu). For full detailed instructions please see the [Satori Documentation](https://mit-satori.github.io/satori-ssh.html).
 
 === "SuperCloud"   
 
@@ -156,10 +135,6 @@ obvious that it is there. Review the page for the system you are using paying pa
 === "Engaging"
 
     The Engaging Software documentation is available under the "Software" section on this site (see the sidebar on the left). We recommend reading through both the [Overview](software/overview.md) and [Modules](software/modules.md) pages, and then select the additional pages most relevant to you.
-    
-=== "Satori"
-
-    [Satori Software Documentation Page](https://mit-satori.github.io/satori-getting-started.html#setting-up-your-environment)
 
 === "SuperCloud"
 
@@ -201,10 +176,6 @@ users, let us know and we can make a shared **group directory** for you.
 === "Engaging"
 
     The path to your home directory on Engaging is `/home/<USERNAME>`, where `<USERNAME>` is your username. The character `~` is also shorthand for your home directory in any Linux commands.
-
-=== "Satori"
-
-    The path to your home directory on Satori is `/home/<USERNAME>`, where `<USERNAME>` is your username. The character `~` is also shorthand for your home directory in any Linux commands.
 
 === "SuperCloud"
 
@@ -296,14 +267,6 @@ To transfer a file from your computer to the ORCD system:
     (You can use any of the login nodes listed above. Note that you will need to
     authenticate with Duo)
 
-=== "Satori"
-
-    ``` bash
-    scp <local-file-name> USERNAME@satori-login-001:<path-to-satori-dir>
-    ```
-
-    (You can use any of the login nodes listed above)
-
 === "SuperCloud"
 
     ``` bash
@@ -326,14 +289,6 @@ To transfer a file from an ORCD system to your computer:
 
     (You can use any of the login nodes listed above)
 
-=== "Satori"
-
-    ``` bash
-    scp USERNAME@satori-login-001:<path-to-satori-dir>/<file-name> <path-to-local-dest>
-    ```
-
-    (You can use any of the login nodes listed above)
-
 === "SuperCloud"
 
     ``` bash
@@ -352,14 +307,6 @@ Similar to `cp`, use the `-r` flag to copy over an entire directory and its cont
 
     ``` bash
     scp -r <local-dir-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
-    ```
-
-    (You can use any of the login nodes listed above)
-
-=== "Satori"
-
-    ``` bash
-    scp -r <local-dir-name> USERNAME@satori-login-001:<path-to-satori-dir>
     ```
 
     (You can use any of the login nodes listed above)
@@ -398,13 +345,6 @@ session to run your code in by executing the command:
     salloc -t 01:00:00 -p mit_normal
     ```
 
-=== "Satori"
-
-    ``` bash
-    #Requesting a single core for an interactive job for 1 hour
-    srun -n 1  -t 01:00:00 --pty /bin/bash
-    ```
-
 === "SuperCloud"
 
     ``` bash
@@ -429,10 +369,6 @@ Please see your system's documentation pages for more information on requesting 
 === "Engaging"
 
     The Engaging documentation on running jobs is available under the "Running Jobs" section on this site (see the sidebar on the left). We recommend reading through both the [Overview](running-jobs/overview.md) and [Requesting Resources](running-jobs/requesting-resources.md) pages, and then select the additional pages most relevant to you.
-    
-=== "Satori"
-
-    [Satori's Documentation for Running Jobs](https://mit-satori.github.io/satori-workload-manager-using-slurm.html)
 
 === "SuperCloud"
 
