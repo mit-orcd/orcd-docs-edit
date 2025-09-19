@@ -7,21 +7,17 @@ tags:
 ---
 
 # CUDA-Q
-CUDA-Q is a GPU-accelerated package for quantum simulations. Large quantum systems can be simulated with this framework. We will walk through installing and performing simulations with CUDA-Q on Engaging.
+CUDA-Q is a GPU-accelerated package for quantum simulations. In general, simulations are exponentially more expensive with an increasing qubit number, and the CUDA-Q framework enables simulations of larger systems than possible with a CPU alone. We will walk through installing and performing simulations with CUDA-Q on Engaging.
 
 ## Installation
 We will set up a [virtual environment](https://orcd-docs.mit.edu/software/python/#creating-python-virtual-environments) for CUDA-Q as follows:
-In your directory of choice (we'll assume it's called `cudaq`), run the following commands (TODO - might want to break this up a bit)
+In a directory, which we will assume is named `cudaq`, run the following commands
 ```
 module load miniforge
-module load cuda (TODO - are these two needed here?)
-module load openmpi
-python -m venv cuda-q_env
+python -m venv cudaq_env
 source cudaq_env/bin/activate
 pip install cudaq
 ```
-Note that we load cuda (TODO describe this) and openmpi (TODO describe this).
-
 Now that we've installed CUDA-Q, we will follow a few different examples from the [CUDA-Q docs](https://nvidia.github.io/cuda-quantum/latest/index.html).
 
 ## Basic Usage Example
@@ -53,24 +49,20 @@ First, request a node with a GPU using the following command:
 ```
 salloc -p mit_normal_gpu -G 1
 ```
-Now, load the appropriate modules and activate the `cudaq` (TODO - do we want this ticks here?) virtual environment:
+Now, load the appropriate modules and activate the `cudaq` virtual environment:
 ```
-module load miniforge
-module load cuda
-module load openmpi
 source cudaq_env/bin/activate
 ```
-Finally, we will run the program for 28 qubits, which would be prohitibitive to run with a CPU alone (TODO - double check this and make consistent with the statement above):
+Finally, we will run the program for 28 qubits using the command below, which should take a few seconds on a GPU but would be prohitibitive to run with a CPU alone. Note that the `-- target nvidia` is not needed because CUDA-Q should automatically detect the GPU and use it.
 ```
-python test_cudaq.py --target nvidia
+python test_cudaq.py 28 --target nvidia
 ```
-You should get an output of this format, but the numbers could be slightly different due to stochasticity:
+You should get an output similar to the one below, but the numbers 512 and 488 could be slightly different due to stochasticity. The "target nvidia" indicates that a GPU is being used. If it wasn't, the output would read "Running on target qpp-cpu".
+
 ```
 Running on target nvidia
 { 0000000000000000000000000000:512 1111111111111111111111111111:488 }
 ```
-
-## Using One GPU
 
 ## Using Multiple GPUs
 TODO - link this: https://nvidia.github.io/cuda-quantum/latest/using/examples/multi_gpu_workflows.html
