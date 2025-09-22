@@ -27,7 +27,8 @@ Scientists may specify the configuration of their partitions within reason. Gene
 
 Once the nodes have been tested, they are released for use. You may grant users access via MIT Moira. Your new nodes will have access controlled by your user group. To give users access to your nodes, the corresponding usergroup must be modified. For example: 
 
-orcd_ug_pi_"MIT kerberos of the pi"_all
+orcd_ug_pi_[pikerb]_all
+
 
 You can make the additions here on the [WebMoira page](https://groups.mit.edu/webmoira/).
 
