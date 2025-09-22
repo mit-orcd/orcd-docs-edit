@@ -29,7 +29,7 @@ Once the nodes have been tested, they are released for use. You may grant users 
 
 orcd_ug_pi_"MIT kerberos of the pi"_all
 
-You can make the additions here: https://groups.mit.edu/webmoira/
+You can make the additions here on the [WebMoira page](https://groups.mit.edu/webmoira/).
 
 ### Testing and burn in
 ORCD staff maintains several testing suites to confirm that nodes are working as expected. We run these tests on all new hardware to confirm there are no problems before releasing the hardware for general use.
