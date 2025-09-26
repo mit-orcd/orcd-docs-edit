@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH -N 1
-#SBATCH -n 1
+#SBATCH -n 4
 #SBATCH --mem-per-cpu=4G
 #SBATCH -p mit_normal
 #SBATCH -t 12:00:00
