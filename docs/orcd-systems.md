@@ -26,7 +26,7 @@ Does engaging have newer GPUs than Voltas now?
 
 The Engaging is the ORCD primary HPC resource and is a mixed CPU and GPU computing cluster that is openly available to all 
 research projects at MIT. It has around 50,000 x86 CPU cores and over 1000 
-GPU cards ranging from K80 generation to recent Voltas, A100, RTX6000, H100, H200 and L40S. New, modern hardware is consistently (2025) being added to the Engaging cluster. Engaging offers fast flash based storage for each user's scratch space. Hardware access is through the Slurm 
+GPU cards including A100, RTX6000, H100, H200 and L40S. New, modern hardware is consistently being added to the Engaging cluster. Engaging offers fast flash based storage for each user's scratch space. Hardware access is through the Slurm 
 resource scheduler that supports batch and interactive workloads and allows dedicated reservations.
 The cluster has a large shared file system for working datasets. Additional compute and storage 
 resources can be purchased by PIs. A wide range of standard software is available and the Docker 
