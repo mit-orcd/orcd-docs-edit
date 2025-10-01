@@ -89,7 +89,6 @@ To request a SuperCloud account follow the instructions on SuperCloud's [Request
 The OpenMind system is a collaboration with Department of Brain and Cognitive Sciences (BCS) and McGovern Institute. OpenMind is mainly a GPU computing cluster optimized for artificial intelligence (AI) research and data science. Totally there are around 70 compute nodes, 3500 CPU cores, 48 TB of RAM, and 340 GPUs, including 142 A100-80GB GPUs. It also provides around 2 PB of flash storage supporting fast read/write data speed. Hardware access is through the Slurm resource scheduler that supports batch and interactive workload and allows dedicated reservations. A wide range of standard software is available and Docker compatible Apptainer/Singularity container tool is supported. User-level tools like Anaconda for Python, R libraries, and Julia packages are all supported. OpenMind is slated for retirement, users are moving to the Engaging cluster.  Further information and support is available at <orcd-help-openmind@mit.edu>.
 
 ### How to Get an Account on OpenMind
-Accounts will be available for MIT users in 2024.
 
 ### OpenMind Quick Links
 
