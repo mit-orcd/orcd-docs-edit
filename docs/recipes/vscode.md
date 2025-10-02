@@ -34,22 +34,6 @@ To run on a compute node you will need at least 2 entries in this file. The firs
     !!! note
         To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to the [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
 
-=== "Satori"
-
-    ```yaml title="config"
-    Host satori-login
-      HostName satori-login-001.mit.edu
-      User USERNAME
-
-    Host satori-compute
-      User USERNAME
-      HostName nodename
-      ProxyJump satori-login
-    ```
-
-    !!! note
-        To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to the [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
-
 === "Open Mind"
 
     ```yaml title="config"
@@ -90,12 +74,6 @@ Open a terminal window and ssh into the login node. If you are not used to doing
     ssh orcd-login
     ```
 
-=== "Satori"
-
-    ```bash
-    ssh satori-login
-    ```
-
 === "Open Mind"
 
     ```bash
@@ -112,9 +90,6 @@ Once you are logged in start an interactive session. If you are planning to only
 
     [Engaging's Documentation for Running Jobs](https://orcd-docs.mit.edu/running-jobs/overview/)
     
-=== "Satori"
-
-    [Satori's Documentation for Running Jobs](https://mit-satori.github.io/satori-workload-manager-using-slurm.html)
 
 === "SuperCloud"
 
@@ -155,19 +130,6 @@ If your compute node is `node1234` then your config file should look something l
       ProxyJump orcd-login
     ```
 
-=== "Satori"
-
-    ```yaml title="config"
-    Host satori-login
-      HostName satori-login-001.mit.edu
-      User USERNAME
-
-    Host satori-compute
-      User USERNAME
-      HostName node1234
-      ProxyJump satori-login
-    ```
-
 === "Open Mind"
 
     ```yaml title="config"
@@ -197,10 +159,6 @@ You are ready to connect to the compute node you have allocated through your int
 
     In the example config file above this would be `orcd-compute`.
 
-=== "Satori"
-
-    In the example config file above this would be `satori-compute`.
-
 === "Open Mind"
 
     In the example config file above this would be `om-compute`.
@@ -215,6 +173,10 @@ Here is what this might look like for Engaging:
 - Add the specific directories you need to your workspace. VSCode constantly scans all the files files and runs git commands on any local git repositories in your workspace, and it does this recursively. For this reason adding high-level directories to your workspace can slow things down quite a bit. For example, avoid adding your entire home directory or group storage to your VSCode session workspace.
 - If you are having trouble authenticating, particularly if you are prompted for a password or 2 Factor authentication options, you can set `"remote.SSH.showLoginTerminal": true` in your settings.json file. See [this page](https://code.visualstudio.com/docs/remote/troubleshooting#_enabling-alternate-ssh-authentication-methods) for more information.
 - If VSCode is slow to start up on an ORCD System, check to see whether you are activating a conda environment at login. If you are, run the command `conda config --set auto_activate_base false` to prevent this. You will only have to do this once.
+- Sometimes, VS Code may cause you to be locked out of your Engaging account because it makes repeated Duo authentication attempts. To mitigate this behavior, you can try editing a few of the VS Code settings:
+    - [Remote.SSH: Connect Timeout](vscode://settings/remote.SSH.connectTimeout): Making this longer gives you more time to accept the Duo push before the RemoteSSH extension tries again. The default is 15 seconds, doubling it to 30 might be a good number to try.
+    - [Remote.SSH: Max Reconnection Attempts](vscode://settings/remote.SSH.maxReconnectionAttempts): This prevents RemoteSSH from trying to reconnect automatically over and over, sending you Duo pushes when you aren't expecting them. This is what usually causes the lockout. I'd set it to 0 or 1 depending on your preference.
+    - [Remote.SSH: Show Login Terminal](vscode://settings/remote.SSH.showLoginTerminal): Checking this box would let you see useful debugging information while VS Code is starting up.
 
 <!--
 TODO: Add link to Conda best practices once it is written.

@@ -4,6 +4,7 @@ tags:
  - SuperCloud
  - Physics
  - Howto Recipes
+ - Install Recipe
 ---
 
 !!! warning

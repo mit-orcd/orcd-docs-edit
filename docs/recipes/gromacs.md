@@ -6,6 +6,7 @@ tags:
  - GPU
  - GROMACS
  - Howto Recipes
+ - Install Recipe
 ---
 
 # Installing and Using GROMACS

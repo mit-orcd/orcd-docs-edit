@@ -22,6 +22,7 @@ nav:
     - Modules: software/modules.md
     - Python: software/python.md
     - R: software/R.md
+    - Licensed Software: software/licensed.md
     - Other Software: software/building-software.md
 #    - Installing Software: 
 #    - Singularity/Apptainer: 
@@ -35,6 +36,7 @@ nav:
 #    - Slurm Partitions: running-jobs/
 #    - How To Run Different Workloads: running/page3.md
   - ORCD Recipes:
+    - Advanced Job Array: recipes/many-jobs.md
     - AlphaFold 3: recipes/af3.md
     - GROMACS: recipes/gromacs.md
     - Intel compiler: recipes/intel.md
@@ -47,15 +49,17 @@ nav:
     - PyTorch on GPUs - I: recipes/torch-gpu.md
     - PyTorch on GPUs - II: recipes/torch-gpu-intermediate.md
     - RAG: recipes/rag.md
-    - RELION: recipes/relion.md
+    #- RELION: recipes/relion.md
     - VASP: recipes/build-vasp-gcc-cpu.md
     - VSCode: recipes/vscode.md
     - X11: recipes/X11.md
+  - Hardware Purchases: hosted-hardware.md
   - Acknowledging Us: acknowledgements.md
   - Data Security and Privacy: data-security.md
   - Acceptable Use and Code of Conduct: code-of-conduct.md
   - Getting Help: getting-help.md
   - FAQs: faqs.md
+  - Glossary: glossary.md
   - Index: tags.md
 
 theme: 
@@ -72,6 +76,7 @@ plugins:
       tags_file: tags.md
   - git-revision-date-localized
   - open-in-new-tab
+  - table-reader
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true

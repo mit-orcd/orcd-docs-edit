@@ -1,10 +1,13 @@
 ---
 tags:
- - Satori
  - MPI
  - RELION
  - Howto Recipes
+ - Install Recipe
 ---
+
+!!! warning
+    This page has been archived. The information present is not updated and may no longer be accurate.
 
 # Installing and Using RELION
 
@@ -61,7 +64,7 @@ It is all set for the installation.
 
 ### Use RELION
 
-There is a nice Graphical User Interface (GUI) for RELION. To use the GUI, first log in Satori with x-forwardig support,
+There is a nice Graphical User Interface (GUI) for RELION. To use the GUI, first log in Satori with x-forwarding support,
 ```
 ssh -Y <user>@satori-login-002.mit.edu
 ```

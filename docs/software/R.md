@@ -20,12 +20,6 @@ When you create a Conda environment, you can specify exactly the packages you ne
     module load miniforge/24.3.0-0
     ```
 
-=== "Satori"
-
-    ```bash
-    module load anaconda3/2020.02-2ks5tch
-    ```
-
 === "SuperCloud"
 
     ```bash
@@ -85,13 +79,6 @@ There are currently a few different versions of R installed on our systems. You 
     R
     ```
 
-=== "Satori"
-
-    ```bash
-    module load r/4.0.3-ue52ngj
-    R
-    ```
-
 ### Installing Packages
 
 The pre-installed R modules come with a limited number of packages, but it is possible to install more. This can be acheived using the standard R command `install.packages("packageName")`.
@@ -100,9 +87,28 @@ R will first try to install this package system-wide but will be blocked to avoi
 
 ## RStudio
 
-Currently, the only cluster that RStudio is available on is Engaging. This is accessible through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > RStudio Server. From there, select the specifications you need, including runtime, memory, and R version. Currently, OnDemand does not support local installations of R or versions of R installed through Conda.
+You can use RStudio on the Engaging cluster via [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > RStudio Server. From there, select the specifications you need, including runtime, memory, and R version.
 
-You can install packages using the `install.packages()` command. As with running R from the command line via SSH, the new packages should automatically be installed to your home directory.
+### Using the RStudio Module on Engaging
+
+Currently, OnDemand does not support local installations of R or versions of R installed through Conda. This can make it difficult to install certain packages. While we plan on updating this soon, we have a current workaround that takes a bit of setup but makes packages much easier to install.
+
+First, you will need to start a [job](../running-jobs/overview.md) on Engaging. This can be an interactive job or a batch job, but we will use an interactive job in the current example:
+
+```bash
+salloc -N 1 -n 4 --mem-per-cpu=4G -p mit_normal
+```
+
+Be sure to edit the flags as necessary to request the resources you need, such as CPU cores, memory, or GPUs. See [Requesting Resources](../running-jobs/requesting-resources.md) for more information.
+
+Next, load the `rstudio/4.4.2` module and run the `rstudio` command:
+
+```bash
+module load rstudio/4.4.2
+rstudio
+```
+
+You should now see printed instructions for setting up port forwarding to interact with RStudio using your web browser. If using a batch session, these instructions will appear in your job output file.
 
 ## Jupyter
 
@@ -110,18 +116,7 @@ Similar to RStudio, Jupyter notebooks offer a handy cell-based interface to run 
 
 === "Engaging"
 
-    Jupyter notebooks are available through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > Jupyter Notebook. To run R, you must create a Conda environment with both `r-irkernel` and `jupyterlab` installed (see [R with Conda](#r-with-conda)). When starting up the notebook, enter the name of your custom Conda environment. Once you launch the session and open your notebook, you may need to change your kernel to R. Your current kernel is shown in the top right, and likely defaults to "Python 3 (ipykernel)". Click this to change it to R.
-
-<!-- === "SuperCloud"
-
-    Click [here](https://txe1-portal.mit.edu/jupyter/jupyter_notebook.php) to open a Jupyter notebook on the SuperCloud web portal.
-
-    On SuperCloud, the version of R that is available is from the pre-installed R environment on Anaconda. As a result, you cannot install additional packages. Unfortunately, it is not possible to connect your own Conda environment to Jupyter on this cluster.
-    
-    You can find more information about running Jupyter notebooks on SuperCloud [here](https://mit-supercloud.github.io/supercloud-docs/jupyter-notebooks/). 
-    
-    NOTE: It may be possible to run your own custom environment on a Jupyter notebook on supercloud. However, right now you cannot open a jupyter notebook with Anaconda 2023a or 2023b, even when using the standard ipykernel. Anaconda 2024b works on Jupyter, but it does not recognize any custom environments. There is no Anaconda 2024b available as a module.
-    -->
+    Jupyter notebooks are available through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > Jupyter Notebook. To run R, you must create a Conda environment with both `r-irkernel` and `jupyterlab` installed (see [R with Conda](#r-with-conda) and [Jupyter](../recipes/jupyter.md#r)). When starting up the notebook, enter the name of your custom Conda environment. Once you launch the session and open your notebook, you may need to change your kernel to R. Your current kernel is shown in the top right, and likely defaults to "Python 3 (ipykernel)". Click this to change it to R.
 
 ## FAQs
 
@@ -146,8 +141,5 @@ You can also set the path from within R:
 Both of these commands essentially prepend your custom path to the library path that already existed.
 
 ## Further Resources
-
-
-[Satori: R on Satori](https://mit-satori.github.io/satori-R.html)
 
 [SuperCloud: Software and Package Management - R Libraries](https://mit-supercloud.github.io/supercloud-docs/software-packages/#r-libraries)

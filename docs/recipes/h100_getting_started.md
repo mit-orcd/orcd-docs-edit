@@ -1,6 +1,5 @@
 ---
 tags:
- - Satori
  - Howto Recipes
  - H100
 ---

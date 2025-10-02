@@ -54,11 +54,6 @@ please email <orcd-help-engaging@mit.edu>.
     Engaging. To register, navigate to the [Engaging OnDemand Portal](https://engaging-ood.mit.edu/)
     and log in.
 
-=== "Satori"
-    If you have an MIT Kerberos account, then you can get an account on Satori.
-    To register, navigate to the [Satori Portal](https://satori-portal.mit.edu/)
-    and log in.
-
 === "SuperCloud"
     Access to SuperCloud is more restrictive and the account generation process
     is more involved. For more information, see the
@@ -129,35 +124,18 @@ SSH key"
 
 See [GitHub's documentation on SSH keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=linux) for more information.
 
-### How do I install PyTorch on Satori?
-
-Satori uses a ppc64le architecture, which is unfortunately not supported by the
-newer versions of many Python packages. As a result, the newest version of
-PyTorch that is available on Satori is version 2.1.2.
-
-The following channels offer more packages that work on the ppc64le
-architecture:
-
-- `https://ftp.osuosl.org/pub/open-ce/current`
-- `https://opence.mit.edu`
-- `https://public.dhe.ibm.com/ibmdl/export/pub/software/server/ibm-ai/conda/`
-- `conda-forge`
-
-You can add these channels with the following command:
-
-```bash
-conda config --prepend channels <channel>
-```
-
-Some users have had more success installing their own version of Miniconda,
-which can be accomplished as such:
-
-```bash
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-ppc64le.sh .
-chmod +x ./Miniconda3-latest-Linux-ppc64le.sh
-./Miniconda3-latest-Linux-ppc64le.sh -b -p ./mc3
-source ./mc3/bin/activate
-```
-
 ### Why doesn't my password work when I try to run the sudo command?
+
 Regular users are not allowed to use sudo on engaging. Engaging is a shared environment. Sudo enables root-level access which allows our system administrators to modify system files, install software and change permissions. If misused unintentionally or accidentally, it could compromise the entire cluster. Therefore, use of sudo is reserved for engaging system administrators who work to secure, maintain, and tune the cluster. If you need specific software and you are having difficultly installing it, contact orcd-help@mit.edu and someone on the staff can assist you. Please see `https://orcd-docs.mit.edu/software/overview/` for more information. 
+
+### What is the `mit_preemptable` partition? What is preemption?
+
+The `mit_preemptable` partition allows you to run programs on lab-owned nodes while they're not being used. While this partition has higher resource limits and longer runtimes than other public partitions like `mit_normal` and `mit_normal_gpu`, jobs submitted to `mit_preemptable` are **low priority** and **preemptable**. See [Preemptable Jobs](running-jobs/overview.md#preemptable-jobs) for more information.
+
+### I got locked out of my Engaging account. How do I restore my access?
+
+People often get locked out of their account due to repeated failed authentication attempts, specifically from Duo 2FA. This is usually caused by third-party software that connects to Engaging over SSH, such as [VS Code](recipes/vscode.md#other-vscode-best-practices-tips-and-tricks). Your account will be automatically re-activated after a bit of time.
+
+### I cannot connect to a compute node using VS Code remote SSH.
+
+Sometimes, when following [our instructions for running VS Code on the cluster](recipes/vscode.md), users are prompted to enter their password when they connect to the compute node and they get "permission denied." This is most often because they do not have an SSH key set up on Engaging. You can do so following [these instructions](accessing-orcd/ssh-setup.md).

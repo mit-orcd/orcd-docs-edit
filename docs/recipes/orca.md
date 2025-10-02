@@ -2,6 +2,7 @@
 tags:
  - ORCA
  - Engaging
+ - Install Recipe
 ---
 
 # Installing ORCA for Personal Use
