@@ -19,13 +19,13 @@ SuperCloud has monthly downtimes on the 2nd Tuesday of each month.
 
 ## Engaging Cluster
 
-The Engaging cluster is a mixed CPU and GPU computing cluster that is openly available to all 
-research projects at MIT. It has around 80,000 x86 CPU cores and 300 
-GPU cards ranging from K80 generation to recent Voltas. Hardware access is through the Slurm 
+The Engaging is the ORCD primary HPC resource and is a mixed CPU and GPU computing cluster that is openly available to all 
+research projects at MIT. It has around 50,000 x86 CPU cores and over 1000 
+GPU cards including A100, RTX6000, H100, H200 and L40S. New, modern hardware is consistently being added to the Engaging cluster. Engaging offers fast flash based storage for each user's scratch space. Hardware access is through the Slurm 
 resource scheduler that supports batch and interactive workloads and allows dedicated reservations.
 The cluster has a large shared file system for working datasets. Additional compute and storage 
 resources can be purchased by PIs. A wide range of standard software is available and the Docker 
-compatible Singularity container tool is supported. User-level tools like Anaconda for Python, 
+compatible Apptainer container tool is supported. User-level tools like Miniforge for Python, 
 R libraries, and Julia packages are all supported. A range of PI group maintained custom software 
 stacks are also available through the widely adopted environment modules toolkit. A standard, 
 open-source, web-based portal supporting Jupyter notebooks, R studio, Mathematica, and X graphics 
@@ -44,7 +44,7 @@ Connecting to the cluster for the first time through its [web portal](https://en
 ## SuperCloud
 
 The SuperCloud system is a collaboration with MIT Lincoln Laboratory on a shared facility that 
-is optimized for streamlining open research collaborations with Lincoln Laboratory  (e.g.,  [AIA](https://aia.mit.edu/research/), [BW](https://beaverworks.ll.mit.edu/CMS/bw/collaborators), [CQE](https://cqe.mit.edu/people/), [Haystack](https://www.haystack.mit.edu/haystack-directory/), [HPEC](https://ieee-hpec.org/index.php/technical-committee/), [ISN](https://isn.mit.edu/people)). The facility is open to those with a Lincoln Laboratory collaboration. The latest SuperCloud system has more than 16,000 x86 CPU cores  and more than 850 NVidia Volta GPUs in total. Hardware access is through the Slurm resource scheduler that supports batch and interactive workloads and allows dedicated reservations. A wide range of standard software is available and the Docker compatible Singularity container tool is supported. User-level tools like Anaconda for Python, R libraries, and Julia packages are all supported. A custom, web-based portal supporting Jupyter notebooks is available at [https://txe1-portal.mit.edu/](https://txe1-portal.mit.edu/). Further information and support is available at <supercloud@mit.edu>.
+is optimized for streamlining open research collaborations with Lincoln Laboratory (e.g.,  [AIA](https://aia.mit.edu/research/), [BW](https://beaverworks.ll.mit.edu/CMS/bw/collaborators), [CQE](https://cqe.mit.edu/people/), [Haystack](https://www.haystack.mit.edu/haystack-directory/), [HPEC](https://ieee-hpec.org/index.php/technical-committee/), [ISN](https://isn.mit.edu/people)). The facility is open to those with a Lincoln Laboratory collaboration. The latest SuperCloud system has more than 16,000 x86 CPU cores  and more than 850 NVidia Volta GPUs in total. Hardware access is through the Slurm resource scheduler that supports batch and interactive workloads and allows dedicated reservations. A wide range of standard software is available and the Docker compatible Singularity container tool is supported. User-level tools like Anaconda for Python, R libraries, and Julia packages are all supported. A custom, web-based portal supporting Jupyter notebooks is available at [https://txe1-portal.mit.edu/](https://txe1-portal.mit.edu/). Further information and support is available at <supercloud@mit.edu>.
 
 ### How to Get an Account on SuperCloud
 
@@ -59,10 +59,8 @@ To request a SuperCloud account follow the instructions on SuperCloud's [Request
 
 ## OpenMind
 
-The OpenMind system is a collaboration with Department of Brain and Cognitive Sciences (BCS) and McGovern Institute. OpenMind is mainly a GPU computing cluster optimized for artificial intelligence (AI) research and data science. Totally there are around 70 compute nodes, 3500 CPU cores, 48 TB of RAM, and 340 GPUs, including 142 A100-80GB GPUs. It also provides around 2 PB of flash storage supporting fast read/write data speed. Hardware access is through the Slurm resource scheduler that supports batch and interactive workload and allows dedicated reservations. A wide range of standard software is available and Docker compatible Apptainer/Singularity container tool is supported. User-level tools like Anaconda for Python, R libraries, and Julia packages are all supported. Further information and support is available at <orcd-help-openmind@mit.edu>.
+The OpenMind system is a collaboration with Department of Brain and Cognitive Sciences (BCS) and McGovern Institute. OpenMind is mainly a GPU computing cluster optimized for artificial intelligence (AI) research and data science. Totally there are around 70 compute nodes, 3500 CPU cores, 48 TB of RAM, and 340 GPUs, including 142 A100-80GB GPUs. It also provides around 2 PB of flash storage supporting fast read/write data speed. Hardware access is through the Slurm resource scheduler that supports batch and interactive workload and allows dedicated reservations. A wide range of standard software is available and Docker compatible Apptainer/Singularity container tool is supported. User-level tools like Anaconda for Python, R libraries, and Julia packages are all supported. OpenMind is slated for retirement, users are moving to the Engaging cluster.  Further information and support is available at <orcd-help-openmind@mit.edu>.
 
-### How to Get an Account on OpenMind
-Accounts will be available for MIT users in 2024.
 
 ### OpenMind Quick Links
 
