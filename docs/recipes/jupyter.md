@@ -142,6 +142,7 @@ allows you to access the notebook, which will look like the following:
 ![](../images/jupyter/jupyter_link.png)
 
 
+Make sure to select the second URL that is provided as outlined in yellow above. 
 We cannot use this link right away because that node is not available from our
 local machine. Through "tunneling," however, we can access this node through
 a login node, which is accessble from our local machine.
