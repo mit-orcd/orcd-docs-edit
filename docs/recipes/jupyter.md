@@ -130,78 +130,39 @@ Now, we can run the notebook. To be able to access it on our local machine, we
 need to add a few arguments:
 
 ```bash
-jupyter-lab --ip=0.0.0.0 --port=8888
+port=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()')
+jupyter-lab --ip=0.0.0.0 --port=$port
 ```
 
-The port can be any number between 1024 and 65535.
-
-!!! note
-    You can also set the port to one that you know is open as such:
-
-    ```bash
-    port=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()')
-    jupyter-lab --ip=0.0.0.0 --port=$port
-    ```
+The port can be any number between 1024 and 65535, and the first command above ensures getting an open port.
 
 When you run the notebook, the output will contain a link with a token that
-allows you to access the notebook:
+allows you to access the notebook, which will look like the following:
 
-```
-http://127.0.0.1:<remote port>/lab?token=<token>
-```
+![](../images/jupyter/jupyter_link.png)
 
-For example:
 
-```
-http://127.0.0.1:8888/lab?token=7e97d59f9a17c91c11289bc5bec35ad3921725c6db55fe33
-```
-
-We cannot use this link directly yet because that node is not available from our
+We cannot use this link right away because that node is not available from our
 local machine. Through "tunneling," however, we can access this node through
 a login node, which is accessble from our local machine.
 
-In a second terminal window on your local machine, set up an SSH tunnel to your
+In a second terminal window on your **local machine**, set up an SSH tunnel to your
 Jupyter notebook that's running on the compute node, filling in the node name,
-port number, and username as necessary:
+port number, and username as necessary. We will keep the local port and the remote port the same for simplicity.
 
 === "Engaging"
 
     ```bash
-    ssh -L <local port>:<node>:<remote port> <USER>@orcd-login001.mit.edu
-    ```
-
-    In general, it's easier if you keep the local port and the remote port as
-    the same number:
-
-    ```bash
-    ssh -L 8888:<node>:8888 <USER>@orcd-login001.mit.edu
+    ssh -L <port>:<node>:<port> <USER>@orcd-login001.mit.edu
     ```
 
 === "SuperCloud"
 
     ```bash
-    ssh -L <local port>:<node>:<remote port> <USER>@txe1-login.mit.edu
+    ssh -L <port>:<node>:<port> <USER>@txe1-login.mit.edu
     ```
 
-    In general, it's easier if you keep the local port and the remote port as
-    the same number:
-
-    ```bash
-    ssh -L 8888:<node>:8888 <USER>@txe1-login.mit.edu
-    ```
-
-Now you can access Jupyter in an internet browser:
-
-```
-http://127.0.0.1:<local port>/lab?token=<token>
-```
-
-If you kept the local and remote ports as the same number, then you can directly
-copy the link that was given to you earlier:
-
-```
-http://127.0.0.1:8888/lab?token=7e97d59f9a17c91c11289bc5bec35ad3921725c6db55fe33
-```
+Now you can access Jupyter in an internet browser using the link we received above.
 
 Now you can open a Jupyter notebook and select your kernel from the top right
 corner. The Python environment is the same environment you used to run the
