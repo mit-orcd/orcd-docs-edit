@@ -11,7 +11,15 @@ you need to create multiple login sessions. The _ControlChannel_ feature of [Ope
 be used to create multiple SSH sessions tied to a single Two Factor sign on. Using this feature 
 means you can log in with Two Factor authentication once, then subsequent ssh login sessions will use the first ssh connection and Two Factor will not be needed. This will last until the initial connection is disconnected.
 
-This page describes how to use the _ControlChannel_ feature.
+### SSH ControlChannel and VSCode
+
+This setup is very helpful when using Visual Studio Code's Remote - SSH extension.
+
+When VS Code connects to a remote server, it doesn't just open one connection. It opens multiple, simultaneous SSH sessions in the background to handle different tasks: one for the file explorer, one for the integrated terminal, others for language servers, debuggers, and extensions.
+
+Without a control channel: If your server requires multi-factor authentication (MFA), VSCode's attempt to open these many connections at once can trigger a "storm" of MFA prompts. You get bombarded with notifications, and the editor may fail to connect properly.
+
+With a control channel: The experience is completely different.  VS Code establishes the initial "master" connection, and you approve a single MFA prompt. Every other connection VS Code needs is then instantly multiplexed through the existing socket. 
 
 ## Use of SSH ControlChannel
 
