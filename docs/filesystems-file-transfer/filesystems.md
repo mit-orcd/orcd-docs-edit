@@ -12,7 +12,7 @@ See the table below for a description of each storage space. If your account was
     | Storage Type      | <div style="width:18em">Path</div> | Quota | Backed up | Purpose/Notes |
     | ----------- | ----------- |----------- |----------- |----------- |
     | Home Directory <br> Flash  | `/home/<username>` | 200 GB | Backed up with snapshots | Use for important files and software |
-    | Pool <br> Hard Disk | `/home/<username>/orcd/pool` | 1 TB | Disaster recovery backup | Storing larger datasets |
+    | Pool <br> Hard Disk | `/home/<username>/orcd/pool` | 1 TB | **Not backed up** | Storing larger datasets |
     | Scratch <br> Flash | `/home/<username>/orcd/scratch` | 1 TB | **Not backed up** | Scratch space for I/O heavy jobs |
 
     !!! warning  "Scratch is Not Backed Up"
