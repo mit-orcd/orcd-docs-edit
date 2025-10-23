@@ -1,6 +1,6 @@
 ---
 tags:
- - Logging in with SSH
+ - Logging In
 ---
 
 # Logging in with SSH via Terminal

@@ -1,29 +1,15 @@
 ---
 tags:
- - Engaging
- - Howto Recipes
+ - Logging In
 ---
 
-# Using SSH ControlChannel to Streamline Two Factor SSH
+# Using SSH ControlChannel to Streamline Two-Factor SSH
 
-Two factor logins for SSH login sessions add security but they can be cumbersome to work with when 
-you need to create multiple login sessions. The _ControlChannel_ feature of [OpenSSH](https://www.openssh.com/) can 
-be used to create multiple SSH sessions tied to a single Two Factor sign on. Using this feature 
-means you can log in with Two Factor authentication once, then subsequent ssh login sessions will use the first ssh connection and Two Factor will not be needed. This will last until the initial connection is disconnected.
-
-### SSH ControlChannel and VSCode
-
-This setup is very helpful when using Visual Studio Code's Remote - SSH extension.
-
-When VS Code connects to a remote server, it doesn't just open one connection. It opens multiple, simultaneous SSH sessions in the background to handle different tasks: one for the file explorer, one for the integrated terminal, others for language servers, debuggers, and extensions.
-
-Without a control channel: If your server requires multi-factor authentication (MFA), VSCode's attempt to open these many connections at once can trigger a "storm" of MFA prompts. You get bombarded with notifications, and the editor may fail to connect properly.
-
-With a control channel: The experience is completely different.  VS Code establishes the initial "master" connection, and you approve a single MFA prompt. Every other connection VS Code needs is then instantly multiplexed through the existing socket. 
+Two-factor logins for SSH login sessions add security but they can be cumbersome to work with when you need to create multiple login sessions. The **ControlChannel** feature of [OpenSSH](https://www.openssh.com/) can be used to create multiple SSH sessions tied to a single two-factor sign on. Using this feature means you can log in with two-factor authentication once, then subsequent ssh login sessions will use the first ssh connection and two-factor will not be needed. This will last until the initial connection is disconnected.
 
 ## Use of SSH ControlChannel
 
-The Simplest way to use th _ControlChannel_ option is to create a section in the file `~/.ssh/config` that activates the _ControlChannel_ feature on the nodes you use to connect. An example section is show below: 
+The simplest way to use the ControlChannel option is to create a section in the file `~/.ssh/config` that activates the ControlChannel feature on the nodes you use to connect. An example section is show below: 
 
 ```yaml title="~/.ssh/config"
 Host orcd-login
@@ -35,11 +21,9 @@ Host orcd-login
 ```
 
 Replace `USERNAME` with the username you use on Engaging. In the 
-configuration file examples the `ControlPersist` option is not required, but is shown to 
-illustrate its use to keep the primary connection open for a time after that login 
-session is exited.
+configuration file examples the `ControlPersist` option is not required, but can be used to keep the primary connection open for a set time after that login session is exited. `ControlPersist` only works if you remain connected to the internet.
 
-To use the *ControlChannel* setup ssh using the name listed in the "Host" entry, in this example `orcd-login`:
+To use the ControlChannel setup ssh using the name listed in the "Host" entry, in this example `orcd-login`:
 
 === "First Connection"
     ```
@@ -70,7 +54,16 @@ To use the *ControlChannel* setup ssh using the name listed in the "Host" entry,
 
 In this case you don't need to include your username because it is included in the `~/.ssh/config` file.
 
-Your initial connection will prompt you for your Kerberos password and Duo Two-Factor authentication. Additional connections will prompt you for a Kerberos password, unless you have ssh keys setup. If you have ssh keys you will only be prompted for your Kerberos password at the first login as part of the Two-Factor authentication, and additional connections will not require a Kerberos password.
+Your initial connection will prompt you for your Kerberos password and Duo two-factor authentication. Additional connections will prompt you for a Kerberos password, unless you have ssh keys setup. If you have ssh keys you will only be prompted for your Kerberos password at the first login as part of the two-factor authentication, and additional connections will not require a Kerberos password.
 
-Port forwarding and X session forwarding is bound to the initial _ControlChannel_ ssh session.
+Port forwarding and X session forwarding is bound to the initial ControlChannel ssh session.
 
+## SSH ControlChannel and VSCode
+
+This setup is very helpful when using Visual Studio Code's Remote - SSH extension. When VS Code connects to a remote server, it doesn't just open one connection. It opens multiple, simultaneous SSH sessions in the background to handle different tasks: one for the file explorer, one for the integrated terminal, others for language servers, debuggers, and extensions.
+
+Without a control channel: If your server requires two-factor authentication , VS Code's attempt to open these many connections at once can trigger a "storm" of two-factor prompts. You get bombarded with notifications, and the editor may fail to connect properly.
+
+With a control channel: The experience is completely different.  VS Code establishes the initial "master" connection, and you approve a single two-factor prompt. Every other connection VS Code needs is then instantly multiplexed through the existing socket.
+
+There are some additional settings that make using VS Code with Engaging much easier with two-factor. See our [VS Code Tips and Tricks](https://orcd-docs.mit.edu/recipes/vscode/#other-vscode-best-practices-tips-and-tricks), particularly the "Connection Timeout" and "Max Reconnection Attempts" settings.
