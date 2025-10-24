@@ -1,6 +1,6 @@
 ---
 tags:
- - Logging in with SSH
+ - Logging In
 ---
 
 # Logging in with SSH via Terminal
@@ -21,7 +21,7 @@ Follow the directions below based on your operating system:
 === "Windows"
     Windows systems offer multiple terminal options: Windows Terminal, Command Prompt, and PowerShell. The best way to get a terminal depends on your version of Windows. Starting at Windows 10, the Windows Subsystem for Linux (WSL) is available, allowing you to run Linux as an application in Windows. You can also use the Windows Command Prompt if you have SSH enabled. For older versions of Windows, install a terminal program that supports bash.
 
-    ####**Windows 10 and Up**
+    ####**Windows**
     You have two options:  
 
     1. **Windows Command Prompt (CMD):** Comes with all Windows computers and supports SSH with little to no setup. However, it lacks some tools for transferring files and uses different commands than Linux.  
@@ -34,31 +34,17 @@ Follow the directions below based on your operating system:
     ####**Older Windows Versions**  
     For older Windows versions, install a terminal that supports bash and SSH, such as MobaXterm. Follow the instructions on this [Page](https://mobaxterm.mobatek.net/) to install MobaXterm and create a local shell.
 
-    ####Other Notes about Windows  
-    Some programs may seem like valid terminals for accessing SuperCloud but are not ideal. Here are a few examples and why they are not recommended:
-
-    - <u>Windows Command Prompt (pre-Windows 10):</u> Does not natively support bash or SSH commands.
-    - <u>Windows PowerShell (pre-Windows 10):</u> Similar to Command Prompt, it does not natively support bash or SSH commands.
-    - <u>PuTTY:</u> A GUI-based program that is tricky to set up with SSH keys and requires a separate program for file transfers.
-
 ## Logging in via SSH
 Once you have your terminal set up for your specific operating system, you can use SSH to access our HPC systems. Follow the commands below for your desired system.
 
 === "Engaging"
-    The Engaging Cluster has 4 Rocky 8 login nodes: 
-
-    - orcd-login001.mit.edu  
-    - orcd-login002.mit.edu 
-    - orcd-login003.mit.edu
-    - orcd-login004.mit.edu
-    
-    To login via the command line, run the SSH command:
+    You can login to Engaging via the command line with the SSH command:
     ```bash 
-    ssh [username]@[host]
+    ssh [username]@orcd-login.mit.edu
     ```
-    Replace `[username]` with your MIT Kerberos username and `[host]` with the desired login node name (e.g., `ssh your_name@orcd-login001.mit.edu`).
+    Replace `[username]` with your MIT Kerberos username.
 
-    Connecting requires Two-Factor Authentication.
+    Connecting requires Two-Factor Authentication, your MIT Kerberos password and Duo. You can reduce the number of times you need to do Two-Factor Authentication by using [SSH Control Channels](control-channels.md).
 
     If you are still using the older Centos 7 nodes you can use one of the following login nodes instead:
 
