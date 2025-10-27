@@ -9,6 +9,13 @@ VSCode is a convenient IDE for development, and one of its nicest features is it
 
 Once you've installed the RemoteSSH extension this is fairly easy to set up. However, it is also very easy to set up in such a way that it is not only slow for you, but it also puts excess load on the login nodes and in turn slows things down for others on that node. Luckily, with a few extra steps you can run VSCode on a compute node where it can have more resources to run and won't impact others as much.
 
+## Adjust the RemoteSSH Extension Settings
+
+Before you start, it is helpful to adjust VSCode's [RemoteSSH Extension settings](vscode://settings/remote.SSH). Sometimes VS Code may cause you to be locked out of your Engaging account because it makes repeated Duo authentication attempts. To mitigate this behavior, edit a few of the VS Code settings:
+
+- [Remote.SSH: Connect Timeout](vscode://settings/remote.SSH.connectTimeout): Set to 60 seconds. Making this longer gives you more time to accept the Duo push before the RemoteSSH extension tries again.
+- [Remote.SSH: Max Reconnection Attempts](vscode://settings/remote.SSH.maxReconnectionAttempts): Set to 0. This prevents RemoteSSH from trying to reconnect automatically over and over, sending you Duo pushes when you aren't expecting them. This is what usually causes the lockout. When you set this to 0 VSCode will ask you before trying to reconnect. You can also safely set this to 1 to allow it to make a single reconnection attempt.
+
 ## Setting up your Config File
 
 Click the "Open a Remote Window" button in the bottom left corner of your VSCode window (It is a small blue rectangle labeled with `><`). In the bar at the top of the page select "Connect to Host...", then "Configure SSH Hosts", and select first option, which will differ depending on your operating system. This will open your config file in a VSCode tab.
@@ -17,9 +24,14 @@ To run on a compute node you will need at least 2 entries in this file. The firs
 
 === "Engaging"
 
+    In this config file we are including some settings for [Control Channels](../accessing-orcd/control-channels.md), for convenience. Control channels minimize the number of 2-Factor prompts that you get when connecting.
+
     ```yaml title="config"
     Host orcd-login
-      HostName orcd-login001.mit.edu
+      HostName orcd-login.mit.edu
+      ControlMaster auto
+      ControlPath ~/.ssh/%r@%h:%p
+      ControlPersist 300s
       User USERNAME
 
     Host orcd-compute
@@ -28,13 +40,9 @@ To run on a compute node you will need at least 2 entries in this file. The firs
       ProxyJump orcd-login
     ```
 
-    !!! note
-        If you are using one of the login nodes that requires 2-Factor authentication be ready to receive your default 2-Factor prompt when you connect. If you do not respond right away the connection will time out.
-    
-    !!! note
-        To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to the [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
+    When make any initial connections you will be asked for your password in the bar at the top of the window, followed by which 2-Factor method you would prefer. Enter "1" for the default method that you've set up. After responding to your 2-factor authentication you should be connected. If you include the Control Channel settings above as long as your initial connection isn't disconnected additional connections won't require you to enter your password or respond to a 2-factor prompt again.
 
-=== "Open Mind"
+=== "OpenMind"
 
     ```yaml title="config"
     Host om-login
@@ -47,8 +55,8 @@ To run on a compute node you will need at least 2 entries in this file. The firs
       ProxyJump om-login
     ```
 
-    !!! note
-        To use VSCode on a compute node, an SSH key is necessary. If you haven't set up SSH keys yet, refer to the [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
+!!! note
+    To use VSCode on a compute node, an SSH key is required. If you haven't set up SSH keys yet, refer to the [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
 
 Replace `USERNAME` with your username on the system you are connecting to. We will fill in "nodename" later.
 
@@ -170,14 +178,9 @@ Here is what this might look like for Engaging:
 ## Other VSCode Best Practices, Tips, and Tricks
 
 - Avoid running VSCode through RemoteSSH on the login nodes. If you are only editing files this might be okay, although it is not encouraged. Beyond editing files please use a compute node for VSCode, as described on this page.
-- Add the specific directories you need to your workspace. VSCode constantly scans all the files files and runs git commands on any local git repositories in your workspace, and it does this recursively. For this reason adding high-level directories to your workspace can slow things down quite a bit. For example, avoid adding your entire home directory or group storage to your VSCode session workspace.
-- If you are having trouble authenticating, particularly if you are prompted for a password or 2 Factor authentication options, you can set `"remote.SSH.showLoginTerminal": true` in your settings.json file. See [this page](https://code.visualstudio.com/docs/remote/troubleshooting#_enabling-alternate-ssh-authentication-methods) for more information.
+- Add only the specific directories you need to your workspace. VSCode constantly scans all the files files and runs git commands on any local git repositories in your workspace, and it does this recursively. For this reason adding high-level directories to your workspace can slow things down quite a bit. For example, avoid adding your entire home directory or group storage to your VSCode session workspace.
 - If VSCode is slow to start up on an ORCD System, check to see whether you are activating a conda environment at login. If you are, run the command `conda config --set auto_activate_base false` to prevent this. You will only have to do this once.
-- Sometimes, VS Code may cause you to be locked out of your Engaging account because it makes repeated Duo authentication attempts. To mitigate this behavior, you can try editing a few of the VS Code settings:
-    - [Remote.SSH: Connect Timeout](vscode://settings/remote.SSH.connectTimeout): Making this longer gives you more time to accept the Duo push before the RemoteSSH extension tries again. The default is 15 seconds, doubling it to 30 might be a good number to try.
-    - [Remote.SSH: Max Reconnection Attempts](vscode://settings/remote.SSH.maxReconnectionAttempts): This prevents RemoteSSH from trying to reconnect automatically over and over, sending you Duo pushes when you aren't expecting them. This is what usually causes the lockout. I'd set it to 0 or 1 depending on your preference.
+- Sometimes, VS Code may cause you to be locked out of your Engaging account because it makes repeated Duo authentication attempts. To mitigate this behavior, edit a few of the VS Code settings:
+    - [Remote.SSH: Connect Timeout](vscode://settings/remote.SSH.connectTimeout): Set to 60 seconds. Making this longer gives you more time to accept the Duo push before the RemoteSSH extension tries again.
+    - [Remote.SSH: Max Reconnection Attempts](vscode://settings/remote.SSH.maxReconnectionAttempts): Set to 0. This prevents RemoteSSH from trying to reconnect automatically over and over, sending you Duo pushes when you aren't expecting them. This is what usually causes the lockout. When you set this to 0 VSCode will ask before trying to reconnect. You can also safely set this to 1 to allow it to make a single reconnection attempt.
     - [Remote.SSH: Show Login Terminal](vscode://settings/remote.SSH.showLoginTerminal): Checking this box would let you see useful debugging information while VS Code is starting up.
-
-<!--
-TODO: Add link to Conda best practices once it is written.
--->
