@@ -1,134 +1,157 @@
 ---
 tags:
  - MPI
- - RELION
- - Howto Recipes
  - Install Recipe
 ---
 
-!!! warning
-    This page has been archived. The information present is not updated and may no longer be accurate.
+# Installing RELION on Engaging
 
-# Installing and Using RELION
+RELION (REgularised LIkelihood OptimisatioN, pronounced rely-on) is a software package that employs an empirical Bayesian approach for electron cryo-microscopy (cryo-EM) structure determination. This recipe describes how to install RELION 5.0 on Engaging, and is adapted from [this installation guide](https://relion.readthedocs.io/en/release-5.0/Installation.html).
 
-RELION (for REgularised LIkelihood OptimisatioN, pronounce rely-on) is a software package that employs an empirical Bayesian approach for electron cryo-microscopy (cryo-EM) structure determination. 
-
-## RELION on Satori 
-
-This recipe is for building and using RELION on x86 nodes on Satori. It is different from working on IBM power9 nodes on Satori.
-
-!!! Note
-    The x86 nodes are available to some labs only. 
-
-### Install RELION
-
-Go to your directory and download RELION,
-```
-cd /nobackup/users/$USER
-git clone https://github.com/3dem/relion.git
+First, request an interactive job on Engaging so the installation can run more quickly:
+```bash
+salloc -p mit_normal -N 1 -n 4 --mem-per-cpu=4G
 ```
 
-Get an interactive session on x86 nodes of Satori,
-```
-srun -p sched_mit_mbathe -c 2 -t 60 --pty bash
+## Environment Configuration
+
+Set working directory:
+```bash
+WORKDIR=$HOME/software
+mkdir -p $WORKDIR
 ```
 
-Load modules for the GCC compiler and Openmpi implementation,  
-```
-module use /software/spack/share/spack/lmod/linux-rocky8-x86_64/Core
-module load gcc/12.2.0-x86_64  
-module load openmpi/4.1.4-pmi-cuda-ucx-x86_64 
+Load modules:
+```bash
+module load openmpi/5.0.8
+module load cuda/13.0.1
+module load cmake/3.27.9
+module load miniforge/24.3.0-0
 ```
 
-> Note: These modules are installed for the x86 nodes only. 
+### Install Prerequisites
 
-Build RELION with CUDA and FFTW features,
+RELION requires several libraries to be installed: `libtiff`, `libpng`, and `libjpeg`. Install these as follows:
+
+libtiff:
+```bash
+cd $WORKDIR
+wget https://download.osgeo.org/libtiff/tiff-4.7.1rc1.tar.gz
+tar -xf tiff-4.7.1rc1.tar.gz
+mkdir tiff-4.7.1/install
+cd tiff-4.7.1/build
+cmake .. -DCMAKE_INSTALL_PREFIX=$WORKDIR/tiff-4.7.1/install
 ```
-cd ~
-mkdir relion
-cd relion
-git checkout master 
-cd ..
-mkdir 4.0.1
-cd 4.0.1
+
+libpng:
+```bash
+cd $WORKDIR
+wget https://download.sourceforge.net/libpng/libpng-1.6.50.tar.gz
+tar -xf libpng-1.6.50.tar.gz
+cd libpng-1.6.50
 mkdir install
-mkdir build
-cd build
-
-cmake -DCMAKE_INSTALL_PREFIX=/home/$USER/relion/4.0.1/install -DFORCE_OWN_FFTW=ON -DAMDFFTW=ON -DCUDA_ARCH=80 ../../relion
-make
+./configure --prefix=$PWD/install
+make -j $SLURM_NPROCS
 make install
 ```
 
-It is all set for the installation.
-
-### Use RELION
-
-There is a nice Graphical User Interface (GUI) for RELION. To use the GUI, first log in Satori with x-forwarding support,
-```
-ssh -Y <user>@satori-login-002.mit.edu
-```
-
-Get an interactive session with GPU and x-forwarding support on x86 nodes of Satori,
-```
-srun --x11 -p sched_mit_mbathe --gres=gpu:1 -c 6 -t 60 --pty bash
+libjpeg:
+```bash
+cd $WORKDIR
+wget http://www.ijg.org/files/jpegsrc.v9e.tar.gz
+tar -xf jpegsrc.v9e.tar.gz
+cd jpeg-9e
+mkdir install
+./configure --prefix=$PWD/install
+make -j $SLURM_NPROCS
+make install
 ```
 
-Set up environment for compilers, mpi implementation, FFTw, and RELION,
-```
-module use /software/spack/share/spack/lmod/linux-rocky8-x86_64/Core
-module load gcc/12.2.0-x86_64  
-module load openmpi/4.1.4-pmi-cuda-ucx-x86_64 
-module load fftw/3.3.10-x86_64
-export LD_LIBRARY_PATH=/nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-12.2.0/fftw-3.3.10-qiaruimvw6zu2h4f5eolqom7tixem6vk/lib:$LD_LIBRARY_PATH
-export RELION_HOME=/home/$USER/relion/4.0.1/install
-export PATH=${RELION_HOME}/bin:$PATH
-export LD_LIBRARY_PATH=${RELION_HOME}/lib:$LD_LIBRARY_PATH
+## Install RELION
+
+Clone repository:
+```bash
+cd $WORKDIR
+git clone https://github.com/3dem/relion.git
+cd relion
+git checkout ver5.0
+git pull
 ```
 
-then open the RELION GUI, 
-```
-relion &
+If using non-Blackwell GPUs: (talk about which GPUS are blackwell)
+```bash
+conda env create -f environment.yml
 ```
 
-Users can use GUI to edit files or submit jobs. Refer to details on [this page](https://hpc.nih.gov/apps/RELION/index.html). 
-
-Alternatively, users can prepare a batch job script to submit jobs. 
-
-Download RELION benchmarks for testing, 
+If using Blackwell GPUs:
+```bash
+conda env create -f environment_blackwell.yml
 ```
-cd ~/relion
-wget ftp://ftp.mrc-lmb.cam.ac.uk/pub/scheres/relion_benchmark.tar.gz
-```
-then all benchmark files will be saved in a directory named `relion_benchmark`.
 
-Here is an exmaple job script,
+```bash
+mkdir -p build
+cd build
 ```
+
+Made changes here:
+```bash
+cmake -DTIFF_LIBRARY=$WORKDIR/tiff-4.7.1/install/lib64/libtiff.so \
+      -DTIFF_INCLUDE_DIR=$WORKDIR/tiff-4.7.1/install/include \
+      -DPNG_LIBRARY=$WORKDIR/libpng-1.6.50/install/lib/libpng.so \
+      -DPNG_PNG_INCLUDE_DIR=$WORKDIR/libpng-1.6.50/install/include \
+      -DJPEG_LIBRARY=$WORKDIR/jpeg-9e/install/lib/libjpeg.so \
+      -DJPEG_INCLUDE_DIR=$WORKDIR/jpeg-9e/install/include \
+      -DCUDA_ARCH="89" \
+      ..
+```
+
+Install with multiple processes:
+```bash
+make -j $SLURM_NPROCS
+```
+
+Start a new x11 session with a GPU and try it out:
+
+request a job
+
+Add RELION to your path:
+```bash
+export RELION_HOME=$HOME/software/relion/build
+export PATH=$RELION_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$RELION_HOME/lib:$LD_LIBRARY_PATH
+```
+
+Test:
+```bash
 #!/bin/bash
-#SBATCH --partition=sched_mit_mbathe
-#SBATCH --time=12:00:00
+#SBATCH --partition=mit_normal_gpu
+#SBATCH --time=6:00:00
 #SBATCH --nodes=1
-#SBATCH -n 20
+#SBATCH -n 16
 #SBATCH --cpus-per-task=2
-#SBATCH --mem=10000
-#SBATCH --gres=gpu:4
-#SBATCH --chdir='.'
+#SBATCH --mem=64GB
+#SBATCH --gres=gpu:1
 
-module use /software/spack/share/spack/lmod/linux-rocky8-x86_64/Core
-module load gcc/12.2.0-x86_64
-module load openmpi/4.1.4-pmi-cuda-ucx-x86_64
-export LD_LIBRARY_PATH=/nfs/software001/home/software-r8-x86_64/spack-20230328/opt/spack/linux-rocky8-x86_64/gcc-12.2.0/fftw-3.3.10-qiaruimvw6zu2h4f5eolqom7tixem6vk/lib:$LD_LIBRARY_PATH
-export RELION_HOME="/home/$USER/relion/4.0.1/install"
-export PATH=${RELION_HOME}/bin:$PATH
-export LD_LIBRARY_PATH=${RELION_HOME}/lib:$LD_LIBRARY_PATH
+module load openmpi/5.0.8
+module load cuda/13.0.1
+module load miniforge/24.3.0-0
 
-cd ~/relion/relion_benchmark
-mkdir output
+export RELION_HOME=$HOME/software/relion/build
+export PATH=$RELION_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$RELION_HOME/lib:$LD_LIBRARY_PATH
 
-mpirun -np 20 relion_refine_mpi \
-  --i Particles/shiny_2sets.star \
-  --o output \
-  --ref emd_2660.map:mrc \
+export WORKDIR=$HOME/test/relion_proj
+export DATADIR=$HOME/orcd/pool/data/relion_benchmark
+export SCRATCHDIR=/scratch/$USER/relion
+
+#cd ~/relion/relion_benchmark
+mkdir -p $WORKDIR/output
+mkdir -p $SCRATCHDIR
+
+mpirun -np $SLURM_NPROCS relion_refine_mpi \
+  --i $DATADIR/Particles/shiny_2sets.star \
+  --o $WORKDIR/output \
+  --ref $DATADIR/emd_2660.map:mrc \
   --ini_high 60 \
   --pool 100 \
   --pad 2  \
@@ -147,12 +170,19 @@ mpirun -np 20 relion_refine_mpi \
   --norm \
   --scale \
   --j 1   \
-  --gpu "" \
- --dont_combine_weights_via_disc \
-  --scratch_dir /tmp
+  --gpu "0" \
+  --dont_combine_weights_via_disc \
+  --scratch_dir $SCRATCHDIR
 ```
 
-Add the above lines in a file named `job.sh`, then submit the job,
+Got this:
 ```
-sbatch job.sh
+ERROR: CUDA driver version is insufficient for CUDA runtime version in /home/secorey/software/relion/src/ml_optimiser_mpi.cpp at line 141 (error-code 35)
+ERROR: CUDA driver version is insufficient for CUDA runtime version in /home/secorey/software/relion/src/ml_optimiser_mpi.cpp at line 141 (error-code 35)
+ERROR: CUDA driver version is insufficient for CUDA runtime version in /home/secorey/software/relion/src/ml_optimiser_mpi.cpp at line 141 (error-code 35)
+in: /home/secorey/software/relion/src/acc/cuda/cuda_settings.h, line in: /home/secorey/software/relion/src/acc/cuda/cuda_settings.h, line 65
+ERROR: 
+
+A GPU-function failed to execute.
 ```
+
