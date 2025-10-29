@@ -4,7 +4,7 @@ Large HPC systems often have different filesystems for different purposes. ORCD 
 
 ## Engaging
 
-Users each get a Home Directory that is backed up and meant for important files. An additional larger Pool space is provided for storing larger datasets longer term. Larger Scratch space is not backed up. [Additional storage can be purchased](project-filesystems.md), and PIs can request an additional 5TB of shared Pool storage for their lab. The Scratch spaces are meant for data used in actively running jobs. It will be faster to access Scratch during your job for the majority of workloads, but it is not backed up and should not be used for long term storage. Any files that cannot be easily replaced should be stored in Home or Pool storage, or backed up outside of Engaging.
+Users each get a Home Directory that is backed up and meant for important files. An additional larger Pool space is provided for storing larger datasets longer term. [Additional storage can be purchased](project-filesystems.md), and PIs can request an additional 5TB of shared Pool storage for their lab. The Scratch space is meant for data used in actively running jobs. It will be faster to access Scratch during your job for the majority of workloads, but it is not backed up and should not be used for long term storage. Both Pool and Scratch are not backed up. Any files that cannot be easily replaced should either be stored in Home, or backed up outside of Engaging.
 
 See the table below for a description of each storage space. If your account was created before January 2025 and has not yet been migrated to the new storage, select the second tab.
 
@@ -15,8 +15,10 @@ See the table below for a description of each storage space. If your account was
     | Pool <br> Hard Disk | `/home/<username>/orcd/pool` | 1 TB | **Not backed up** | Storing larger datasets |
     | Scratch <br> Flash | `/home/<username>/orcd/scratch` | 1 TB | **Not backed up** | Scratch space for I/O heavy jobs |
 
-    !!! warning  "Scratch is Not Backed Up"
+    !!! warning  "Scratch and Pool are Not Backed Up"
         Scratch is meant for temporary storage while running compute jobs. It is not meant for long term storage and **is not backed up**. **If you have not logged in for 6 months files in scratch will be deleted**. Any files that you would like to keep long-term should be copied onto another storage location with backup.
+        Pool, while meant for longer-term storage than Scratch, is also not backed up.
+        
 === "Account Created Before Jan 2025 or Not Yet Migrated"
     | Storage Type      | <div style="width:12em">Path</div> | Quota | Backed up | Purpose/Notes |
     | ----------- | ----------- |----------- |----------- |----------- |
