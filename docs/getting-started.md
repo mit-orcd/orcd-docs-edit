@@ -46,12 +46,12 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
 ### Terminal with SSH
 
 === "Engaging"
-    Engaging has four login nodes running Rocky 8:
-    
-    - `orcd-login001`
-    - `orcd-login002`
-    - `orcd-login003`
-    - `orcd-login004`
+    Log into Engaging with the following command in a terminal window. Replace `USERNAME` below with your MIT Kerberos username:
+
+    ```bash
+    ssh USERNAME@orcd-login.mit.edu
+    ```
+    You will be prompted for your Kerberos password and then for Duo two-factor authentication.
     
     If you are using older Centos 7 nodes you can use one of the Centos 7 login nodes instead:
     
@@ -59,14 +59,8 @@ you can log in. The different ORCD systems provide multiple ways to log in, incl
     - `orcd-vlogin002`
     - `orcd-vlogin003`
     - `orcd-vlogin004`
-    
-    Replace `USERNAME` below with your Kerberos username and use the login node you would like to log in with, the example below is using `orcd-login001`.
 
-    ```bash
-    ssh USERNAME@orcd-login001.mit.edu
-    ```
-
-    If you are prompted for a password enter your Kerberos password.  You can add an ssh key if you do not want to enter your Kerberos password at login, see the [SSH Key](accessing-orcd/ssh-setup.md) page for more information. All login nodes require Two-Factor Authentication.
+    See [Logging in with SSH](accessing-orcd/ssh-login.md/#logging-in-via-ssh) for more information.
 
 === "SuperCloud"
 
