@@ -200,7 +200,7 @@ cd $WORKDIR
 
 mpirun -np $SLURM_NPROCS relion_refine_mpi \
   --i $WORKDIR/Particles/shiny_2sets.star \
-  --o $WORKDIR/output \
+  --o $WORKDIR/output/$SLURM_JOB_ID \
   --ref $WORKDIR/emd_2660.map:mrc \
   --ini_high 60 \
   --pool 100 \
