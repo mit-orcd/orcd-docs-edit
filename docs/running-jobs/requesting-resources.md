@@ -118,15 +118,22 @@ If the `MaxRSS` value is larger than what you have requested, or you run out of 
 
 GPUs are available through the `mit_normal_gpu` partition. You can also run [preemptable](./overview.md#preemptable-jobs) GPU jobs on the `mit_preemptable` partition.
 
-To request a GPU use the `--gres` flag in the following way:
+To request a GPU use the `-G` or `--gpus` flag in one of the two following ways:
 
 ```bash
---gres=gpu:[GPU_TYPE]:[#GPUS]
+-G [#GPUS]
 ```
 
-For example, to request 1 L40S GPU, use the flag `--gres=gpu:l40s:1`, or to request 2 H100 GPUs use the flag `--gres=gpu:h200:2`. If you don't request a GPU type you will be allocated an L40S GPU.
+or
 
-The `--gres` flag is applied per node, so for a multi-node (distributed) GPU job use the number of GPUs you need per node rather than the total number of GPUs.
+```bash
+-G [GPU_TYPE]:[#GPUS]
+```
+
+
+For example, to request 1 L40S GPU, use  the flag `-G l40s:1`. To request 2 H200 GPUs use the flag `-G h200:2`. If you don't request a GPU type on `mit_normal_gpu` or `mit_preemptable` you will be allocated an L40S GPU.
+
+If you are running a multi-node (distributed) GPU job use the `--gpus-per-node` flag and specify the number of GPUs you need per node rather than the total number of GPUs.
 
 You can see how many GPUs of which type are on each node in a partition using the `sinfo` command. For example, to check `mit_normal_gpu` run the command:
 
@@ -134,4 +141,11 @@ You can see how many GPUs of which type are on each node in a partition using th
 sinfo -p mit_normal_gpu -O Partition,Nodes,CPUs,Memory,Gres
 ```
 
+!!! warning "Requesting CPUs in GPU Jobs"
+    To make sure there are enough CPUs for each GPU to accept jobs, we reserve a certain number of CPUs for each GPU. If you request too many CPUs (more than the number of CPUs divided by number of GPUs), then your job may not run or may be allocated an extra GPU, which will count against your allocation. Below is a table that shows the number of CPUs per GPU for nodes in `mit_normal`.
+
+    | GPU Type| Number of GPUs on Node | Available CPUs per GPU |
+    | ----------- | ----------- |----------- |
+    | L40S | 4 | 16 |
+    | H200 | 8 | 15 |
 
