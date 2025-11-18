@@ -98,7 +98,7 @@ If any of these are not set properly you can set them as described above (see [h
 If you’d like you can run the few example lines listed on install section of the mujoco-py github page to verify the install went through properly:
 
 ```python
---8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/mujoco_test.py"
+--8<-- "docs/recipes/scripts/mujoco/mujoco_test.py"
 ```
 
 ## Using MuJoCo in a Job
@@ -108,13 +108,13 @@ To use MuJoCo you’ll need to first load the same Python or Anaconda module you
 You can use the following test scripts to test your MuJoCo setup in a job environment, and as a starting point for your own job:
 
 ``` py title="mujoco_test.py"
---8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/mujoco_test.py"
+--8<-- "docs/recipes/scripts/mujoco/mujoco_test.py"
 ```
 
 === "Engaging"
 
     ``` bash title="submit_test.sh"
-    --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/submit_test_engaging.sh"
+    --8<-- "docs/recipes/scripts/mujoco/submit_test_engaging.sh"
     ```
 
 === "SuperCloud"
@@ -122,5 +122,5 @@ You can use the following test scripts to test your MuJoCo setup in a job enviro
     Now whenever you use mujoco-py the installation will need to be on the local disk of the node(s) where you are running. In your job script you can add a few lines of code that will check whether the environment exists on the local disk, and if not copy it. You can run these lines during an interactive job as well.
 
     ``` bash title="submit_test.sh"
-    --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mujoco/submit_test_supercloud.sh"
+    --8<-- "docs/recipes/scripts/mujoco/submit_test_supercloud.sh"
     ```
