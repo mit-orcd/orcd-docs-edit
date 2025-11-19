@@ -134,7 +134,12 @@ The `mit_preemptable` partition allows you to run programs on lab-owned nodes wh
 
 ### I got locked out of my Engaging account. How do I restore my access?
 
-People often get locked out of their account due to repeated failed authentication attempts, specifically from Duo 2FA. This is usually caused by third-party software that connects to Engaging over SSH, such as [VS Code](recipes/vscode.md#other-vscode-best-practices-tips-and-tricks). Your account will be automatically re-activated after a bit of time.
+People often get locked out of their account due to repeated failed authentication attempts, specifically from Duo two-factor authentication. This is usually caused by third-party software that connects to Engaging over SSH, such as [VS Code](recipes/vscode.md#other-vscode-best-practices-tips-and-tricks). Your account will be automatically re-activated after a bit of time.
+
+There are two things that can help:
+
+1. Use [Control Channels](https://orcd-docs.mit.edu/accessing-orcd/control-channels/) to reduce the number of times you have to respond to Duo.
+2. If you use VSCode, adjust the [VSCode Remote SSH settings](https://orcd-docs.mit.edu/recipes/vscode/#adjust-the-remotessh-extension-settings), which will allow for more time to connect and reduce the number of auto-reconnect attempts.
 
 ### I cannot connect to a compute node using VS Code remote SSH.
 
