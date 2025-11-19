@@ -118,20 +118,29 @@ If the `MaxRSS` value is larger than what you have requested, or you run out of 
 
 GPUs are available through the `mit_normal_gpu` partition. You can also run [preemptable](./overview.md#preemptable-jobs) GPU jobs on the `mit_preemptable` partition.
 
-To request a GPU use the `-G` or `--gpus` flag in one of the two following ways:
+To request a GPU use the `-G` or `--gpus` flag and specify the number of GPUs that you need for the job (ex: `-G 1`). If you need a specific type of GPU specify that type with the pattern `-G [GPU_TYPE]:[#GPUS]`. 
+
+For example, to request 1 L40S GPU, use  the flag `-G l40s:1`. To request 2 H200 GPUs use the flag `-G h200:2`. If you don't specify a GPU type on `mit_normal_gpu` or `mit_preemptable` you will be allocated an L40S GPU. L40S GPUs are good for most machine learning workloads. H200s should be reserved for jobs that require more memory than an L40S or require high precision (float 64).
+
+An example batch script that requests 4 cores and 1 GPU on the `mit_normal_gpu` partition to run a Python script would be:
 
 ```bash
--G [#GPUS]
+#!/bin/bash
+
+# Job Flags
+#SBATCH -p mit_normal_gpu
+#SBATCH -c 4
+#SBATCH -G 1
+
+# Set up environment
+module load miniforge
+
+# Run your application
+python myscript.py
 ```
 
-or
-
-```bash
--G [GPU_TYPE]:[#GPUS]
-```
-
-
-For example, to request 1 L40S GPU, use  the flag `-G l40s:1`. To request 2 H200 GPUs use the flag `-G h200:2`. If you don't request a GPU type on `mit_normal_gpu` or `mit_preemptable` you will be allocated an L40S GPU.
+!!! warning "Requesting too many CPUs may use up your allocation"
+    To make sure there are enough CPUs for each GPU to accept jobs, we reserve a certain number of CPUs for each GPU. If you request too many CPUs (more than the number of CPUs divided by number of GPUs), then your job may not run or may be allocated an extra GPU, which will count against your allocation. See the table below for the number of CPUs available per GPU on `mit_normal_gpu`.
 
 If you are running a multi-node (distributed) GPU job use the `--gpus-per-node` flag and specify the number of GPUs you need per node rather than the total number of GPUs.
 
@@ -141,11 +150,11 @@ You can see how many GPUs of which type are on each node in a partition using th
 sinfo -p mit_normal_gpu -O Partition,Nodes,CPUs,Memory,Gres
 ```
 
-!!! warning "Requesting CPUs in GPU Jobs"
-    To make sure there are enough CPUs for each GPU to accept jobs, we reserve a certain number of CPUs for each GPU. If you request too many CPUs (more than the number of CPUs divided by number of GPUs), then your job may not run or may be allocated an extra GPU, which will count against your allocation. Below is a table that shows the number of CPUs per GPU for nodes in `mit_normal`.
+Below is a summary of the GPU nodes in `mit_normal_gpu`. See the [Available Resources](available-resources.md#mit_normal_gpu) page for more details.
 
-    | GPU Type| Number of GPUs on Node | Available CPUs per GPU |
-    | ----------- | ----------- |----------- |
-    | L40S | 4 | 16 |
-    | H200 | 8 | 15 |
+| GPU Type| Number of GPUs on Node | GPU Memory | Number of CPUs on Node |Available CPUs per GPU |
+| ----------- | ----------- | ----------- | ----------- |----------- |
+| L40S | 4 | 44GB | 64 | 16 |
+| H200 | 8 | 140GB | 120 | 15 |
+
 
