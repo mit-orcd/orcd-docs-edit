@@ -19,7 +19,7 @@ adapted from [these instructions](https://guide.cryosparc.com/setup-configuratio
 First, connect to the Engaging cluster:
 
 ```bash
-ssh $USER@orcd-login001.mit.edu
+ssh <username>@orcd-login.mit.edu
 ```
 
 You will need to obtain a CryoSPARC license ID [here](https://guide.cryosparc.com/setup-configuration-and-management/how-to-download-install-and-configure/obtaining-a-license-id).
