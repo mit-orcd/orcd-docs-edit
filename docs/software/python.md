@@ -5,31 +5,26 @@ tags:
 ---
 # Installing Python Packages 
 
-There are a few different ways to install Python packages. Python packages will need to be installed in your home directory or other directory you have write access to. There are a few different ways to do this, each with its own pros and cons. At a high level, you can:
+Python is provided on Engaging through a set of `miniforge` [modules](modules.md). Check `module avail` to see a list of available versions. Miniforge is a conda distribution created by the community that maintains the conda-forge channel, is open source, and doesn't require purchasing a license to use.
+
+To load the latest version of `miniforge` you can run:
+
+```bash
+module load miniforge
+```
+
+or specify a version with:
+
+```bash
+module load miniforge/24.3.0-0
+```
+
+Python packages will need to be installed in your home directory or other directory you have write access to. There are generally two ways to do this, each with its own pros and cons. At a high level, you can:
 
 - [Install packages in your own Python virtual environment (venv)](#python-virtual-environments)
 - [Install packages in your own conda/mamba environment](#conda-environments)
 
-Which should you use? It is mostly personal preference, but sometimes it could depend on which packages your are installing. We  encourage everyone to use either [Python virtual environments](#python-virtual-environments) or [conda/mamba environments](#conda-environments), which can be created per project and will have fewer issues with package compatibility. Read through the pros and cons for each, they are meant to help you see when one might be better than another.
-
-## Modules for Python
-
-Python is provided on Engaging through [modules](modules.md). 
-
-
-Some nodes on Engaging have different operating systems (OS). The newest nodes on Engaging are Rocky 8 and older nodes are Centos 7. Each OS has a different software stack, and so has different sets of Python and Anaconda modules. Both will have both Python and Anaconda modules, but will may have different names and versions. Check `module avail` for this information. Be sure the OS of the login node you are using to launch jobs matches the OS of the compute nodes you are requesting.
-
-We recommend using the newest miniforge modules for both. For Rocky 8 run:
-
-```bash
-module load miniforge/24.3.0-0
-```
-
-For Centos 7:
-
-```bash
-module load miniforge/24.3.0-0
-```
+Which you use is mostly personal preference, but sometimes it could depend on which packages your are installing. We encourage everyone to use environments, which can be created per project and will have fewer issues with package compatibility. Read through the pros and cons for each, they are meant to help you see when one might be better than another.
 
 ## Python Virtual Environments
 
