@@ -5,54 +5,31 @@ tags:
 ---
 # Installing Python Packages 
 
-There are a few different ways to install Python packages. Each ORCD system has its own set of Python modules and naming conventions for those modules, along with a set of recommendations for installing Python packages. This page is meant to give a general overview and link to those pages.
-
-=== "SuperCloud"
-
-    [SuperCloud Installing Python Packages Documentation](https://mit-supercloud.github.io/supercloud-docs/software-packages/#python-packages)
-
-=== "OpenMind"
-
-    [OpenMind Installing Python Packages Documentation](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F)
-
-Python packages will need to be installed in your home directory or other directory you have write access to. There are a few different ways to do this, each with its own pros and cons. At a high level, you can:
+There are a few different ways to install Python packages. Python packages will need to be installed in your home directory or other directory you have write access to. There are a few different ways to do this, each with its own pros and cons. At a high level, you can:
 
 - [Install packages in your own Python virtual environment (venv)](#python-virtual-environments)
 - [Install packages in your own conda/mamba environment](#conda-environments)
-- [Install packages to you home directory space using the `pip install --user` command](#home-directory-install)
 
-Which should you use? That can depend on a lot of things. Our recommendation will usually depend on the system, what you are doing, and which packages your are installing. [Python virtual environments](#python-virtual-environments) tend to be a good all-around option as a starting point. With them you can stay organized with environments, but they don't tend to take up as much space or create as many files as conda or mamba environments. Read through the pros and cons for each, they are meant to help you see when one might be better than another.
+Which should you use? It is mostly personal preference, but sometimes it could depend on which packages your are installing. We  encourage everyone to use either [Python virtual environments](#python-virtual-environments) or [conda/mamba environments](#conda-environments), which can be created per project and will have fewer issues with package compatibility. Read through the pros and cons for each, they are meant to help you see when one might be better than another.
 
 ## Modules for Python
 
-Python is provided on all ORCD systems through either Python, Anaconda or similar [modules](modules.md). See the documentation for the system your are using below for a description of the python modules available. Some systems have some commonly used Python packages installed with their modules, so it is worth checking to see if these packages will satisfy your use case before installing your own.
+Python is provided on Engaging through [modules](modules.md). 
 
-Refer to the tab below to find out more about the Python modules available on the system you are using.
 
-=== "Engaging"
+Some nodes on Engaging have different operating systems (OS). The newest nodes on Engaging are Rocky 8 and older nodes are Centos 7. Each OS has a different software stack, and so has different sets of Python and Anaconda modules. Both will have both Python and Anaconda modules, but will may have different names and versions. Check `module avail` for this information. Be sure the OS of the login node you are using to launch jobs matches the OS of the compute nodes you are requesting.
 
-    Some nodes on Engaging have different operating systems (OS). The newest nodes on Engaging are Rocky 8 and older nodes are Centos 7. Each OS has a different software stack, and so has different sets of Python and Anaconda modules. Both will have both Python and Anaconda modules, but will may have different names and versions. Check `module avail` for this information. Be sure the OS of the login node you are using to launch jobs matches the OS of the compute nodes you are requesting.
+We recommend using the newest miniforge modules for both. For Rocky 8 run:
 
-    We recommend using the newest miniforge modules for both. For Rocky 8 run:
+```bash
+module load miniforge/24.3.0-0
+```
 
-    ```bash
-    module load miniforge/24.3.0-0
-    ```
+For Centos 7:
 
-    For Centos 7:
-
-    ```bash
-    module load miniforge/24.3.0-0
-    ```
-    
-
-=== "SuperCloud"
-
-    SuperCloud releases two anaconda modules per year, named for the year and the release (anaconda/2024a and anaconda/2024b, for example). The most recent modules may continue to be updated until the next "release". There are separate modules for machine learning frameworks (ex: anaconda/Python-ML-2023b). SuperCloud anaconda modules contain a lot of the most commonly used packages and are installed on the local disk of each node, so it is best if you can use packages installed in the modules as much as possible. To enable that, SuperCloud recommends [installing packages to you home directory space using the `pip install --user` command](#home-directory-install), or [creating python virtual environments](#python-virtual-environments) using the `--system-site-packages` flag. SuperCloud has a section on their [Best Practices](https://mit-supercloud.github.io/supercloud-docs/filesystem#installing-python-packages) page about installing Python packages.
-
-=== "OpenMind"
-
-    OpenMind has both Anaconda and miniconda modules available. They have some of the most commonly used packages already installed.
+```bash
+module load miniforge/24.3.0-0
+```
 
 ## Python Virtual Environments
 
@@ -60,7 +37,7 @@ Environments allow you to make self-contained “bundles” of packages that can
 
 ### Creating Python Virtual Environments
 
-To create a new environment, first load a Python or Anaconda module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules. See [Modules for Python](#modules-for-python) above for information about specific modules for the system you are using.
+To create a new environment, first load the `miniforge` module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules.
 
 To create a the environment use the `python -m venv` command: 
 
@@ -171,12 +148,11 @@ You'll also see mention of mamba environments. Mamba and conda are nearly the sa
 
 ### Creating Conda Environments
 
-First, load a conda or Anaconda module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules. See [Modules for Python](#modules-for-python) above for information about specific modules for the system you are using.
+First, load a `miniforge` module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules. See [Modules for Python](#modules-for-python) above for information about specific modules for the system you are using.
 
-If there is no anaconda module on the system you are using, or the modules available aren't sufficient for your work, we recommend installing [miniforge](https://conda-forge.org/download/) or [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/) in your home directory. Wwe have had the most  success with miniforge, which is distributed by conda-forge and is packaged with mamba. It is best to avoid installing the full Anaconda as it is very big and can fill up your home directory. One of the most common reasons for slow logins, job startups, and package imports are from a full anaconda installation in the home directory.
 
 !!! Note
-    If you are using SuperCloud do not install miniconda or miniforge in your home directory. SuperCloud keeps up to date anaconda modules so installing your own is not necessary and will slow down your applications. See this [Best Practices](https://mit-supercloud.github.io/supercloud-docs/filesystem/#installing-python-packages) page on SuperCloud-Docs for more information.
+    We discourage installing miniconda or miniforge in your home directory. Engaging keeps up to date miniforge modules so installing your own is not necessary and will take up space in your home directory and potentially slow down your applications.
 
 To create an environment you can use the `mamba create` or `conda create` command after loading your conda module:
 
@@ -259,44 +235,6 @@ Cons
 - Can get very large and take up a lot of space in your home directory.
 - It can sometimes be slower than other options.
 
-## Home Directory Install
-
-First, load a Python or Anaconda module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules.
-
-Then, install the package with pip using the `--user` flag:
-
-```bash
-pip install --user packageName
-```
-
-Where `packageName` is the name of the package that you are installing.
-
-With `pip install --user` you are installing a single package and any missing dependencies. Pip will see any packages already installed in the central Python installation and won’t reinstall those as log as they satisfy the dependency requirements. These get installed to:
-
-```
-$HOME/.local/lib/pythonV.V/site-packages
-```
-
-This location is usually first in Python’s package search path, so Python will pick up any libraries installed here before centrally installed ones. The exceptions are:
-
-- If you have the `PYTHONPATH` environment variable set, that location will be searched first
-- You have the `PYTHONNOUSERSITE` environment variable set to True, this tells Python to remove it from the path
-
-### Pros and Cons for .local Install
-
-Pros
-
-- The installs are usually pretty easy
-- Only installs what is absolutely needed, allowing Python to use centrally installed packages
-
-Cons
-
-- Keeping and tracking a consistent environment is harder, not great for package development or working on different projects with conflicting requirements
-- Everything you’ve installed is always in your environment, which can cause two issues:
-    - The space can eventually get “dirty” or “corrupted”, the easiest fix is to delete or rename `$HOME/.local` and start again
-    - You can run into package dependency conflict issues, which could be fixed by uninstalling packages no longer needed or by deleting or renaming `$HOME/.local` and starting again
-
-
 ## Troubleshooting Python Package Issues
 
 ### Check your Python Executable
@@ -332,7 +270,7 @@ If this doesn't work for you, as an alternative, you can run the following line:
 source /path/to/conda/install/etc/profile.d/conda.sh
 ```
 
-whenever you want to use the `conda activate` command. Be sure to replace `/path/to/conda/install` with the path to the conda installation, for example if you installed miniforge in your home directory the full path might be `$HOME/miniforge3/etc/profile.d/conda.sh`.
+whenever you want to use the `conda activate` command. Be sure to replace `/path/to/conda/install` with the path to the conda installation, for example if you installed `miniforge` in your home directory the full path might be `$HOME/miniforge3/etc/profile.d/conda.sh`.
 
 If you would like to use `mamba activate`, run the following line as well:
 
