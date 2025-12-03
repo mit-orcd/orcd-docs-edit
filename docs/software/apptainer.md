@@ -1,10 +1,6 @@
 ---
 tags:
- - Engaging
- - OpenMind
- - Apptainer
- - Singularity
- - Software
+ - Containers
 ---
 
 # Apptainer / Singularity
