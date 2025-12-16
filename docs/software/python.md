@@ -16,10 +16,10 @@ module load miniforge
 or specify a version with:
 
 ```bash
-module load miniforge/24.3.0-0
+module load miniforge/25.11.0-0
 ```
 
-Python packages will need to be installed in your home directory or other directory you have write access to. There are generally two ways to do this, each with its own pros and cons. At a high level, you can:
+Python packages will need to be installed in your home directory or other directory you have write access to. There are generally two ways to do this. At a high level, you can:
 
 - [Install packages in your own Python virtual environment (venv)](#python-virtual-environments)
 - [Install packages in your own conda/mamba environment](#conda-environments)
@@ -37,7 +37,7 @@ Python virtual environments are a native python functionality and can be placed 
 To create a new environment, first load the `miniforge` module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules.
 
 ```bash
-module load miniforge/24.3.0-0
+module load miniforge/25.11.0-0
 ```
 
 To create a the environment use the `python -m venv` command: 
@@ -82,8 +82,8 @@ We can now install packages into the environment. Once activating the environmen
 pip install pkgname
 ```
 
-!!!Warning
-    Do not use `--user` flag to install, this will install into `$HOME/.local` instead of the environment.
+!!!Warning "Do not use the --user flag"
+    Do not use `--user` flag to install packages with `pip`, this will install the package into `$HOME/.local` instead of the environment.
 
 When you are done using or installing packages into an environment you can deactivate it with the command:
 
@@ -121,7 +121,7 @@ python myscript.py
 
 When this job runs it will activate the environment in `my_project_env` and then run the python script `myscript.py` using the packages in that environment.
 
-### Requirements.txt and Virtual Environments
+### Exporting and Recreating and Virtual Environments
 
 Environments can be described by a `requirements.txt` file, which lists packages and optionally their versions. This file can be created from any existing virtual environment and used to re-create that environment. Version numbers are required to recreate the environment exactly.
 
@@ -142,14 +142,14 @@ pip install -r requirements.txt
 
 Pros
 
-- Can be set to build “on top of” the central installation packages by using the `--system-site-packages` flag when creating the environment
+- Can be set to build “on top of” the central installation packages by using the `--system-site-packages` flag when creating the environment.
 - Self-contained environments for each project help stay organized and avoid package dependency conflicts. For software development it allows you to keep better track of your package’s dependencies so others know what they need to install.
-- Virtual environments are self-contained, fairly lightweight and can be put anywhere easily without additional configuration files
+- Virtual environments are self-contained, fairly lightweight and can be put anywhere easily without additional configuration files.
 
 Cons
 
 - Environments will include the same version of the python that you used to create them. If you need a different version of Python, you have to create the environment with that other version.
-- Only installs packages available through PyPI, cannot install conda distributed packages or libraries
+- Only installs packages available through PyPI, cannot install conda distributed packages or libraries.
 
 ## Conda Environments
 
@@ -161,8 +161,8 @@ You'll also see mention of mamba environments. Mamba and conda are nearly the sa
 
 To create a new environment, first load the `miniforge` module using the `module load` command. See the page on [Modules](modules.md) for more information on how to load modules.
 
-!!! Note
-    We discourage installing miniconda or miniforge in your home directory. Engaging keeps up to date miniforge modules so installing your own is not necessary and will take up space in your home directory and potentially slow down your applications.
+!!! Warning "Avoid installing your own conda"
+    We discourage installing miniconda, miniforge, or anaconda in your home directory. Engaging keeps up to date miniforge modules so installing your own is not necessary and will take up space in your home directory and potentially slow down your applications.
 
 To create an environment you can use the `mamba create` or `conda create` command after loading the `miniforge` module:
 
@@ -196,20 +196,18 @@ source activate my_env
 pip install pkg5
 ```
 
-!!! Note
-    To install packages with `pip` to a conda or mamba environment you should *not* include the `--user` flag. Further, if you are using a conda environment and want Python to *only* use packages in your environment, you can run the following two command:
-    
-    ```bash
-    export PYTHONNOUSERSITE=True
-    ```
-    
-    This will make sure your conda environment packages will be chosen before those that may be installed in your home directory.
+
+!!!Warning "Do not use the --user flag"
+    Do not use `--user` flag to install packages with `pip`, this will install the package into `$HOME/.local` instead of the environment.
 
 If you would like to use your conda environment in Jupyter, install the `jupyter` package into your environment. Once you have done that, you should see your conda environment listed in the available kernels.
 
 ### Using Conda Environments
 
-Whenever you want to activate the environment, first load the miniforge module, then activate with `source activate my_env`. Using `source activate` instead of `conda activate` allows you to use your conda environment at the command line and in submission scripts without additional steps. See [Conda/Mamba Init](#condamamba-init) in the [Troubleshooting](#troubleshooting-python-package-issues) section below for more information.
+Whenever you want to activate the environment, first load the miniforge module, then activate with `source activate my_env`. The `conda activate` or `mamba activate` commands should also work as long as you load the miniforge module.
+
+!!!Warning "Do not run conda/mamba init"
+    Do not run `conda init bash` or `mamba init bash`, this makes changes to your environment that can affect how other applications behave, and sometimes cause errors. Instead run `module load miniforge` before activating your environment. See [Conda/Mamba Init](#condamamba-init) in the [Troubleshooting](#troubleshooting-python-package-issues) section below for more information.
 
 ```bash
 module load miniforge
@@ -233,22 +231,79 @@ python myscript.py
 
 If this isn't working, see the Troubleshooting section below on [activating an environment in a job script](#environment-is-not-activating-in-a-job-script).
 
+### Exporting and Recreating and Conda Environments
+
+Environments can be described by an `environment.yaml` or `requirements.txt` file, which lists packages and optionally their versions. This file can be created from any existing conda environment and used to re-create that environment. Version numbers are required to recreate the environment exactly.
+
+You can create an `environment.yaml` file from an existing environment with the `conda export` command:
+
+```
+conda export --name myenv --file=environment.yaml
+```
+
+or to create a `requirements.txt` file:
+
+```
+conda export --name myenv --file=requirements.txt
+```
+
+Given an `environment.yaml` or `requirements.txt` file you can use `conda` or `mamba` to recreate that environment. For example:
+
+```bash
+module load miniforge
+conda env create -f environment.yaml
+```
+
+or given a `requirements.txt` file:
+
+```bash
+module load miniforge
+conda env create --name myenv -f requirements.txt
+```
+
+### Removing Conda Environments
+
+If your home directory is getting full and you have conda environments you no longer need, you can remove them with the `conda remove` command:
+
+```bash
+module load miniforge
+conda remove -n my_env --all
+```
+
+### Conda/Mamba Environment Location
+
+By default all `conda` and `mamba` environments will be stored in your home directory in `~/.conda`. If you are running out of space in your home directory and you'd like to keep your environments elsewhere, we recommend using your scratch directory. We don't recommend using any disk based storage like your pool or anything under `/orcd/data`.
+
+If you decided to keep conda environments in your scratch directory you will want to "back up" the environment to your home directory by creating a [yaml file](#exporting-and-recreating-and-conda-environments) that will let you recreate the environment.
+
+To change your `conda` and `mamba` install locations create a file called `.condarc` in your home directory. In that file put the following:
+
+```yaml title=".condarc"
+envs_dirs:
+  - /home/USERNAME/orcd/scratch/.conda/envs
+pkgs_dirs:
+  - /home/USERNAME/orcd/scratch/.conda/pkgs
+auto_activate_base: false
+```
+
 ### Pros and Cons for Conda Environments
 
 Pros
 
-- Environments can be created with any supported version of Python
-- Can install packages available through various conda channels as well as PyPI (packages installed with `pip`)
-- Conda channels include many system libraries, making packages with complicated dependencies easier to install
+- Environments can be created with any supported version of Python.
+- Can install packages available through various conda channels as well as PyPI (packages installed with `pip`).
+- Conda channels include many system libraries, making packages with complicated dependencies easier to install.
 - Self-contained environments for each project help stay organized and avoid package dependency conflicts. For software development it allows you to keep better track of your package’s dependencies so others know what they need to install.
 
 Cons
 
-- Can not be set to build “on top of” the central installation packages, which means basic package will be re-installed in your home directory
-- Can get very large and take up a lot of space in your home directory
-- It can sometimes be slower than other options
+- Can not be set to build “on top of” the central installation packages, which means basic package will be re-installed in your home directory.
+- Can get very large and take up a lot of space in your home directory.
+- It can sometimes be slower than other options.
 
 ## Troubleshooting Python Package Issues
+
+If you encounter any issues with loading or using Python packages, there are a few steps you can take to troubleshoot.
 
 ### Check your Python Executable
 
@@ -259,6 +314,8 @@ which python
 ```
 
 This will print out the path to the `python` executable that is running. If it doesn't print the right one, check that you've activated your environment or loaded the module you were intending.
+
+
 
 ### Check Python's Path
 
@@ -271,19 +328,27 @@ sys.path
 
 Similar to the `PATH` environment variable, Python checks the locations on the path in the order they are listed and imports the first of the specified package it finds. If Python is loading the wrong version of a package, checking the path will tell you where to check for the wrong-version package. If Python can't find the package, the path will give you more information about where it is looking.
 
+If in the past you've installed packages with the `--user` flag, Python will pick up those packages before the ones in your environment. If you are using a conda/mamba environment and want Python to *only* use packages in your environment, you can run the following two command:
+    
+```bash
+export PYTHONNOUSERSITE=True
+```
+
+This will make sure your conda environment packages will be chosen before those that may be installed in your home directory.
+
 ### Conda/Mamba Init
 
 If you use conda or mamba you may at some point be asked to run `conda init` or `mamba init`. These commands will edit your `.bashrc` file which gets run every time you log in. These additional lines will make permanent changes to your environment that could have unintended effects on your use of the system. This can cause issues, including slowing down your logins and affecting any software builds you try to do.
 
 The best thing to do is to never run these commands, or if you have, to remove the lines that they  have added to your `.bashrc` file. Instead load the `miniforge` module before running `conda activate` or `mamba activate`, or you can use the `source activate` command.
 
-If you feel strongly that you want to keep the setup that `conda init` gives you in your `.bashrc`, first be aware that it could cause issues and it might be something to look into removing when troubleshooting. Second, one of the things these lines do is activate the base environment associated with the conda installation, which is usually the source of most of the issues you can run into. You can set conda to not activate the base environment at login by running the following line:
+If you feel strongly that you want to keep the setup that `conda init` gives you in your `.bashrc`, first be aware that it could cause issues and it might be something to look into removing when troubleshooting other issues. Second, one of the things these lines do is activate the base environment associated with the conda installation, which is usually the source of most of the issues you can run into. You can set conda to not activate the base environment at login by running the following line:
 
 ```bash
 conda config --set auto_activate_base false
 ```
 
-You only need to run this line once. It will edit a configuration file for conda (.condarc). You will still be able to run `mamba activate` or `conda activate`.
+You only need to run this line once. It will edit a configuration file for conda (`.condarc`). You will still be able to run `mamba activate` or `conda activate`.
 
 ### Environment is not Activating in a Job Script
 
@@ -317,7 +382,7 @@ Be sure to replace `/path/to/virtual/environment` with the actual path to your v
 
 #### Activating a Conda/Mamba Environment in a Script
 
-Usually loading the `miniforge` module and then running `source activate myenv` will work to activate a conda or mamba environment in a job script (as shown [above](#conda-environments)).
+Usually loading the `miniforge` module and then running `source activate myenv` will work to activate a conda or mamba environment in a job script (as shown [above](#using-conda-environments)).
 
 If this doesn't work sometimes adding `eval "$(conda shell.bash hook)"` in the line before activating the environment will make it work:
 
