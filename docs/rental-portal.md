@@ -617,27 +617,27 @@ curl -H "Authorization: Token your-token-here" \
 
 ### Key Portal URLs
 
-| Page | Path |
-|------|------|
-| Rental Calendar | `/nodes/renting/` |
-| Request Reservation | `/nodes/renting/request/` |
-| User Profile | `/user/user-profile/` |
-| Project List | `/project/` |
-| Rental Manager Dashboard | `/nodes/renting/manage/` |
-| Billing Manager - Pending Allocations | `/nodes/billing/pending/` |
-| Billing Manager - Invoice Reporting | `/nodes/billing/invoice/` |
-| Invoice Report (specific month) | `/nodes/billing/invoice/YYYY/MM/` |
-| Invoice Edit Override | `/nodes/billing/invoice/YYYY/MM/edit/` |
-| Invoice Export JSON | `/nodes/billing/invoice/YYYY/MM/export/` |
+| Page | Path | Access |
+|------|------|--------|
+| Rental Calendar | `/nodes/renting/` | All users |
+| Request Reservation | `/nodes/renting/request/` | All users |
+| User Profile | `/user/user-profile/` | All users |
+| Project List | `/project/` | All users |
+| Rental Manager Dashboard | `/nodes/renting/manage/` | Rental Manager |
+| Billing Manager - Pending Allocations | `/nodes/billing/pending/` | Billing Manager |
+| Billing Manager - Invoice Reporting | `/nodes/billing/invoice/` | Billing Manager |
+| Invoice Report (specific month) | `/nodes/billing/invoice/YYYY/MM/` | Billing Manager |
+| Invoice Edit Override | `/nodes/billing/invoice/YYYY/MM/edit/` | Billing Manager |
+| Invoice Export JSON | `/nodes/billing/invoice/YYYY/MM/export/` | Billing Manager |
 
 ### API Endpoints
 
-| Endpoint | Path |
-|----------|------|
-| Reservations API | `/nodes/api/rentals/` |
-| User Search API | `/nodes/api/users/search/` |
-| Invoice List API | `/nodes/api/invoice/` |
-| Invoice Report API | `/nodes/api/invoice/YYYY/MM/` |
+| Endpoint | Path | Access |
+|----------|------|--------|
+| Reservations API | `/nodes/api/rentals/` | Rental Manager |
+| User Search API | `/nodes/api/users/search/` | All users |
+| Invoice List API | `/nodes/api/invoice/` | Billing Manager |
+| Invoice Report API | `/nodes/api/invoice/YYYY/MM/` | Billing Manager |
 
 ### Role Quick Reference
 
