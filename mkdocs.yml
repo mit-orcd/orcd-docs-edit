@@ -56,6 +56,7 @@ nav:
     - VSCode: recipes/vscode.md
     - X11: recipes/X11.md
   - Hardware Purchases: hosted-hardware.md
+  - Rental Portal: rental-portal.md
   - Acknowledging Us: acknowledgements.md
   - Data Security and Privacy: data-security.md
   - Acceptable Use and Code of Conduct: code-of-conduct.md
