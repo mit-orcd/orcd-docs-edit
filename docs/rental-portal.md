@@ -462,6 +462,15 @@ Each monthly invoice report shows reservations grouped by project:
 !!! note "Cost Allocation Snapshots"
     When a cost allocation is approved, the system creates a snapshot of the cost objects and percentages. This ensures billing accuracy even if the cost allocation is later modified. Invoice reports use the snapshot that was active during each reservation period.
 
+#### Filtering Invoice Entries
+
+For invoices with many projects, you can filter the displayed entries:
+
+- **Owner Filter**: Use the dropdown to show only projects owned by a specific user
+- **Title Filter**: Enter a text pattern to show only projects whose titles contain that text
+
+Both filters can be used together. The filters apply only to the current view and do not affect the exported data.
+
 #### Creating Overrides
 
 Sometimes you need to adjust billing for specific reservations. Click the **Edit** button next to any reservation to create an override.
@@ -626,7 +635,7 @@ curl -H "Authorization: Token your-token-here" \
 | Rental Manager Dashboard | `/nodes/renting/manage/` | Rental Manager |
 | Billing Manager - Pending Allocations | `/nodes/billing/pending/` | Billing Manager |
 | Billing Manager - Invoice Reporting | `/nodes/billing/invoice/` | Billing Manager |
-| Invoice Report (specific month) | `/nodes/billing/invoice/YYYY/MM/` | Billing Manager |
+| Invoice Report (specific month) | `/nodes/billing/invoice/YYYY/MM/` (supports `?owner=` and `?title=` filters) | Billing Manager |
 | Invoice Edit Override | `/nodes/billing/invoice/YYYY/MM/edit/` | Billing Manager |
 | Invoice Export JSON | `/nodes/billing/invoice/YYYY/MM/export/` | Billing Manager |
 
