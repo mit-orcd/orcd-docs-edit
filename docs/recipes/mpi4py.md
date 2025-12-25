@@ -51,13 +51,13 @@ Prepare your Python codes.
 **Example 1:** The following code is for sending and receiving a dictionary. Save it in a file named `p2p-send-recv.py`:
 
 ```python title="p2p-send-recv.py"
---8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/p2p-send-recv.py"
+--8<-- "docs/recipes/scripts/mpi4py/p2p-send-recv.py"
 ``` 
 
 **Example 2:** The following code is for sending and receiving an array. Save it in a file named `p2p-array.py`:
 
 ```python title="p2p-array.py"
---8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/p2p-array.py"
+--8<-- "docs/recipes/scripts/mpi4py/p2p-array.py"
 ```
 
 ## Submitting jobs
@@ -67,7 +67,7 @@ Prepare your Python codes.
      Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`:
 
      ```bash title="p2p-job.sh"
-     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/p2p-job-openmind.sh"
+     --8<-- "docs/recipes/scripts/mpi4py/p2p-job-openmind.sh"
      ```
 
     !!! note
@@ -75,8 +75,8 @@ Prepare your Python codes.
 
      Finally submit the job:
 
-     ```
-     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/p2p-job-submit.sh"
+     ```bash
+     sbatch p2p-job.sh
      ```
 
 === "Engaging"
@@ -84,11 +84,11 @@ Prepare your Python codes.
      Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`:
 
      ```bash title="p2p-job.sh"
-     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/p2p-job-engaging.sh"
+     --8<-- "docs/recipes/scripts/mpi4py/p2p-job-engaging.sh"
      ```
 
      Finally, submit the job:
      
-     ```
-     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/p2p-job-submit.sh"
+    ```bash
+     sbatch p2p-job.sh
      ```
