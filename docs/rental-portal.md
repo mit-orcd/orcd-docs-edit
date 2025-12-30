@@ -48,7 +48,7 @@ After logging in, you'll see your personalized dashboard with four summary cards
 | **My Rentals** | Upcoming, pending, and past reservation counts; your next 3 reservations |
 | **My Projects** | Projects you own vs. projects where you're a member; quick links to recent projects |
 | **My Account** | Your maintenance fee status (required for rental services) and billing project |
-| **My Billing** | Cost allocation approval status for your projects; projects needing attention |
+| **My Billing** | Cost allocation status counts (approved, pending, rejected, not configured); lists both approved projects and those needing attention |
 
 Each card includes a help icon (?) that provides additional context when clicked.
 
@@ -59,7 +59,22 @@ When your account is created, you automatically receive two projects:
 - **`username_personal`** - Your personal project for individual use
 - **`username_group`** - A group project you can use to collaborate with others
 
-You can also be added as a member to other users' projects with various roles.
+You can also be added as a member to other users' projects with various roles. New projects you create are automatically activated and ready to use.
+
+### Project List
+
+Navigate to **Projects** to see all your projects. The list shows:
+
+| Column | Description |
+|--------|-------------|
+| **Title** | Project name (click to view details) |
+| **Project Owner** | The owner of the project |
+| **Accounts** | Number of members in the project |
+| **Billing** | Cost allocation status: ✓ (verified) or ⚠ (needs attention) |
+| **Status** | Project status (Active, Archived, etc.) |
+
+!!! tip "Billing Status"
+    A green checkmark (✓) indicates the project has a verified cost allocation and can make reservations. A warning icon (⚠) means the project needs a cost allocation configured before it can be used for rentals.
 
 ### Project Roles
 
@@ -239,11 +254,26 @@ The page displays summary cards showing counts for each category:
 
 Each reservation shows:
 
+- Reservation ID (click to view full details)
 - The project name and your role(s) on that project
 - Node, dates, and duration
 - Current status (Approved, Pending, Declined, Cancelled)
 
 Use the tabs to filter between categories.
+
+!!! tip "Maintenance Fee Reminder"
+    If you have upcoming or pending reservations but no active maintenance fee subscription, a reminder banner will appear encouraging you to subscribe to enable rental services.
+
+### Reservation Detail Page
+
+Click on any reservation ID to view its full details at `/nodes/reservation/<id>/`. The detail page shows:
+
+- **Status and ID**: Current approval status and reservation identifier
+- **Node**: The reserved GPU node
+- **Project**: Link to the associated project
+- **Schedule**: Start/end dates, duration, and billable hours
+- **Notes**: Any notes you provided when requesting
+- **Manager Notes**: Notes from the Rental Manager (if provided when approving/declining)
 
 ### After Submission
 
@@ -339,6 +369,15 @@ When removing a member, a confirmation dialog appears where you can optionally a
 
 !!! note "Owner Protection"
     The project owner cannot be removed from the project. To change ownership, contact ORCD support.
+
+### Project Reservations
+
+From a project's detail page, click **View Reservations** to see all reservations associated with that project. The page shows:
+
+- **Future Reservations**: Upcoming approved and pending reservations, sorted by start date
+- **Past Reservations**: Completed reservations, sorted with most recent first
+
+Each entry shows the reservation ID (click for details), node, dates, duration, status, and who requested it.
 
 ??? example "Example Scenario: Setting Up Cost Allocation"
     *Dr. Martinez wants her lab to start renting GPU nodes for machine learning research. She navigates to her `martinez_lab` project and clicks "Manage Cost Allocation." She enters her grant's cost object `DOE-AI-2024-789` and sets it to 100%. She adds a note: "DOE AI Research Grant - expires Dec 2025." After clicking Save, the status shows "Pending Approval" with a yellow badge. Three days later, a Billing Manager reviews and approves the allocation. The badge turns green, and Dr. Martinez's team can now start making GPU node reservations.*
@@ -743,8 +782,10 @@ curl -H "Authorization: Token your-token-here" \
 | Rental Calendar | `/nodes/renting/` | All users |
 | Request Reservation | `/nodes/renting/request/` | All users |
 | My Reservations | `/nodes/my/reservations/` | All users |
+| Reservation Detail | `/nodes/reservation/<id>/` | Project members |
 | User Profile | `/user/user-profile/` | All users |
 | Project List | `/project/` | All users |
+| Project Reservations | `/nodes/project/<id>/reservations/` | Project members |
 | Rental Manager Dashboard | `/nodes/renting/manage/` | Rental Manager |
 | Activity Log | `/nodes/activity-log/` | Rental/Billing Manager |
 | Billing Manager - Pending Allocations | `/nodes/billing/pending/` | Billing Manager |
