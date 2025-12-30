@@ -245,7 +245,7 @@ For a comprehensive view of all your reservations across all projects, visit the
 
 The page displays summary cards showing counts for each category:
 
-- **Upcoming**: Approved reservations that haven't started yet
+- **Upcoming**: Confirmed reservations that haven't started yet
 - **Pending**: Reservation requests awaiting approval
 - **Past**: Completed reservations
 - **Declined/Cancelled**: Requests that were declined or cancelled
@@ -257,7 +257,7 @@ Each reservation shows:
 - Reservation ID (click to view full details)
 - The project name and your role(s) on that project
 - Node, dates, and duration
-- Current status (Approved, Pending, Declined, Cancelled)
+- Current status (Confirmed, Pending, Declined, Cancelled)
 
 Use the tabs to filter between categories.
 
@@ -281,11 +281,11 @@ After submitting a reservation request:
 
 1. Your request enters **Pending** status
 2. A Rental Manager reviews the request
-3. You will be notified when your request is **Approved** or **Declined**
+3. You will be notified when your request is **Confirmed** or **Declined**
 4. If declined, the Rental Manager may include notes explaining why
 
 ??? example "Example Scenario: Making a Reservation"
-    *Dr. Johnson's lab needs exclusive access to a GPU node for a 3-day training run. She navigates to the Rent H200x8 page and checks the calendar. She sees node `orcd2304` is available next week (shown in green). She clicks "Request Reservation", selects the node, chooses her `johnson_lab` project, picks Monday as the start date, and selects 6 blocks (72 hours) for the duration. She adds a note: "Large language model fine-tuning run." After submitting, the reservation shows as "P" (pending) on the calendar. Two days later, she receives notification that the Rental Manager has approved her request.*
+    *Dr. Johnson's lab needs exclusive access to a GPU node for a 3-day training run. She navigates to the Rent H200x8 page and checks the calendar. She sees node `orcd2304` is available next week (shown in green). She clicks "Request Reservation", selects the node, chooses her `johnson_lab` project, picks Monday as the start date, and selects 6 blocks (72 hours) for the duration. She adds a note: "Large language model fine-tuning run." After submitting, the reservation shows as "P" (pending) on the calendar. Two days later, she receives notification that the Rental Manager has confirmed her request.*
 
 ---
 
@@ -374,7 +374,7 @@ When removing a member, a confirmation dialog appears where you can optionally a
 
 From a project's detail page, click **View Reservations** to see all reservations associated with that project. The page shows:
 
-- **Future Reservations**: Upcoming approved and pending reservations, sorted by start date
+- **Future Reservations**: Upcoming confirmed and pending reservations, sorted by start date
 - **Past Reservations**: Completed reservations, sorted with most recent first
 
 Each entry shows the reservation ID (click for details), node, dates, duration, status, and who requested it.
