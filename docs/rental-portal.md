@@ -315,9 +315,21 @@ A Billing Manager will review your submission and either approve or reject it.
 From your project's detail page, you can manage team members:
 
 1. Click **Manage Members** to view all project members and their roles
-2. Click **Add Member** to invite new users to the project
+2. Click **Add Member** to invite new users to the project (with username autocomplete search)
 3. Use the edit button next to a member to update their roles
 4. Use the remove button to remove a member from the project
+
+**Adding Members:**
+
+When adding a member, start typing their username, name, or email. The system will autocomplete matching users. Select the user and choose one or more roles to assign.
+
+**Member List Details:**
+
+The members list shows:
+
+- Username and full name
+- Role badges (Owner, Financial Admin, Technical Admin, Member)
+- Account Maintenance status (so project owners can see their team's status)
 
 **Removing Members:**
 
