@@ -47,7 +47,7 @@ After logging in, you'll see your personalized dashboard with four summary cards
 |------|---------------|
 | **My Rentals** | Upcoming, pending, and past reservation counts; your next 3 reservations |
 | **My Projects** | Projects you own vs. projects where you're a member; quick links to recent projects |
-| **My Account** | Your maintenance fee status and billing project |
+| **My Account** | Your maintenance fee status (required for rental services) and billing project |
 | **My Billing** | Cost allocation approval status for your projects; projects needing attention |
 
 Each card includes a help icon (?) that provides additional context when clicked.
@@ -123,15 +123,17 @@ Each project member has one or more roles that determine their permissions. User
 
 ## Account Maintenance Fee
 
-The account maintenance fee is a recurring charge for access to ORCD shared computing resources. You can set your maintenance fee status from your User Profile.
+The account maintenance fee is a recurring monthly charge that enables access to rental services. Researchers participating in a paid maintenance fee tier (Basic or Advanced) can rent GPU nodes and other dedicated resources. Base ORCD services are available to all researchers, even those not paying a maintenance fee.
+
+You can set your maintenance fee status from your User Profile.
 
 ### Maintenance Fee Levels
 
 | Status | Description |
 |--------|-------------|
-| **Inactive** | No maintenance fee charged. Limited access to shared resources. |
-| **Basic** | Standard maintenance fee. Access to shared computing resources. |
-| **Advanced** | Higher maintenance fee. Access to additional resources and priority support. |
+| **Inactive** | No maintenance fee. Base ORCD services available; rental services not enabled. |
+| **Basic** | Standard monthly fee. Enables rental services for GPU nodes and dedicated resources. |
+| **Advanced** | Higher monthly fee. Enables rental services with additional resources and priority support. |
 
 ### Setting Your Maintenance Fee Status
 
@@ -156,7 +158,7 @@ The account maintenance fee is a recurring charge for access to ORCD shared comp
 If your role on your billing project changes to one that is not eligible (e.g., you become only a Financial Admin, or are removed from the project entirely), your maintenance fee status will automatically reset to **Inactive**. You will need to select a new billing project or update your role to restore your maintenance fee status.
 
 ??? example "Example Scenario: Setting Up Maintenance Fee"
-    *Dr. Smith is a new researcher who needs basic access to ORCD systems. She logs into the portal, navigates to her User Profile, and clicks the edit icon next to "Account Maintenance Fee Status." She selects "Basic" from the dropdown, then chooses her `smith_personal` project as the billing project. After clicking Save, her status updates to "Basic (charged to: smith_personal)". Her department's cost object associated with that project will be charged the monthly fee.*
+    *Dr. Smith wants to rent GPU nodes for her research. She logs into the portal, navigates to her User Profile, and clicks the edit icon next to "Account Maintenance Fee Status." She selects "Basic" from the dropdown, then chooses her `smith_personal` project as the billing project. After clicking Save, her status updates to "Basic (charged to: smith_personal)". Her department's cost object associated with that project will be charged the monthly maintenance fee, and she can now make GPU node reservations.*
 
 ---
 
