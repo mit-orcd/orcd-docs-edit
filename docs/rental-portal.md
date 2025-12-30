@@ -31,12 +31,26 @@ Key concepts:
 
 ### Accessing the Portal
 
-Log into the ORCD Rental Portal using your MIT Kerberos credentials at [https://orcd-rental.mit.edu](https://orcd-rental.mit.edu). After logging in, you'll see the main dashboard with navigation links to:
+Log into the ORCD Rental Portal using your MIT Kerberos credentials at [https://orcd-rental.mit.edu](https://orcd-rental.mit.edu). After logging in, you'll see the main navigation with links to:
 
+- **Home** - Dashboard with summary cards for your rentals, projects, account, and billing
 - **Nodes** - View available GPU and CPU node information
 - **Rent H200x8** - Access the rental calendar and make reservations
 - **Projects** - View and manage your projects
 - **User Profile** - View your account information and maintenance fee status
+
+### Dashboard Overview
+
+After logging in, you'll see your personalized dashboard with four summary cards:
+
+| Card | What It Shows |
+|------|---------------|
+| **My Rentals** | Upcoming, pending, and past reservation counts; your next 3 reservations |
+| **My Projects** | Projects you own vs. projects where you're a member; quick links to recent projects |
+| **My Account** | Your maintenance fee status and billing project |
+| **My Billing** | Cost allocation approval status for your projects; projects needing attention |
+
+Each card includes a help icon (?) that provides additional context when clicked.
 
 ### Your Projects
 
@@ -130,7 +144,12 @@ The account maintenance fee is a recurring charge for access to ORCD shared comp
 7. Click **Save**
 
 !!! warning "Billing Project Requirements"
-    To use a project for maintenance fee billing, you must have an eligible role on that project: **Owner**, **Technical Admin**, or **Member**. Financial Admins cannot use a project for their own maintenance fee billing.
+    To use a project for maintenance fee billing:
+    
+    1. You must have an eligible role on the project: **Owner**, **Technical Admin**, or **Member** (Financial Admins cannot use a project for their own maintenance fee billing)
+    2. The project must have an **approved cost allocation**
+    
+    Only projects meeting both requirements appear in the billing project dropdown. If no eligible projects are available, a warning message will be displayed.
 
 ### What Happens When Roles Change
 
@@ -200,6 +219,29 @@ Navigate to **Rent H200x8** in the main menu to access the rental calendar. The 
 ### Tracking Your Reservations
 
 Your reservations appear on the calendar with a user icon overlay. Pending reservations show a "P" badge until approved by a Rental Manager.
+
+### My Reservations Page
+
+For a comprehensive view of all your reservations across all projects, visit the **My Reservations** page at `/nodes/my/reservations/`. This page shows reservations from every project where you have a role.
+
+**Summary Cards:**
+
+The page displays summary cards showing counts for each category:
+
+- **Upcoming**: Approved reservations that haven't started yet
+- **Pending**: Reservation requests awaiting approval
+- **Past**: Completed reservations
+- **Declined/Cancelled**: Requests that were declined or cancelled
+
+**Reservation Details:**
+
+Each reservation shows:
+
+- The project name and your role(s) on that project
+- Node, dates, and duration
+- Current status (Approved, Pending, Declined, Cancelled)
+
+Use the tabs to filter between categories.
 
 ### After Submission
 
@@ -276,6 +318,13 @@ From your project's detail page, you can manage team members:
 2. Click **Add Member** to invite new users to the project
 3. Use the edit button next to a member to update their roles
 4. Use the remove button to remove a member from the project
+
+**Removing Members:**
+
+When removing a member, a confirmation dialog appears where you can optionally add notes explaining the reason for removal. These notes are recorded for audit purposes.
+
+!!! note "Owner Protection"
+    The project owner cannot be removed from the project. To change ownership, contact ORCD support.
 
 ??? example "Example Scenario: Setting Up Cost Allocation"
     *Dr. Martinez wants her lab to start renting GPU nodes for machine learning research. She navigates to her `martinez_lab` project and clicks "Manage Cost Allocation." She enters her grant's cost object `DOE-AI-2024-789` and sets it to 100%. She adds a note: "DOE AI Research Grant - expires Dec 2025." After clicking Save, the status shows "Pending Approval" with a yellow badge. Three days later, a Billing Manager reviews and approves the allocation. The badge turns green, and Dr. Martinez's team can now start making GPU node reservations.*
@@ -528,6 +577,53 @@ To export an invoice for external systems or record-keeping:
 
 ---
 
+## Activity Log
+
+The Activity Log provides an audit trail of significant actions in the Rental Portal. This feature is available to **Rental Managers**, **Billing Managers**, and system administrators.
+
+### Accessing the Activity Log
+
+1. Log into the Rental Portal with a manager account
+2. Navigate to **Admin Functions** in the navigation bar
+3. Click **Activity Log**
+
+### Activity Categories
+
+The activity log tracks events across multiple categories:
+
+| Category | Events Tracked |
+|----------|----------------|
+| **Authentication** | User logins, logouts, and failed login attempts |
+| **Reservation** | Reservation creation, approval, decline, and cancellation |
+| **Member** | Role additions, role removals, and member removals from projects |
+| **Cost Allocation** | Cost allocation submissions and approval status changes |
+| **Invoice** | Invoice finalization, reopening, and override changes |
+| **Maintenance** | Maintenance fee status changes |
+| **API** | API access events |
+
+### Filtering the Log
+
+Use the filter options to narrow down the activity log:
+
+- **Category**: Filter by event type (e.g., only show reservation events)
+- **User**: Filter by the user who performed the action
+- **Date range**: Filter by when events occurred
+
+### Understanding Log Entries
+
+Each log entry shows:
+
+- **Timestamp**: When the action occurred
+- **User**: Who performed the action
+- **Category**: Type of event
+- **Description**: What happened
+- **Details**: Additional context (e.g., project name, reservation ID)
+
+!!! note "Manager Access"
+    The Activity Log is only visible to Rental Managers and Billing Managers. Regular users do not have access to this feature.
+
+---
+
 ## REST API
 
 The Rental Portal provides a REST API for programmatic access to rental and invoice data.
@@ -571,6 +667,7 @@ python manage.py drf_create_token -r USERNAME
 | `/nodes/api/users/search/?q=` | GET | Authenticated | Search users by username, name, or email |
 | `/nodes/api/invoice/` | GET | `can_manage_billing` | List months with invoice data |
 | `/nodes/api/invoice/YYYY/MM/` | GET | `can_manage_billing` | Get full invoice report for a specific month |
+| `/nodes/api/activity-log/` | GET | `can_manage_rentals` or `can_manage_billing` | Query the activity log |
 
 ### CLI Examples
 
@@ -628,11 +725,14 @@ curl -H "Authorization: Token your-token-here" \
 
 | Page | Path | Access |
 |------|------|--------|
+| Home Dashboard | `/` | All users |
 | Rental Calendar | `/nodes/renting/` | All users |
 | Request Reservation | `/nodes/renting/request/` | All users |
+| My Reservations | `/nodes/my/reservations/` | All users |
 | User Profile | `/user/user-profile/` | All users |
 | Project List | `/project/` | All users |
 | Rental Manager Dashboard | `/nodes/renting/manage/` | Rental Manager |
+| Activity Log | `/nodes/activity-log/` | Rental/Billing Manager |
 | Billing Manager - Pending Allocations | `/nodes/billing/pending/` | Billing Manager |
 | Billing Manager - Invoice Reporting | `/nodes/billing/invoice/` | Billing Manager |
 | Invoice Report (specific month) | `/nodes/billing/invoice/YYYY/MM/` (supports `?owner=` and `?title=` filters) | Billing Manager |
@@ -647,6 +747,7 @@ curl -H "Authorization: Token your-token-here" \
 | User Search API | `/nodes/api/users/search/` | All users |
 | Invoice List API | `/nodes/api/invoice/` | Billing Manager |
 | Invoice Report API | `/nodes/api/invoice/YYYY/MM/` | Billing Manager |
+| Activity Log API | `/nodes/api/activity-log/` | Rental/Billing Manager |
 
 ### Role Quick Reference
 
@@ -668,3 +769,5 @@ For questions or issues with the Rental Portal, contact us:
 
 - **Email**: [orcd-help@mit.edu](mailto:orcd-help@mit.edu)
 - **Documentation**: [https://orcd-docs.mit.edu](https://orcd-docs.mit.edu)
+
+
