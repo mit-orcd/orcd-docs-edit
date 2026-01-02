@@ -16,7 +16,7 @@ The ORCD Rental Portal provides a web-based interface for managing GPU node rent
 
 ## Overview
 
-The Rental Portal is built around **projects**. Each user can belong to multiple projects, and each project can have multiple members with different roles. To rent GPU nodes, your project must have an approved cost allocation that specifies how charges will be billed.
+The Rental Portal is built around **projects**. Each user can belong to multiple projects, and each project can have multiple members with different roles. To rent GPU nodes, your project must have a verified cost allocation that specifies how charges will be billed.
 
 Key concepts:
 
@@ -48,9 +48,12 @@ After logging in, you'll see your personalized dashboard with four summary cards
 | **My Rentals** | Upcoming, pending, and past reservation counts; your next 3 reservations |
 | **My Projects** | Projects you own vs. projects where you're a member; quick links to recent projects |
 | **My Account** | Your maintenance fee status (required for rental services) and billing project |
-| **My Billing** | Cost allocation status counts (approved, pending, rejected, not configured); lists both approved projects and those needing attention |
+| **My Billing** | Cost allocation status counts (verified, pending, rejected, not configured); lists both verified projects and those needing attention |
 
 Each card includes a help icon (?) that provides additional context when clicked.
+
+!!! note "Inactive Subscription Alert"
+    If your maintenance fee status is Inactive, the My Rentals card will display an alert explaining that you cannot access rental services or make new reservations until you subscribe. Financial Admins who only manage billing do not need a subscription.
 
 ### Your Projects
 
@@ -164,7 +167,7 @@ You can set your maintenance fee status from your User Profile.
     To use a project for maintenance fee billing:
     
     1. You must have an eligible role on the project: **Owner**, **Technical Admin**, or **Member** (Financial Admins cannot use a project for their own maintenance fee billing)
-    2. The project must have an **approved cost allocation**
+    2. The project must have a **verified cost allocation**
     
     Only projects meeting both requirements appear in the billing project dropdown. If no eligible projects are available, a warning message will be displayed.
 
@@ -179,17 +182,21 @@ If your role on your billing project changes to one that is not eligible (e.g., 
 
 ## GPU Node Rentals
 
-The Rental Portal allows you to reserve dedicated H200x8 GPU nodes for your research projects. Reservations require a project with an approved cost allocation.
+The Rental Portal allows you to reserve dedicated H200x8 GPU nodes for your research projects. Reservations require a project with a verified cost allocation and an active maintenance fee subscription.
 
 ### Prerequisites
 
 Before making a reservation, ensure:
 
-1. You are a member of a project with an **approved cost allocation**
-2. You have an appropriate role (Owner, Financial Admin, Technical Admin, or Member)
+1. You have an **active maintenance fee subscription** (Basic or Advanced)
+2. You are a member of a project with a **verified cost allocation**
+3. You have an appropriate role (Owner, Financial Admin, Technical Admin, or Member)
 
 !!! tip "Check Your Project Status"
-    Visit your project's detail page to verify the cost allocation status. Look for the green "Approved" badge in the Cost Allocation section.
+    Visit your project's detail page to verify the cost allocation status. Look for the green "Verified" badge in the Cost Allocation section.
+
+!!! warning "Subscription Required"
+    Users with an Inactive maintenance fee status cannot make reservation requests. The reservation form will display an error if you attempt to submit without an active subscription. Update your maintenance fee status in your User Profile to enable reservations.
 
 ### Viewing the Rental Calendar
 
@@ -217,7 +224,7 @@ Navigate to **Rent H200x8** in the main menu to access the rental calendar. The 
 1. From the rental calendar, click **Request Reservation**
 2. Fill in the reservation details:
    - **GPU Node**: Select the specific H200x8 node you want to reserve
-   - **Project**: Choose the project this reservation is for (must have approved cost allocation)
+   - **Project**: Choose the project this reservation is for (must have verified cost allocation)
    - **Start Date**: Select when your reservation should begin
    - **Duration**: Choose the number of 12-hour blocks
    - **Notes** (optional): Add any relevant information about your reservation
@@ -295,7 +302,7 @@ Before your project can be used for GPU node rentals, you must configure a cost 
 
 ### Why Cost Allocations Are Required
 
-Cost allocations link your project to one or more cost objects (billing accounts). When you rent GPU nodes, the rental charges are distributed across these cost objects according to the percentages you specify. Projects without an approved cost allocation cannot make reservations.
+Cost allocations link your project to one or more cost objects (billing accounts). When you rent GPU nodes, the rental charges are distributed across these cost objects according to the percentages you specify. Projects without a verified cost allocation cannot make reservations.
 
 ### Navigating to Cost Allocation
 
@@ -329,7 +336,7 @@ A Billing Manager will review your submission and either approve or reject it.
 | Status | Badge Color | Meaning |
 |--------|-------------|---------|
 | **Pending** | Yellow | Awaiting review by a Billing Manager |
-| **Approved** | Green | Cost allocation is active; project can make reservations |
+| **Verified** | Green | Cost allocation is active; project can make reservations |
 | **Rejected** | Red | Cost allocation was rejected; see notes for reason |
 
 ### If Your Allocation Is Rejected
@@ -340,7 +347,7 @@ A Billing Manager will review your submission and either approve or reject it.
 4. Save to resubmit for approval
 
 !!! note "Resubmission"
-    Any changes to an approved cost allocation will reset the status to Pending and require re-approval.
+    Any changes to a verified cost allocation will reset the status to Pending and require re-verification.
 
 ### Managing Project Members
 
@@ -396,22 +403,23 @@ This section is for staff members with the **Rental Manager** role who are respo
 
 ### Reviewing Pending Requests
 
-The dashboard displays all pending reservation requests in a table showing:
+The dashboard displays all pending reservation requests in a sortable, filterable table showing:
 
+- **ID**: Reservation identifier (click to view details)
 - **Node**: The requested GPU node
 - **Project**: The project making the request
 - **Requester**: The user who submitted the request
 - **Start/End**: Reservation dates and times
 - **Duration**: Total billable hours
 - **Notes**: Any notes from the requester
-- **Submitted**: When the request was made
+- **Request Date**: When the request was submitted
 
-### Approving Reservations
+### Confirming Reservations
 
-To approve a reservation:
+To confirm a reservation:
 
 1. Review the request details
-2. Click the green **Approve** button
+2. Click the green **Confirm Rental** button
 3. The reservation is immediately confirmed and the calendar updates
 
 ### Declining Reservations
@@ -440,16 +448,23 @@ You can add internal notes to any reservation for tracking purposes:
 
 ### Viewing Recent Reservations
 
-The dashboard also shows reservations processed in the last 30 days, including their approval status. You can add metadata to these reservations as well.
+The dashboard also shows reservations processed in the last 30 days in a sortable, filterable table. This includes:
+
+- Status (Confirmed, Declined)
+- **Processed By**: Which Rental Manager confirmed or declined the request
+
+You can add metadata to these reservations as well.
 
 ??? example "Example Scenario: Processing Requests"
     *Sarah, a Rental Manager, logs in and sees 3 pending reservation requests on her dashboard. She reviews each one:*
     
-    *1. A routine 24-hour request from the Chen Lab - she clicks Approve.*
+    *1. A routine 24-hour request from the Chen Lab - she clicks Confirm Rental.*
     
-    *2. A week-long request from the Johnson Lab - she verifies the dates don't conflict with maintenance, then clicks Approve.*
+    *2. A week-long request from the Johnson Lab - she verifies the dates don't conflict with maintenance, then clicks Confirm Rental.*
     
     *3. A request for next Tuesday, which is a scheduled maintenance day - she clicks Decline and adds the note: "Declined: Tuesday March 18 is a scheduled maintenance day. Please select an alternate start date." She then clicks the gear icon and adds internal metadata: "User notified via email about maintenance schedule."*
+    
+    *Later, she checks the "Recently Processed" table and can see which manager processed each request in the "Processed By" column.*
 
 ---
 
@@ -513,7 +528,7 @@ To reject a cost allocation:
 
 - Projects with **Pending** cost allocations cannot create new reservations
 - Projects with **Rejected** cost allocations cannot create new reservations
-- Only projects with **Approved** cost allocations can make reservations
+- Only projects with **Verified** cost allocations can make reservations
 
 ??? example "Example Scenario: Reviewing Cost Allocations"
     *Mike, a Billing Manager, logs into the portal and navigates to Manage Billing. He sees 5 pending cost allocation requests. He clicks Review on each one:*
