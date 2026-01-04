@@ -86,7 +86,7 @@ Each project member has one or more roles that determine their permissions. User
 | Role | Description |
 |------|-------------|
 | **Owner** | Full control over the project. Can manage all members, cost allocations, and settings. Automatically included in reservations. |
-| **Financial Admin** | Can edit cost allocations and manage all member roles. *Not* included in reservations or maintenance fee billing. |
+| **Financial Admin** | Manages billing, cost allocations, and members. *Not* included in reservations or maintenance fee billing. |
 | **Technical Admin** | Can add members and other technical admins. Included in reservations and can use the project for maintenance fees. |
 | **Member** | Can create reservations. Included in reservations and can use the project for maintenance fees. |
 
@@ -800,7 +800,9 @@ curl -H "Authorization: Token your-token-here" \
 | Reservation Detail | `/nodes/reservation/<id>/` | Project members |
 | User Profile | `/user/user-profile/` | All users |
 | Project List | `/project/` | All users |
+| Create Project | `/project/create/` | All users (with PI status) |
 | Project Reservations | `/nodes/project/<id>/reservations/` | Project members |
+| Project Archive | `/project/<id>/archive/` | Project Owner |
 | Rental Manager Dashboard | `/nodes/renting/manage/` | Rental Manager |
 | Activity Log | `/nodes/activity-log/` | Rental/Billing Manager |
 | Billing Manager - Pending Allocations | `/nodes/billing/pending/` | Billing Manager |
