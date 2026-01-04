@@ -36,6 +36,7 @@ Log into the ORCD Rental Portal using your MIT Kerberos credentials at [https://
 - **Home** - Dashboard with summary cards for your rentals, projects, account, and billing
 - **Nodes** - View available GPU and CPU node information
 - **Rent H200x8** - Access the rental calendar and make reservations
+- **Rates** - View current rental rates and pricing
 - **Projects** - View and manage your projects
 - **User Profile** - View your account information and maintenance fee status
 
@@ -293,6 +294,40 @@ After submitting a reservation request:
 
 ??? example "Example Scenario: Making a Reservation"
     *Dr. Johnson's lab needs exclusive access to a GPU node for a 3-day training run. She navigates to the Rent H200x8 page and checks the calendar. She sees node `orcd2304` is available next week (shown in green). She clicks "Request Reservation", selects the node, chooses her `johnson_lab` project, picks Monday as the start date, and selects 6 blocks (72 hours) for the duration. She adds a note: "Large language model fine-tuning run." After submitting, the reservation shows as "P" (pending) on the calendar. Two days later, she receives notification that the Rental Manager has confirmed her request.*
+
+---
+
+## Current Rates
+
+The Rates page shows current pricing for all rental services. Navigate to **Rates** in the main menu to view pricing information.
+
+### Rate Categories
+
+Rates are organized into three categories:
+
+| Category | Billing Unit | Description |
+|----------|--------------|-------------|
+| **Node Rentals** | Hourly | GPU and CPU node rental rates (e.g., H200x8, L40Sx4) |
+| **Account Maintenance Fee** | Monthly | Subscription tiers for rental service access |
+| **Quality of Service** | Monthly | Priority and resource allocation tiers |
+
+### Viewing Rates
+
+The Current Rates page displays:
+
+- **Rate cards** grouped by category
+- **Current rate** for each item
+- **Specifications** for nodes (GPU type, memory, etc.)
+- **Upcoming rate changes** indicated by badges when scheduled
+
+### Filtering Rates
+
+Use the filter options to narrow down the display:
+
+- Filter by category (Node, Maintenance, QoS)
+- Filter by specifications (GPU type, memory size, etc.)
+
+Click on any rate card to view detailed information including the full rate history.
 
 ---
 
@@ -697,6 +732,17 @@ For Quality of Service (QoS) configurations, you can create custom SKUs:
 !!! warning "QoS SKUs Only"
     Custom SKU creation is only available for QoS-type items. Node and Maintenance SKUs are predefined.
 
+### Managing SKU Visibility
+
+Rate Managers can control which SKUs appear on the public Current Rates page:
+
+1. From the Rate Manager dashboard, locate the SKU
+2. Use the **Visible** toggle switch to show or hide the SKU
+3. Changes take effect immediately
+
+!!! tip "Public vs. Internal SKUs"
+    Use visibility toggles to hide internal or deprecated SKUs from the public rates page while keeping them available for billing purposes.
+
 ---
 
 ## Activity Log
@@ -853,6 +899,8 @@ curl -H "Authorization: Token your-token-here" \
 | Request Reservation | `/nodes/renting/request/` | All users |
 | My Reservations | `/nodes/my/reservations/` | All users |
 | Reservation Detail | `/nodes/reservation/<id>/` | Project members |
+| Current Rates | `/nodes/rates/current/` | All users |
+| Rate Detail | `/nodes/rates/current/<id>/` | All users |
 | User Profile | `/user/user-profile/` | All users |
 | Project List | `/project/` | All users |
 | Create Project | `/project/create/` | All users (with PI status) |
