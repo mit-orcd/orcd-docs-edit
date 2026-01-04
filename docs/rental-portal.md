@@ -645,9 +645,63 @@ To export an invoice for external systems or record-keeping:
 
 ---
 
+## Rate Manager Guide
+
+This section is for staff members with the **Rate Manager** role who are responsible for managing rental rates and pricing.
+
+### Accessing the Rate Manager Dashboard
+
+1. Log into the Rental Portal
+2. Click **Admin Functions** in the navigation bar
+3. Click **Manage Rates** (visible only to Rate Managers)
+
+### Understanding SKUs
+
+The Rate Manager organizes billable items into **SKUs** (Stock Keeping Units), grouped by type:
+
+| SKU Type | Billing Unit | Examples |
+|----------|--------------|----------|
+| **Node** | Hourly | H200x8, L40Sx4, CPU_384G, CPU_1500G |
+| **Maintenance** | Monthly | Basic subscription, Advanced subscription |
+| **QoS** | Monthly | Standard QoS tiers, Custom QoS setups |
+
+### Viewing SKU Details
+
+From the Rate Manager dashboard, click on any SKU to view:
+
+- Current effective rate
+- Rate history (all previous rates with effective dates)
+- When each rate became effective
+
+### Setting Rates
+
+To add a new rate for an existing SKU:
+
+1. Navigate to the SKU detail page
+2. Click **Add Rate**
+3. Enter the rate amount and effective date
+4. Click **Save**
+
+!!! note "Rate History"
+    Rates are never deleted—new rates supersede old ones based on effective date. This maintains a complete audit trail for billing accuracy.
+
+### Creating Custom SKUs
+
+For Quality of Service (QoS) configurations, you can create custom SKUs:
+
+1. From the Rate Manager dashboard, click **Create Custom SKU**
+2. Enter a name and description
+3. Set the initial rate and effective date
+4. Click **Create**
+
+!!! warning "QoS SKUs Only"
+    Custom SKU creation is only available for QoS-type items. Node and Maintenance SKUs are predefined.
+
+---
+
 ## Activity Log
 
-The Activity Log provides an audit trail of significant actions in the Rental Portal. This feature is available to **Rental Managers**, **Billing Managers**, and system administrators.
+The Activity Log provides an audit trail of significant actions in the Rental Portal. This feature is available to **Rental Managers**, **Billing Managers**, **Rate Managers**, and system administrators.
 
 ### Accessing the Activity Log
 
@@ -667,6 +721,7 @@ The activity log tracks events across multiple categories:
 | **Cost Allocation** | Cost allocation submissions and approval status changes |
 | **Invoice** | Invoice finalization, reopening, and override changes |
 | **Maintenance** | Maintenance fee status changes |
+| **Rate** | Rate changes and SKU modifications |
 | **API** | API access events |
 
 ### Filtering the Log
@@ -804,7 +859,9 @@ curl -H "Authorization: Token your-token-here" \
 | Project Reservations | `/nodes/project/<id>/reservations/` | Project members |
 | Project Archive | `/project/<id>/archive/` | Project Owner |
 | Rental Manager Dashboard | `/nodes/renting/manage/` | Rental Manager |
-| Activity Log | `/nodes/activity-log/` | Rental/Billing Manager |
+| Activity Log | `/nodes/activity-log/` | Rental/Billing/Rate Manager |
+| Rate Manager Dashboard | `/nodes/rates/` | Rate Manager |
+| SKU Detail | `/nodes/rates/sku/<id>/` | Rate Manager |
 | Billing Manager - Pending Allocations | `/nodes/billing/pending/` | Billing Manager |
 | Billing Manager - Invoice Reporting | `/nodes/billing/invoice/` | Billing Manager |
 | Invoice Report (specific month) | `/nodes/billing/invoice/YYYY/MM/` (supports `?owner=` and `?title=` filters) | Billing Manager |
