@@ -12,7 +12,7 @@ tags:
 
 The ORCD Rental Portal provides a web-based interface for managing GPU node rentals, account maintenance fees, and project billing. This guide covers all aspects of using the portal, from basic account setup to advanced management features.
 
-**Portal Access:** [https://orcd-rental.mit.edu](https://orcd-rental.mit.edu)
+**Portal Access:** [https://test.rentals.mit-orcd.org](https://test.rentals.mit-orcd.org)
 
 ## Overview
 
@@ -31,7 +31,7 @@ Key concepts:
 
 ### Accessing the Portal
 
-Log into the ORCD Rental Portal using your MIT Kerberos credentials at [https://orcd-rental.mit.edu](https://orcd-rental.mit.edu). After logging in, you'll see the main navigation with links to:
+Log into the ORCD Rental Portal using your MIT Kerberos credentials at [https://test.rentals.mit-orcd.org](https://test.rentals.mit-orcd.org). After logging in, you'll see the main navigation with links to:
 
 - **Home** - Dashboard with summary cards for your rentals, projects, account, and billing
 - **Nodes** - View available GPU and CPU node information
@@ -844,14 +844,14 @@ python manage.py drf_create_token -r USERNAME
 
 ```bash
 curl -H "Authorization: Token your-token-here" \
-     https://orcd-rental.mit.edu/nodes/api/invoice/
+     https://test.rentals.mit-orcd.org/nodes/api/invoice/
 ```
 
 **Download invoice for a specific month:**
 
 ```bash
 curl -H "Authorization: Token your-token-here" \
-     https://orcd-rental.mit.edu/nodes/api/invoice/2025/12/ \
+     https://test.rentals.mit-orcd.org/nodes/api/invoice/2025/12/ \
      -o december-2025-invoice.json
 ```
 
@@ -859,7 +859,7 @@ curl -H "Authorization: Token your-token-here" \
 
 ```bash
 curl -H "Authorization: Token your-token-here" \
-     "https://orcd-rental.mit.edu/nodes/api/users/search/?q=smith"
+     "https://test.rentals.mit-orcd.org/nodes/api/users/search/?q=smith"
 ```
 
 ??? example "Example Scenario: Automated Invoice Retrieval"
@@ -872,7 +872,7 @@ curl -H "Authorization: Token your-token-here" \
     MONTH=$(date -d "last month" +%m)
     
     curl -H "Authorization: Token $TOKEN" \
-         "https://orcd-rental.mit.edu/nodes/api/invoice/${YEAR}/${MONTH}/" \
+         "https://test.rentals.mit-orcd.org/nodes/api/invoice/${YEAR}/${MONTH}/" \
          -o "invoice-${YEAR}-${MONTH}.json"
     ```
     
