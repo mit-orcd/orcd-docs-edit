@@ -107,7 +107,7 @@ that you add MPI to your path and also add the paths to the ORCA and MPI
 libraries to your `LD_LIBRARY_PATH` environment variable:
 
 ```bash
-module load openmpi # Adds openmpi to $PATH
+module load openmpi/4.1.4 # Adds openmpi to $PATH
 export LD_LIBRARY_PATH=/path/to/orca_6_0_1_linux_x86-64_shared_openmpi416/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=/orcd/software/core/001/spack/pkg/openmpi/4.1.4/zahpnmk/lib:$LD_LIBRARY_PATH
 ```
