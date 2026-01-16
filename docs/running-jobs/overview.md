@@ -6,6 +6,22 @@ To run something on an HPC cluster, like Engaging, you will request resources fo
 
 Engaging is a large heterogenous cluster, meaning there are many different types of nodes with different configurations. Some nodes are freely available for anyone at MIT to use, and some have been purchased by labs or departments for priority use by their group. Some nodes are meant for specific types of workloads. Nodes are grouped together in *partitions*, which designate who can access them and what they should be used for. Different partitions may have different sets of rules about how many resources you can use and how long your jobs can run on them.
 
+The standard partitions that the full MIT community has access to are:
+
+| <div style="width:10em">Partition Name</div> | Purpose | Hardware Type(s) | Max Time Limit | Base Resource Limit |
+| ----------- | ----------- |----------- |----------- |----------- |
+| `mit_normal` | Longer running batch and interactive jobs that do not need a GPU | CPU only | 12 hours | 96 cores |
+| `mit_normal_gpu` | Batch and interactive jobs that need a GPU | GPUs (L40S, H100, H200) | 6 hours | 2 GPUs, 32 cores |
+| `mit_quicktest` | Short batch and interactive jobs, meant for testing | CPU only | 15 minutes | 48 cores |
+| `mit_preemptable` | Low-priority [preemtable jobs](#preemptable-jobs)- jobs that may be stopped by another job with higher priority | CPU-only, GPUs (A100, L40S, H100, H200) | 48 hours | 1024 cores, 4 GPUs |
+
+To see a summary of the nodes in each of these partitions, take a look at our [Available Resources](available-resources.md) page.
+
+!!! note "Older Partitions"
+    There are a few additional partitions that contain older nodes. These nodes run on a different operating system (Centos 7) than the ones above and therefore have a different software stack. Software built or installed on Rocky 8 or newer nodes will most likely not work on these older nodes. These partitions include `sched_mit_hill`, `newnodes`, `sched_any`, `sched_engaging_default`, and `sched_quicktest`.
+
+If you are part of a group that has purchased nodes you may see additional partitions. They will be named based on your PI's Kerberos or your group's name, depending on who purchased the nodes.
+
 To see which partitions you have access to, run the `sinfo` command: 
 
 ```
@@ -20,23 +36,7 @@ mit_preemptable up 2-00:00:00      1    mix node2906
 mit_preemptable up 2-00:00:00     27   idle node[1600-1625,2804]
 ```
 
-The `sinfo` command will tell you the names of the partitions you have access, what their time limits are, how many nodes are in each state (see [Checking Available Resources](#checking-available-resources) below), and the names of the nodes in the partitions.
-
-The standard partitions that the full MIT community has access to are:
-
-| <div style="width:10em">Partition Name</div> | Purpose | Hardware Type(s) | Max Time Limit | Resource Limit |
-| ----------- | ----------- |----------- |----------- |----------- |
-| `mit_normal` | Longer running batch and interactive jobs that do not need a GPU | CPU only | 12 hours | 96 cores |
-| `mit_normal_gpu` | Batch and interactive jobs that need a GPU | GPUs (L40S, H100, H200) | 6 hours | 2 GPUs, 32 cores |
-| `mit_quicktest` | Short batch and interactive jobs, meant for testing | CPU only | 15 minutes | 48 cores |
-| `mit_preemptable` | Low-priority [preemtable jobs](#preemptable-jobs)- jobs that may be stopped by another job with higher priority | CPU-only, GPUs (A100, L40S, H100, H200) | 48 hours | 1024 cores, 4 GPUs |
-
-To see a summary of the nodes in each of these partitions, take a look at our [Available Resources](available-resources.md) page.
-
-!!! note "Older Partitions"
-    There are a few additional partitions that contain older nodes. These nodes run on a different operating system (Centos 7) than the ones above and therefore have a different software stack. Software built or installed on Rocky 8 or newer nodes will most likely not work on these older nodes. These partitions include `sched_mit_hill`, `newnodes`, `sched_any`, `sched_engaging_default`, and `sched_quicktest`.
-
-If you are part of a group that has purchased nodes you may see additional partitions. They will be named based on your PI's Kerberos or your group's name, depending on who purchased the nodes.
+The `sinfo` command will tell you the names of the partitions you have access, what their time limits are, how many nodes are in each state, and the names of the nodes in the partitions.
 
 ### Preemptable Jobs
 
