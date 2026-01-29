@@ -16,7 +16,9 @@ The current resources limits that come with a Standard and Advanced account leve
 
 These allocations apply to the `mit_normal` and `mit_normal_gpu` [partitions](../running-jobs/overview.md#partitions). The "CPU Cores" and "Time Limit (CPU)" columns apply to the `mit_normal` partition, and the "GPUs" and "Time Limit (GPU)" columns apply to the `mit_normal_gpu` partition.
 
-Once your account has been upgraded you will be provided a QOS string that you will need to add to your job flags to use your new allocations.
+With each account level you get an additional boost in Priority. Priority is a quantity that the scheduler uses to decide the order in which jobs run. It has a number of components, one of these is boosted with the Standard and Advanced account jobs. Standard jobs will have a higher priority than an identical base account job, and Advanced jobs will have a higher priority than an identical Standard account job.
+
+Once your account has been upgraded you will be provided a QOS and account string that you will need to add to your job flags to use your new allocations.
 
 The charge for each can be found on the main ORCD site [Storage and Compute Services](https://orcd.mit.edu/resources/storage-and-compute-services) page.
 
