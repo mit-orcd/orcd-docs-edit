@@ -24,9 +24,9 @@ The charge for each can be found on the main ORCD site [Storage and Compute Serv
 
 For any questions or to upgrade your account please reach out to us at <orcd-help@mit.edu>.
 
-## Advance Rentals
+## Advance Rental Reservations
 
-Advance rentals, available to those with a Standard or Advanced account level, provide researchers guaranteed time slots for specific compute equipment (subject to availability and request lead time). We do this through reservations in Slurm.
+Advance rental reservations are available to those with a Standard or Advanced account level. These reservations provide researchers guaranteed time slots for specific compute equipment, subject to availability and request lead time. We do this through reservations in Slurm.
 
 The charge can be found on the main ORCD site [Storage and Compute Services](https://orcd.mit.edu/resources/storage-and-compute-services) page.
 

@@ -11,7 +11,7 @@ The options for storage are:
 | Storage Type | Description | Encryption at Rest  | Backup  | Namespace |Notes | 
 | ----------- | ----------- |----------- |----------- |----------- |----------- |
 | Data | Frequent data access | Optional | No |  Limited | Day to day research storage, active projects, instrument data buffers, etc. |
-| Compute (Coming Soon) | Very frequent data access | Optional | No | Limited | Very fast access, special needs, high IO |
+| Compute | Very frequent data access | Optional | No | Limited | Very fast access, special needs, high IO |
 
 Please note that all types of storage **are not backed up by default**.
 
