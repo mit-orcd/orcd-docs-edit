@@ -16,7 +16,8 @@ The current resources limits that come with a Standard and Advanced account leve
 
 These allocations apply to the `mit_normal` and `mit_normal_gpu` [partitions](../running-jobs/overview.md#partitions). The "CPU Cores" and "Time Limit (CPU)" columns apply to the `mit_normal` partition, and the "GPUs" and "Time Limit (GPU)" columns apply to the `mit_normal_gpu` partition.
 
-With each account level you get an additional boost in Priority. Priority is a quantity that the scheduler uses to decide the order in which jobs run. It has a number of components, one of these is boosted with the Standard and Advanced account jobs. Standard jobs will have a higher priority than an identical base account job, and Advanced jobs will have a higher priority than an identical Standard account job.
+!!! question "What does Medium and Higher Priority Mean?"
+    With each account level you get an additional boost in Priority. Priority is a quantity that the scheduler uses to decide the order in which jobs run. It has a number of components, one of these is boosted with the Standard and Advanced account jobs. If three identical jobs were submitted at the base, Standard, and Advanced account levels, as resources become available the Advanced job would run first, Standard second, and base job third.
 
 Once your account has been upgraded you will be provided a QOS and account string that you will need to add to your job flags to use your new allocations.
 
