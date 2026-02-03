@@ -12,7 +12,7 @@ nav:
     - SSH Control Channels: accessing-orcd/control-channels.md
   - Filesystems and File Transfer:
     - General Use Filesystems:  filesystems-file-transfer/filesystems.md
-    - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
+#    - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
     - Transferring Files:  filesystems-file-transfer/transferring-files.md
 #    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
   - Software:
@@ -55,7 +55,11 @@ nav:
     - VASP: recipes/build-vasp-gcc-cpu.md
     - VSCode: recipes/vscode.md
     - X11: recipes/X11.md
-  - Hardware Purchases: hosted-hardware.md
+  - Services:
+    - Compute Services: services/compute-services.md
+    - Storage Services: services/storage-services.md
+    - Hardware Purchases: services/hosted-hardware.md
+    - Accessing Group Resources: services/accessing-group-resources.md
   - Acknowledging Us: acknowledgements.md
   - Data Security and Privacy: data-security.md
   - Acceptable Use and Code of Conduct: code-of-conduct.md
