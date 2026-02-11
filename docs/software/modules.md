@@ -14,21 +14,14 @@ module avail
 ```
 
 !!! Note
-    (For Engaging only) Engaging's newest hardware is running with the Rocky 8 operating system, whereas older hardware is using CentOS 7. You will see different module lists depending on whether you are on Rocky 8 or CentOS 7 node.
+    Engaging's newest hardware is running with the Rocky 8 operating system, whereas older hardware is using CentOS 7. You will see different module lists depending on whether you are on Rocky 8 or CentOS 7 node.
 
-    By default you will only see the modules for [core and community software](overview.md#software-landscape). How to show deprecated modules will differ depending on the operating system for the node you are using.
+    By default you will only see the modules for [core and community software](overview.md#software-landscape). All CentOS 7 software is considered deprecated.
     
-    === "Rocky 8"
-
-        To show deprecated modules load the `deprecated-modules` module:
-        ```bash
-        module load deprecated-modules
-        ```
-    === "Centos 7"
-        Historically community modules were not separated in the Centos 7 software stack, however some newer community modules are separate. These can be seen by running the following `module use` command:
-        ```bash
-        module use /orcd/software/community/001/centos7/modulefiles
-        ```
+    To show deprecated modules on Rocky 8 load the `deprecated-modules` module:
+    ```bash
+    module load deprecated-modules
+    ```
 
 To load a module, use the command:
 

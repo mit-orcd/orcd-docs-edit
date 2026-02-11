@@ -24,43 +24,29 @@ clusters is to use the cluster's web portal. While this route is the easiest
 to set up, it can be limiting if you want more control over your environment
 or the resources allocated to your notebook.
 
-=== "Engaging"
+- Link to web portal:
+[https://engaging-ood.mit.edu/](https://engaging-ood.mit.edu/)
 
-    - Link to web portal:
-    [https://engaging-ood.mit.edu/](https://engaging-ood.mit.edu/)
+- Select "Interactive Apps" --> "Jupyter Notebook"
 
-    - Select "Interactive Apps" --> "Jupyter Notebook"
+- Follow the on-screen instructions to start a session. You are able to use
+a custom Conda environment provided it has `jupyterlab` installed.
 
-    - Follow the on-screen instructions to start a session. You are able to use
-    a custom Conda environment provided it has `jupyterlab` installed.
+- If you'd like to run [Julia](#julia), enter the name of the Julia module
+you're using (e.g., `julia/1.8.5`). Note that you need to have `IJulia`
+installed in your environment for this version of Julia.
 
-    - If you'd like to run [Julia](#julia), enter the name of the Julia module
-    you're using (e.g., `julia/1.8.5`). Note that you need to have `IJulia`
-    installed in your environment for this version of Julia.
+- If you'd like to run [R](#r), enter the name of your custom Conda
+environment that has `r-irkernel` installed.
 
-    - If you'd like to run [R](#r), enter the name of your custom Conda
-    environment that has `r-irkernel` installed.
+- When the session is ready, click "Connect to Jupyter." From here you can
+create a Jupyter notebook and select the language you would like to use.
 
-    - When the session is ready, click "Connect to Jupyter." From here you can
-    create a Jupyter notebook and select the language you would like to use.
-
-    !!! note
-        The Engaging web portal is currently running on CentOS 7, which has a
-        different set of modules from Rocky 8 nodes. If you would like to run
-        a Jupyter notebook on Rocky 8, you will need to follow either the [VS
-        Code](#vs-code) or [port forwarding](#port-forwarding) method.
-
-=== "SuperCloud"
-
-    - Link to web portal:
-    [https://txe1-portal.mit.edu/](https://txe1-portal.mit.edu/)
-
-    - Select "jupyter" and follow the on-screen instructions to create a Jupyter
-    notebook. When you open a notebook, select the kernel for your desired
-    language.
-
-    See the [SuperCloud documentation on Jupyter](https://mit-supercloud.github.io/supercloud-docs/jupyter-notebooks/)
-    for more information.
+!!! note
+    The Engaging web portal is currently running on CentOS 7, which has a
+    different set of modules from Rocky 8 nodes. If you would like to run
+    a Jupyter notebook on Rocky 8, you will need to follow either the [VS
+    Code](#vs-code) or [port forwarding](#port-forwarding) method.
 
 ### VS Code
 
@@ -87,17 +73,9 @@ node.
 First, request a compute node with the resources you'll need for your Jupyter
 session (here we are requesting 1 node with 4 CPU cores):
 
-=== "Engaging"
-
-    ```bash
-    salloc -N 1 -c 4 -p mit_normal
-    ```
-
-=== "SuperCloud"
-
-    ```bash
-    LLsub -i -s 4
-    ```
+```bash
+salloc -N 1 -c 4 -p mit_normal
+```
 
 !!! note
     See [Requesting Resources](../running-jobs/requesting-resources.md) for more
@@ -110,21 +88,11 @@ Even if you are using a different language with Jupyter, Jupyter is tightly
 linked to Python, so you will need to use a Conda environment with
 `jupyterlab` installed:
 
-=== "Engaging"
-
-    ```bash
-    module load miniforge
-    conda create -n jupyter_env jupyterlab
-    conda activate jupyter_env
-    ```
-
-=== "SuperCloud"
-
-    ```bash
-    module load anaconda
-    conda create -n jupyter_env jupyterlab
-    conda activate jupyter_env
-    ```
+```bash
+module load miniforge
+conda create -n jupyter_env jupyterlab
+conda activate jupyter_env
+```
 
 Now, we can run the notebook. To be able to access it on our local machine, we
 need to add a few arguments:
@@ -151,17 +119,9 @@ In a second terminal window on your **local machine**, set up an SSH tunnel to y
 Jupyter notebook that's running on the compute node, filling in the node name,
 port number, and username as necessary. We will keep the local port and the remote port the same for simplicity.
 
-=== "Engaging"
-
-    ```bash
-    ssh -L <port>:<node>:<port> <USER>@orcd-login001.mit.edu
-    ```
-
-=== "SuperCloud"
-
-    ```bash
-    ssh -L <port>:<node>:<port> <USER>@txe1-login.mit.edu
-    ```
+```bash
+ssh -L <port>:<node>:<port> <USER>@orcd-login001.mit.edu
+```
 
 Now you can access Jupyter in an internet browser using the link we received above.
 
@@ -197,21 +157,11 @@ See our [Julia documentation](../software/julia.md) for more information.
 To run R in a Jupyter notebook, you need to create a Conda environment with
 both `r-irkernel` and `jupyterlab` installed:
 
-=== "Engaging"
-
-    ```bash
-    module load miniforge
-    conda create -n r_jupyter_env jupyterlab r-irkernel
-    conda activate r_jupyter_env
-    ```
-
-=== "SuperCloud"
-
-    ```bash
-    module load anaconda
-    conda create -n r_jupyter_env jupyterlab r-irkernel
-    conda activate r_jupyter_env
-    ```
+```bash
+module load miniforge
+conda create -n r_jupyter_env jupyterlab r-irkernel
+conda activate r_jupyter_env
+```
 
 Most R packages are available through Conda, so feel free to install other
 packages you need to this environment.

@@ -22,7 +22,7 @@ Click the "Open a Remote Window" button in the bottom left corner of your VSCode
 
 To run on a compute node you will need at least 2 entries in this file. The first will be a login node that you'll "jump" through and the second will be the compute node that is your final destination.
 
-=== "Engaging"
+=== "Mac/Linux"
 
     In this config file we are including some settings for [Control Channels](../accessing-orcd/control-channels.md), for convenience. Control channels minimize the number of 2-Factor prompts that you get when connecting.
 
@@ -42,25 +42,25 @@ To run on a compute node you will need at least 2 entries in this file. The firs
 
     When make any initial connections you will be asked for your password in the bar at the top of the window, followed by which 2-Factor method you would prefer. Enter "1" for the default method that you've set up. After responding to your 2-factor authentication you should be connected. If you include the Control Channel settings above as long as your initial connection isn't disconnected additional connections won't require you to enter your password or respond to a 2-factor prompt again.
 
-=== "OpenMind"
+=== "Windows"
 
     ```yaml title="config"
-    Host om-login
-      HostName openmind7.mit.edu
+    Host orcd-login
+      HostName orcd-login.mit.edu
       User USERNAME
 
-    Host om-compute
+    Host orcd-compute
       User USERNAME
       HostName nodename
-      ProxyJump om-login
+      ProxyJump orcd-login
     ```
+
+    When make any connections you will be asked for your password in the bar at the top of the window, followed by which 2-Factor method you would prefer. Enter "1" for the default method that you've set up. After responding to your 2-factor authentication you should be connected.
 
 !!! note
     To use VSCode on a compute node, an SSH key is required. If you haven't set up SSH keys yet, refer to the [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
 
 Replace `USERNAME` with your username on the system you are connecting to. We will fill in "nodename" later.
-
-
 
 ## Starting your VSCode Session on a Compute Node
 
@@ -76,17 +76,9 @@ We go through these steps in detail below.
 
 Open a terminal window and ssh into the login node. If you are not used to doing this you can open a terminal in VSCode and run:
 
-=== "Engaging"
-
-    ```bash
-    ssh orcd-login
-    ```
-
-=== "Open Mind"
-
-    ```bash
-    ssh om-login
-    ```
+```bash
+ssh orcd-login
+```
 
 Use the name you have used for the login `Host` in your config file if different than the one above. The example screenshot below shows logging into one of the Engaging login nodes with ssh in a VSCode terminal window.
 
@@ -94,18 +86,7 @@ Use the name you have used for the login `Host` in your config file if different
 
 Once you are logged in start an interactive session. If you are planning to only edit files a single core may be sufficient, but if you plan to run code or Jupyter Notebooks you may want to allocate more resources accordingly. Refer to the documentation for your system on how to request an interactive job:
 
-=== "Engaging"
-
-    [Engaging's Documentation for Running Jobs](https://orcd-docs.mit.edu/running-jobs/overview/)
-    
-
-=== "SuperCloud"
-
-    [SuperCloud's Documentation for Running Jobs](https://supercloud.mit.edu/submitting-jobs)
-
-=== "OpenMind"
-
-    [OpenMind's Documentation for Running Jobs](https://github.mit.edu/MGHPCC/OpenMind/wiki/Getting-started#run)
+[Engaging's Documentation for Running Jobs](https://orcd-docs.mit.edu/running-jobs/overview/)
 
 Once your job has started you can run the `hostname` command to get the name of the node your interactive job is running on. You can also run the `squeue --me` command to list all your running jobs and get the hostname from the last column.
 
@@ -125,31 +106,16 @@ Update the `HostName` of your compute node entry in your config file. If your co
 
 If your compute node is `node1234` then your config file should look something like:
 
-=== "Engaging"
+```yaml title="config"
+Host orcd-login
+    HostName orcd-login001.mit.edu
+    User USERNAME
 
-    ```yaml title="config"
-    Host orcd-login
-      HostName orcd-login001.mit.edu
-      User USERNAME
-
-    Host orcd-compute
-      User USERNAME
-      HostName node1234
-      ProxyJump orcd-login
-    ```
-
-=== "Open Mind"
-
-    ```yaml title="config"
-    Host om-login
-      HostName openmind7.mit.edu
-      User USERNAME
-
-    Host om-compute
-      User USERNAME
-      HostName node1234
-      ProxyJump om-login
-    ```
+Host orcd-compute
+    User USERNAME
+    HostName node1234
+    ProxyJump orcd-login
+```
 
 Where `USERNAME` is replaced by your username.
 
@@ -163,15 +129,9 @@ Since the interactive job in my screenshot is running on `node2704`, I have upda
 
 You are ready to connect to the compute node you have allocated through your interactive job from VSCode. Select the "Open a Remote Window" button in the bottom left corner of your VSCode window. In the bar at the top of the page select "Connect to Host..." and select the Host for the compute node that you have created.
 
-=== "Engaging"
+In the example config file above this would be `orcd-compute`.
 
-    In the example config file above this would be `orcd-compute`.
-
-=== "Open Mind"
-
-    In the example config file above this would be `om-compute`.
-
-Here is what this might look like for Engaging:
+Here is what this might look like:
 
 ![Starting up VSCode on an Engaging Compute node](../images/vscode/vscode_connect_to_compute.png)
 

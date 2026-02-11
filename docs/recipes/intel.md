@@ -17,7 +17,7 @@ The Intel compiler is optimized for Intel CPUs. It provides the Math Kernel Libr
     If you use Rocky 8 nodes, log in to an appropriate head node first:
 
     ```
-    ssh <user>@orcd-login003.mit.edu
+    ssh <user>@orcd-login.mit.edu
     ```
 
     Load an Intel module:

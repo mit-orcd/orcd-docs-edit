@@ -75,7 +75,7 @@ To upload your SSH key on our systems, you must update the `authorized_keys` fil
     !!! Note
         **Do not remove anything already present in the authorized_keys file. Be careful to append your key to the end of the file rather than replacing its contents.**
 
-=== "Engaging OnDemand"
+=== "OnDemand"
     To add your SSH key to Engaging via OnDemand, please follow the steps outlined below:
 
     1. Login to Engaging OnDemand through the [portal](https://engaging-ood.mit.edu/).
@@ -89,12 +89,6 @@ To upload your SSH key on our systems, you must update the `authorized_keys` fil
 
     !!! Note
         **Do not remove anything already present in the authorized_keys file. Be careful to append your key to the end of the file rather than replacing its contents.**
-
-=== "SuperCloud"
-    To add your SSH key to SuperCloud, please follow the steps outlined below:
-
-    1.  Navigate to the [SuperCloud SSH Key Addition Form](https://supercloud.mit.edu/requesting-account#adding-keys) and follow the instructions to add your SSH key. 
-    2. If you encounter any problems during the SSH key submission process, refer to the [SSH Troubleshooting Checklist](https://mit-supercloud.github.io/supercloud-docs/ssh-troubleshooting-checklist/) for guidance. 
 
 ## Testing your SSH Key Setup
 

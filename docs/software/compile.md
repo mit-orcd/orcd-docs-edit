@@ -12,11 +12,17 @@ This page covers the basics of building programs from C source code, and automat
 
 ## Preparation
 
-=== "Engaging"
-     A GCC compiler is needed to compile codes. Load a GCC module first, 
-     ```
-     module load gcc/12.2.0
-     ```
+A GCC compiler is needed to compile codes. We load a GCC module when you log in, and you can check which GCC module you have loaded with
+
+```
+module list gcc
+```
+
+If you need a different version of GCC you can load it with:
+
+```
+module load gcc/12.2.0
+```
 
 ## Building a single-file program
 

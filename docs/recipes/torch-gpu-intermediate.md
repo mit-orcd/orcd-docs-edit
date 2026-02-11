@@ -25,12 +25,10 @@ However, FSDP does not gain additional speedup beyond the data parallel framewor
 
 ## Installing PyTorch
 
-=== "Engaging"
-
-     First, load a Miniforge module to provide a Python platform with PyTorch and CUDA support preinstalled, 
-     ```
-     module load miniforge/24.3.0-0
-     ```
+First, load a Miniforge module to provide a Python platform with PyTorch and CUDA support preinstalled, 
+```
+module load miniforge/24.3.0-0
+```
 
 ## Fully Sharded Data Parallel 
 
@@ -42,29 +40,27 @@ Download the codes [mnist_gpu.py](./scripts/torch-gpu-2/mnist_gpu.py) and [FSDP_
 
 ### An example with a single GPU 
 
-=== "Engaging"  
+To run the example on a single GPU, prepare a job script named `job.sh` like this,
+```
+#!/bin/bash
+#SBATCH -p mit_normal_gpu
+#SBATCH --job-name=mnist-gpu
+#SBATCH -N 1
+#SBATCH -n 1
+#SBATCH --mem=20GB
+#SBATCH --gres=gpu:h200:1  
 
-     To run the example on a single GPU, prepare a job script named `job.sh` like this,
-     ```
-     #!/bin/bash
-     #SBATCH -p mit_normal_gpu
-     #SBATCH --job-name=mnist-gpu
-     #SBATCH -N 1
-     #SBATCH -n 1
-     #SBATCH --mem=20GB
-     #SBATCH --gres=gpu:h200:1  
+module load miniforge/24.3.0-0
 
-     module load miniforge/24.3.0-0
+python mnist_gpu.py
+```
 
-     python mnist_gpu.py
-     ```
-     
-     Here we sepecify the GPU type of H200 with `--gres=gpu:h200:1`. If one is not particular about the type of GPU, `--gres=gpu:1` can be used instead. 
+Here we sepecify the GPU type of H200 with `--gres=gpu:h200:1`. If one is not particular about the type of GPU, `--gres=gpu:1` can be used instead. 
 
-     Submit the job script,
-     ```
-     sbatch job.sh
-     ```
+Submit the job script,
+```
+sbatch job.sh
+```
 
 While the job is running, you can check if the program runs on a GPU. First, check the hostname that it runs on,
 ```
@@ -81,26 +77,24 @@ and check the GPU usage with the [`nvtop`](https://orcd-docs.mit.edu/running-job
 
 Now we extend this example to multiple GPUs on a single node with FSDP. 
 
-=== "Engaging"  
+Prepare a job script named `job.sh` like this,
+```
+#!/bin/bash
+#SBATCH -p mit_normal_gpu 
+#SBATCH --job-name=fsdp
+#SBATCH -N 1
+#SBATCH -n 2
+#SBATCH --mem=20GB
+#SBATCH --gres=gpu:h200:2
 
-     Prepare a job script named `job.sh` like this,
-     ```
-     #!/bin/bash
-     #SBATCH -p mit_normal_gpu 
-     #SBATCH --job-name=fsdp
-     #SBATCH -N 1
-     #SBATCH -n 2
-     #SBATCH --mem=20GB
-     #SBATCH --gres=gpu:h200:2
+module load miniforge/24.3.0-0
 
-     module load miniforge/24.3.0-0
-
-     python FSDP_mnist.py
-     ```
-     then submit it,
-     ```
-     sbatch job.sh
-     ```
+python FSDP_mnist.py
+```
+then submit it,
+```
+sbatch job.sh
+```
 
 As set up in the program `FSDP_mnist.py`, it will run on all GPUs requested in Slurm, that is 2 in this case. That says the model is split into 2 shards, each stored on a GPU, and the training process happens on 2 batches of data simultaneously. Communication between GPUs happens under the hood. 
 
@@ -117,28 +111,27 @@ First, let's run the example on multiple GPUs within a single node.
 
 The code `fsdp_tp_example.py` is set up for this purpose. The TP size is set to be 2 in the code. The total number of GPUs should be equal to a multiple of the TP size, then the FSDP size is equal to the number of GPUs divided by the TP size.
 
-=== "Engaging"
-     To run this example on multiple GPUs, prepare a job script like this,
-     ```
-     #!/bin/bash                                                                                          
-     #SBATCH -p mit_preemptable                                                                           
-     #SBATCH -t 60                                                                                        
-     #SBATCH -N 1                                                                                         
-     #SBATCH -n 4                                                                                         
-     #SBATCH --mem=30GB                                                                                   
-     #SBATCH --gres=gpu:h200:4                                                                            
+To run this example on multiple GPUs, prepare a job script like this,
+```
+#!/bin/bash                                                                                          
+#SBATCH -p mit_preemptable                                                                           
+#SBATCH -t 60                                                                                        
+#SBATCH -N 1                                                                                         
+#SBATCH -n 4                                                                                         
+#SBATCH --mem=30GB                                                                                   
+#SBATCH --gres=gpu:h200:4                                                                            
 
-     module load miniforge/24.3.0-0
+module load miniforge/24.3.0-0
 
-     torchrun --nnodes=1 --nproc_per_node=4 \
-          --rdzv_id=$SLURM_JOB_ID \
-          --rdzv_endpoint="localhost:1234" \
-          fsdp_tp_example.py
-     ```
-     then submit it,
-     ```
-     sbatch job.sh
-     ```
+torchrun --nnodes=1 --nproc_per_node=4 \
+     --rdzv_id=$SLURM_JOB_ID \
+     --rdzv_endpoint="localhost:1234" \
+     fsdp_tp_example.py
+```
+then submit it,
+```
+sbatch job.sh
+```
 
 With the flags `--nnodes=1 --nproc-per-node=4`, the `torchrun` command will run the program on 4 GPUs within one node. The training process happens on 2 batches of data with FSDP, and the model is trained with TP sharded computation on 2 GPUs for each batch of data.
 
@@ -149,36 +142,35 @@ The flags with `rdzv` (meaning the Rendezvous protocol) are required by `torchru
 
 Finally, we run this example on multiple GPUs across multiple nodes. Note that this example requires 8 GPUs which is more than the standard user has access to on Engaging. If you have access to more GPUs, run this example on the corresponding partition.
 
-=== "Engaging"
-     Prepare a job script like this,
-     ```
-     #!/bin/bash
-     #SBATCH -p  mit_normal_gpu
-     #SBATCH -N 2
-     #SBATCH --ntasks-per-node=1
-     #SBATCH --cpus-per-task=4
-     #SBATCH --gpus-per-node=h200:4 
-     #SBATCH --mem=30GB
+Prepare a job script like this,
+```
+#!/bin/bash
+#SBATCH -p  mit_normal_gpu
+#SBATCH -N 2
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=4
+#SBATCH --gpus-per-node=h200:4 
+#SBATCH --mem=30GB
 
-     module load miniforge/24.3.0-0
-     
-     # Get IP address of the master node
-     nodes=( $( scontrol show hostnames $SLURM_JOB_NODELIST ) )
-     nodes_array=($nodes)
-     master_node=${nodes_array[0]}
-     master_node_ip=$(srun --nodes=1 --ntasks=1 -w "$master_node" hostname --ip-address)
+module load miniforge/24.3.0-0
 
-     srun torchrun --nnodes=$SLURM_NNODES \
-               --nproc-per-node=$SLURM_CPUS_PER_TASK \
-               --rdzv-id=$SLURM_JOB_ID   \
-               --rdzv-backend=c10d \
-               --rdzv-endpoint=$master_node_ip:1234 \
-               fsdp_tp_example.py
-     ```
-     then submit it,
-     ```
-     sbatch job.sh
-     ```
+# Get IP address of the master node
+nodes=( $( scontrol show hostnames $SLURM_JOB_NODELIST ) )
+nodes_array=($nodes)
+master_node=${nodes_array[0]}
+master_node_ip=$(srun --nodes=1 --ntasks=1 -w "$master_node" hostname --ip-address)
+
+srun torchrun --nnodes=$SLURM_NNODES \
+          --nproc-per-node=$SLURM_CPUS_PER_TASK \
+          --rdzv-id=$SLURM_JOB_ID   \
+          --rdzv-backend=c10d \
+          --rdzv-endpoint=$master_node_ip:1234 \
+          fsdp_tp_example.py
+```
+then submit it,
+```
+sbatch job.sh
+```
 
 The configuration of the `#SBATCH` and `torchrun` flags is similar to that in [the basic recipe of data parallel](./torch-gpu.md). 
 

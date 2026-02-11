@@ -9,9 +9,8 @@ tags:
 
 Message Passing Interface (MPI) is a standard designed for data communication in parallel computing. The MPI standard defines useful library functions/routines in C, C++, and Fortran. Python interface is available for MPI.   
 
-There are several MPI implementationos, such as `OpenMPI`, `MPICH`, `MVAPICH`, and `Intel MPI`, which work with Infiniband network for high-bandwidth data communication.
+There are several MPI implementations, such as `OpenMPI`, `MPICH`, `MVAPICH`, and `Intel MPI`, which work with Infiniband network for high-bandwidth data communication.
 
-=== "Engaging"
 
 ## MPI modules
 

@@ -16,12 +16,10 @@ This page introduces recipes to run deep-learning programs on GPUs with PyTorch.
 
 ## Installing PyTorch
 
-=== "Engaging"
-
-     First, load a Miniforge module to provide a Python platform with PyTorch preinstalled with CUDA support, which enables running on GPUs,
-     ```
-     module load miniforge/24.3.0-0
-     ```
+First, load a Miniforge module to provide a Python platform with PyTorch preinstalled with CUDA support, which enables running on GPUs,
+```
+module load miniforge/24.3.0-0
+```
 
 ## PyTorch on CPU and a single GPU
 
@@ -29,29 +27,27 @@ We start with a recipe to run PyTorch on one CPU and one GPU.
 
 We use an example code training a convolutional neural network (CNN) with the CIFAR10 data set. Refer to the [description of this example](https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html) and download the codes [for CPU](./scripts/torch-gpu/cnn_cifar10_cpu.py) and [for GPU](./scripts/torch-gpu/cnn_cifar10_gpu.py). 
 
-=== "Engaging"  
+Prepare a job script named `job.sh` like this,
+```
+#!/bin/bash
+#SBATCH -p mit_normal_gpu   
+#SBATCH --gres=gpu:1 
+#SBATCH -t 30
+#SBATCH -N 1
+#SBATCH -n 2
+#SBATCH --mem=10GB
 
-     Prepare a job script named `job.sh` like this,
-     ```
-     #!/bin/bash
-     #SBATCH -p mit_normal_gpu   
-     #SBATCH --gres=gpu:1 
-     #SBATCH -t 30
-     #SBATCH -N 1
-     #SBATCH -n 2
-     #SBATCH --mem=10GB
+module load miniforge/24.3.0-0
 
-     module load miniforge/24.3.0-0
-
-     echo "~~~~~~~~ Run the program on CPU ~~~~~~~~~"
-     time python cnn_cifar10_cpu.py
-     echo "~~~~~~~~ Run the program on GPU ~~~~~~~~~"
-     time python cnn_cifar10_gpu.py
-     ```
-     then submit it,
-     ```
-     sbatch job.sh
-     ```
+echo "~~~~~~~~ Run the program on CPU ~~~~~~~~~"
+time python cnn_cifar10_cpu.py
+echo "~~~~~~~~ Run the program on GPU ~~~~~~~~~"
+time python cnn_cifar10_gpu.py
+```
+then submit it,
+```
+sbatch job.sh
+```
 
 The `mit_normal_gpu` partition is for all MIT users. If your lab has a partition with GPUs, you can use it too.  
 
@@ -88,28 +84,26 @@ Download the codes for this example: [datautils.py](./scripts/torch-gpu/datautil
 
 In this section, we introduce a recipe for single-node multi-GPU data parallel. The program `multigpu.py` is set up for this purpose. 
 
-=== "Engaging"
+To run the program on 2 GPUs within one node, prepare a job script named `job.sh` like this,
+```
+#!/bin/bash
+#SBATCH -p mit_normal_gpu
+#SBATCH --job-name=ddp
+#SBATCH -N 1
+#SBATCH -n 2
+#SBATCH --mem=20GB
+#SBATCH --gres=gpu:2
 
-    To run the program on 2 GPUs within one node, prepare a job script named `job.sh` like this,
-     ```
-     #!/bin/bash
-     #SBATCH -p mit_normal_gpu
-     #SBATCH --job-name=ddp
-     #SBATCH -N 1
-     #SBATCH -n 2
-     #SBATCH --mem=20GB
-     #SBATCH --gres=gpu:2
+module load miniforge/24.3.0-0
 
-     module load miniforge/24.3.0-0
-
-     echo "======== Run on multiple GPUs ========"
-     # run for 100 epochs and save checkpoints every 20 epochs
-     python multigpu.py --batch_size=1024 100 20
-     ```
-     then submit it,
-     ```
-     sbatch job.sh
-     ```
+echo "======== Run on multiple GPUs ========"
+# run for 100 epochs and save checkpoints every 20 epochs
+python multigpu.py --batch_size=1024 100 20
+```
+then submit it,
+```
+sbatch job.sh
+```
 
 The `-N 1 -n 2 --gres=gpu:2` flags request 2 CPU cores and 2 GPUs on one node. For most GPU programs, it is recommended to set the number of CPU cores no less than the number of GPUs.
 
@@ -145,39 +139,37 @@ There are two key points in this approach.
 
 2. Set up `torchrun` to coordinate processes on different nodes.
 
-=== "Engaging"
+To run on multiple GPUs across multiple nodes, prepare a job script like this,
+```
+#!/bin/bash
+#SBATCH -p mit_normal_gpu
+#SBATCH --job-name=ddp-2nodes
+#SBATCH -N 2
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=2
+#SBATCH --gpus-per-node=2 
+#SBATCH --mem=20GB
 
-    To run on multiple GPUs across multiple nodes, prepare a job script like this,
-     ```
-     #!/bin/bash
-     #SBATCH -p mit_normal_gpu
-     #SBATCH --job-name=ddp-2nodes
-     #SBATCH -N 2
-     #SBATCH --ntasks-per-node=1
-     #SBATCH --cpus-per-task=2
-     #SBATCH --gpus-per-node=2 
-     #SBATCH --mem=20GB
+module load miniforge/24.3.0-0
 
-     module load miniforge/24.3.0-0
+# Get IP address of the master node
+nodes=( $( scontrol show hostnames $SLURM_JOB_NODELIST ) )
+nodes_array=($nodes)
+master_node=${nodes_array[0]}
+master_node_ip=$(srun --nodes=1 --ntasks=1 -w "$master_node" hostname --ip-address)
 
-     # Get IP address of the master node
-     nodes=( $( scontrol show hostnames $SLURM_JOB_NODELIST ) )
-     nodes_array=($nodes)
-     master_node=${nodes_array[0]}
-     master_node_ip=$(srun --nodes=1 --ntasks=1 -w "$master_node" hostname --ip-address)
-
-     echo "======== Run on multiple GPUs across multiple nodes ======"     
-     srun torchrun --nnodes=$SLURM_NNODES \
-          --nproc-per-node=$SLURM_CPUS_PER_TASK \
-          --rdzv-id=$SLURM_JOB_ID   \
-          --rdzv-backend=c10d \
-          --rdzv-endpoint=$master_node_ip:1234 \
-          multinode.py --batch_size=1024 100 20
-     ```
-     then submit it,
-     ```
-     sbatch job.sh
-     ```
+echo "======== Run on multiple GPUs across multiple nodes ======"     
+srun torchrun --nnodes=$SLURM_NNODES \
+     --nproc-per-node=$SLURM_CPUS_PER_TASK \
+     --rdzv-id=$SLURM_JOB_ID   \
+     --rdzv-backend=c10d \
+     --rdzv-endpoint=$master_node_ip:1234 \
+     multinode.py --batch_size=1024 100 20
+```
+then submit it,
+```
+sbatch job.sh
+```
 
 As the `#SBATCH` flags `-N 2` and `--ntasks-per-node=1` request for two nodes with one task per node, the `srun` command launches a `torchrun` command on each of the two nodes.
 

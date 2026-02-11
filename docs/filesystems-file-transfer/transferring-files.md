@@ -4,26 +4,9 @@ There are a few different ways to transfer files depending on your goals, the da
 
 We recommend using [OnDemand](#ondemand) for every-day file transfer and [Globus](#globus) for transferring large files or large numbers of files. For those who prefer to use the command line you can use [scp or rsync](#command-line).
 
-For system-specific information on transferring files for SuperCloud or OpenMind, click on one of the following tabs. This page discusses transferring files for Engaging.
-
-=== "SuperCloud"
-
-    [SuperCloud Transferring Files Documentation Page](https://mit-supercloud.github.io/supercloud-docs/transferring-files/)
-
-=== "OpenMind"
-
-    [OpenMind Transferring Files Documentation Page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-transfer-files%3F)
-
 ## OnDemand
 
-Engaging has an OnDemand web portal. SuperCloud has its own custom portal.
-
-=== "Engaging"
-
-    [Engaging OnDemand Portal](https://engaging-ood.mit.edu/)
-
-=== "SuperCloud"
-    [SuperCloud Web Portal](https://txe1-portal.mit.edu) ([Documentation](https://mit-supercloud.github.io/supercloud-docs/transferring-files/#downloading-files-through-the-web-portal))
+Engaging has an [Engaging OnDemand Portal](https://engaging-ood.mit.edu/).
 
 With the Engaging OnDemand portal you can do the following using the File Browser:
 
@@ -75,26 +58,8 @@ More documentation on transferring files through Globus can be found on the [Glo
 
 The most common commands used to transfer files are `scp` and `rsync`. You will need to run both of these commands from your local computer, before logging into any ORCD system. In order to use these two commands you will need:
 
-- The hostname of the remote machine you are transferring files to or from, these are listed below
 - The full path on the remote machine where you are copying the file to or from
 - The ability to ssh to the remote machine where you are transferring files to or from
-
-The hostname of the node where you will be transferring files is often a login node, but may also be a dedicated data transfer node. Select the system you are using to see options for the hostname here:
-
-=== "Engaging"
-
-    - `orcd-login001.mit.edu`
-    - `orcd-login002.mit.edu`
-    - `orcd-login003.mit.edu`
-    - `orcd-login004.mit.edu`
-
-=== "OpenMind"
-
-    - `openmind-dtn.mit.edu`
-
-=== "SuperCloud"
-
-    - `txe1-login.mit.edu`
 
 Both `scp` and `rsync` work similar to `cp`, in that you specify a source (where the file is coming from) and destination (where the file is going to). The main difference is that you will need to specify the hostname of the remote system.
 
@@ -102,120 +67,50 @@ Both `scp` and `rsync` work similar to `cp`, in that you specify a source (where
 # using cp to copy files within the same system
 cp /path/to/source /path/to/destination
 
-# using scp to copy files from the local system to <hostname>
-scp /path/to/source <hostname>:/path/to/destination
+# using scp to copy files from the local system to Engaging
+scp /path/to/source USERNAME@orcd-login:/path/to/destination
 
-# using scp to copy files from <hostname> to the local system
-scp <hostname>:/path/to/source /path/to/destination
+# using scp to copy files from orcd-login to the local system
+scp USERNAME@orcd-login:/path/to/source /path/to/destination
 ```
 
 Unless you have your paths memorized, the easiest way to do this is to have two terminals open. The first terminal is logged into Engaging or other remote system, the second is on your local computer. In each navigate to the respective source and destination directories. In the Engaging tab you can run the `pwd` command to print out the path to your current location and copy the output to use in the `scp` or `rsync` command.
 
 ### scp
 
-First, open a terminal on your computer (not logged into any ORCD system).
+First, open a terminal on your computer (not logged into Engaging).
 
-To transfer a file from your local computer to an ORCD system you would use the command:
+To transfer a file from your local computer to Engaging you would use the command:
 
-=== "Engaging"
-
-    ``` bash
-    scp <local-file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
-    ```
-    
-=== "OpenMind"
-
-    ``` bash
-    scp <local-file-name> USERNAME@openmind-dtn.mit.edu:<path-to-openmind-dir>
-    ```
-
-=== "SuperCloud"
-
-    ``` bash
-    scp <local-file-name> USERNAME@txe1-login.mit.edu:<path-to-supercloud-dir>
-    ```
+``` bash
+scp <local-file-name> USERNAME@orcd-login.mit.edu:<path-to-engaging-dir>
+```
 
 For example, let's say you have the local file `myscript.py` and you want to transfer it to the directory `mycode` in your home directory. The command would be:
 
-=== "Engaging"
+``` bash
+scp myscript.py USERNAME@orcd-login.mit.edu:/home/USERNAME/mycode/
+```
 
-    ``` bash
-    scp myscript.py USERNAME@orcd-login001.mit.edu:/home/USERNAME/mycode/
-    ```
+To transfer the other direction (from Engaging to your local computer) switch the order:
 
-=== "OpenMind"
-
-    ``` bash
-    scp  myscript.py USERNAME@openmind-dtn.mit.edu:/home/USERNAME/mycode/
-    ```
-
-=== "SuperCloud"
-
-    ``` bash
-    scp myscript.py USERNAME@txe1-login.mit.edu:/home/gridsan/USERNAME/mycode/
-    ```
-
-To transfer the other direction (from an ORCD system to your local computer) switch the order:
-
-=== "Engaging"
-
-    ``` bash
-    scp USERNAME@orcd-login001.mit.edu:<path-to-engaging-file> <path-to-local-dir>
-    ```
-
-=== "OpenMind"
-
-    ``` bash
-    scp USERNAME@openmind-dtn.mit.edu:<path-to-openmind-file> <path-to-local-dir>
-    ```
-
-=== "SuperCloud"
-
-    ``` bash
-    scp USERNAME@txe1-login.mit.edu:<path-to-supercloud-file> <path-to-local-dir>
-    ```
+``` bash
+scp USERNAME@orcd-login.mit.edu:<path-to-engaging-file> <path-to-local-dir>
+```
 
 If you were to have the file `results.csv` that you want to copy from the `output` directory in your remote home directory to the current directory on your computer the command would be:
 
-=== "Engaging"
-
-    ``` bash
-    scp USERNAME@orcd-login001.mit.edu:/home/USERNAME/output/results.csv .
-    ```
-
-=== "OpenMind"
-
-    ``` bash
-    scp USERNAME@openmind-dtn.mit.edu:/home/USERNAME/output/results.csv .
-    ```
-
-=== "SuperCloud"
-
-    ``` bash
-    scp USERNAME@txe1-login.mit.edu:/home/gridsan/USERNAME/output/results.csv .
-    ```
+``` bash
+scp USERNAME@orcd-login.mit.edu:/home/USERNAME/output/results.csv .
+```
 
 Note the `.` in the command above means the current directory.
 
 Similar to the `cp` command, if you want to transfer an entire directory and all of its subdirectories, use the `-r` (recursive) flag for either direction:
 
-=== "Engaging"
-
-    ``` bash
-    scp -r <local-directory-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
-    ```
-
-=== "OpenMind"
-
-    ``` bash
-    scp -r <local-directory-name> USERNAME@openmind-dtn.mit.edu:<path-to-openmind-dir>
-    ```
-
-=== "SuperCloud"
-
-    ``` bash
-    scp -r <local-directory-name> USERNAME@txe1-login.mit.edu:<path-to-supercloud-dir>
-    ```
+``` bash
+scp -r <local-directory-name> USERNAME@orcd-login.mit.edu:<path-to-engaging-dir>
+```
 
 !!! note
     To `scp` files to/from the login nodes on Engaging, you will need to
@@ -243,12 +138,13 @@ You can run `rsync --help` to print out a full list of flags that can be used wi
     To `rsync` files to/from the login nodes on Engaging, you will need to
     authenticate with Duo. You may get a Duo push without any indication from the command line.
 
-### Moving files between ORCD Systems
+### Moving files between Engaging and another Cluster
 
-If you need to move files between ORCD systems you ssh to one of the ORCD systems and initiate the transfer from that system to the other. Once you are logged into one system the process is the same as if you were to transfer files to or from your own computer. For example to move a file from SuperCloud to Engaging using `scp` you would first log into SuperCloud and then use `scp` to transfer the file:
+If you need to move files between Engaging and other system first ssh to either and then initiate the transfer from that system to the other. Once you are logged into one system the process is the same as if you were to transfer files to or from your own computer. For example to move a file from SuperCloud to Engaging using `scp` you would first log into SuperCloud and then use `scp` to transfer the file:
+
 ```bash title="Transferring files from SuperCloud to Engaging"
 ssh USERNAME@txe1-login.mit.edu
-scp <path-to-SuperCloud-file> USERNAME@orcd-login001.mit.edu:<path-to-engaging-directory>
+scp <path-to-SuperCloud-file> USERNAME@orcd-login.mit.edu:<path-to-engaging-directory>
 ```
 You can also `ssh` into Engaging and initiate the transfer from there using a similar command.
 
