@@ -51,7 +51,7 @@ Once your environment is created and activated, entering `which R` should direct
 
 ## Pre-Installed R Modules
 
-There are currently a few different versions of R installed on our systems. You can find these versions by running `module avail`. To use an R interactive environment, first load an R module, then enter `R`.
+There are currently a few different versions of R installed on Engaging. You can find these versions by running `module avail`. To use an R interactive environment, first load an R module, then enter `R`.
 
 ```bash
 module load r/4.2.2-x86_64

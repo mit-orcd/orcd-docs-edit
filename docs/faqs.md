@@ -25,8 +25,8 @@ We recommend using Conda to manage R packages. Please refer to the
 ### Can I use export controlled software on the cluster?
 
 Export controlled software has specific requirements around who is allowed to
-access the software. Often, our clusters do not meet these requirements, so
-we generally do not allow such software to be used on our systems. Please refer
+access the software. Often, cluster does not meet these requirements, so
+we generally do not allow such software to be used on our system. Please refer
 to the terms of use of the software and direct any questions to
 <orcd-help@mit.edu>.
 

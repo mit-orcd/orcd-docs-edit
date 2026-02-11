@@ -5,12 +5,12 @@ tags:
 
 # Logging in with SSH via Terminal
 
-You can log into our systems via SSH through your local terminal. Using SSH in a terminal or command line window on your desktop is the traditional way to access HPC Systems. This method offers the most flexibility, allowing you to start interactive and batch jobs to run your code, download data, and install packages.
+You can log into Engaging via SSH through your local terminal. Using SSH in a terminal or command line window on your desktop is the traditional way to access HPC Systems. This method offers the most flexibility, allowing you to start interactive and batch jobs to run your code, download data, and install packages.
 
 ## Terminal by Operating System
 A terminal window is a window with a command line interface. 
 
-To log into our systems, we use the terminal to SSH into the system. SSH (Secure Shell) is the primary way to log into remote systems. Once you initiate the SSH command, the shell in your terminal will no longer run on your computer but on the remote system. Authentication is required, either using a password or SSH keys. To set up SSH keys, please refer to the [SSH Key Setup Page](ssh-setup.md).
+To log into Engaging, we use SSH in the terminal. SSH (Secure Shell) is the primary way to log into remote systems. Once you initiate the SSH command, the shell in your terminal will no longer run on your computer but on the remote system. Authentication is required, either using a password or SSH keys. To set up SSH keys, please refer to the [SSH Key Setup Page](ssh-setup.md).
 
 Follow the directions below based on your operating system:
 

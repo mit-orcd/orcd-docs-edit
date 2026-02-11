@@ -5,7 +5,7 @@ tags:
 
 # SSH Key Setup
 
-An SSH key is a secure access credential used in the SSH protocol and establishes a secure and encrypted connection to our HPC systems. This page is for those who wish to implement SSH key authentication on top of general MIT Kerberos authentication.
+An SSH key is a secure access credential used in the SSH protocol and establishes a secure and encrypted connection to Engaging. This page is for those who wish to implement SSH key authentication on top of general MIT Kerberos authentication.
 
 SSH keys consist of a pair: a public key and a private key. 
 
@@ -55,9 +55,9 @@ Enter passphrase (empty for no passphrase):
 
 
 
-## Uploading SSH Key on Our Systems
+## Uploading SSH Key on Engaging
 
-To upload your SSH key on our systems, you must update the `authorized_keys` file in the respective system via terminal. Alternatively, you have the option to use OnDemand.
+To upload your SSH key on Engaging, you must update the `authorized_keys` file on Engaging via terminal. Alternatively, you have the option to use OnDemand.
 
 === "Terminal"
     To add your SSH key via Terminal, please follow the steps outlined below:
