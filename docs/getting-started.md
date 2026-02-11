@@ -10,91 +10,36 @@ This page contains the most common steps for setting up and getting
 started with your ORCD system account. We provide this page as a
 convenient reference to get started. Each system has its own in-depth documentation which can be found on the [ORCD Systems](orcd-systems.md) page.
 
-Sections that are system-specific will be shown under a list of tabs. Click on the tab for the system you are using and the rest of the page will show the information for that system.
-
 ## Getting an Account
 
-If you don't already have an account, click on the tab for the system you are interested in and follow the instructions.
-
-=== "Engaging"
-
-    Login into the respective OnDemand Portal [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait a couple of minutes for the system to create all the pieces for your account before submitting your first job.
-
-=== "SuperCloud"
-
-    Follow the instructions on the [Account Request Page](https://supercloud.mit.edu/requesting-account).
-
-=== "OpenMind"
-
-    OpenMind will be retired later this year. BCS users are encouraged to transition their workflows to Engaging, where they can use the `ou_bcs_low`, `ou_bcs_normal`, and `ou_bcs_high` partitions for access to GPUs. All other MIT users can access these resources through the `mit_preemptable` partition on Engaging.
-    
-    If you are in BCS and you would still like an account on OpenMind, see the [Getting an Account](https://github.mit.edu/MGHPCC/OpenMind/wiki/Cookbook:-Getting-started#account) page on OpenMind's documentation..
+If you don't already have an account, login into the Engaging OnDemand Portal [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait a couple of minutes for the system to create all the pieces for your account before submitting your first job.
 
 ## Logging In
 
 The first thing you should do when you get a new account is verify that
-you can log in. The different ORCD systems provide multiple ways to log in, including both ssh and web portals. Links to instructions for the different systems are below.
-
-=== "SuperCloud"   
-    
-    See the [Logging into SuperCloud](https://supercloud.mit.edu/getting-started) page for full documentation.
-
-=== "OpenMind"   
-    
-    See the [Logging into OpenMind](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-log-in-Openmind%3F) page for full documentation.
+you can log in. Engaging provides multiple ways to log in, including both ssh and OnDemand.
 
 ### Terminal with SSH
 
-=== "Engaging"
-    Log into Engaging with the following command in a terminal window. Replace `USERNAME` below with your MIT Kerberos username:
+Log into Engaging with the following command in a terminal window. Replace `USERNAME` below with your MIT Kerberos username:
 
-    ```bash
-    ssh USERNAME@orcd-login.mit.edu
-    ```
-    You will be prompted for your Kerberos password and then for Duo two-factor authentication.
-    
-    If you are using older Centos 7 nodes you can use one of the Centos 7 login nodes instead:
-    
-    - `orcd-vlogin001`
-    - `orcd-vlogin002`
-    - `orcd-vlogin003`
-    - `orcd-vlogin004`
+```bash
+ssh USERNAME@orcd-login.mit.edu
+```
+You will be prompted for your Kerberos password and then for Duo two-factor authentication.
 
-    See [Logging in with SSH](accessing-orcd/ssh-login.md/#logging-in-via-ssh) for more information.
+If you are using older Centos 7 nodes you can use one of the Centos 7 login nodes instead:
 
-=== "SuperCloud"
+- `orcd-vlogin001`
+- `orcd-vlogin002`
+- `orcd-vlogin003`
+- `orcd-vlogin004`
 
-    In order to log into SuperCloud with ssh you will need to add ssh keys to your account on the Web Portal. Follow the instructions on the [SuperCloud Getting Started](https://supercloud.mit.edu/getting-started) page to add your keys.
+See [Logging in with SSH](accessing-orcd/ssh-login.md/#logging-in-via-ssh) for more information.
 
-    Then you can log in with ssh using the following command, where `USERNAME` is your username on the MIT SuperCloud system:
+### OnDemand
 
-    ```bash
-    ssh USERNAME@txe1-login.mit.edu
-    ```
-
-=== "OpenMind"
-
-    Log into OpenMind with the following command in a terminal window. Replace `USERNAME` below with your Kerberos username.
-
-    ```bash
-    ssh USERNAME@openmind.mit.edu
-    ```
-
-    If you are prompted for a password enter your Kerberos password. You can add an [ssh key](accessing-orcd/ssh-setup.md) if you do not want to enter your Kerberos password at login.
-
-### Web Portal
-
-=== "Engaging"
-
-    You can log into OnDemand Web Portal with the link: [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu). For full detailed instructions please see the [OnDemand Documentation](accessing-orcd/ondemand-login.md).
-
-=== "SuperCloud"   
-
-    You can log into the SuperCloud Web Portal with the link: [https://txe1-portal.mit.edu](https://txe1-portal.mit.edu). For full detailed instructions please see the [SuperCloud Documentation](https://mit-supercloud.github.io/supercloud-docs/getting-started/).
-
-=== "OpenMind"   
-    
-    OpenMind does not have a web portal. However, check out OpenMind's documentation on the [FastX Remote Desktop](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-use-Xfast-remote-desktop%3F). You may find it provides what you are looking for.
+You can log into OnDemand Web Portal with the link: [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu). For full detailed instructions please see the [OnDemand Documentation](accessing-orcd/ondemand-login.md).
 
 ## Shared HPC Clusters
 
@@ -124,19 +69,7 @@ run anything unless it is submitted properly through the scheduler.
 The first thing you may want to do is make sure the system has the
 software and packages you need. We have installed a lot of software and
 packages on the system already, even though it may not be immediately
-obvious that it is there. Review the page for the system you are using paying particular attention to the section on modules and installing packages for the language that you use:
-
-=== "Engaging"
-
-    The Engaging Software documentation is available under the "Software" section on this site (see the sidebar on the left). We recommend reading through both the [Overview](software/overview.md) and [Modules](software/modules.md) pages, and then select the additional pages most relevant to you.
-
-=== "SuperCloud"
-
-    [SuperCloud Software Documentation Page](https://supercloud.mit.edu/software-and-package-management)
-
-=== "OpenMind"
-
-    [OpenMind Software Documentation Page](https://github.mit.edu/MGHPCC/OpenMind/wiki/Getting-started#setup)
+obvious that it is there. There are several pages in the "Software" section of this site.  We recommend reading through both the [Overview](software/overview.md) and [Modules](software/modules.md) pages, and then select the additional pages most relevant to you.
 
 If you are ever unsure if we have a particular
 software, and you cannot find it, please send us an email and ask before
@@ -167,17 +100,7 @@ code and data you need to run your job. Your home directory is not
 accessible to other users, so if you need a space to share files with other
 users, let us know and we can make a shared **group directory** for you.
 
-=== "Engaging"
-
-    The path to your home directory on Engaging is `/home/<USERNAME>`, where `<USERNAME>` is your username. The character `~` is also shorthand for your home directory in any Linux commands.
-
-=== "SuperCloud"
-
-    The path to your home directory on SuperCloud is `/home/gridsan/<USERNAME>`, where `<USERNAME>` is your username. The character `~` is also shorthand for your home directory in any Linux commands.
-
-=== "OpenMind"
-
-    The path to your home directory on OpenMind is `/home/<USERNAME>`, where `<USERNAME>` is your username. The character `~` is also shorthand for your home directory in any Linux commands.
+The path to your home directory on Engaging is `/home/<USERNAME>`, where `<USERNAME>` is your username. The character `~` is also shorthand for your home directory in any Linux commands.
 
 Anytime after you start typing a Linux command you can press the "Tab"
 button your your keyboard. This called tab-complete, and will try to
@@ -236,94 +159,25 @@ Finally, click on the box below for a list of Linux Commands. If you are new to 
                 contents to dirname2.
         -   `rm filename`: removes (deletes) the file
 
+## Filesystems
+
+Everyone on Engaging gets three spaces to store files: home, pool, and scratch. Each of these have a different purpose, size, and characteristics. You can read more about the standard user filesystems on the [General Use Filesystems](filesystems-file-transfer/filesystems.md) page.
+
+Additional shared storage can be rented through ORCD. See our [Storage Services](services/storage-services.md) page for more information.
+
 ## Transferring Files
 
 One of the first tasks is to get your code, data, and any other files
 you need into your home directory on the system. If your code is in
-github you can use git commands on the system to clone your repository
-to your home directory. You can also transfer your files to your home
-directory from your computer by using the commands `scp` or `rsync`. Read
-the page on
-[Transferring Files](./filesystems-file-transfer/transferring-files.md) for the
-system you are using to learn how to use these commands and transfer what you
-need to your home directory.
+GitHub you can use git commands on the system to clone your repository
+to your home directory. You can also transfer your files to one of your Engaging directories from your computer by using:
+- [OnDemand File browser](filesystems-file-transfer/transferring-files.md#ondemand)
+- [Globus](filesystems-file-transfer/transferring-files.md#globus)
+- The `scp` or `rsync` commands in your terminal
 
-You can use `scp` or `rsync` from the command line on your local computer for any ORCD system. Both commands work similarly to the `cp` command, following the pattern `<command> <source> <destination>`, the only difference being that you will need to include the hostname of the system you are transferring to or from. For this reason you *must* run this command from the terminal on your computer *before you've logged in*.
+Read the page on [Transferring Files](./filesystems-file-transfer/transferring-files.md) to learn more about how to transfer what you need to Engaging.
 
-To transfer a file from your computer to the ORCD system:
-
-=== "Engaging"
-
-    ``` bash
-    scp <file-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
-    ```
-
-    (You can use any of the login nodes listed above. Note that you will need to
-    authenticate with Duo)
-
-=== "SuperCloud"
-
-    ``` bash
-    scp <local-file-name> USERNAME@txe1-login:<path-to-supercloud-dir>
-    ```
-
-=== "OpenMind"
-
-    ``` bash
-    scp <local-file-name> USERNAME@openmind-dtn.mit.edu:<path-to-openmind-dir>
-    ```
-
-To transfer a file from an ORCD system to your computer:
-
-=== "Engaging"
-
-    ``` bash
-    scp USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>/<file-name> <path-to-local-dest>
-    ```
-
-    (You can use any of the login nodes listed above)
-
-=== "SuperCloud"
-
-    ``` bash
-    scp USERNAME@txe1-login:<path-to-supercloud-dir>/<file-name> <path-to-local-dest>
-    ```
-
-=== "OpenMind"
-
-    ``` bash
-    scp USERNAME@openmind-dtn.mit.edu:<path-to-openmind-dir>/<file-name> <path-to-local-dest>
-    ```
-
-Similar to `cp`, use the `-r` flag to copy over an entire directory and its contents. 
-
-=== "Engaging"
-
-    ``` bash
-    scp -r <local-dir-name> USERNAME@orcd-login001.mit.edu:<path-to-engaging-dir>
-    ```
-
-    (You can use any of the login nodes listed above)
-
-=== "SuperCloud"
-
-    ``` bash
-    scp -r <local-dir-name> USERNAME@txe1-login:<path-to-supercloud-dir>
-    ```
-
-=== "OpenMind"
-
-    ``` bash
-    scp -r <local-dir-name> USERNAME@openmind-dtn.mit.edu:<path-to-openmind-dir>
-    ```
-
-The `rsync` command can be used similarly and has some additional flags you can use. It also can be used to transfer only new or modified files to the destination, which makes it easy to keep a directory in "sync".
-
-For more information on transferring files and additional methods please see the [Transferring Files](filesystems-file-transfer/transferring-files.md) page.
-
-
-Running your First Job
-----------------------
+## Running your First Job
 
 At this point you may want to do a test-run of your code. You always
 want to start small in your test runs, so you should choose a small
@@ -332,42 +186,14 @@ to run on the system. If your test code is serial and runs okay on a
 moderate personal laptop or desktop you can request an interactive
 session to run your code in by executing the command:
 
-=== "Engaging"
-
-    ``` bash
-    # Requesting a single core for an interactive job for 1 hour
-    salloc -t 01:00:00 -p mit_normal
-    ```
-
-=== "SuperCloud"
-
-    ``` bash
-    # Requesting a single core for an interactive job
-    LLsub -i
-    ```
-
-=== "OpenMind"
-
-    ``` bash
-    # Requesting a single core for an interactive job for 1 hour
-    srun -n 1 -t 01:00:00  --pty bash  
-    ```
+``` bash
+# Requesting a single core for an interactive job for 1 hour
+salloc -t 01:00:00 -p mit_normal
+```
 
 After you run this command you will be on a compute node and you can do
 a test-run of your code. This command will allocate one core to your
 job. If your test code is multithreaded or parallel, uses a lot of
-memory, or requires a GPU you should request additional resources as needed. Not requesting the resources you will be using can negatively impact others on the system.
+memory, or requires a GPU you should request [additional resources](running-jobs/requesting-resources.md) as needed. Not requesting the resources you will be using can negatively impact others on the system.
 
-Please see your system's documentation pages for more information on requesting more resources for running interactive jobs, and how to run batch jobs.
-
-=== "Engaging"
-
-    The Engaging documentation on running jobs is available under the "Running Jobs" section on this site (see the sidebar on the left). We recommend reading through both the [Overview](running-jobs/overview.md) and [Requesting Resources](running-jobs/requesting-resources.md) pages, and then select the additional pages most relevant to you.
-
-=== "SuperCloud"
-
-    [SuperCloud's Documentation for Running Jobs](https://supercloud.mit.edu/submitting-jobs)
-
-=== "OpenMind"
-
-    [OpenMind's Documentation for Running Jobs](https://github.mit.edu/MGHPCC/OpenMind/wiki/Getting-started#run)
+Review the "Running Jobs" section of this site. We recommend reading through both the [Overview](running-jobs/overview.md) and [Requesting Resources](running-jobs/requesting-resources.md) pages, and then select any additional pages most relevant to you.
