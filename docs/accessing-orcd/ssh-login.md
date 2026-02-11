@@ -25,7 +25,7 @@ Follow the directions below based on your operating system:
     You have two options:  
 
     1. **Windows Command Prompt (CMD):** Comes with all Windows computers and supports SSH with little to no setup. However, it lacks some tools for transferring files and uses different commands than Linux.  
-    2. **Windows Subsystem for Linux (WSL) with Ubuntu**: A full Linux terminal that requires some setup but supports all commands used to interact with SuperCloud.
+    2. **Windows Subsystem for Linux (WSL) with Ubuntu**: A full Linux terminal that requires some setup but supports all commands used to interact with Engaging.
     
     To check if CMD has SSH enabled, run the command `ssh`. If SSH is not enabled, follow the instructions on this [Page](https://learn.microsoft.com/en-us/windows/terminal/tutorials/ssh) to set it up.
 

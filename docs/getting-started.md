@@ -7,8 +7,8 @@ tags:
 # Getting Started Tutorial
 
 This page contains the most common steps for setting up and getting
-started with your ORCD system account. We provide this page as a
-convenient reference to get started. Each system has its own in-depth documentation which can be found on the [ORCD Systems](orcd-systems.md) page.
+started with your Engaging account. We provide this page as a
+convenient reference to get started. Each system has its own in-depth documentation which can be found on the [Engaging System](orcd-systems.md) page.
 
 ## Getting an Account
 
@@ -43,7 +43,7 @@ You can log into OnDemand Web Portal with the link: [https://engaging-ood.mit.ed
 
 ## Shared HPC Clusters
 
-Each ORCD system is a shared HPC cluster. You are sharing this
+Engaging is a shared HPC cluster. You are sharing this
 resources with a number of other researchers, staff, and students, so it
 is important that you read this page and use the system as intended.
 
@@ -81,7 +81,7 @@ system image.
 
 ## Linux Command Line
 
-Every ORCD system runs Linux, so much of what you do on the cluster
+Engaging runs Linux, so much of what you do on the cluster
 involves the Linux command line. That doesn't mean you have to be a
 Linux expert to use the system! However the more you can get comfortable
 with the Linux command line and a handful of basic commands, the easier

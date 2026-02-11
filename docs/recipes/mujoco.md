@@ -1,7 +1,5 @@
 ---
 tags:
- - Engaging
- - SuperCloud
  - Physics
  - Howto Recipes
  - Install Recipe
@@ -16,7 +14,7 @@ MuJoCo is a free and open source physics engine that aims to facilitate research
 
 You can learn about MuJoCo here: [https://mujoco.org](https://mujoco.org).
 
-Whether you are installing on Engaging or SuperCloud, you’ll first have to install the MuJoCo binaries. This process is the same on all systems.
+You’ll first have to install the MuJoCo binaries.
 
 ## Install the MuJoCo Binaries
 

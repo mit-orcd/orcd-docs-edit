@@ -20,7 +20,7 @@ Some older nodes on Engaging have a different software stack with older software
 
 ## Steps for Getting Software
 
-One of the first steps for getting a workflow running on a new system is to set up any software or packages needed to run it. Here are a few steps to do that on an ORCD system.
+One of the first steps for getting a workflow running on a new system is to set up any software or packages needed to run it. Here are a few steps to do that on Engaging.
 
 ### Check if the Software or Package is Already Installed
 

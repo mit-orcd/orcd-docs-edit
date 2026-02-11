@@ -5,10 +5,7 @@ tags:
 
 # Logging in with OnDemand
 
-OnDemand is a web portal used to access Engaging. This page provides instructions on how to log into the OnDemand portal. For logging into SuperCloud and OpenMind, please refer to the respective documentation:  
-
-- [SuperCloud Documentation](https://mit-supercloud.github.io/supercloud-docs/web-portal/) and [Web Portal](https://txe1-portal.mit.edu)  
-- [OpenMind Login Documentation](https://github.mit.edu/MGHPCC/openmind/wiki/Getting-started#login)
+OnDemand is a web portal used to access Engaging. This page provides instructions on how to log into the OnDemand portal.
 
 ## Accessing the Web Portal
 

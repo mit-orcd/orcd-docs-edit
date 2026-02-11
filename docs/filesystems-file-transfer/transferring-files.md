@@ -26,7 +26,7 @@ The editor has some nice features like line numbers and syntax highlighting for 
 
 ## Globus
 
-If you are moving more than a few files, or your files are particularly large, we recommend using Globus. Globus is a tool that helps transfer large amounts of data between systems. We have Globus collections set up on each ORCD system. Collections are the mechanism Globus uses for accessing data.
+If you are moving more than a few files, or your files are particularly large, we recommend using Globus. Globus is a tool that helps transfer large amounts of data between systems. We have Globus collections set up on Engaging. Collections are the mechanism Globus uses for accessing data.
 
 Some advantages of using Globus are:
 
@@ -34,10 +34,12 @@ Some advantages of using Globus are:
 - You don't need to stay logged into Globus through the entire transfer
 - If your transfer is interrupted it will continue automatically where it left off once the connection is re-established
 
+The Engaging collection on Globus is called [MIT ORCD Engaging Collection](https://app.globus.org/file-manager?origin_id=ec54b570-cac5-47f7-b2a1-100c2078686f).
+
 To transfer data:
 
 1. **Log in:** Log into [Globus](https://www.globus.org/) with your MIT credentials.
-2. **Select your source and destination collections:** In the "File Manager" tab in each of the two "Collection" boxes search for the collections for the systems you want to transfer data between ([MIT ORCD Engaging Collection](https://app.globus.org/file-manager?origin_id=ec54b570-cac5-47f7-b2a1-100c2078686f) for Engaging, or see below for a full list of ORCD  Collections). To transfer data to or from your own computer you will need to set up Globus Connect Personal. Follow the instructions on the page for your system listed [here](https://docs.globus.org/globus-connect-personal/).
+2. **Select your source and destination collections:** In the "File Manager" tab in each of the two "Collection" boxes search for the collections for the systems you want to transfer data between ([MIT ORCD Engaging Collection](https://app.globus.org/file-manager?origin_id=ec54b570-cac5-47f7-b2a1-100c2078686f) for Engaging). To transfer data to or from your own computer you will need to set up Globus Connect Personal. Follow the instructions on the page for your system listed [here](https://docs.globus.org/globus-connect-personal/).
 3. **Navigate to your source and destination directories:** On the source side navigate to the source directory and select the files and/or directories you'd like to transfer. On the destination side navigate to the location where you'd like to copy your files
 4. **Select any additional settings:** Click on "Transfer and Timer Options" for additional settings, such as syncing new or changed files and scheduling recurring transfers.
 5. **Initiate the transfer:** Once you have selected the files and options you want, press the "Start" button on the source column.
@@ -45,18 +47,11 @@ To transfer data:
 
 The Globus Documentation has a [tutorial](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/) with screenshots to demonstrate this process.
 
-Here is a list of Globus Collections on ORCD systems:
-
-| System | Globus Collection | 
-| ----------- | ----------- |
-| Engaging | [MIT ORCD Engaging Collection](https://app.globus.org/file-manager?origin_id=ec54b570-cac5-47f7-b2a1-100c2078686f) | 
-| OpenMind | mithpc#openmind | 
-
 More documentation on transferring files through Globus can be found on the [Globus Documentation Pages](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/). Globus also has an [FAQ](https://docs.globus.org/faq/transfer-sharing/) that is helpful for answering any questions you might have.
 
 ## Command Line
 
-The most common commands used to transfer files are `scp` and `rsync`. You will need to run both of these commands from your local computer, before logging into any ORCD system. In order to use these two commands you will need:
+The most common commands used to transfer files are `scp` and `rsync`. You will need to run both of these commands from your local computer, before logging into Engaging. In order to use these two commands you will need:
 
 - The full path on the remote machine where you are copying the file to or from
 - The ability to ssh to the remote machine where you are transferring files to or from
@@ -158,7 +153,7 @@ Some of the most common options are:
 - [FileZilla](https://filezilla-project.org/) (Mac, Windows, and Linux)
 - [WinSCP](https://winscp.net/eng/index.php) (Windows only)
 
-To use these you will need to know the hostname of the ORCD system you are accessing, either one of the login nodes or a dedicated data transfer node. See the list of hostnames at the top of the [Command Line](#command-line) section to see which you should use for the system you are transferring files to.
+To use these you will need to use the hostname of the Engaging login nodes: `orcd-login.mit.edu`.
 
 
 

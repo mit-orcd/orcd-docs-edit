@@ -1,6 +1,5 @@
 ---
 tags:
- - OpenMind
  - MPI
  - Python
  - Howto Recipes
