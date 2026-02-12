@@ -215,7 +215,7 @@ tunneling, which will make the compute node visible to your local computer. The
 output file will contain a line that looks something like this:
 
 ```bash
-ssh -L 61000:<node>:61000 <username>@orcd-login001.mit.edu
+ssh -L 61000:<node>:61000 <username>@orcd-login.mit.edu
 ```
 
 Here we have specified port 61000 for both the local and remote sides of

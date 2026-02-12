@@ -37,7 +37,7 @@ Here are the steps to do so:
 - Upload the `.tar.xz` file to Engaging using `scp`:
 
 ```bash
-scp /path/to/source/orca_6_0_1_linux_x86-64_shared_openmpi416.tar.xz $USER@orcd-login001.mit.edu:/path/to/destination
+scp /path/to/source/orca_6_0_1_linux_x86-64_shared_openmpi416.tar.xz $USER@orcd-login.mit.edu:/path/to/destination
 ```
 
 - On Engaging, extract the `tar.xz` file:
