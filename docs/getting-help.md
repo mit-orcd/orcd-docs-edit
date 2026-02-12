@@ -5,7 +5,7 @@ tags:
 
 # Getting Help
 
-## Additional Documentation
+## These Documentation Pages
 
 These documentation pages contain a lot of information and may answer your question. You may want to check out the [FAQ page](faqs.md) or use the search feature in the top right corner to find what you are looking for.
 

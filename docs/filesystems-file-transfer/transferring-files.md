@@ -6,7 +6,7 @@ We recommend using [OnDemand](#ondemand) for every-day file transfer and [Globus
 
 ## OnDemand
 
-Engaging has an [Engaging OnDemand Portal](https://engaging-ood.mit.edu/).
+Engaging has an [Open OnDemand Portal](https://engaging-ood.mit.edu/).
 
 With the Engaging OnDemand portal you can do the following using the File Browser:
 
@@ -63,10 +63,10 @@ Both `scp` and `rsync` work similar to `cp`, in that you specify a source (where
 cp /path/to/source /path/to/destination
 
 # using scp to copy files from the local system to Engaging
-scp /path/to/source USERNAME@orcd-login:/path/to/destination
+scp /path/to/source USERNAME@orcd-login.mit.edu:/path/to/destination
 
-# using scp to copy files from orcd-login to the local system
-scp USERNAME@orcd-login:/path/to/source /path/to/destination
+# using scp to copy files from Engaging to the local system
+scp USERNAME@orcd-login.mit.edu:/path/to/source /path/to/destination
 ```
 
 Unless you have your paths memorized, the easiest way to do this is to have two terminals open. The first terminal is logged into Engaging or other remote system, the second is on your local computer. In each navigate to the respective source and destination directories. In the Engaging tab you can run the `pwd` command to print out the path to your current location and copy the output to use in the `scp` or `rsync` command.
