@@ -1,6 +1,5 @@
 ---
 tags:
- - OpenMind
  - MPI
  - Python
  - Howto Recipes
@@ -14,35 +13,19 @@ You can learn about `mpi4py` here: [https://mpi4py.readthedocs.io/en/stable/](ht
 
 ## Installation 
 
-=== "OpenMind"
+If you are using a Rocky 8 node (orcd-login), then `mpi4py` is already installed in the `miniforge/24.3.0-0` module.
 
-     The support team has installed `mpi4py` in an Anaconda module. You can load the module and do not need to install anything:
+If you are using CentOS 7 (such as orcd-vlogin001 or orcd-vlogin002), then you need to create a new Conda environment using the `miniforge` module:
 
-     ```
-     --8<-- "docs/recipes/scripts/mpi4py/p2p-openmind-setup.sh:module"
-     ```
+```
+--8<-- "docs/recipes/scripts/mpi4py/p2p-engaging-setup.sh:module"
+```
 
-     If you want to use Anaconda in your directory, refer to section 3 on [this page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-make-Python-ready-for-use%3F) to set it up, then install `mpi4py` and `numpy`:
+And install `mpi4py`:
 
-     ```
-     --8<-- "docs/recipes/scripts/mpi4py/p2p-openmind-setup.sh:install"
-     ```
-
-=== "Engaging"
-
-     If you are using a Rocky 8 node (such as orcd-login001 or orcd-login002), then `mpi4py` is already installed in the `miniforge/24.3.0-0` module.
-
-     If you are using CentOS 7 (such as orcd-vlogin001 or orcd-vlogin002), then you need to create a new Conda environment using the `miniforge` module:
-
-     ```
-     --8<-- "docs/recipes/scripts/mpi4py/p2p-engaging-setup.sh:module"
-     ```
-
-     And install `mpi4py`:
-
-     ```
-     --8<-- "docs/recipes/scripts/mpi4py/p2p-engaging-setup.sh:install"
-     ```
+```
+--8<-- "docs/recipes/scripts/mpi4py/p2p-engaging-setup.sh:install"
+```
 
 ## Example codes
 
@@ -62,33 +45,14 @@ Prepare your Python codes.
 
 ## Submitting jobs
 
-=== "OpenMind"
+Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`:
 
-     Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`:
+```bash title="p2p-job.sh"
+--8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/p2p-job-engaging.sh"
+```
 
-     ```bash title="p2p-job.sh"
-     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/p2p-job-openmind.sh"
-     ```
+Finally, submit the job:
 
-    !!! note
-        If you use Anaconda in your directory, do not load the Anaconda module. 
-
-     Finally submit the job:
-
-     ```
-     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/p2p-job-submit.sh"
-     ```
-
-=== "Engaging"
-
-     Prepare a job script. The following is a job script for running `mpi4py` codes on 8 CPU cores of one node. Save it in a file named `p2p-job.sh`:
-
-     ```bash title="p2p-job.sh"
-     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/p2p-job-engaging.sh"
-     ```
-
-     Finally, submit the job:
-     
-     ```
-     --8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/p2p-job-submit.sh"
-     ```
+```
+--8<-- "https://github.com/mit-orcd/orcd-examples/raw/main/mpi4py/p2p-job-submit.sh"
+```

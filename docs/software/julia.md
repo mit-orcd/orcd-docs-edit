@@ -4,7 +4,6 @@ tags:
  - Julia
  - vscode
  - Engaging
- - SuperCloud
 ---
 
 # Julia
@@ -15,25 +14,9 @@ of its popularity, we have pre-installed versions of Julia on each of our
 clusters. You can begin using Julia right away by running `module load julia`
 or by specifying the module specifically:
 
-=== "Engaging"
-
-    On Rocky8 nodes:
-
-    ```bash
-    module load julia/1.10.1
-    ```
-
-    On Centos7 nodes:
-
-    ```bash
-    module load julia/1.8.5
-    ```
-
-=== "SuperCloud"
-
-    ```bash
-    module load julia/1.10.1
-    ```
+```bash
+module load julia/1.10.1
+```
 
 ## Installing Packages
 
@@ -135,124 +118,18 @@ export PATH="~/julia-1.9.0/bin:$PATH"
 ## Jupyter Notebooks
 
 While Jupyter is heavily integrated with Python, it supports compatibility with
-Julia. You can run Jupyter notebooks on the web portals of
-[SuperCloud](https://txe1-portal.mit.edu/) and
-[Engaging](https://engaging-ood.mit.edu/).
+Julia. You can run Jupyter notebooks on [OnDemand](https://engaging-ood.mit.edu/). You
+can create a Julia kernel using either one of the pre-installed Julia modules, or any other Julia version you've installed in your home directory.
 
-=== "Engaging"
+To create a kernel, add the `IJulia` package and build it in your Julia environment:
 
-    On the [Engaging OnDemand web portal](https://engaging-ood.mit.edu/), you
-    can specify one of the pre-installed Julia modules under the "Additional
-    Modules" section. You can see which Julia modules are available by running
-    `module avail julia` from the command line.
-    
-    For Jupyter to recognize Julia, you need to have the `IJulia` package
-    installed and built in your Julia environment:
-
-    ```julia
-    using Pkg
-    Pkg.add("IJulia")
-    Pkg.build("IJulia")
-    ```
-
-    Note that the Julia environment you are using needs to match the version of
-    Julia that you are loading as a module.
-
-=== "SuperCloud"
-    
-    To use a Jupyter notebook on the SuperCloud web portal, navigate to
-    `/jupyter/` and launch a notebook. When the session is running, open the
-    notebook and select a Julia kernel.
-
-    For more information on running Jupyter notebooks on SuperCloud, check the
-    [SuperCloud documentation](https://mit-supercloud.github.io/supercloud-docs/jupyter-notebooks/).
-
-### Port Forwarding
-
-If you would like to use a different version of Julia that is not offered
-as a module, we suggest running a Jupyter notebook manually via port forwarding.
-This involves running the notebook on a compute node, and then accessing the
-notebook on your local machine by SSH tunnelling through a login node.
-
-To do this, first request a compute node with your desired resources:
-
-```bash
-salloc -N 1 -n 4 -p mit_normal
-```
-
-Make a note of the node that your job is running on. In this example, we're
-running on `node1600`.
-
-Then, start your desired version of Julia add the `IJulia` package to your
-environment:
-
-```Julia
+```julia
 using Pkg
 Pkg.add("IJulia")
 Pkg.build("IJulia")
-quit()
 ```
 
-Because of Jupyter's interaction with Python, you need to create and activate a
-Conda environment with `jupyter` installed:
-
-```bash
-module load miniforge
-conda create -n jupyter_env jupyter
-conda activate jupyter_env
-```
-
-!!!Note
-    For more information on Conda, see our
-    [Python documentation](python.md#conda-environments).
-
-Now, we can run the notebook. To be able to access it on our local machine, we
-need to add a few arguments:
-
-```bash
-jupyter-lab --ip=0.0.0.0 --port=8888
-```
-
-The port can be any number between 1024 and 9999. When you run the notebook,
-the output will contain a link with a token that allows you to access the
-notebook:
-
-```
-http://127.0.0.1:<remote port>/lab?token=<token>
-```
-
-For example:
-
-```
-http://127.0.0.1:8888/lab?token=7e97d59f9a17c91c11289bc5bec35ad3921725c6db55fe33
-```
-
-In a second terminal window, set up an SSH tunnel to your Jupyter notebook
-that's running on the compute node:
-
-```bash
-ssh -L <local port>:<node>:<remote port> <USER>@orcd-login001.mit.edu
-```
-
-In general, it's easier if you keep the local port and the remote port as the
-same number:
-
-```bash
-ssh -L 8888:node1600:8888 <USER>@orcd-login001.mit.edu
-```
-
-Now you can access Jupyter in an internet browser:
-
-```
-http://127.0.0.1:<local port>/lab?token=<token>
-```
-
-If you kept the local and remote ports as the same number, then you can directly
-copy the link that was given to you earlier:
-
-```
-http://127.0.0.1:8888/lab?token=7e97d59f9a17c91c11289bc5bec35ad3921725c6db55fe33
-```
+This should create a Julia Kernel that you can select for your Jupyter notebooks
 
 ### VS Code
 

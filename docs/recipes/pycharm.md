@@ -4,7 +4,7 @@ tags:
  - Best Practices
 ---
 
-# Using PyCharm on an ORCD System
+# Using PyCharm on Engaging
 
 PyCharm provides an integrated development environment for users to edit their
 Python code and has support for remote development via SSH. While we generally
@@ -20,10 +20,6 @@ essential that you run it on a compute node.
     To use PyCharm on a compute node, an SSH key is necessary. If you haven't
     set up SSH keys yet, refer to the
     [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
-
-!!! note
-    PyCharm is not available on SuperCloud because SuperCloud does not support
-    [file locking](https://mit-supercloud.github.io/supercloud-docs/file-locking/).
 
 ## Download PyCharm
 

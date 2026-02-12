@@ -5,12 +5,12 @@ tags:
 
 # Logging in with SSH via Terminal
 
-You can log into our systems via SSH through your local terminal. Using SSH in a terminal or command line window on your desktop is the traditional way to access HPC Systems. This method offers the most flexibility, allowing you to start interactive and batch jobs to run your code, download data, and install packages.
+You can log into Engaging via SSH through your local terminal. Using SSH in a terminal or command line window on your desktop is the traditional way to access HPC Systems. This method offers the most flexibility, allowing you to start interactive and batch jobs to run your code, download data, and install packages.
 
 ## Terminal by Operating System
 A terminal window is a window with a command line interface. 
 
-To log into our systems, we use the terminal to SSH into the system. SSH (Secure Shell) is the primary way to log into remote systems. Once you initiate the SSH command, the shell in your terminal will no longer run on your computer but on the remote system. Authentication is required, either using a password or SSH keys. To set up SSH keys, please refer to the [SSH Key Setup Page](ssh-setup.md).
+To log into Engaging, we use SSH in the terminal. SSH (Secure Shell) is the primary way to log into remote systems. Once you initiate the SSH command, the shell in your terminal will no longer run on your computer but on the remote system. Authentication is required, either using a password or SSH keys. To set up SSH keys, please refer to the [SSH Key Setup Page](ssh-setup.md).
 
 Follow the directions below based on your operating system:
 
@@ -25,7 +25,7 @@ Follow the directions below based on your operating system:
     You have two options:  
 
     1. **Windows Command Prompt (CMD):** Comes with all Windows computers and supports SSH with little to no setup. However, it lacks some tools for transferring files and uses different commands than Linux.  
-    2. **Windows Subsystem for Linux (WSL) with Ubuntu**: A full Linux terminal that requires some setup but supports all commands used to interact with SuperCloud.
+    2. **Windows Subsystem for Linux (WSL) with Ubuntu**: A full Linux terminal that requires some setup but supports all commands used to interact with Engaging.
     
     To check if CMD has SSH enabled, run the command `ssh`. If SSH is not enabled, follow the instructions on this [Page](https://learn.microsoft.com/en-us/windows/terminal/tutorials/ssh) to set it up.
 
@@ -35,48 +35,22 @@ Follow the directions below based on your operating system:
     For older Windows versions, install a terminal that supports bash and SSH, such as MobaXterm. Follow the instructions on this [Page](https://mobaxterm.mobatek.net/) to install MobaXterm and create a local shell.
 
 ## Logging in via SSH
-Once you have your terminal set up for your specific operating system, you can use SSH to access our HPC systems. Follow the commands below for your desired system.
 
-=== "Engaging"
-    You can login to Engaging via the command line with the SSH command:
-    ```bash 
-    ssh [username]@orcd-login.mit.edu
-    ```
-    Replace `[username]` with your MIT Kerberos username.
+Once you have your terminal set up for your specific operating system, you can use SSH to access Engaging via the command line with the command:
 
-    Connecting requires Two-Factor Authentication, your MIT Kerberos password and Duo. You can reduce the number of times you need to do Two-Factor Authentication by using [SSH Control Channels](control-channels.md).
+```bash 
+ssh [username]@orcd-login.mit.edu
+```
+Replace `[username]` with your MIT Kerberos username.
 
-    If you are still using the older Centos 7 nodes you can use one of the following login nodes instead:
+Connecting requires Two-Factor Authentication, your MIT Kerberos password and Duo. You can reduce the number of times you need to do Two-Factor Authentication by using [SSH Control Channels](control-channels.md).
 
-    - orcd-vlogin001.mit.edu  
-    - orcd-vlogin002.mit.edu 
-    - orcd-vlogin003.mit.edu
-    - orcd-vlogin004.mit.edu
+If you are still using the older Centos 7 nodes you can use one of the following login nodes instead:
 
-    !!! Note
-        You will be prompted to enter your MIT Kerberos password if you have not set up SSH keys. To set them up, please refer to our [SSH Key Setup Page](ssh-setup.md).
+- orcd-vlogin001.mit.edu  
+- orcd-vlogin002.mit.edu 
+- orcd-vlogin003.mit.edu
+- orcd-vlogin004.mit.edu
 
-=== "SuperCloud"
-    Accessing the SuperCloud system through SSH requires that your public ssh-key has been added to the `authorized_keys` file in your SuperCloud account. Follow the instructions on [this page](https://mit-supercloud.github.io/supercloud-docs/requesting-account/#generating-ssh-keys) to create your keys and add them to your account.
-    
-    If you have any issues connecting to the system, please send an email to <supercloud@mit.edu>.
-
-    To connect to SuperCloud once your SSH keys are setup, follow these steps:  
-
-    1. Open a command line terminal window.
-    2. Enter the following command, replacing `[username]` with your SuperCloud username:
-    ```bash
-    ssh [username]@txe1-login.mit.edu
-    ```
-
-=== "OpenMind"
-    To login to OpenMind, you must first be connected to the MIT Wi-Fi or MIT VPN. For further instructions, refer to this [page](https://github.mit.edu/MGHPCC/OpenMind/wiki/How-to-log-in-Openmind%3F).
-
-    To login to OpenMind via the command line, run the SSH command:
-    ```bash 
-    ssh [username]@openmind.mit.edu
-    ```
-    Replace `[username]` with your MIT Kerberos username. 
-    !!! Note
-        You will be prompted to enter your MIT Kerberos password if you have not set up SSH keys. To set them up, please refer to our [SSH Key Setup Page](ssh-setup.md).
-
+!!! Note
+    You will be prompted to enter your MIT Kerberos password even if you have set up SSH keys. To set them up, please refer to our [SSH Key Setup Page](ssh-setup.md). You can reduce the number of times you need to do Two-Factor Authentication by using [SSH Control Channels](control-channels.md).

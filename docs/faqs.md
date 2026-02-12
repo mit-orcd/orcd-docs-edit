@@ -25,8 +25,8 @@ We recommend using Conda to manage R packages. Please refer to the
 ### Can I use export controlled software on the cluster?
 
 Export controlled software has specific requirements around who is allowed to
-access the software. Often, our clusters do not meet these requirements, so
-we generally do not allow such software to be used on our systems. Please refer
+access the software. Often, cluster does not meet these requirements, so
+we generally do not allow such software to be used on our system. Please refer
 to the terms of use of the software and direct any questions to
 <orcd-help@mit.edu>.
 
@@ -49,15 +49,7 @@ please email <orcd-help-engaging@mit.edu>.
 
 ### How do I get an account?
 
-=== "Engaging"
-    If you have an MIT Kerberos account, then you can get an account on
-    Engaging. To register, navigate to the [Engaging OnDemand Portal](https://engaging-ood.mit.edu/)
-    and log in.
-
-=== "SuperCloud"
-    Access to SuperCloud is more restrictive and the account generation process
-    is more involved. For more information, see the
-    [SuperCloud documentation](https://mit-supercloud.github.io/supercloud-docs/requesting-account/).
+If you have an MIT Kerberos account, then you can get an account on Engaging. To register, navigate to the [Engaging OnDemand Portal](https://engaging-ood.mit.edu/) and log in. Your account will automatically be created. Please wait a few minutes before trying to start any jobs or interactive sessions.
 
 ### How do I install a Python package?
 

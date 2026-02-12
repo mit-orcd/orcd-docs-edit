@@ -4,7 +4,7 @@ tags:
 ---
 # Software Overview
 
-Each ORCD system has its own software stack. Many basic and commonly used software and libraries are already installed, so it is good to check before spending the time to install it yourself. This page discusses the general overview of what kinds of software are supported and points you to how to use them and what to do if what you need isn't there.
+Engaging has its own software stack. Many basic and commonly used software and libraries are already installed, so it is good to check before spending the time to install it yourself. This page discusses the general overview of what kinds of software are supported and points you to how to use them and what to do if what you need isn't there.
 
 ## Software Landscape
 
@@ -16,25 +16,11 @@ While the software stack will be different on each system, there are three gener
 | _Community_ | Software that has been built and installed by request, but is not commonly used. Support is on a best-effort basis. These should work when built but are not guaranteed to work indefinitely or when replaced with newer versions when deprecated, except by request. |
 | _Deprecated_ | Software that is no longer supported or expected to work. May be kept for legacy reasons, or will soon be removed. If software you are using is listed as deprecated or soon to be deprecated, migrate to the newer version (if available) or request a newer version (if not available). If migrating to a newer version is not an option you may be able to run your application with [Apptainer](apptainer.md). |
 
-Each individual ORCD system may not label or organize their software in this way. However, this is the support model that will be used going forward. Engaging, in particular, organizes its software in this way.
-
-Here are some general notes by system on this for Engaging and SuperCloud. Click on the tab for the system you are interested in:
-
-=== "Engaging"
-
-    Engaging nodes are one of two operating systems: Centos 7 (`sched_mit_hill` partition) and Rocky 8 (`mit_normal`, `mit_normal_gpu`, `mit_preemptable`, and `mit_quicktest` partitions). Each operating system has its own software stack.
-
-    Centos 7 has been around for longer, so it has more software installed. These nodes have a very large list of [modules](modules.md), older ones that no longer work have not necessarily been removed but can be considered deprecated. Centos 7 nodes will either be retired or migrated to Rocky 8 in the near future, so when given the choice use Rocky 8 nodes.
-
-    Rocky 8 nodes have a significantly shorter list of modules and are organized into core, community, and deprecated. Core software will be displayed by default, community and deprecated software will require a "module use" command to display. See the page on [modules](modules.md) for more information.
-
-=== "SuperCloud"
-
-    The SuperCloud software stack is managed by the Lincoln Laboratory Supercomputing Center. The modules listed are considered "core" software. Deprecated software that was part of the core stack is removed from the system. "Community" software is provided in the llgrid_beta directory in the groups location. Anyone can use them but they are not officially supported.
+Some older nodes on Engaging have a different software stack with older software versions. These nodes run an older operating system (CentOS 7). Software built for the older operating system is not expected to work on the newer nodes and is no longer supported.
 
 ## Steps for Getting Software
 
-One of the first steps for getting a workflow running on a new system is to set up any software or packages needed to run it. Here are a few steps to do that on an ORCD system.
+One of the first steps for getting a workflow running on a new system is to set up any software or packages needed to run it. Here are a few steps to do that on Engaging.
 
 ### Check if the Software or Package is Already Installed
 

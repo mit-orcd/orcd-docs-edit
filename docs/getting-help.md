@@ -5,21 +5,16 @@ tags:
 
 # Getting Help
 
-## Additional Documentation
+## These Documentation Pages
 
-Engaging documentation can be found on these pages. If you haven't found your answer for other systems elsewhere in these pages, your answer may be in the documentation for the system you are using:
-
-- [SuperCloud Documentation](https://supercloud.mit.edu/)
-- [OpenMind Documentation](https://github.mit.edu/MGHPCC/OpenMind/wiki)
+These documentation pages contain a lot of information and may answer your question. You may want to check out the [FAQ page](faqs.md) or use the search feature in the top right corner to find what you are looking for.
 
 ## Email
 
-If you can't find your answer in the documentation, please use one of the email lists below to contact us. With the exception of SuperCloud, these lists will create a ticket that our team can assign and track. In all cases these mailing lists includes the entire team, so the best available person to answer your question will respond. Sending email to the entire team will also likely get you the fastest response. Please do not send email directly to individual team members.
+If you can't find your answer in the documentation, please use one of the email lists below to contact us. These lists will create a ticket that our team can assign and track. In all cases these mailing lists includes the entire team, so the best available person to answer your question will respond. Sending email to the entire team will also likely get you the fastest response. Please do not send email directly to individual team members.
 
 - General ORCD Questions: [orcd-help@mit.edu](mailto:orcd-help@mit.edu)
 - Engaging: [orcd-help-engaging@mit.edu](mailto:orcd-help-engaging@mit.edu)
-- OpenMind: [orcd-help-openmind@mit.edu](mailto:orcd-help-openmind@mit.edu)
-- SuperCloud: [supercloud@mit.edu](mailto:supercloud@mit.edu)
 
 In this email, please provide, where applicable:
 
@@ -32,10 +27,4 @@ In this email, please provide, where applicable:
 
 ## Office Hours
 
-We host weekly office hours. Office Hours are a time when you can drop in and ask us questions. It is a great time to discuss or troubleshoot something that is difficult over email. See the table below for the available Office Hours sessions.
-
-| Session | Time | Location |
-| ----------- | ----------- |----------- |
-| Tuesday In Person Office Hours  | Tuesdays 10-11 am | [46-4199](https://whereis.mit.edu/?go=46) |
-| Thursday In Person Office Hours  | Thursdays 2-3 pm | [GIS and Data Lab](https://libraries.mit.edu/data-services/gis-data-lab/) in the [Rotch Library](https://whereis.mit.edu/?go=7) (7-238) |
-| Friday Virtual Office Hours | First, Third, and Fifth Fridays 2-3pm | Zoom, email [orcd-help@mit.edu](mailto:orcd-help@mit.edu) for the link |
+We host HPC Help and Office Hours several times each week. HPC Help and Office Hours are times when you can drop in and ask us questions. It is a great time to discuss or troubleshoot something that is difficult over email. The most up to date schedule for Office Hours is listed on the main ORCD site [Office Hours](https://orcd.mit.edu/news-and-events/office-hours) page.

@@ -12,21 +12,11 @@ R is a powerful programming language widely used for statistical computing and g
 
 Conda is a package manager commonly used for Python, but is compatible with R and can be very useful for installing packages. This can be helpful when the packages you need have specific dependency requirements. Because of these benefits, **Conda is our recommended process for using R on the cluster.** You can find more information on Conda in the [Python software section](python.md#conda-environments).
 
-When you create a Conda environment, you can specify exactly the packages you need. First, you'll need to load a pre-installed Conda module. There are multiple available, but we recommend Miniforge:
+When you create a Conda environment, you can specify exactly the packages you need. Conda is available through the Minforge module:
 
-=== "Engaging"
-
-    ```bash
-    module load miniforge/24.3.0-0
-    ```
-
-=== "SuperCloud"
-
-    ```bash
-    module load anaconda/2023b
-    ```
-
-    More information on running R on SuperCloud can be found [here](https://mit-supercloud.github.io/supercloud-docs/software-packages/#r-libraries).
+```bash
+module load miniforge/24.3.0-0
+```
 
 Now, you should be able to run `conda` commands, such as creating and activating an environment:
 
@@ -61,23 +51,12 @@ Once your environment is created and activated, entering `which R` should direct
 
 ## Pre-Installed R Modules
 
-There are currently a few different versions of R installed on our systems. You can find these versions by running `module avail`. To use an R interactive environment, first load an R module, then enter `R`.
+There are currently a few different versions of R installed on Engaging. You can find these versions by running `module avail`. To use an R interactive environment, first load an R module, then enter `R`.
 
-=== "Engaging"
-
-    On Rocky8 nodes (orcd-login001, orcd-login002, orcd-login003, orcd-login004):
-
-    ```bash
-    module load r/4.2.2-x86_64
-    R
-    ```
-
-    On Centos7 nodes (orcd-vlogin001, orcd-vlogin002, orcd-vlogin003, orcd-vlogin004):
-
-    ```bash
-    module load R/4.2.2
-    R
-    ```
+```bash
+module load r/4.2.2-x86_64
+R
+```
 
 ### Installing Packages
 
@@ -114,9 +93,7 @@ You should now see printed instructions for setting up port forwarding to intera
 
 Similar to RStudio, Jupyter notebooks offer a handy cell-based interface to run R code. You can run R on Jupyter notebooks through the Engaging web portal.
 
-=== "Engaging"
-
-    Jupyter notebooks are available through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > Jupyter Notebook. To run R, you must create a Conda environment with both `r-irkernel` and `jupyterlab` installed (see [R with Conda](#r-with-conda) and [Jupyter](../recipes/jupyter.md#r)). When starting up the notebook, enter the name of your custom Conda environment. Once you launch the session and open your notebook, you may need to change your kernel to R. Your current kernel is shown in the top right, and likely defaults to "Python 3 (ipykernel)". Click this to change it to R.
+Jupyter notebooks are available through [Engaging OnDemand](https://engaging-ood.mit.edu) > Interactive Apps > Jupyter Notebook. To run R, you must create a Conda environment with both `r-irkernel` and `jupyterlab` installed (see [R with Conda](#r-with-conda) and [Jupyter](../recipes/jupyter.md#r)). When starting up the notebook, enter the name of your custom Conda environment. Once you launch the session and open your notebook, you may need to change your kernel to R. Your current kernel is shown in the top right, and likely defaults to "Python 3 (ipykernel)". Click this to change it to R.
 
 ## FAQs
 
@@ -140,6 +117,4 @@ You can also set the path from within R:
 
 Both of these commands essentially prepend your custom path to the library path that already existed.
 
-## Further Resources
 
-[SuperCloud: Software and Package Management - R Libraries](https://mit-supercloud.github.io/supercloud-docs/software-packages/#r-libraries)
