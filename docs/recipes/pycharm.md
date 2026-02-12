@@ -52,7 +52,7 @@ following (enter your username and the correct node number):
 Host engaging-compute
   User USERNAME
   HostName nodeXXXX
-  ProxyJump orcd-login001.mit.edu
+  ProxyJump orcd-login.mit.edu
 ```
 
 !!! note

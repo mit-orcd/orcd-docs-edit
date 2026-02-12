@@ -78,7 +78,7 @@ To upload your SSH key on Engaging, you must update the `authorized_keys` file o
 === "OnDemand"
     To add your SSH key to Engaging via OnDemand, please follow the steps outlined below:
 
-    1. Login to Engaging OnDemand through the [portal](https://engaging-ood.mit.edu/).
+    1. Login to Engaging OnDemand through the [portal](https://orcd-ood.mit.edu/).
     2. Once logged in, navigate to `Files` and `Home Directory`.
     3. On the top right corner, check `Show Dotfiles`.
     ![Dotfiles Option](../images/ssh-setup/dotfiles.png)

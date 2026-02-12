@@ -6,7 +6,7 @@ We recommend using [OnDemand](#ondemand) for every-day file transfer and [Globus
 
 ## OnDemand
 
-Engaging has an [Open OnDemand Portal](https://engaging-ood.mit.edu/).
+Engaging has an [Open OnDemand Portal](https://orcd-ood.mit.edu/).
 
 With the Engaging OnDemand portal you can do the following using the File Browser:
 

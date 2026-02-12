@@ -42,7 +42,7 @@ machine (you will receive a Duo push notification - see
 [Transferring Files](../filesystems-file-transfer/transferring-files.md#scp)):
 
 ```bash
-scp /path/to/source/af3.bin.zst $USER@orcd-login001.mit.edu:~/af3
+scp /path/to/source/af3.bin.zst $USER@orcd-login.mit.edu:~/af3
 ```
 
 On Engaging, decompress the file and move to a `models` directory:
