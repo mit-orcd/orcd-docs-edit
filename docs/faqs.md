@@ -49,7 +49,7 @@ please email <orcd-help-engaging@mit.edu>.
 
 ### How do I get an account?
 
-If you have an MIT Kerberos account, then you can get an account on Engaging. To register, navigate to the [Engaging OnDemand Portal](https://engaging-ood.mit.edu/) and log in. Your account will automatically be created. Please wait a few minutes before trying to start any jobs or interactive sessions.
+If you have an MIT Kerberos account, then you can get an account on Engaging. To register, navigate to the [Engaging OnDemand Portal](https://orcd-ood.mit.edu/) and log in. Your account will automatically be created. Please wait a few minutes before trying to start any jobs or interactive sessions.
 
 ### How do I install a Python package?
 

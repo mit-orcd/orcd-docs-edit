@@ -12,7 +12,7 @@ convenient reference to get started. Each system has its own in-depth documentat
 
 ## Getting an Account
 
-If you don't already have an account, login into the Engaging OnDemand Portal [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait a couple of minutes for the system to create all the pieces for your account before submitting your first job.
+If you don't already have an account, login into the Engaging OnDemand Portal [https://orcd-ood.mit.edu](https://orcd-ood.mit.edu) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait a couple of minutes for the system to create all the pieces for your account before submitting your first job.
 
 ## Logging In
 
@@ -39,7 +39,7 @@ See [Logging in with SSH](accessing-orcd/ssh-login.md/#logging-in-via-ssh) for m
 
 ### OnDemand
 
-You can log into OnDemand Web Portal with the link: [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu). For full detailed instructions please see the [OnDemand Documentation](accessing-orcd/ondemand-login.md).
+You can log into OnDemand Web Portal with the link: [https://orcd-ood.mit.edu](https://orcd-ood.mit.edu). For full detailed instructions please see the [OnDemand Documentation](accessing-orcd/ondemand-login.md).
 
 ## Shared HPC Clusters
 

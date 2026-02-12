@@ -25,7 +25,7 @@ to set up, it can be limiting if you want more control over your environment
 or the resources allocated to your notebook.
 
 - Link to web portal:
-[https://engaging-ood.mit.edu/](https://engaging-ood.mit.edu/)
+[https://orcd-ood.mit.edu/](https://orcd-ood.mit.edu/)
 
 - Select "Interactive Apps" --> "Jupyter Notebook"
 
