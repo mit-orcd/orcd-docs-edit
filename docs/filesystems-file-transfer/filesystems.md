@@ -2,7 +2,11 @@
 
 Everyone on Engaging gets three spaces to store files: home, pool, and scratch. Each of these have a different purpose, size, and characteristics.
 
-Users each get a Home Directory that is backed up and meant for important files. An additional larger Pool space is provided for storing larger datasets longer term. The Scratch space is meant for data used in actively running jobs. It will be faster to access Scratch during your job for the majority of workloads, but it is not backed up and should not be used for long term storage. Both Pool and Scratch are not backed up. Any files that cannot be easily replaced should either be stored in Home, or backed up outside of Engaging. [Additional storage can be purchased](../services/storage-services.md), and PIs can request an additional 5TB of shared Pool storage for their lab (see [below](#pi-shared-group-storage)).
+- **Home**: Your Home Directory is meant for your most important files, as it is backed up with snapshots. We recommend keeping your software and code in your home directory. Home is located on fast flash storage.
+- **Pool**: Pool is a larger space meant as a staging area for larger datasets. It is a place to keep files that still need to be on Engaging, but aren't currently being used for computation. Pool is located on disk storage.
+- **Scratch**: Scratch space is meant for data used in actively running jobs. It will be faster to access Scratch during your job for the majority of workloads, but it is not backed up and should not be used for long term storage.
+
+Both Pool and Scratch are not backed up. Any files that cannot be easily replaced should either be stored in Home, or backed up outside of Engaging. PIs can request an additional 5TB of shared Pool storage for their lab (see [below](#pi-shared-group-storage)) and [additional storage can be purchased](../services/storage-services.md).
 
 See the table below for a description of each storage space.
 
