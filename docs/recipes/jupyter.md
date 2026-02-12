@@ -20,9 +20,7 @@ familiarity with high performance computing environments.
 ### Web Portal
 
 The most straightforward way to run a Jupyter notebook on one of our computing
-clusters is to use the cluster's web portal. While this route is the easiest
-to set up, it can be limiting if you want more control over your environment
-or the resources allocated to your notebook.
+clusters is to use the cluster's web portal.
 
 - Link to web portal:
 [https://orcd-ood.mit.edu/](https://orcd-ood.mit.edu/)
