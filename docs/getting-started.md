@@ -12,7 +12,7 @@ convenient reference to get started. Each system has its own in-depth documentat
 
 ## Getting an Account
 
-If you don't already have an account, login into the Engaging OnDemand Portal [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait a couple of minutes for the system to create all the pieces for your account before submitting your first job.
+If you don't already have an account, login into the Engaging OnDemand Portal [https://engaging-ood.mit.edu](https://engaging-ood.mit.edu) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait a few minutes for the system to create all the pieces for your account before submitting your first job. On rare occasions this could take up to an hour.
 
 ## Logging In
 
