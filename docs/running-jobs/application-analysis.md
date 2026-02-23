@@ -170,3 +170,53 @@ One key difference between `jobstats` and other tools like `nvtop` is that `jobs
 ```
 
 CPU utilization is calculated by dividing the total active CPU time by the total CPU wall time for the job, while memory usage is shown as the peak memory utilization over the course of the job.
+
+We can also look at GPU metrics:
+
+```
+[secorey@login006 ~]$ jobstats 9580918
+
+================================================================================
+                              Slurm Job Statistics                              
+================================================================================
+         Job ID: 9580918
+   User/Account: secorey/mit_general
+       Job Name: sys/dashboard/sys/jupyter
+          State: RUNNING
+          Nodes: 1
+      CPU Cores: 4
+     CPU Memory: 32GB (8GB per CPU-core)
+           GPUs: 1
+  QOS/Partition: normal/mit_normal_gpu
+        Cluster: eofe7
+     Start Time: Mon Feb 23, 2026 at 9:53 AM
+       Run Time: 00:05:15 (in progress)
+     Time Limit: 02:00:00
+
+                              Overall Utilization                               
+================================================================================
+  CPU utilization  [||||||                                         13%]
+  CPU memory usage [|||                                             6%]
+  GPU utilization  [||||||||||||||||||||||||||||                   56%]
+  GPU memory usage [|||||||||||||||||||||||||||||||||||||||||||||||96%]
+
+                              Detailed Utilization                              
+================================================================================
+  CPU utilization per node (CPU time used/run time)
+      node2804.inband: 00:05:20/00:42:01 (efficiency=12.7%)
+
+  CPU memory usage per node - used/allocated
+   node2804.inband: 1.9GB/32GB (249.0MB/4GB per core of 8)
+
+  GPU utilization per node
+      node2804.inband (GPU 1): 55.7%
+
+  GPU memory usage per node - maximum used/total
+      node2804.inband (GPU 1): 43.0GB/45GB (95.5%)
+
+                                     Notes                                      
+================================================================================
+  * Have a nice day!
+```
+
+The above output shows solid GPU utilization but lower CPU utilization, so we might consider lowering our CPU request for future runs.
