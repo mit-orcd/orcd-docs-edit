@@ -120,3 +120,53 @@ In addition to the GPU's compute running at 99%, the CPU is also running at 99%.
 On the top right, we see that "RX", data reception rate, and "TX", data transmission rate, have increased after querying the RAG model. These metrics are for data transfer between the CPU and GPU. We can also notice that the power and temperature of the system have shot up from our first look at the nvtop output. The metrics outlined in this snapshot are ones the user has less direct control over, but they can be useful for getting a better idea of how the GPU is operating.
 
 After taking a look at all the metrics above, you could evaluate whether you want to request more or less memory in the future and whether the job can be modified to use the GPU's compute more efficiently.
+
+## Jobstats
+
+[Jobstats](https://github.com/PrincetonUniversity/jobstats) is a tool developed by [Princeton Research Computing](https://researchcomputing.princeton.edu/home) that allows users to easily check CPU, GPU, and memory efficiency of their jobs. On Engaging, we currently have the `jobstats` command installed on login nodes, with job data being collected on most of our compute nodes. This means that, if you have a job running, you can run `jobstats <JOB ID>` from a login node and get basic efficiency information about your job.
+
+One key difference between `jobstats` and other tools like `nvtop` is that `jobstats` shows utilization in aggregate rather than real-time. For example:
+
+```
+[secorey@login007 ~]$ jobstats 9358523
+
+================================================================================
+                              Slurm Job Statistics                              
+================================================================================
+         Job ID: 9358523
+   User/Account: secorey/mit_general
+       Job Name: submit_mnist.sh
+          State: RUNNING
+          Nodes: 1
+      CPU Cores: 1
+     CPU Memory: 4GB (4GB per CPU-core)
+  QOS/Partition: normal/mit_normal
+        Cluster: eofe7
+     Start Time: Wed Feb 18, 2026 at 11:29 AM
+       Run Time: 00:02:30 (in progress)
+     Time Limit: 12:00:00
+
+                              Overall Utilization                               
+================================================================================
+  CPU utilization  [||||||||||||||||||||||||                       48%]
+  CPU memory usage [|||||||||                                      19%]
+
+                              Detailed Utilization                              
+================================================================================
+  CPU utilization per node (CPU time used/run time)
+      node3310.inband: 00:02:24/00:05:01 (efficiency=47.8%)
+
+  CPU memory usage per node - used/allocated
+   node3310.inband: 779.2MB/4GB (389.6MB/2GB per core of 2)
+
+                                     Notes                                      
+================================================================================
+  * The overall CPU utilization of this job is 48%. This value is low compared
+    to the target range of 90% and above. Please investigate the reason for
+    the low efficiency. For more info:
+      https://orcd-docs.mit.edu/running-jobs/application-analysis/
+
+  * Have a nice day!
+```
+
+CPU utilization is calculated by dividing the total active CPU time by the total CPU wall time for the job, while memory usage is shown as the peak memory utilization over the course of the job.
