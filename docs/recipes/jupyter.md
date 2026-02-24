@@ -13,16 +13,12 @@ range of languages, such as [Julia](../software/julia.md) and
 
 ## Choosing an Approach
 
-There are multiple ways to run Jupyter notebooks on the computing clusters
-available through ORCD. The route you choose depends on your needs and level of
+There are multiple ways to run Jupyter notebooks on Engaging. The route you choose depends on your needs and level of
 familiarity with high performance computing environments.
 
 ### OnDemand Web Portal
 
-The most straightforward way to run a Jupyter notebook on one of our computing
-clusters is to use the cluster's web portal. While this route is the easiest
-to set up, it can be limiting if you want more control over your environment
-or the resources allocated to your notebook.
+The most straightforward way to run a Jupyter notebook is to use Engaging's web portal. While this path is the easiest to set up, it can be limiting if you want more control over your environment or the resources allocated to your notebook.
 
 - Link to web portal:
 [https://orcd-ood.mit.edu/](https://orcd-ood.mit.edu/)
@@ -47,7 +43,7 @@ python -m ipykernel install --user --name $CONDA_DEFAULT_ENV
 First, follow [these instructions](./vscode.md) to set up VS Code to run on a
 compute node.
 
-Open a Jupyter notebook and click the top right button to select a kernel. You
+Open a Jupyter notebook and click the top-right button to select a kernel. You
 can select "Python Environments" for any Conda environments or "Jupyter Kernel"
 to find Julia or R environments. If you have installed R with Conda, you can
 find your Conda environment under "Jupyter Kernel." `jupyterlab` must be
@@ -55,8 +51,7 @@ installed to your Conda environment.
 
 ### Port Forwarding
 
-Port forwarding offers the most flexibility in setting up your Jupyter notebook
-but the setup is slightly more involved. With port forwarding, the rendering
+Port forwarding offers the most flexibility in setting up your Jupyter notebook, but the setup is slightly more involved. With port forwarding, the rendering
 is handled through your internet browser while computation is done on the
 cluster. This method is more lightweight than VS Code and can be more reliable.
 
@@ -106,7 +101,7 @@ allows you to access the notebook, which will look like the following:
 Make sure to select the second URL that is provided as outlined in yellow above. 
 We cannot use this link right away because that node is not available from our
 local machine. Through "tunneling," however, we can access this node through
-a login node, which is accessble from our local machine.
+a login node, which is accessible from our local machine.
 
 In a second terminal window on your **local machine**, set up an SSH tunnel to your
 Jupyter notebook that's running on the compute node, filling in the node name,
@@ -118,7 +113,7 @@ ssh -L <port>:<node>:<port> <USER>@orcd-login.mit.edu
 
 Now you can access Jupyter in an internet browser using the link we received above.
 
-Now you can open a Jupyter notebook and select your kernel from the top right
+Open a Jupyter notebook and select your kernel from the top right
 corner. The Python environment is the same environment you used to run the
 notebook.
 
@@ -147,7 +142,7 @@ notebook.
 
 === "Python"
 
-    To run Python Jupyter notebooks, install `jupyterlab` to whatever Conda
+    To run Python Jupyter notebooks, install `jupyterlab` in whatever Conda
     environment that contains the packages you need.
 
     See our [Python documentation](../software/python.md) for more information.
@@ -164,7 +159,7 @@ notebook.
     ```
 
     Most R packages are available through Conda, so feel free to install other
-    packages you need to this environment.
+    packages you need in this environment.
 
     See our [R documentation](../software/R.md) for more information.
 
@@ -181,7 +176,7 @@ resources](../running-jobs/requesting-resources.md#gpus) for more information.
 **Jupyter does not recognize the kernel for my environment. What do I do?**
 
 First, make sure you have `r-irkernel` installed if you're using R, `IJulia`
-installed (and built) if you're using Julia, and `jupyterlab` installed to
+installed (and built) if you're using Julia, and `jupyterlab` installed in
 your Conda environment.
 
 On VS Code, you may need to specify the path to the `conda` binary of the Conda
@@ -196,11 +191,11 @@ Engaging, the path would be:
 To see all kernels that Jupyter recognizes, activate a Conda environment with
 `jupyterlab` installed and run `jupyter kernelspec list`.
 
-**I tried to install `jupyterlab` to my Conda environment, but the installation failed. How can I run a Jupyter notebook with the dependencies I need?**
+**I tried to install `jupyterlab` in my Conda environment, but the installation failed. How can I run a Jupyter notebook with the dependencies I need?**
 
 It's best to install the packages you need when you create a Conda environment
 rather than one-by-one after the environment has been created. This will make
-Conda more likely to solve your environment succesfully. For example:
+Conda more likely to solve your environment successfully. For example:
 
 ```bash
 conda create -n jupyter_env jupyterlab pandas pytorch
