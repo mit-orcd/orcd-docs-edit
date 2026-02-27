@@ -59,7 +59,7 @@ Enter passphrase (empty for no passphrase):
 
 To upload your SSH key on Engaging, you must update the `authorized_keys` file on Engaging via terminal. Alternatively, you have the option to use OnDemand.
 
-If your system is a MAC or Linux machine, you can use the ssh-copy-id command to get your key onto the authorized_keys file on engaging. Windows users can try using git bash to access the ssh-copy-id command. 
+If your system is a MAC or Linux machine, you can use the `ssh-copy-id` command to get your key onto the authorized_keys file on engaging. Windows users can try using git bash or WSL to access the `ssh-copy-id` command. 
 
 === "Terminal with ssh-copy-id"
 
