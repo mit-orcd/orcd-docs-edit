@@ -59,21 +59,21 @@ Enter passphrase (empty for no passphrase):
 
 To upload your SSH key on Engaging, you must update the `authorized_keys` file on Engaging via terminal. Alternatively, you have the option to use OnDemand.
 
-If your system is a MAC or Linux machine, you can use the ssh-copy-id command to get your key onto the authorized_keys file on engaging. Windows users can try using git bash to access the ssh-copy-id command. 
+If your system is a MAC or Linux machine, you can use the `ssh-copy-id` command to get your key onto the authorized_keys file on engaging. Windows users can try using git bash or WSL to access the `ssh-copy-id` command. 
 
 === "Terminal with ssh-copy-id"
 
     This method reduces the risk of typos in your authorized_keys file. It also correctly sets the permissions of the authorized_keys file in your authorized_keys file on engaging. 
     
-    To add your SSH key with the Terminal and ssh-copy-id, please follow the steps outlined below (replace username with your Kerberos Login):
+    To add your SSH key with the Terminal and `ssh-copy-id`, please follow the steps outlined below (replace username with your Kerberos Login):
 
-    1. Open your terminal on your MAC or Linux machine (use git bash on Windows)
+    1. Open your terminal on your MAC or Linux machine (use git bash or WSL on Windows)
     2. type
        ```shell
        ssh-copy-id [username]@orcd-login.mit.edu
        ```
        enter password, then select your DUO 2 Factor Authentication method. 
-    3. If successful, you will get a message indicating that your key has been copied and you should now be able to ssh user@orcd-login.mit.edu (where user is your kerberos Login)
+    3. If successful, you will get a message indicating that your key has been copied and you should now be able to use your ssh key.
 
 === "Terminal manual copy"
     To add your SSH key via Terminal, please follow the steps outlined below:
