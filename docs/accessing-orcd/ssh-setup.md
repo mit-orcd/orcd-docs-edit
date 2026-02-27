@@ -73,7 +73,7 @@ If your system is a MAC or Linux machine, you can use the `ssh-copy-id` command 
        ssh-copy-id [username]@orcd-login.mit.edu
        ```
        enter password, then select your DUO 2 Factor Authentication method. 
-    3. If successful, you will get a message indicating that your key has been copied and you should now be able to ssh user@orcd-login.mit.edu (where user is your kerberos Login)
+    3. If successful, you will get a message indicating that your key has been copied and you should now be able to use your ssh key.
 
 === "Terminal manual copy"
     To add your SSH key via Terminal, please follow the steps outlined below:
