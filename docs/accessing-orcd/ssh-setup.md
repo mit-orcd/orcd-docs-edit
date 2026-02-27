@@ -65,7 +65,7 @@ If your system is a MAC or Linux machine, you can use the `ssh-copy-id` command 
 
     This method reduces the risk of typos in your authorized_keys file. It also correctly sets the permissions of the authorized_keys file in your authorized_keys file on engaging. 
     
-    To add your SSH key with the Terminal and ssh-copy-id, please follow the steps outlined below (replace username with your Kerberos Login):
+    To add your SSH key with the Terminal and `ssh-copy-id`, please follow the steps outlined below (replace username with your Kerberos Login):
 
     1. Open your terminal on your MAC or Linux machine (use git bash or WSL on Windows)
     2. type
