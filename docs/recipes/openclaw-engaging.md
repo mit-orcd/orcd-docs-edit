@@ -31,10 +31,10 @@ access to your research data and cluster compute resources.
     - **Review third-party skills carefully.** OpenClaw supports community
       skills that can execute arbitrary code. Only install skills from
       sources you trust, and audit skill code before enabling it.
-    - **Keep sandboxing enabled.** OpenClaw's built-in sandbox restricts the
-      agent's ability to run commands and modify files. Disabling it gives
-      the agent your full user permissions on the cluster — see
-      [Sandboxing](#sandboxing) below.
+    - **Rely on Apptainer for isolation.** This recipe disables OpenClaw's
+      internal sandbox so the agent can run commands and manage files —
+      use `--containall` and minimal bind mounts so Apptainer limits what
+      the agent can reach. See [Sandboxing](#sandboxing) below.
 
 The code and Apptainer configuration for this recipe can be found in the
 [openclaw-engaging](https://github.com/qsimeon/openclaw-engaging) GitHub
@@ -292,14 +292,29 @@ With a persistent state directory in place:
 OpenClaw has two layers of sandboxing you should be aware of:
 
 1. **OpenClaw's internal sandbox** restricts what the agent can do inside the
-   container (file access, shell commands). Keep this **enabled** (the default).
-2. **Apptainer isolation** controls what the container can see on the host.
-   Using `--containall` prevents the container from automatically mounting
-   your entire home directory, limiting exposure to only the paths you
-   explicitly bind.
+   container (file access, shell commands). With the sandbox enabled, the
+   agent cannot run shell commands, edit files, or interact with your data
+   in any meaningful way. For the agent to be useful on an HPC cluster you
+   need to disable it:
 
-For tighter isolation, launch the gateway with `--containall` and explicit
-bind mounts instead of relying on Apptainer's default home-directory mount:
+    ```bash
+    openclaw config set agents.defaults.sandbox.mode off
+    ```
+
+2. **Apptainer isolation** controls what the container can see on the host.
+   This becomes your **primary security boundary** once the internal sandbox
+   is off. Using `--containall` prevents the container from automatically
+   mounting your entire home directory, limiting exposure to only the paths
+   you explicitly bind.
+
+!!! warning
+    With the internal sandbox disabled the agent has your full user
+    permissions inside the container. Use `--containall` and explicit bind
+    mounts so Apptainer restricts what the agent can reach — do not give it
+    access to files or directories it does not need.
+
+Launch the gateway with `--containall` and explicit bind mounts instead of
+relying on Apptainer's default home-directory mount:
 
 ```bash
 apptainer run \
@@ -308,13 +323,6 @@ apptainer run \
   --bind /path/to/project:/workspace \
   apptainer/openclaw.sif gateway run
 ```
-
-!!! warning
-    We strongly recommend keeping OpenClaw's internal sandboxing enabled.
-    Disabling it gives the agent your full user permissions on the cluster,
-    allowing it to read, modify, or delete any files you have access to.
-    Combine the internal sandbox with `--containall` and minimal bind mounts
-    for the best security posture.
 
 ## HPC vs. Cloud Differences
 
