@@ -14,8 +14,27 @@ tags:
 platform that connects to cloud LLM providers (Anthropic Claude, OpenAI GPT-4o,
 Google Gemini, OpenRouter, etc.). This recipe deploys OpenClaw on the Engaging
 cluster using [Apptainer](../software/apptainer.md) so the agent has direct
-access to your research data and cluster compute resources — no data leaves the
-cluster.
+access to your research data and cluster compute resources.
+
+!!! warning "Responsible Use and Data Privacy"
+    Because OpenClaw sends your prompts and any referenced file contents to
+    **cloud LLM providers** for inference, you should treat it like any other
+    cloud service:
+
+    - **Only use low-risk data.** Do not expose sensitive, export-controlled,
+      or ITAR data to the agent. If you are unsure about your data
+      classification, consult [MIT IS&T data classification guidelines](https://ist.mit.edu/security/data-classification).
+    - **Only grant access to what the agent needs.** Use the `--containall`
+      flag and explicit `--bind` mounts (see
+      [Accessing Research Data](#accessing-research-data)) rather than
+      exposing your entire home directory.
+    - **Review third-party skills carefully.** OpenClaw supports community
+      skills that can execute arbitrary code. Only install skills from
+      sources you trust, and audit skill code before enabling it.
+    - **Keep sandboxing enabled.** OpenClaw's built-in sandbox restricts the
+      agent's ability to run commands and modify files. Disabling it gives
+      the agent your full user permissions on the cluster — see
+      [Sandboxing](#sandboxing) below.
 
 The code and Apptainer configuration for this recipe can be found in the
 [openclaw-engaging](https://github.com/qsimeon/openclaw-engaging) GitHub
@@ -28,8 +47,9 @@ additions for SLURM and Apptainer.
 The OpenClaw gateway runs inside a read-only Apptainer `.sif` container on a
 SLURM compute node. The agent calls cloud LLM APIs over HTTPS — no local GPU is
 needed for inference. All agent state (conversation history, configuration,
-workspace) is stored in `~/.openclaw/` on your home directory, so it persists
-across job preemptions.
+workspace) is stored in a persistent directory (we recommend using scratch
+space — see [Session Persistence](#session-persistence)), so it survives job
+preemptions.
 
 You access the web dashboard from your laptop via an SSH tunnel through a login
 node, similar to the [port forwarding approach used for Jupyter](jupyter.md#port-forwarding).
@@ -235,28 +255,66 @@ config command:
 openclaw config set agent.model "anthropic/claude-opus-4-6"
 ```
 
+!!! warning "API Usage Limits"
+    Autonomous agents can generate high API usage in a short period of time.
+    Some LLM providers have been known to suspend accounts that exceed
+    undocumented usage thresholds. Monitor your usage on your provider's
+    dashboard and consider setting spending limits or rate caps to avoid
+    unexpected charges or account restrictions.
+
 ### Session Persistence
 
 All conversation history, agent configuration, and workspace state is stored in
-`~/.openclaw/` on your home directory. This means:
+the `~/.openclaw/` directory. By default this is in your home directory, but
+the `.openclaw/` directory can grow large over time. We recommend moving it to
+scratch space to avoid filling your home directory quota:
+
+```bash
+# Move existing state to scratch (one-time setup)
+mv ~/.openclaw /pool001/$USER/openclaw-state
+ln -s /pool001/$USER/openclaw-state ~/.openclaw
+```
+
+!!! tip
+    Replace `/pool001/$USER` with the appropriate scratch path for your group.
+    See [Storage and Filesystems](../filesystems-file-transfer/filesystems.md)
+    for available options.
+
+With a persistent state directory in place:
 
 - Sessions survive SLURM job preemptions — just resubmit the gateway job and
   reconnect.
 - You can switch between compute nodes freely.
 - Your agent remembers previous conversations.
 
-### Disabling Sandboxing
+### Sandboxing
 
-By default, OpenClaw sandboxes agent actions. To let the agent read and write
-files or run shell commands on the cluster, disable sandboxing:
+OpenClaw has two layers of sandboxing you should be aware of:
+
+1. **OpenClaw's internal sandbox** restricts what the agent can do inside the
+   container (file access, shell commands). Keep this **enabled** (the default).
+2. **Apptainer isolation** controls what the container can see on the host.
+   Using `--containall` prevents the container from automatically mounting
+   your entire home directory, limiting exposure to only the paths you
+   explicitly bind.
+
+For tighter isolation, launch the gateway with `--containall` and explicit
+bind mounts instead of relying on Apptainer's default home-directory mount:
 
 ```bash
-openclaw config set agents.defaults.sandbox.mode off
+apptainer run \
+  --containall \
+  --home /pool001/$USER/openclaw-state \
+  --bind /path/to/project:/workspace \
+  apptainer/openclaw.sif gateway run
 ```
 
 !!! warning
-    Only disable sandboxing if you understand the implications. The agent will
-    be able to execute commands with your user permissions on the cluster.
+    We strongly recommend keeping OpenClaw's internal sandboxing enabled.
+    Disabling it gives the agent your full user permissions on the cluster,
+    allowing it to read, modify, or delete any files you have access to.
+    Combine the internal sandbox with `--containall` and minimal bind mounts
+    for the best security posture.
 
 ## HPC vs. Cloud Differences
 
@@ -275,5 +333,5 @@ openclaw config set agents.defaults.sandbox.mode off
       runs as a foreground process inside the SLURM job.
 
     These are fundamental HPC constraints, not Apptainer limitations. The
-    `openclaw` shortcut and persistent `~/.openclaw/` state keep the experience
+    `openclaw` shortcut and persistent state directory keep the experience
     close to the cloud deployment.
