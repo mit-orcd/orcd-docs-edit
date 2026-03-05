@@ -17,24 +17,15 @@ cluster using [Apptainer](../software/apptainer.md) so the agent has direct
 access to your research data and cluster compute resources.
 
 !!! warning "Responsible Use and Data Privacy"
-    Because OpenClaw sends your prompts and any referenced file contents to
-    **cloud LLM providers** for inference, you should treat it like any other
-    cloud service:
-
-    - **Only use low-risk data.** Do not expose sensitive, export-controlled,
-      or ITAR data to the agent. If you are unsure about your data
-      classification, consult [MIT IS&T data classification guidelines](https://ist.mit.edu/security/data-classification).
-    - **Only grant access to what the agent needs.** Use the `--containall`
-      flag and explicit `--bind` mounts (see
-      [Accessing Research Data](#accessing-research-data)) rather than
-      exposing your entire home directory.
-    - **Review third-party skills carefully.** OpenClaw supports community
-      skills that can execute arbitrary code. Only install skills from
-      sources you trust, and audit skill code before enabling it.
-    - **Rely on Apptainer for isolation.** This recipe disables OpenClaw's
-      internal sandbox so the agent can run commands and manage files —
-      use `--containall` and minimal bind mounts so Apptainer limits what
-      the agent can reach. See [Sandboxing](#sandboxing) below.
+    - **Only use low-risk data.** Prompts and file excerpts are sent to
+      cloud LLM APIs for processing. Do not use restricted or
+      export-controlled data. See
+      [MIT data classification](https://ist.mit.edu/security/data-classification).
+    - **Limit access.** Only bind-mount directories the agent needs.
+    - **Review third-party skills** before enabling — they execute code
+      with your permissions.
+    - **Monitor API usage.** Some providers have suspended accounts for
+      very high automated usage. Be mindful of costs with batch jobs.
 
 The code and Apptainer configuration for this recipe can be found in the
 [openclaw-engaging](https://github.com/qsimeon/openclaw-engaging) GitHub
@@ -156,22 +147,20 @@ openclaw agent --local --agent main -m "Explore CSV files in ~/my-project/data/"
 ## Step 4: Launch the Web Dashboard
 
 The web dashboard provides a browser-based chat interface for interacting with
-your agent. Start it by submitting a SLURM batch job:
+your agent. The 1-click launcher submits the SLURM job, waits for it to start,
+and prints the SSH tunnel command and dashboard URL:
 
 ```bash
 cd ~/openclaw-engaging
-sbatch apptainer/slurm-gateway.sh
+./apptainer/start-gateway.sh
 ```
 
-Check the job status and get the connection details:
+!!! note "Manual alternative"
+    You can also launch manually with `sbatch apptainer/slurm-gateway.sh`,
+    then check `cat openclaw-gw-<jobid>.out` for the connection details.
 
-```bash
-squeue -u $USER
-cat openclaw-gw-<jobid>.out
-```
-
-The output file contains an SSH tunnel command and a dashboard URL with an
-authentication token. It will look something like:
+The output will include an SSH tunnel command and a dashboard URL with an
+authentication token:
 
 ```
 SSH tunnel command:
@@ -181,7 +170,7 @@ Dashboard URL:
   http://localhost:18790/?token=<your-token>
 ```
 
-On your **local machine**, run the SSH tunnel command from the job output:
+On your **local machine**, run the SSH tunnel command from the output:
 
 ```bash
 ssh -f -N -L 18790:<node>:18790 <username>@orcd-login.mit.edu
@@ -256,29 +245,42 @@ openclaw config set agent.model "anthropic/claude-opus-4-6"
 ```
 
 !!! warning "API Usage Limits"
-    Autonomous agents can generate high API usage in a short period of time.
-    Some LLM providers have been known to suspend accounts that exceed
-    undocumented usage thresholds. Monitor your usage on your provider's
-    dashboard and consider setting spending limits or rate caps to avoid
-    unexpected charges or account restrictions.
+    Autonomous agents can generate significant API traffic. Some providers
+    have suspended accounts for exceeding automated usage thresholds.
+    Monitor usage and costs, especially with batch jobs.
 
 ### Session Persistence
 
 All conversation history, agent configuration, and workspace state is stored in
 the `~/.openclaw/` directory. By default this is in your home directory, but
-the `.openclaw/` directory can grow large over time. We recommend moving it to
-scratch space to avoid filling your home directory quota:
+the `.openclaw/` directory can grow large over time. Move it off your home
+directory early to avoid filling your quota (~195 GB).
 
-```bash
-# Move existing state to scratch (one-time setup)
-mv ~/.openclaw /pool001/$USER/openclaw-state
-ln -s /pool001/$USER/openclaw-state ~/.openclaw
-```
+!!! tip "Move `.openclaw` off your home directory"
+    **Scratch (default — everyone has access):**
 
-!!! tip
-    Replace `/pool001/$USER` with the appropriate scratch path for your group.
+    ```bash
+    mkdir -p /orcd/scratch/$USER/openclaw
+    cp -a ~/.openclaw/. /orcd/scratch/$USER/openclaw/
+    rm -rf ~/.openclaw
+    ln -s /orcd/scratch/$USER/openclaw ~/.openclaw
+    ```
+
+    **Or PI/group storage (persistent, not auto-purged):**
+
+    ```bash
+    mkdir -p /orcd/data/<pi-group>/$USER/openclaw
+    cp -a ~/.openclaw/. /orcd/data/<pi-group>/$USER/openclaw/
+    rm -rf ~/.openclaw
+    ln -s /orcd/data/<pi-group>/$USER/openclaw ~/.openclaw
+    ```
+
     See [Storage and Filesystems](../filesystems-file-transfer/filesystems.md)
-    for available options.
+    for available storage options and paths.
+
+!!! warning
+    Scratch may be purged after ~90 days of inactivity. If using scratch,
+    periodically back up `~/.openclaw/openclaw.json` and `credentials/`.
 
 With a persistent state directory in place:
 
@@ -286,43 +288,67 @@ With a persistent state directory in place:
   reconnect.
 - You can switch between compute nodes freely.
 - Your agent remembers previous conversations.
+- The scripts auto-detect `~/.openclaw` symlinks and add the necessary `-B`
+  bind mounts automatically.
 
 ### Sandboxing
 
-OpenClaw has two layers of sandboxing you should be aware of:
-
-1. **OpenClaw's internal sandbox** restricts what the agent can do inside the
-   container (file access, shell commands). With the sandbox enabled, the
-   agent cannot run shell commands, edit files, or interact with your data
-   in any meaningful way. For the agent to be useful on an HPC cluster you
-   need to disable it:
-
-    ```bash
-    openclaw config set agents.defaults.sandbox.mode off
-    ```
-
-2. **Apptainer isolation** controls what the container can see on the host.
-   This becomes your **primary security boundary** once the internal sandbox
-   is off. Using `--containall` prevents the container from automatically
-   mounting your entire home directory, limiting exposure to only the paths
-   you explicitly bind.
-
-!!! warning
-    With the internal sandbox disabled the agent has your full user
-    permissions inside the container. Use `--containall` and explicit bind
-    mounts so Apptainer restricts what the agent can reach — do not give it
-    access to files or directories it does not need.
-
-Launch the gateway with `--containall` and explicit bind mounts instead of
-relying on Apptainer's default home-directory mount:
+OpenClaw's internal sandbox requires Docker, which is not available on HPC
+nodes. The setup wizard disables it automatically so the agent can run
+commands and manage files. The Apptainer container is the security boundary
+instead.
 
 ```bash
-apptainer run \
-  --containall \
-  --home /pool001/$USER/openclaw-state \
-  --bind /path/to/project:/workspace \
-  apptainer/openclaw.sif gateway run
+openclaw config set agents.defaults.sandbox.mode off
 ```
+
+!!! note "Sandboxing approach"
+    The scripts disable OpenClaw's internal sandbox (it requires Docker,
+    unavailable on HPC) and rely on Apptainer as the security boundary.
+
+    By default, Apptainer auto-mounts your home directory. This lets the
+    agent explore the filesystem, discover datasets, and understand how
+    paths connect — the container image itself is read-only, so the agent
+    cannot modify the host OS or affect other users.
+
+    For stricter isolation, use `--containall` with explicit `-B` bind
+    mounts — but note this limits the agent's ability to explore the
+    filesystem:
+
+    ```bash
+    apptainer run \
+      --containall \
+      --home /orcd/scratch/$USER/openclaw \
+      --bind /path/to/project:/workspace \
+      apptainer/openclaw.sif gateway run
+    ```
+
+## Advanced Usage
+
+### Running Multiple Agents in Parallel
+
+For class demos or parallel experiments, you can launch multiple independent
+gateway instances on consecutive ports:
+
+```bash
+./apptainer/start-multi.sh 3
+```
+
+This creates three agents (`agent-1`, `agent-2`, `agent-3`) on ports 18790,
+18791, and 18792, each with its own SLURM job, SSH tunnel, and dashboard URL.
+Use `--prefix demo` for custom naming (`demo-1`, `demo-2`, etc.).
+
+### Cluster-Aware Agents
+
+After setup, run the workspace initialization script to give your agent
+knowledge of the Engaging cluster (SLURM partitions, storage paths, module
+system, ORCD documentation links):
+
+```bash
+./apptainer/orcd-workspace-init.sh
+```
+
+The agent loads this context automatically at the start of every session.
 
 ## HPC vs. Cloud Differences
 
@@ -332,7 +358,7 @@ apptainer run \
     the key differences on Engaging:
 
     - **No always-on gateway**: SLURM jobs have wall-time limits. When the job
-      ends, resubmit with `sbatch apptainer/slurm-gateway.sh`. Your sessions
+      ends, resubmit with `./apptainer/start-gateway.sh`. Your sessions
       persist automatically.
     - **SSH tunnel required**: Engaging compute nodes are not directly reachable
       from the internet. The SSH tunnel through a login node provides secure
