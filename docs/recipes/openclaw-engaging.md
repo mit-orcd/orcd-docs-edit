@@ -256,14 +256,14 @@ the `~/.openclaw/` directory. By default this is in your home directory, but
 the `.openclaw/` directory can grow large over time. Move it off your home
 directory early to avoid filling your quota (~195 GB).
 
-!!! tip "Move `.openclaw` off your home directory"
-    **Scratch (default — everyone has access):**
+!!! tip "Move `.openclaw` to scratch storage"
+    **Scratch (default — every ORCD user has `~/orcd/scratch`):**
 
     ```bash
-    mkdir -p /orcd/scratch/$USER/openclaw
-    cp -a ~/.openclaw/. /orcd/scratch/$USER/openclaw/
+    mkdir -p ~/orcd/scratch/openclaw
+    cp -a ~/.openclaw/. ~/orcd/scratch/openclaw/
     rm -rf ~/.openclaw
-    ln -s /orcd/scratch/$USER/openclaw ~/.openclaw
+    ln -s ~/orcd/scratch/openclaw ~/.openclaw
     ```
 
     **Or PI/group storage (persistent, not auto-purged):**
@@ -305,11 +305,12 @@ openclaw config set agents.defaults.sandbox.mode off
 !!! note "Sandboxing approach"
     The scripts disable OpenClaw's internal sandbox (it requires Docker,
     unavailable on HPC) and rely on Apptainer as the security boundary.
+    The container filesystem is read-only — the agent can't modify the
+    host OS or affect other users.
 
     By default, Apptainer auto-mounts your home directory. This lets the
     agent explore the filesystem, discover datasets, and understand how
-    paths connect — the container image itself is read-only, so the agent
-    cannot modify the host OS or affect other users.
+    paths connect.
 
     For stricter isolation, use `--containall` with explicit `-B` bind
     mounts — but note this limits the agent's ability to explore the
@@ -318,7 +319,7 @@ openclaw config set agents.defaults.sandbox.mode off
     ```bash
     apptainer run \
       --containall \
-      --home /orcd/scratch/$USER/openclaw \
+      --home ~/orcd/scratch/openclaw \
       --bind /path/to/project:/workspace \
       apptainer/openclaw.sif gateway run
     ```
