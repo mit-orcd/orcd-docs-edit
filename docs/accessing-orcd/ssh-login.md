@@ -45,7 +45,7 @@ Replace `[username]` with your MIT Kerberos username.
 
 Connecting requires Two-Factor Authentication, your MIT Kerberos password and Duo. You can reduce the number of times you need to do Two-Factor Authentication by using [SSH Control Channels](control-channels.md).
 
-If you are still using the older Centos 7 nodes you can ssh to one of vlogin001, vlogin002, or vlogin003 after you ssh to `orcd-login.mit.edu`:
+If you are still using the older Centos 7 nodes you can ssh to one of `vlogin001`, `vlogin002`, or `vlogin003` after you ssh to `orcd-login.mit.edu`:
 
 ```bash
 ssh [username]@orcd-login.mit.edu
