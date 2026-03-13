@@ -114,6 +114,11 @@ Run it on a compute node:
 srun --pty --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh
 ```
 
+The script runs the interactive onboarding wizard first, then automatically
+applies HPC-specific settings (disabling the Docker-based sandbox, extending
+session timeouts, configuring the gateway for SSH tunnel access). You do not
+need to configure these manually.
+
 !!! note
     You may see skill install failures mentioning "brew not installed." These
     are non-fatal — Homebrew is not available on HPC nodes, but the core agent
@@ -140,7 +145,7 @@ openclaw agent --local --agent main -m "Hello from Engaging!"
 You can also start an interactive session on a compute node:
 
 ```bash
-srun --pty --mem=1G --time=02:00:00 bash
+srun --pty --mem=4G --time=02:00:00 bash
 openclaw agent --local --agent main -m "Explore CSV files in ~/my-project/data/"
 ```
 
@@ -350,6 +355,53 @@ system, ORCD documentation links):
 ```
 
 The agent loads this context automatically at the start of every session.
+
+## Troubleshooting
+
+### Dashboard asks for a pairing code
+
+If the dashboard prompts for device pairing instead of showing the chat
+interface, disable device authentication:
+
+```bash
+openclaw config set gateway.controlUi.dangerouslyDisableDeviceAuth true
+```
+
+Then restart the gateway (cancel the SLURM job and relaunch with
+`./apptainer/start-gateway.sh`).
+
+### Token not auto-filling in the dashboard URL
+
+The `start-gateway.sh` output includes a URL with `?token=...`. If the
+token does not auto-fill after opening the URL, copy the full token from
+the output and paste it into the authentication prompt in the dashboard.
+
+### ENOTDIR error after moving `.openclaw` to a symlink
+
+If the gateway fails with `ENOTDIR` after moving `~/.openclaw` to scratch
+or PI storage via symlink, the running gateway still has stale file handles
+to the old path. Cancel the SLURM job and relaunch — the new gateway
+process will follow the symlink correctly.
+
+### Out of memory during setup
+
+The onboarding wizard can exceed 1 GB of memory. If `setup.sh` is killed
+with an OOM error, re-run with more memory:
+
+```bash
+srun --pty --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh
+```
+
+### Node.js or module errors
+
+If you see `SyntaxError` or module resolution failures after updating,
+rebuild the container:
+
+```bash
+module load apptainer/1.4.2
+srun --mem=8G --time=01:00:00 --cpus-per-task=2 \
+  apptainer build apptainer/openclaw.sif apptainer/openclaw.def
+```
 
 ## HPC vs. Cloud Differences
 
