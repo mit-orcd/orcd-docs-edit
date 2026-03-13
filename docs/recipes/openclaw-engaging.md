@@ -38,9 +38,8 @@ additions for SLURM and Apptainer.
 The OpenClaw gateway runs inside a read-only Apptainer `.sif` container on a
 SLURM compute node. The agent calls cloud LLM APIs over HTTPS — no local GPU is
 needed for inference. All agent state (conversation history, configuration,
-workspace) is stored in a persistent directory (we recommend using scratch
-space — see [Session Persistence](#session-persistence)), so it survives job
-preemptions.
+workspace) is stored in `.openclaw/` inside the repo directory, so it survives
+job preemptions.
 
 You access the web dashboard from your laptop via an SSH tunnel through a login
 node, similar to the [port forwarding approach used for Jupyter](jupyter.md#port-forwarding).
@@ -75,13 +74,21 @@ Compute node (SLURM job)
 
 ## Step 1: Clone and Build the Container (~10 min)
 
-Log in to a login node and clone the repository:
+Log in to a login node and clone the repository. To avoid home directory quota
+issues, clone to scratch:
 
 ```bash
 ssh <username>@orcd-login.mit.edu
+cd ~/orcd/scratch
 git clone https://github.com/qsimeon/openclaw-engaging.git
 cd openclaw-engaging
 ```
+
+!!! tip
+    All scripts set the container's `$HOME` to the repo directory, so all
+    OpenClaw state (`.openclaw/`) lives alongside the repo — not in your real
+    home directory. Cloning on scratch or PI/group storage keeps everything
+    off your home quota automatically.
 
 Load the Apptainer module and build the container image on a compute node:
 
@@ -156,7 +163,7 @@ your agent. The 1-click launcher submits the SLURM job, waits for it to start,
 and prints the SSH tunnel command and dashboard URL:
 
 ```bash
-cd ~/openclaw-engaging
+cd ~/orcd/scratch/openclaw-engaging  # or wherever you cloned the repo
 ./apptainer/start-gateway.sh
 ```
 
@@ -215,16 +222,39 @@ rebuilds the container. You can also check for updates without applying them:
 
 ## Tips and Customization
 
+### SLURM Job Management from the Agent
+
+The agent can submit and manage SLURM jobs directly from inside the container.
+Set `OPENCLAW_SLURM_BINDS=1` to bind-mount the host's SLURM commands
+(`sbatch`, `squeue`, `scancel`, `sinfo`, `srun`, `sacct`) into the container:
+
+```bash
+OPENCLAW_SLURM_BINDS=1 ./apptainer/start-gateway.sh
+```
+
+With this enabled, your agent can write batch scripts, submit them with
+`sbatch`, and monitor job status — all within the same conversation:
+
+```bash
+OPENCLAW_SLURM_BINDS=1 openclaw agent --local --agent main \
+  -m "Write a SLURM batch script for my analysis and submit it"
+```
+
+!!! note
+    This relies on the host and container having compatible SLURM libraries.
+    If you see errors about missing libraries, the agent can still write batch
+    scripts for you to submit outside the container.
+
 ### Accessing Research Data
 
 By default, Apptainer
 [binds your home directory](../software/apptainer.md#more-on-using-singularity)
 into the container. If your data is stored elsewhere (e.g., scratch space or
-shared lab storage), bind additional paths in `apptainer/slurm-gateway.sh` using
-the `-B` flag:
+shared lab storage), use `APPTAINER_BIND` to add extra paths:
 
 ```bash
-apptainer exec -B /path/to/data apptainer/openclaw.sif openclaw gateway ...
+APPTAINER_BIND="/pool/lab-data" openclaw agent --local --agent main \
+  -m "Analyze the datasets in /pool/lab-data/"
 ```
 
 ### GPU Access
@@ -257,27 +287,35 @@ openclaw config set agent.model "anthropic/claude-opus-4-6"
 ### Session Persistence
 
 All conversation history, agent configuration, and workspace state is stored in
-the `~/.openclaw/` directory. By default this is in your home directory, but
-the `.openclaw/` directory can grow large over time. Move it off your home
-directory early to avoid filling your quota (~195 GB).
+`.openclaw/` inside the repo directory (wherever you cloned `openclaw-engaging`).
+This directory is gitignored.
 
-!!! tip "Move `.openclaw` to scratch storage"
-    **Scratch (default — every ORCD user has `~/orcd/scratch`):**
+```
+~/orcd/scratch/openclaw-engaging/     # or wherever you cloned it
+├── apptainer/
+├── docs/
+├── .openclaw/                        # config, sessions, memory (gitignored)
+│   ├── .env
+│   ├── openclaw.json
+│   └── agents/
+└── ...
+```
+
+Since all scripts pass `--home $REPO_DIR` to Apptainer, the container's `$HOME`
+is the repo directory — not your real home directory. This means:
+
+- **No home quota issues** if you cloned to scratch or PI/group storage
+- Sessions survive SLURM job preemptions — just resubmit the gateway job and
+  reconnect
+- You can switch between compute nodes freely
+- Your agent remembers previous conversations
+
+!!! tip "Moving an existing clone to scratch"
+    If you originally cloned to your home directory:
 
     ```bash
-    mkdir -p ~/orcd/scratch/openclaw
-    cp -a ~/.openclaw/. ~/orcd/scratch/openclaw/
-    rm -rf ~/.openclaw
-    ln -s ~/orcd/scratch/openclaw ~/.openclaw
-    ```
-
-    **Or PI/group storage (persistent, not auto-purged):**
-
-    ```bash
-    mkdir -p /orcd/data/<pi-group>/$USER/openclaw
-    cp -a ~/.openclaw/. /orcd/data/<pi-group>/$USER/openclaw/
-    rm -rf ~/.openclaw
-    ln -s /orcd/data/<pi-group>/$USER/openclaw ~/.openclaw
+    mv ~/openclaw-engaging ~/orcd/scratch/
+    ln -s ~/orcd/scratch/openclaw-engaging ~/openclaw-engaging
     ```
 
     See [Storage and Filesystems](../filesystems-file-transfer/filesystems.md)
@@ -285,16 +323,8 @@ directory early to avoid filling your quota (~195 GB).
 
 !!! warning
     Scratch may be purged after ~90 days of inactivity. If using scratch,
-    periodically back up `~/.openclaw/openclaw.json` and `credentials/`.
-
-With a persistent state directory in place:
-
-- Sessions survive SLURM job preemptions — just resubmit the gateway job and
-  reconnect.
-- You can switch between compute nodes freely.
-- Your agent remembers previous conversations.
-- The scripts auto-detect `~/.openclaw` symlinks and add the necessary `-B`
-  bind mounts automatically.
+    periodically back up `.openclaw/openclaw.json` and `.openclaw/credentials/`.
+    PI/group storage (`/orcd/data/<pi-group>/`) is not auto-purged.
 
 ### Sandboxing
 
@@ -302,10 +332,6 @@ OpenClaw's internal sandbox requires Docker, which is not available on HPC
 nodes. The setup wizard disables it automatically so the agent can run
 commands and manage files. The Apptainer container is the security boundary
 instead.
-
-```bash
-openclaw config set agents.defaults.sandbox.mode off
-```
 
 !!! note "Sandboxing approach"
     The scripts disable OpenClaw's internal sandbox (it requires Docker,
@@ -317,16 +343,20 @@ openclaw config set agents.defaults.sandbox.mode off
     agent explore the filesystem, discover datasets, and understand how
     paths connect.
 
-    For stricter isolation, use `--containall` with explicit `-B` bind
-    mounts — but note this limits the agent's ability to explore the
-    filesystem:
+    For stricter isolation, set `OPENCLAW_CONTAINALL=1` to prevent
+    auto-mounting and control exactly what the agent can see:
 
     ```bash
-    apptainer run \
-      --containall \
-      --home ~/orcd/scratch/openclaw \
-      --bind /path/to/project:/workspace \
-      apptainer/openclaw.sif gateway run
+    OPENCLAW_CONTAINALL=1 ./apptainer/start-gateway.sh
+    ```
+
+    The scripts automatically bind `$HOME` and `/tmp` in containall mode.
+    To grant access to additional directories, use `APPTAINER_BIND`:
+
+    ```bash
+    OPENCLAW_CONTAINALL=1 APPTAINER_BIND="~/my-project" \
+      openclaw agent --local --agent main \
+      -m "Analyze the data in ~/my-project/"
     ```
 
 ## Advanced Usage
@@ -356,6 +386,20 @@ system, ORCD documentation links):
 
 The agent loads this context automatically at the start of every session.
 
+### Environment Variables
+
+All scripts support these environment variables:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `OPENCLAW_SLURM_BINDS` | off | Bind SLURM commands (`sbatch`, `squeue`, etc.) into the container |
+| `OPENCLAW_CONTAINALL` | off | Strict filesystem isolation (`--containall`) |
+| `OPENCLAW_GATEWAY_PORT` | `18790` | Gateway port (gateway scripts only) |
+| `OPENCLAW_LOGIN_NODE` | `orcd-login.mit.edu` | Login node for SSH tunnel info |
+| `OPENCLAW_AGENT` | `main` | Agent name (batch/gateway scripts) |
+| `OPENCLAW_PROMPT` | *(greeting)* | Task prompt (batch script only) |
+| `APPTAINER_BIND` | *(none)* | Extra directories to bind into the container |
+
 ## Troubleshooting
 
 ### Dashboard asks for a pairing code
@@ -376,12 +420,12 @@ The `start-gateway.sh` output includes a URL with `?token=...`. If the
 token does not auto-fill after opening the URL, copy the full token from
 the output and paste it into the authentication prompt in the dashboard.
 
-### ENOTDIR error after moving `.openclaw` to a symlink
+### ENOTDIR error after moving the repo or `.openclaw`
 
-If the gateway fails with `ENOTDIR` after moving `~/.openclaw` to scratch
-or PI storage via symlink, the running gateway still has stale file handles
-to the old path. Cancel the SLURM job and relaunch — the new gateway
-process will follow the symlink correctly.
+If the gateway fails with `ENOTDIR` after moving the repo directory or
+creating a symlink, the running gateway still has stale file handles to the
+old path. Cancel the SLURM job and relaunch — the new gateway process will
+resolve the new paths correctly.
 
 ### Out of memory during setup
 
