@@ -38,7 +38,7 @@ additions for SLURM and Apptainer.
 The OpenClaw gateway runs inside a read-only Apptainer `.sif` container on a
 SLURM compute node. The agent calls cloud LLM APIs over HTTPS — no local GPU is
 needed for inference. All agent state (conversation history, configuration,
-workspace) is stored in `.openclaw/` inside the repo directory, so it survives
+workspace) is stored in `.openclaw/` next to the repo directory, so it survives
 job preemptions.
 
 You access the web dashboard from your laptop via an SSH tunnel through a login
@@ -74,21 +74,19 @@ Compute node (SLURM job)
 
 ## Step 1: Clone and Build the Container (~10 min)
 
-Log in to a login node and clone the repository. To avoid home directory quota
-issues, clone to scratch:
+Log in to a login node and clone the repository:
 
 ```bash
 ssh <username>@orcd-login.mit.edu
-cd ~/orcd/scratch
 git clone https://github.com/qsimeon/openclaw-engaging.git
 cd openclaw-engaging
 ```
 
 !!! tip
-    All scripts set the container's `$HOME` to the repo directory, so all
-    OpenClaw state (`.openclaw/`) lives alongside the repo — not in your real
-    home directory. Cloning on scratch or PI/group storage keeps everything
-    off your home quota automatically.
+    All scripts set the container's `$HOME` to the parent directory of the
+    repo, so `.openclaw/` lives next to it (e.g., `~/.openclaw/` if you
+    cloned to `~/`). If your home quota is tight, clone to scratch instead:
+    `cd ~/orcd/scratch && git clone ...`
 
 Load the Apptainer module and build the container image on a compute node:
 
@@ -98,7 +96,8 @@ srun --mem=8G --time=01:00:00 --cpus-per-task=2 \
   apptainer build apptainer/openclaw.sif apptainer/openclaw.def
 ```
 
-The build takes roughly 10 minutes. Verify it succeeded:
+The build takes roughly 10 minutes and pulls OpenClaw version 2026.3.14.
+Verify it succeeded:
 
 ```bash
 apptainer exec apptainer/openclaw.sif openclaw --version
@@ -121,10 +120,11 @@ Run it on a compute node:
 srun --pty --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh
 ```
 
-The script runs the interactive onboarding wizard first, then automatically
-applies HPC-specific settings (disabling the Docker-based sandbox, extending
-session timeouts, configuring the gateway for SSH tunnel access). You do not
-need to configure these manually.
+The script checks for upstream OpenClaw updates before building (and offers to
+merge them), runs the interactive onboarding wizard, then automatically applies
+HPC-specific settings (disabling the Docker-based sandbox, extending session
+timeouts, configuring the gateway for SSH tunnel access). You do not need to
+configure these manually.
 
 !!! note
     You may see skill install failures mentioning "brew not installed." These
@@ -163,7 +163,7 @@ your agent. The 1-click launcher submits the SLURM job, waits for it to start,
 and prints the SSH tunnel command and dashboard URL:
 
 ```bash
-cd ~/orcd/scratch/openclaw-engaging  # or wherever you cloned the repo
+cd ~/openclaw-engaging  # or wherever you cloned the repo
 ./apptainer/start-gateway.sh
 ```
 
@@ -204,8 +204,9 @@ your terminal. Then open the dashboard URL in your browser.
 
 ## Staying Updated
 
-The gateway launcher automatically checks for upstream OpenClaw updates. When
-updates are available, you will see a notice before the gateway starts.
+Both `setup.sh` and the gateway launcher automatically check for upstream
+OpenClaw updates. In interactive mode you are prompted to merge; in
+non-interactive mode (e.g., `sbatch`) updates are applied automatically.
 
 To apply updates manually:
 
@@ -240,8 +241,17 @@ OPENCLAW_SLURM_BINDS=1 openclaw agent --local --agent main \
   -m "Write a SLURM batch script for my analysis and submit it"
 ```
 
+!!! warning "SLURM binds and container boundaries"
+    When `OPENCLAW_SLURM_BINDS=1` is enabled, the agent can submit SLURM jobs
+    that run **outside the container** with full filesystem access. This is by
+    design — it is the feature — but it means the agent can effectively escape
+    the Apptainer boundary. `--containall` does not prevent this since
+    submitted jobs run on fresh nodes without container isolation. Only enable
+    SLURM binds when you trust the agent's task and have reviewed what it
+    will do.
+
 !!! note
-    This relies on the host and container having compatible SLURM libraries.
+    SLURM binds rely on the host and container having compatible libraries.
     If you see errors about missing libraries, the agent can still write batch
     scripts for you to submit outside the container.
 
@@ -287,38 +297,41 @@ openclaw config set agent.model "anthropic/claude-opus-4-6"
 ### Session Persistence
 
 All conversation history, agent configuration, and workspace state is stored in
-`.openclaw/` inside the repo directory (wherever you cloned `openclaw-engaging`).
-This directory is gitignored.
+`.openclaw/` next to the repo directory. Your clone location determines where
+state lives — no extra configuration needed.
 
 ```
-~/orcd/scratch/openclaw-engaging/     # or wherever you cloned it
-├── apptainer/
-├── docs/
-├── .openclaw/                        # config, sessions, memory (gitignored)
-│   ├── .env
-│   ├── openclaw.json
-│   └── agents/
-└── ...
+~/                                    # cloned to ~/openclaw-engaging
+├── openclaw-engaging/                # the repo
+│   ├── apptainer/
+│   ├── docs/
+│   └── ...
+└── .openclaw/                        # config, sessions, memory
+    ├── .env
+    ├── openclaw.json
+    └── agents/
 ```
 
-Since all scripts pass `--home $REPO_DIR` to Apptainer, the container's `$HOME`
-is the repo directory — not your real home directory. This means:
+The scripts set the container's `$HOME` to the **parent** of the repo
+directory. This means:
 
-- **No home quota issues** if you cloned to scratch or PI/group storage
+- If you clone to `~/`, state lives at `~/.openclaw/`
+- If you clone to `~/orcd/scratch/`, state lives at `~/orcd/scratch/.openclaw/`
 - Sessions survive SLURM job preemptions — just resubmit the gateway job and
   reconnect
 - You can switch between compute nodes freely
 - Your agent remembers previous conversations
 
 !!! tip "Moving an existing clone to scratch"
-    If you originally cloned to your home directory:
+    If your home quota is tight, move the repo to scratch:
 
     ```bash
     mv ~/openclaw-engaging ~/orcd/scratch/
     ln -s ~/orcd/scratch/openclaw-engaging ~/openclaw-engaging
     ```
 
-    See [Storage and Filesystems](../filesystems-file-transfer/filesystems.md)
+    `.openclaw/` will move with it (it lives next to the repo). See
+    [Storage and Filesystems](../filesystems-file-transfer/filesystems.md)
     for available storage options and paths.
 
 !!! warning
