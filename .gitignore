@@ -1,3 +1,5 @@
 _build
 *.swp
 .DS_Store
+.local/
+sync-context.sh

@@ -46,6 +46,7 @@ nav:
     - MPI for Python: recipes/mpi4py.md
     - MPI Jobs: recipes/mpi.md
     - NVHPC with CUDA aware MPI: recipes/nvhpc-a100-with-cuda-and-mpi-example.md
+    - OpenClaw: recipes/openclaw-engaging.md
     - ORCA: recipes/orca.md
     - PyCharm: recipes/pycharm.md
     - PyTorch on GPUs - I: recipes/torch-gpu.md
