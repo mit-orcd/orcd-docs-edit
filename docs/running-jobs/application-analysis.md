@@ -1,5 +1,109 @@
 # Analyzing Job Resource Usage
-Here we provide an overview for how to analyze the resources your jobs use, utilizing the commands ```htop```, ```nvidia-smi```, and ```nvtop```. Using these tools is important for both optimizing your code as well as only requesting the amount of resources your jobs need, leaving more resources open for others to use. A good place to start before using the commands we outline here is with the documentation on [Requesting Resources](https://orcd-docs.mit.edu/running-jobs/requesting-resources).
+
+Here we provide an overview for how to analyze the resources your jobs use, utilizing the commands `jobstats`, `htop`, `nvidia-smi`, and `nvtop`. Using these tools is important for both optimizing your code as well as only requesting the amount of resources your jobs need, leaving more resources open for others to use. A good place to start before using the commands we outline here is with the documentation on [Requesting Resources](https://orcd-docs.mit.edu/running-jobs/requesting-resources).
+
+## Jobstats
+
+[Jobstats](https://github.com/PrincetonUniversity/jobstats) is a tool developed by [Princeton Research Computing](https://researchcomputing.princeton.edu/home) that allows users to easily check CPU, GPU, and memory efficiency of their jobs. On Engaging, we currently have the `jobstats` command installed on login nodes, with job data being collected on most of our compute nodes. This means that, if you have a job running, you can run `jobstats <JOB ID>` from a login node and get basic efficiency information about your job.
+
+One key difference between `jobstats` and other tools like `nvtop` is that `jobstats` shows utilization in aggregate rather than real-time. For example:
+
+```
+[secorey@login007 ~]$ jobstats 9358523
+
+================================================================================
+                              Slurm Job Statistics                              
+================================================================================
+         Job ID: 9358523
+   User/Account: secorey/mit_general
+       Job Name: submit_mnist.sh
+          State: RUNNING
+          Nodes: 1
+      CPU Cores: 1
+     CPU Memory: 4GB (4GB per CPU-core)
+  QOS/Partition: normal/mit_normal
+        Cluster: eofe7
+     Start Time: Wed Feb 18, 2026 at 11:29 AM
+       Run Time: 00:02:30 (in progress)
+     Time Limit: 12:00:00
+
+                              Overall Utilization                               
+================================================================================
+  CPU utilization  [||||||||||||||||||||||||                       48%]
+  CPU memory usage [|||||||||                                      19%]
+
+                              Detailed Utilization                              
+================================================================================
+  CPU utilization per node (CPU time used/run time)
+      node3310.inband: 00:02:24/00:05:01 (efficiency=47.8%)
+
+  CPU memory usage per node - used/allocated
+   node3310.inband: 779.2MB/4GB (389.6MB/2GB per core of 2)
+
+                                     Notes                                      
+================================================================================
+  * The overall CPU utilization of this job is 48%. This value is low compared
+    to the target range of 90% and above. Please investigate the reason for
+    the low efficiency. For more info:
+      https://orcd-docs.mit.edu/running-jobs/application-analysis/
+
+  * Have a nice day!
+```
+
+CPU utilization is calculated by dividing the total active CPU time by the total CPU wall time for the job, while memory usage is shown as the peak memory utilization over the course of the job.
+
+!!! note
+    Sometimes Jobstats may report CPU utilization that does not go higher than 50% even if the CPU cores have been active during the majority of your job. This is due to an underlying bug where the number of CPU cores is reported as double the allocated amount.
+
+We can also look at GPU metrics:
+
+```
+[secorey@login006 ~]$ jobstats 9580918
+
+================================================================================
+                              Slurm Job Statistics                              
+================================================================================
+         Job ID: 9580918
+   User/Account: secorey/mit_general
+       Job Name: sys/dashboard/sys/jupyter
+          State: RUNNING
+          Nodes: 1
+      CPU Cores: 4
+     CPU Memory: 32GB (8GB per CPU-core)
+           GPUs: 1
+  QOS/Partition: normal/mit_normal_gpu
+        Cluster: eofe7
+     Start Time: Mon Feb 23, 2026 at 9:53 AM
+       Run Time: 00:05:15 (in progress)
+     Time Limit: 02:00:00
+
+                              Overall Utilization                               
+================================================================================
+  CPU utilization  [||||||                                         13%]
+  CPU memory usage [|||                                             6%]
+  GPU utilization  [||||||||||||||||||||||||||||                   56%]
+  GPU memory usage [|||||||||||||||||||||||||||||||||||||||||||||||96%]
+
+                              Detailed Utilization                              
+================================================================================
+  CPU utilization per node (CPU time used/run time)
+      node2804.inband: 00:05:20/00:42:01 (efficiency=12.7%)
+
+  CPU memory usage per node - used/allocated
+   node2804.inband: 1.9GB/32GB (249.0MB/4GB per core of 8)
+
+  GPU utilization per node
+      node2804.inband (GPU 1): 55.7%
+
+  GPU memory usage per node - maximum used/total
+      node2804.inband (GPU 1): 43.0GB/45GB (95.5%)
+
+                                     Notes                                      
+================================================================================
+  * Have a nice day!
+```
+
+The above output shows solid GPU utilization but lower CPU utilization, so we might consider lowering our CPU request for future runs.
 
 ## htop
 
@@ -120,103 +224,3 @@ In addition to the GPU's compute running at 99%, the CPU is also running at 99%.
 On the top right, we see that "RX", data reception rate, and "TX", data transmission rate, have increased after querying the RAG model. These metrics are for data transfer between the CPU and GPU. We can also notice that the power and temperature of the system have shot up from our first look at the nvtop output. The metrics outlined in this snapshot are ones the user has less direct control over, but they can be useful for getting a better idea of how the GPU is operating.
 
 After taking a look at all the metrics above, you could evaluate whether you want to request more or less memory in the future and whether the job can be modified to use the GPU's compute more efficiently.
-
-## Jobstats
-
-[Jobstats](https://github.com/PrincetonUniversity/jobstats) is a tool developed by [Princeton Research Computing](https://researchcomputing.princeton.edu/home) that allows users to easily check CPU, GPU, and memory efficiency of their jobs. On Engaging, we currently have the `jobstats` command installed on login nodes, with job data being collected on most of our compute nodes. This means that, if you have a job running, you can run `jobstats <JOB ID>` from a login node and get basic efficiency information about your job.
-
-One key difference between `jobstats` and other tools like `nvtop` is that `jobstats` shows utilization in aggregate rather than real-time. For example:
-
-```
-[secorey@login007 ~]$ jobstats 9358523
-
-================================================================================
-                              Slurm Job Statistics                              
-================================================================================
-         Job ID: 9358523
-   User/Account: secorey/mit_general
-       Job Name: submit_mnist.sh
-          State: RUNNING
-          Nodes: 1
-      CPU Cores: 1
-     CPU Memory: 4GB (4GB per CPU-core)
-  QOS/Partition: normal/mit_normal
-        Cluster: eofe7
-     Start Time: Wed Feb 18, 2026 at 11:29 AM
-       Run Time: 00:02:30 (in progress)
-     Time Limit: 12:00:00
-
-                              Overall Utilization                               
-================================================================================
-  CPU utilization  [||||||||||||||||||||||||                       48%]
-  CPU memory usage [|||||||||                                      19%]
-
-                              Detailed Utilization                              
-================================================================================
-  CPU utilization per node (CPU time used/run time)
-      node3310.inband: 00:02:24/00:05:01 (efficiency=47.8%)
-
-  CPU memory usage per node - used/allocated
-   node3310.inband: 779.2MB/4GB (389.6MB/2GB per core of 2)
-
-                                     Notes                                      
-================================================================================
-  * The overall CPU utilization of this job is 48%. This value is low compared
-    to the target range of 90% and above. Please investigate the reason for
-    the low efficiency. For more info:
-      https://orcd-docs.mit.edu/running-jobs/application-analysis/
-
-  * Have a nice day!
-```
-
-CPU utilization is calculated by dividing the total active CPU time by the total CPU wall time for the job, while memory usage is shown as the peak memory utilization over the course of the job.
-
-We can also look at GPU metrics:
-
-```
-[secorey@login006 ~]$ jobstats 9580918
-
-================================================================================
-                              Slurm Job Statistics                              
-================================================================================
-         Job ID: 9580918
-   User/Account: secorey/mit_general
-       Job Name: sys/dashboard/sys/jupyter
-          State: RUNNING
-          Nodes: 1
-      CPU Cores: 4
-     CPU Memory: 32GB (8GB per CPU-core)
-           GPUs: 1
-  QOS/Partition: normal/mit_normal_gpu
-        Cluster: eofe7
-     Start Time: Mon Feb 23, 2026 at 9:53 AM
-       Run Time: 00:05:15 (in progress)
-     Time Limit: 02:00:00
-
-                              Overall Utilization                               
-================================================================================
-  CPU utilization  [||||||                                         13%]
-  CPU memory usage [|||                                             6%]
-  GPU utilization  [||||||||||||||||||||||||||||                   56%]
-  GPU memory usage [|||||||||||||||||||||||||||||||||||||||||||||||96%]
-
-                              Detailed Utilization                              
-================================================================================
-  CPU utilization per node (CPU time used/run time)
-      node2804.inband: 00:05:20/00:42:01 (efficiency=12.7%)
-
-  CPU memory usage per node - used/allocated
-   node2804.inband: 1.9GB/32GB (249.0MB/4GB per core of 8)
-
-  GPU utilization per node
-      node2804.inband (GPU 1): 55.7%
-
-  GPU memory usage per node - maximum used/total
-      node2804.inband (GPU 1): 43.0GB/45GB (95.5%)
-
-                                     Notes                                      
-================================================================================
-  * Have a nice day!
-```
-
-The above output shows solid GPU utilization but lower CPU utilization, so we might consider lowering our CPU request for future runs.
