@@ -71,11 +71,12 @@ Compute node (SLURM job)
   [OpenRouter](https://openrouter.ai/)
 
 !!! note
-    The agent calls cloud LLM APIs for inference — no GPU is required. The
-    gateway needs only 1 CPU and 4 GB RAM on any partition. Do not request
-    GPU partitions for the gateway or agent; GPU nodes are a scarce shared
-    resource. GPUs are only relevant if the agent launches separate
-    data-processing jobs that benefit from GPU acceleration.
+    The agent calls cloud LLM APIs for inference — **no GPU is required**.
+    The gateway needs only 1 CPU and 4 GB RAM on any partition. Do not
+    request GPU partitions for the gateway or agent session — GPU nodes are
+    a scarce shared resource and provide no benefit here. When GPU compute
+    is needed for data processing, the agent can submit separate SLURM jobs
+    that request their own GPUs (via `OPENCLAW_SLURM_BINDS=1`).
 
 ## Step 1: Clone and Build the Container (~10 min)
 
@@ -168,9 +169,11 @@ your agent.
 
 !!! important "No GPU needed"
     The gateway is a lightweight Node.js server — it needs only **1 CPU and
-    4 GB RAM**. Do **not** request a GPU partition. GPU nodes are a scarce
-    shared resource and provide no benefit here. The default partition works
-    perfectly.
+    4 GB RAM**. Do **not** request a GPU partition (`--gres=gpu:*` or
+    `-p gpu-*`). GPU nodes are a scarce shared resource and provide no
+    benefit here. The default partition works perfectly. When GPU compute is
+    needed, the agent can submit separate SLURM jobs that request their own
+    GPUs — see [GPU Compute](#gpu-compute).
 
 The 1-click launcher submits the SLURM job, waits for it to start,
 and prints the SSH tunnel command and dashboard URL:
@@ -274,17 +277,22 @@ APPTAINER_BIND="/pool/lab-data" openclaw agent --local --agent main \
   -m "Analyze the datasets in /pool/lab-data/"
 ```
 
-### GPU Access
+### GPU Compute
 
-To give your agent access to a GPU for data-processing tasks, edit
-`apptainer/slurm-gateway.sh` and add GPU resource requests:
+The agent itself does not need a GPU — do not add GPU requests to the
+gateway or agent SLURM scripts. When your task requires GPU compute (e.g.,
+training a model, running inference locally), the agent can submit a
+separate SLURM job that requests its own GPU. Enable
+`OPENCLAW_SLURM_BINDS=1` so the agent can use `sbatch` directly:
 
 ```bash
-#SBATCH -p mit_normal_gpu
-#SBATCH -G l40s:1
+OPENCLAW_SLURM_BINDS=1 openclaw agent --local --agent main \
+  -m "Submit a SLURM job on a GPU node to train my model in ~/my-project/"
 ```
 
-See [Requesting Resources](../running-jobs/requesting-resources.md#gpus) for
+The submitted job runs outside the container on a GPU node with full
+access to the cluster's GPU partitions. See
+[Requesting Resources](../running-jobs/requesting-resources.md#gpus) for
 available GPU types and partitions.
 
 ### Changing the Model
@@ -503,6 +511,9 @@ srun --mem=8G --time=01:00:00 --cpus-per-task=2 \
       access to the dashboard.
     - **No systemd**: There is no service manager on compute nodes. The gateway
       runs as a foreground process inside the SLURM job.
+    - **GPU**: Not needed for the agent itself. When GPU compute is required,
+      the agent submits separate SLURM jobs that request their own GPUs
+      (via `OPENCLAW_SLURM_BINDS=1`).
 
     These are fundamental HPC constraints, not Apptainer limitations. The
     `openclaw` shortcut and persistent state directory keep the experience
