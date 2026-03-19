@@ -21,6 +21,7 @@ access to your research data and cluster compute resources.
       cloud LLM APIs for processing. Do not use restricted or
       export-controlled data. See
       [MIT data classification](https://ist.mit.edu/security/data-classification).
+      - **You are responsible for the actions of your agent.** Be sure you and any of your agents follow the [Acceptable Use and Code of Conduct](https://orcd-docs.mit.edu/code-of-conduct/).
     - **Limit access.** Only bind-mount directories the agent needs.
     - **Review third-party skills** before enabling — they execute code
       with your permissions.
