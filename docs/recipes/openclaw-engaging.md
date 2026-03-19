@@ -26,6 +26,10 @@ access to your research data and cluster compute resources.
       with your permissions.
     - **Monitor API usage.** Some providers have suspended accounts for
       very high automated usage. Be mindful of costs with batch jobs.
+    - **SLURM binds escape the container.** If you enable
+      `OPENCLAW_SLURM_BINDS=1`, jobs submitted by the agent run outside the
+      container with your full user permissions. See
+      [SLURM Job Management](#slurm-job-management-from-the-agent).
 
 The code and Apptainer configuration for this recipe can be found in the
 [openclaw-engaging](https://github.com/qsimeon/openclaw-engaging) GitHub
@@ -67,10 +71,11 @@ Compute node (SLURM job)
   [OpenRouter](https://openrouter.ai/)
 
 !!! note
-    The agent calls cloud LLM APIs for inference, so no GPU is required to run
-    OpenClaw itself. However, GPU partitions are available if your agent needs
-    to launch data-processing or analysis tasks that benefit from GPU
-    acceleration.
+    The agent calls cloud LLM APIs for inference — no GPU is required. The
+    gateway needs only 1 CPU and 4 GB RAM on any partition. Do not request
+    GPU partitions for the gateway or agent; GPU nodes are a scarce shared
+    resource. GPUs are only relevant if the agent launches separate
+    data-processing jobs that benefit from GPU acceleration.
 
 ## Step 1: Clone and Build the Container (~10 min)
 
@@ -159,7 +164,15 @@ openclaw agent --local --agent main -m "Explore CSV files in ~/my-project/data/"
 ## Step 4: Launch the Web Dashboard
 
 The web dashboard provides a browser-based chat interface for interacting with
-your agent. The 1-click launcher submits the SLURM job, waits for it to start,
+your agent.
+
+!!! important "No GPU needed"
+    The gateway is a lightweight Node.js server — it needs only **1 CPU and
+    4 GB RAM**. Do **not** request a GPU partition. GPU nodes are a scarce
+    shared resource and provide no benefit here. The default partition works
+    perfectly.
+
+The 1-click launcher submits the SLURM job, waits for it to start,
 and prints the SSH tunnel command and dashboard URL:
 
 ```bash
@@ -176,7 +189,7 @@ authentication token:
 
 ```
 SSH tunnel command:
-  ssh -f -N -L 18790:<node>:18790 <username>@orcd-login.mit.edu
+  lsof -ti:18790 | xargs kill -9 2>/dev/null; sleep 1; ssh -f -N -L 18790:<node>:18790 <username>@orcd-login.mit.edu
 
 Dashboard URL:
   http://localhost:18790/?token=<your-token>
@@ -185,22 +198,16 @@ Dashboard URL:
 On your **local machine**, run the SSH tunnel command from the output:
 
 ```bash
-ssh -f -N -L 18790:<node>:18790 <username>@orcd-login.mit.edu
+lsof -ti:18790 | xargs kill -9 2>/dev/null; sleep 1; ssh -f -N -L 18790:<node>:18790 <username>@orcd-login.mit.edu
 ```
 
-The `-f` flag sends the tunnel to the background so you can continue using
-your terminal. Then open the dashboard URL in your browser.
+The `lsof ... | xargs kill` clears any stale tunnel on that port. The
+`sleep 1` gives the OS time to release the port. The `-f` flag sends the
+tunnel to the background. The whole line is safe to copy-paste every time.
+
+Then open the dashboard URL in your browser.
 
 ![OpenClaw web dashboard showing a chat session with the agent](../images/openclaw/openclaw_dashboard_chat.png)
-
-!!! tip
-    If you get a "port already in use" error, kill the existing tunnel first:
-
-    ```bash
-    lsof -ti:18790 | xargs kill -9
-    ```
-
-    Then re-run the SSH tunnel command.
 
 ## Staying Updated
 
@@ -427,11 +434,32 @@ openclaw config set gateway.controlUi.dangerouslyDisableDeviceAuth true
 Then restart the gateway (cancel the SLURM job and relaunch with
 `./apptainer/start-gateway.sh`).
 
-### Token not auto-filling in the dashboard URL
+### Token not auto-filling / "Device Identity Required"
 
-The `start-gateway.sh` output includes a URL with `?token=...`. If the
-token does not auto-fill after opening the URL, copy the full token from
-the output and paste it into the authentication prompt in the dashboard.
+Some browsers may not auto-fill the token from the URL. You may see
+`OPENCLAW_GATEWAY_TOKEN (optional)` in the token field, or a "Device
+Identity Required" prompt, even after clicking the tokenized URL.
+
+1. Copy the token from the URL — it's the string after `?token=`:
+   ```
+   http://localhost:18790/?token=abc123def456...
+                                 ^^^^^^^^^^^^^^ copy this part
+   ```
+2. Paste it into the token input field on the dashboard and submit.
+3. If you still see "Device Identity Required", ensure device auth is
+   disabled:
+   ```bash
+   openclaw config set gateway.controlUi.dangerouslyDisableDeviceAuth true
+   ```
+   Then restart the gateway (`scancel <jobid>` and relaunch).
+4. If the token field doesn't appear, try a private/incognito window or
+   append `/?token=<your-token>` manually to `http://localhost:18790/`.
+
+**Finding your token** if you've lost the gateway output:
+
+```bash
+python3 -c "import json; print(json.load(open('.openclaw/openclaw.json'))['gateway']['auth']['token'])"
+```
 
 ### ENOTDIR error after moving the repo or `.openclaw`
 
