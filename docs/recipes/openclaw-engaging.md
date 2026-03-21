@@ -17,12 +17,16 @@ cluster using [Apptainer](../software/apptainer.md) so the agent has direct
 access to your research data and cluster compute resources.
 
 !!! warning "Responsible Use and Data Privacy"
+    - **You are responsible for the actions of your agent.** Be sure you
+      and any of your agents follow the
+      [Acceptable Use and Code of Conduct](https://orcd-docs.mit.edu/code-of-conduct/).
     - **Only use low-risk data.** Prompts and file excerpts are sent to
       cloud LLM APIs for processing. Do not use restricted or
       export-controlled data. See
       [MIT data classification](https://ist.mit.edu/security/data-classification).
-      - **You are responsible for the actions of your agent.** Be sure you and any of your agents follow the [Acceptable Use and Code of Conduct](https://orcd-docs.mit.edu/code-of-conduct/).
-    - **Limit access.** Only bind-mount directories the agent needs.
+    - **Limit access.** The agent runs in `--containall` mode by default,
+      restricting it to the repo directory, `.openclaw/`, and `/tmp`. Use
+      `APPTAINER_BIND` to grant access only to directories the agent needs.
     - **Review third-party skills** before enabling — they execute code
       with your permissions.
     - **Monitor API usage.** Some providers have suspended accounts for
@@ -42,9 +46,10 @@ additions for SLURM and Apptainer.
 
 The OpenClaw gateway runs inside a read-only Apptainer `.sif` container on a
 SLURM compute node. The agent calls cloud LLM APIs over HTTPS — no local GPU is
-needed for inference. All agent state (conversation history, configuration,
-workspace) is stored in `.openclaw/` next to the repo directory, so it survives
-job preemptions.
+needed for inference. The agent runs in `--containall` mode by default, so it
+can only see the repo directory, `.openclaw/`, and `/tmp` — not your home
+directory. All agent state is stored in `.openclaw/` next to the repo, so it
+survives job preemptions.
 
 You access the web dashboard from your laptop via an SSH tunnel through a login
 node, similar to the [port forwarding approach used for Jupyter](jupyter.md#port-forwarding).
@@ -79,21 +84,34 @@ Compute node (SLURM job)
     is needed for data processing, the agent can submit separate SLURM jobs
     that request their own GPUs (via `OPENCLAW_SLURM_BINDS=1`).
 
-## Step 1: Clone and Build the Container (~10 min)
+## Step 1: Install and Build the Container (~10 min)
 
-Log in to a login node and clone the repository:
+Log in to a login node. The quickest way to install is the one-line installer:
 
 ```bash
 ssh <username>@orcd-login.mit.edu
-git clone https://github.com/qsimeon/openclaw-engaging.git
-cd openclaw-engaging
+curl -fsSL https://raw.githubusercontent.com/qsimeon/openclaw-engaging/main/install_stage0.sh | bash
+cd ~/orcd/scratch/oclaw/openclaw-engaging
 ```
+
+The installer clones the repo to `~/orcd/scratch/oclaw/openclaw-engaging` and
+sets up the upstream remote automatically.
+
+??? note "Manual clone"
+    If you prefer not to pipe to bash:
+
+    ```bash
+    mkdir -p ~/orcd/scratch/oclaw
+    cd ~/orcd/scratch/oclaw
+    git clone https://github.com/qsimeon/openclaw-engaging.git
+    cd openclaw-engaging
+    git remote add upstream https://github.com/openclaw/openclaw.git
+    ```
 
 !!! tip
     All scripts set the container's `$HOME` to the parent directory of the
-    repo, so `.openclaw/` lives next to it (e.g., `~/.openclaw/` if you
-    cloned to `~/`). If your home quota is tight, clone to scratch instead:
-    `cd ~/orcd/scratch && git clone ...`
+    repo (`~/orcd/scratch/oclaw/`). Agent state lives in
+    `~/orcd/scratch/oclaw/.openclaw/` — off your home quota by default.
 
 Load the Apptainer module and build the container image on a compute node:
 
@@ -109,13 +127,6 @@ Verify it succeeded:
 ```bash
 apptainer exec apptainer/openclaw.sif openclaw --version
 ```
-
-!!! tip
-    Add the upstream remote so you can pull future OpenClaw updates:
-
-    ```bash
-    git remote add upstream https://github.com/openclaw/openclaw.git
-    ```
 
 ## Step 2: Run the Setup Wizard
 
@@ -138,15 +149,23 @@ configure these manually.
     are non-fatal — Homebrew is not available on HPC nodes, but the core agent
     functionality works without these optional skills.
 
-After setup completes, activate the `openclaw` shortcut:
+After setup completes, activate the `openclaw` shortcut. Choose one of:
 
 ```bash
-source ~/.bashrc
-openclaw --help
+# Option A: Source the environment file (per-session or add to .bashrc)
+source ~/orcd/scratch/oclaw/openclaw-engaging/apptainer/openclaw-env.sh
+
+# Option B: Use Lmod (if your site supports module use)
+module use ~/orcd/scratch/oclaw/openclaw-engaging/apptainer
+module load openclaw
 ```
 
-The `openclaw` command now works like a native command — you no longer need to
-type `apptainer exec ...` for every operation.
+Either option sets up the `openclaw` command and enables `--containall` by
+default. You no longer need to type `apptainer exec ...` for every operation.
+
+```bash
+openclaw --help
+```
 
 ## Step 3: Test the Agent
 
@@ -156,11 +175,12 @@ Send a quick test message to confirm everything is working:
 openclaw agent --local --agent main -m "Hello from Engaging!"
 ```
 
-You can also start an interactive session on a compute node:
+You can also start an interactive session on a compute node with data access:
 
 ```bash
 srun --pty --mem=4G --time=02:00:00 bash
-openclaw agent --local --agent main -m "Explore CSV files in ~/my-project/data/"
+APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local \
+  --agent main -m "Explore CSV files in ~/orcd/scratch/oclaw/workdata/"
 ```
 
 ## Step 4: Launch the Web Dashboard
@@ -180,9 +200,12 @@ The 1-click launcher submits the SLURM job, waits for it to start,
 and prints the SSH tunnel command and dashboard URL:
 
 ```bash
-cd ~/openclaw-engaging  # or wherever you cloned the repo
+cd ~/orcd/scratch/oclaw/openclaw-engaging
 ./apptainer/start-gateway.sh
 ```
+
+The gateway binds to **localhost only** — it is not reachable from the
+network. You access it exclusively through an SSH tunnel.
 
 !!! note "Manual alternative"
     You can also launch manually with `sbatch apptainer/slurm-gateway.sh`,
@@ -193,7 +216,7 @@ authentication token:
 
 ```
 SSH tunnel command:
-  lsof -ti:18790 | xargs kill -9 2>/dev/null; sleep 1; ssh -f -N -L 18790:<node>:18790 <username>@orcd-login.mit.edu
+  lsof -ti:18790 | xargs kill -9 2>/dev/null; sleep 1; ssh -J <username>@orcd-login.mit.edu -L 18790:localhost:18790 <username>@<node> -N -f
 
 Dashboard URL:
   http://localhost:18790/?token=<your-token>
@@ -202,12 +225,17 @@ Dashboard URL:
 On your **local machine**, run the SSH tunnel command from the output:
 
 ```bash
-lsof -ti:18790 | xargs kill -9 2>/dev/null; sleep 1; ssh -f -N -L 18790:<node>:18790 <username>@orcd-login.mit.edu
+lsof -ti:18790 | xargs kill -9 2>/dev/null; sleep 1; ssh -J <username>@orcd-login.mit.edu -L 18790:localhost:18790 <username>@<node> -N -f
 ```
 
 The `lsof ... | xargs kill` clears any stale tunnel on that port. The
-`sleep 1` gives the OS time to release the port. The `-f` flag sends the
-tunnel to the background. The whole line is safe to copy-paste every time.
+`sleep 1` gives the OS time to release the port (TCP TIME_WAIT). The `-J`
+flag uses the login node as a ProxyJump to reach the compute node directly.
+The whole line is safe to copy-paste every time.
+
+!!! tip
+    The gateway auto-detects a free port in the range 18790–18799 if the
+    default port is busy. Check the job output for the actual port used.
 
 Then open the dashboard URL in your browser.
 
@@ -268,14 +296,19 @@ OPENCLAW_SLURM_BINDS=1 openclaw agent --local --agent main \
 
 ### Accessing Research Data
 
-By default, Apptainer
-[binds your home directory](../software/apptainer.md#more-on-using-singularity)
-into the container. If your data is stored elsewhere (e.g., scratch space or
-shared lab storage), use `APPTAINER_BIND` to add extra paths:
+Since `--containall` is enabled by default, the agent can only see the repo
+directory and `/tmp`. To grant access to your data, use `APPTAINER_BIND`:
 
 ```bash
-APPTAINER_BIND="/pool/lab-data" openclaw agent --local --agent main \
-  -m "Analyze the datasets in /pool/lab-data/"
+APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local \
+  --agent main -m "Analyze the datasets in ~/orcd/scratch/oclaw/workdata/"
+```
+
+You can bind multiple paths:
+
+```bash
+APPTAINER_BIND="/pool/lab-data,~/orcd/scratch/results" openclaw agent \
+  --local --agent main -m "Compare data in /pool/lab-data/ with ~/orcd/scratch/results/"
 ```
 
 ### GPU Compute
@@ -287,8 +320,9 @@ separate SLURM job that requests its own GPU. Enable
 `OPENCLAW_SLURM_BINDS=1` so the agent can use `sbatch` directly:
 
 ```bash
-OPENCLAW_SLURM_BINDS=1 openclaw agent --local --agent main \
-  -m "Submit a SLURM job on a GPU node to train my model in ~/my-project/"
+OPENCLAW_SLURM_BINDS=1 APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" \
+  openclaw agent --local --agent main \
+  -m "Submit a SLURM job on a GPU node to train my model in ~/orcd/scratch/oclaw/workdata/"
 ```
 
 The submitted job runs outside the container on a GPU node with full
@@ -317,7 +351,7 @@ All conversation history, agent configuration, and workspace state is stored in
 state lives — no extra configuration needed.
 
 ```
-~/                                    # cloned to ~/openclaw-engaging
+~/orcd/scratch/oclaw/                 # container $HOME (parent of repo)
 ├── openclaw-engaging/                # the repo
 │   ├── apptainer/
 │   ├── docs/
@@ -329,64 +363,46 @@ state lives — no extra configuration needed.
 ```
 
 The scripts set the container's `$HOME` to the **parent** of the repo
-directory. This means:
+directory (`~/orcd/scratch/oclaw/`). This means:
 
-- If you clone to `~/`, state lives at `~/.openclaw/`
-- If you clone to `~/orcd/scratch/`, state lives at `~/orcd/scratch/.openclaw/`
+- `.openclaw/` lives at `~/orcd/scratch/oclaw/.openclaw/` — off your home quota
 - Sessions survive SLURM job preemptions — just resubmit the gateway job and
   reconnect
 - You can switch between compute nodes freely
 - Your agent remembers previous conversations
 
-!!! tip "Moving an existing clone to scratch"
-    If your home quota is tight, move the repo to scratch:
-
-    ```bash
-    mv ~/openclaw-engaging ~/orcd/scratch/
-    ln -s ~/orcd/scratch/openclaw-engaging ~/openclaw-engaging
-    ```
-
-    `.openclaw/` will move with it (it lives next to the repo). See
-    [Storage and Filesystems](../filesystems-file-transfer/filesystems.md)
-    for available storage options and paths.
-
 !!! warning
-    Scratch may be purged after ~90 days of inactivity. If using scratch,
-    periodically back up `.openclaw/openclaw.json` and `.openclaw/credentials/`.
-    PI/group storage (`/orcd/data/<pi-group>/`) is not auto-purged.
+    Scratch may be purged after ~90 days of inactivity. Periodically back up
+    `.openclaw/openclaw.json` and `.openclaw/credentials/`. PI/group storage
+    (`/orcd/data/<pi-group>/`) is not auto-purged. See
+    [Storage and Filesystems](../filesystems-file-transfer/filesystems.md)
+    for available storage options.
 
 ### Sandboxing
 
 OpenClaw's internal sandbox requires Docker, which is not available on HPC
 nodes. The setup wizard disables it automatically so the agent can run
-commands and manage files. The Apptainer container is the security boundary
-instead.
+commands and manage files. Apptainer with `--containall` is the security
+boundary instead.
 
-!!! note "Sandboxing approach"
-    The scripts disable OpenClaw's internal sandbox (it requires Docker,
-    unavailable on HPC) and rely on Apptainer as the security boundary.
-    The container filesystem is read-only — the agent can't modify the
-    host OS or affect other users.
+By default, all scripts run with `--containall` enabled. This means:
 
-    By default, Apptainer auto-mounts your home directory. This lets the
-    agent explore the filesystem, discover datasets, and understand how
-    paths connect.
+- The agent **cannot** see `~/.ssh`, `~/.gnupg`, or your real home directory
+- Only the repo directory, `.openclaw/`, and `/tmp` are visible
+- The container filesystem is read-only — the agent can't modify the host OS
+  or affect other users
 
-    For stricter isolation, set `OPENCLAW_CONTAINALL=1` to prevent
-    auto-mounting and control exactly what the agent can see:
+To grant the agent access to a data directory, use `APPTAINER_BIND`:
 
-    ```bash
-    OPENCLAW_CONTAINALL=1 ./apptainer/start-gateway.sh
-    ```
+```bash
+APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local \
+  --agent main -m "Analyze the data in ~/orcd/scratch/oclaw/workdata/"
+```
 
-    The scripts automatically bind `$HOME` and `/tmp` in containall mode.
-    To grant access to additional directories, use `APPTAINER_BIND`:
-
-    ```bash
-    OPENCLAW_CONTAINALL=1 APPTAINER_BIND="~/my-project" \
-      openclaw agent --local --agent main \
-      -m "Analyze the data in ~/my-project/"
-    ```
+!!! warning
+    Setting `OPENCLAW_CONTAINALL=0` disables `--containall` and exposes your
+    entire home directory to the agent, including SSH keys, GPG keys, and
+    shell configuration. This is **not recommended**.
 
 ## Advanced Usage
 
@@ -422,7 +438,7 @@ All scripts support these environment variables:
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `OPENCLAW_SLURM_BINDS` | off | Bind SLURM commands (`sbatch`, `squeue`, etc.) into the container |
-| `OPENCLAW_CONTAINALL` | off | Strict filesystem isolation (`--containall`) |
+| `OPENCLAW_CONTAINALL` | **on** | Strict filesystem isolation (`--containall`). Set to `0` to disable (not recommended) |
 | `OPENCLAW_GATEWAY_PORT` | `18790` | Gateway port (gateway scripts only) |
 | `OPENCLAW_LOGIN_NODE` | `orcd-login.mit.edu` | Login node for SSH tunnel info |
 | `OPENCLAW_AGENT` | `main` | Agent name (batch/gateway scripts) |
