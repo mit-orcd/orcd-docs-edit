@@ -84,9 +84,9 @@ Compute node (SLURM job)
     is needed for data processing, the agent can submit separate SLURM jobs
     that request their own GPUs (via `OPENCLAW_SLURM_BINDS=1`).
 
-## Step 1: Install and Build the Container (~10 min)
+## Step 1: Install
 
-Log in to a login node. The quickest way to install is the one-line installer:
+Log in to a login node and run the one-line installer:
 
 ```bash
 ssh <username>@orcd-login.mit.edu
@@ -113,49 +113,36 @@ sets up the upstream remote automatically.
     repo (`~/orcd/scratch/oclaw/`). Agent state lives in
     `~/orcd/scratch/oclaw/.openclaw/` — off your home quota by default.
 
-Load the Apptainer module and build the container image on a compute node:
+## Step 2: Build + Setup (~10 min)
 
-```bash
-module load apptainer/1.4.2
-srun --mem=8G --time=01:00:00 --cpus-per-task=2 \
-  apptainer build apptainer/openclaw.sif apptainer/openclaw.def
-```
-
-The build takes roughly 10 minutes and pulls OpenClaw version 2026.3.14.
-Verify it succeeded:
-
-```bash
-apptainer exec apptainer/openclaw.sif openclaw --version
-```
-
-## Step 2: Run the Setup Wizard
-
-The setup wizard walks you through configuring your LLM provider, API key,
-model selection, optional channels (Telegram, Slack, Discord), and skills.
-Run it on a compute node:
+The setup script builds the container (if needed), checks for upstream updates,
+runs the interactive onboarding wizard, and applies HPC-specific settings — all
+in one command:
 
 ```bash
 srun --pty --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh
 ```
 
-The script checks for upstream OpenClaw updates before building (and offers to
-merge them), runs the interactive onboarding wizard, then automatically applies
-HPC-specific settings (disabling the Docker-based sandbox, extending session
-timeouts, configuring the gateway for SSH tunnel access). You do not need to
-configure these manually.
+The wizard walks you through configuring your LLM provider, API key, model
+selection, optional channels (Telegram, Slack, Discord), and skills. After the
+wizard, the script automatically configures sandbox, session timeout, and
+gateway settings for Engaging. You do not need to configure these manually.
 
 !!! note
     You may see skill install failures mentioning "brew not installed." These
     are non-fatal — Homebrew is not available on HPC nodes, but the core agent
     functionality works without these optional skills.
 
+## Step 3: Activate the `openclaw` Command
+
 After setup completes, activate the `openclaw` shortcut. Choose one of:
 
 ```bash
-# Option A: Source the environment file (per-session or add to .bashrc)
-source ~/orcd/scratch/oclaw/openclaw-engaging/apptainer/openclaw-env.sh
+# Option A: Source the environment file (add to .bashrc for persistence)
+echo 'source ~/orcd/scratch/oclaw/openclaw-engaging/apptainer/openclaw-env.sh' >> ~/.bashrc
+source ~/.bashrc
 
-# Option B: Use Lmod (if your site supports module use)
+# Option B: Use Lmod
 module use ~/orcd/scratch/oclaw/openclaw-engaging/apptainer
 module load openclaw
 ```
@@ -167,7 +154,7 @@ default. You no longer need to type `apptainer exec ...` for every operation.
 openclaw --help
 ```
 
-## Step 3: Test the Agent
+## Step 4: Test the Agent
 
 Send a quick test message to confirm everything is working:
 
@@ -183,7 +170,7 @@ APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local \
   --agent main -m "Explore CSV files in ~/orcd/scratch/oclaw/workdata/"
 ```
 
-## Step 4: Launch the Web Dashboard
+## Step 5: Launch the Web Dashboard
 
 The web dashboard provides a browser-based chat interface for interacting with
 your agent.
@@ -405,19 +392,6 @@ APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local \
     shell configuration. This is **not recommended**.
 
 ## Advanced Usage
-
-### Running Multiple Agents in Parallel
-
-For class demos or parallel experiments, you can launch multiple independent
-gateway instances on consecutive ports:
-
-```bash
-./apptainer/start-multi.sh 3
-```
-
-This creates three agents (`agent-1`, `agent-2`, `agent-3`) on ports 18790,
-18791, and 18792, each with its own SLURM job, SSH tunnel, and dashboard URL.
-Use `--prefix demo` for custom naming (`demo-1`, `demo-2`, etc.).
 
 ### Cluster-Aware Agents
 
