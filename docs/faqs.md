@@ -145,7 +145,7 @@ A common experience for users who have just created an account on Engaging is to
 sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
 ```
 
-It takes a bit of time for your account to be set up properly so that you can submit jobs. Wait a few hours and try again.
+It sometimes takes an extra bit of time for your account to be set up properly so that you can submit jobs. Wait about 15 minutes and try again.
 
 ### I submitted a job to `mit_normal_gpu` and it's still pending in the queue. Why is it taking so long?
 
