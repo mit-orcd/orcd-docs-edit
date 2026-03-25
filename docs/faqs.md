@@ -149,7 +149,7 @@ It takes a bit of time for your account to be set up properly so that you can su
 
 ### I submitted a job to `mit_normal_gpu` and it's still pending in the queue. Why is it taking so long?
 
-The H200s on Engaging are in high demand. Jobs that request an H200 can sometimes wait hours or even days until it's their turn to run. Here are some steps you can take to minimize wait time:
+The H200s on Engaging are in high demand. Jobs that request an H200 can sometimes wait a few hours until it's their turn to run. During high-demand times, for example leading up to conference deadlines, it can take even longer. Here are some steps you can take to minimize wait time:
 
 1. **Consider using an L40S instead.** L40S GPUs are less powerful than H200s yet much more readily available on Engaging. If your application requires less VRAM than what is available on one or two L40Ss (44GB each), then this is probably a good approach for you. Though H200s are faster, the increased wait time may outweigh the benefits in speedup.
 2. **Request fewer resources or a shorter time limit.** Slurm takes resource requests and time limits into account when scheduling jobs. Jobs that ask for less tend to start sooner.
