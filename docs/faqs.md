@@ -139,7 +139,7 @@ Sometimes, when following [our instructions for running VS Code on the cluster](
 
 ### I just created an account on Engaging, but I can't run any jobs. What's the problem?
 
-A common experience for users who have just created an account on Engaging is to get the following error message when trying to submit a job:
+Some users get the following error message when trying to submit a job right after creating their account:
 
 ```
 sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
@@ -149,7 +149,13 @@ It sometimes takes an extra bit of time for your account to be set up properly s
 
 ### I submitted a job to `mit_normal_gpu` and it's still pending in the queue. Why is it taking so long?
 
-The H200s on Engaging are in high demand. Jobs that request an H200 can sometimes wait a few hours until it's their turn to run. During high-demand times, for example leading up to conference deadlines, it can take even longer. Here are some steps you can take to minimize wait time:
+This is most likely because there aren't enough resources available or other jobs are ahead of yours in the queue (see [Checking Job Status](running-jobs/overview/#checking-job-status)). To check what resources are available, use the `sinfo` command. This variation will show what GPU resources exist and are in use on each node in mit_normal_gpu:
+
+```
+sinfo -O "Partition,Nodes:10,CPUsState,Gres:30,GresUsed:30,StateCompact" -e -p mit_normal_gpu
+```
+
+The H200s on Engaging are in high demand. Jobs that request an H200 can sometimes wait a few hours until it's their turn to run. During high-demand times, such as leading up to conference deadlines, it can take even longer. Here are some steps you can take to minimize wait time:
 
 1. **Consider using an L40S instead.** L40S GPUs are less powerful than H200s yet much more readily available on Engaging. If your application requires less VRAM than what is available on one or two L40Ss (44GB each), then this is probably a good approach for you. Though H200s are faster, the increased wait time may outweigh the benefits in speedup.
 2. **Request fewer resources (cpus, memory, or GPUs) or a shorter time limit.** Slurm takes resource requests and time limits into account when scheduling jobs. Jobs that ask for less tend to start sooner. Use the [`jobstats`](running-jobs/application-analysis.md#jobstats) command to see what resources you used in your recent jobs.
