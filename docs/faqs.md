@@ -22,10 +22,10 @@ module requests to <orcd-help-engaging@mit.edu>.
 We recommend using Conda to manage R packages. Please refer to the
 [R user guide](software/R.md).
 
-### Can I use export controlled software on the cluster?
+### Can I use export-controlled software on the cluster?
 
-Export controlled software has specific requirements around who is allowed to
-access the software. Often, cluster does not meet these requirements, so
+Export-controlled software has specific requirements around who is allowed to
+access the software. Often, Engaging does not meet these requirements, so
 we generally do not allow such software to be used on our system. Please refer
 to the terms of use of the software and direct any questions to
 <orcd-help@mit.edu>.
@@ -41,7 +41,7 @@ maximum job time limit, as these resources are shared. For jobs that
 need to run longer than the time limit, we encourage
 checkpointing, which is a way of periodically saving progress so that subsequent
 jobs can pick up where previous jobs left off. The implementation of checkpointing
-is domain specific and can vary greatly. You can find more information on
+is domain-specific and can vary greatly. You can find more information on
 checkpointing [here](https://rc-docs.northeastern.edu/en/latest/best-practices/checkpointing.html).
 
 For increasing the maximum time limit on partitions owned by other groups,
@@ -65,7 +65,7 @@ it will probably not work on the other OS.
 
 ### How do I run Jupyter notebooks?
 
-You can run Jupyter a few different ways:
+You can run Jupyter in a few different ways:
 
 1. Web portal for the cluster you're using
 2. [VS Code](recipes/vscode.md)
@@ -118,7 +118,7 @@ See [GitHub's documentation on SSH keys](https://docs.github.com/en/authenticati
 
 ### Why doesn't my password work when I try to run the sudo command?
 
-Regular users are not allowed to use sudo on engaging. Engaging is a shared environment. Sudo enables root-level access which allows our system administrators to modify system files, install software and change permissions. If misused unintentionally or accidentally, it could compromise the entire cluster. Therefore, use of sudo is reserved for engaging system administrators who work to secure, maintain, and tune the cluster. If you need specific software and you are having difficultly installing it, contact orcd-help@mit.edu and someone on the staff can assist you. Please see `https://orcd-docs.mit.edu/software/overview/` for more information. 
+Regular users are not allowed to use sudo on Engaging. Engaging is a shared environment. Sudo enables root-level access, which allows our system administrators to modify system files, install software, and change permissions. If misused unintentionally or accidentally, it could compromise the entire cluster. Therefore, use of sudo is reserved for engaging system administrators who work to secure, maintain, and tune the cluster. If you need specific software and you are having difficulty installing it, contact orcd-help@mit.edu and someone on the staff can assist you. Please see `https://orcd-docs.mit.edu/software/overview/` for more information. 
 
 ### What is the `mit_preemptable` partition? What is preemption?
 
@@ -126,7 +126,7 @@ The `mit_preemptable` partition allows you to run programs on lab-owned nodes wh
 
 ### I got locked out of my Engaging account. How do I restore my access?
 
-People often get locked out of their account due to repeated failed authentication attempts, specifically from Duo two-factor authentication. This is usually caused by third-party software that connects to Engaging over SSH, such as [VS Code](recipes/vscode.md#other-vscode-best-practices-tips-and-tricks). Your account will be automatically re-activated after a bit of time.
+People often get locked out of their accounts due to repeated failed authentication attempts, specifically from Duo two-factor authentication. This is usually caused by third-party software that connects to Engaging over SSH, such as [VS Code](recipes/vscode.md#other-vscode-best-practices-tips-and-tricks). Your account will be automatically reactivated after a bit of time.
 
 There are two things that can help:
 
@@ -136,3 +136,27 @@ There are two things that can help:
 ### I cannot connect to a compute node using VS Code remote SSH.
 
 Sometimes, when following [our instructions for running VS Code on the cluster](recipes/vscode.md), users are prompted to enter their password when they connect to the compute node and they get "permission denied." This is most often because they do not have an SSH key set up on Engaging. You can do so following [these instructions](accessing-orcd/ssh-setup.md).
+
+### I just created an account on Engaging, but I can't run any jobs. What's the problem?
+
+Some users get the following error message when trying to submit a job right after creating their account:
+
+```
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+```
+
+It sometimes takes an extra bit of time for your account to be set up properly so that you can submit jobs. Wait about 15 minutes and try again.
+
+### I submitted a job to `mit_normal_gpu` and it's still pending in the queue. Why is it taking so long?
+
+This is most likely because there aren't enough resources available or other jobs are ahead of yours in the queue (see [Checking Job Status](running-jobs/overview/#checking-job-status)). To check what resources are available, use the `sinfo` command. This variation will show what GPU resources exist and are in use on each node in mit_normal_gpu:
+
+```
+sinfo -O "Partition,Nodes:10,CPUsState,Gres:30,GresUsed:30,StateCompact" -e -p mit_normal_gpu
+```
+
+The H200s on Engaging are in high demand. Jobs that request an H200 can sometimes wait a few hours until it's their turn to run. During high-demand times, such as leading up to conference deadlines, it can take even longer. Here are some steps you can take to minimize wait time:
+
+1. **Consider using an L40S instead.** L40S GPUs are less powerful than H200s yet much more readily available on Engaging. If your application requires less VRAM than what is available on one or two L40Ss (44GB each), then this is probably a good approach for you. Though H200s are faster, the increased wait time may outweigh the benefits in speedup.
+2. **Request fewer resources (cpus, memory, or GPUs) or a shorter time limit.** Slurm takes resource requests and time limits into account when scheduling jobs. Jobs that ask for less tend to start sooner. Use the [`jobstats`](running-jobs/application-analysis.md#jobstats) command to see what resources you used in your recent jobs.
+3. **Subscribe to a Standard or Advanced Account Level.** Users with a valid cost object can pay a monthly fee to run higher-priority jobs and request more resources than the free tier. This doesn't guarantee that your jobs will run immediately, but they should have a shorter wait time overall. More information can be found on our [Compute Services](services/compute-services.md) page.
