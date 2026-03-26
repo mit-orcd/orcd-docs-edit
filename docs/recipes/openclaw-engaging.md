@@ -113,13 +113,14 @@ sets up the upstream remote automatically.
     repo (`~/orcd/scratch/oclaw/`). Agent state lives in
     `~/orcd/scratch/oclaw/.openclaw/` — off your home quota by default.
 
-## Step 2: Build + Setup (~10 min)
+## Step 2: Build + Setup (~15–20 min)
 
-The setup script builds the container (if needed), checks for upstream updates,
-runs the interactive onboarding wizard, and applies HPC-specific settings — all
-in one command:
+The setup script builds the container, checks for upstream updates, runs the
+interactive onboarding wizard, and applies HPC-specific settings — all in one
+command. Stay at the terminal for the interactive prompts:
 
 ```bash
+cd ~/orcd/scratch/oclaw/openclaw-engaging
 srun --pty --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh
 ```
 
@@ -128,27 +129,36 @@ selection, optional channels (Telegram, Slack, Discord), and skills. After the
 wizard, the script automatically configures sandbox, session timeout, and
 gateway settings for Engaging. You do not need to configure these manually.
 
+??? note "Split build and onboarding"
+    If you prefer to build the container and run onboarding separately:
+
+    ```bash
+    srun --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh --build-only
+    srun --pty --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh --onboard-only
+    ```
+
+    The `--build-only` step does not need `--pty` since it has no interactive
+    prompts. The `--onboard-only` step skips the container build.
+
 !!! note
     You may see skill install failures mentioning "brew not installed." These
     are non-fatal — Homebrew is not available on HPC nodes, but the core agent
     functionality works without these optional skills.
 
-## Step 3: Activate the `openclaw` Command
+## Step 3: Activate the `openclaw` Command (one-time)
 
-After setup completes, activate the `openclaw` shortcut. Choose one of:
+The setup script installs an Lmod modulefile to `~/modulefiles/openclaw.lua`.
+Add the module path to your shell and load the module:
 
 ```bash
-# Option A: Source the environment file (add to .bashrc for persistence)
-echo 'source ~/orcd/scratch/oclaw/openclaw-engaging/apptainer/openclaw-env.sh' >> ~/.bashrc
+echo 'module use ~/modulefiles' >> ~/.bashrc
 source ~/.bashrc
-
-# Option B: Use Lmod
-module use ~/orcd/scratch/oclaw/openclaw-engaging/apptainer
 module load openclaw
 ```
 
-Either option sets up the `openclaw` command and enables `--containall` by
-default. You no longer need to type `apptainer exec ...` for every operation.
+This sets up the `openclaw` command and enables `--containall` by default.
+You no longer need to type `apptainer exec ...` for every operation. In future
+sessions, `module load openclaw` is automatically available.
 
 ```bash
 openclaw --help
@@ -166,8 +176,7 @@ You can also start an interactive session on a compute node with data access:
 
 ```bash
 srun --pty --mem=4G --time=02:00:00 bash
-APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local \
-  --agent main -m "Explore CSV files in ~/orcd/scratch/oclaw/workdata/"
+APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local --agent main -m "Explore CSV files in ~/orcd/scratch/oclaw/workdata/"
 ```
 
 ## Step 5: Launch the Web Dashboard
@@ -203,7 +212,7 @@ authentication token:
 
 ```
 SSH tunnel command:
-  lsof -ti:18790 | xargs kill -9 2>/dev/null; sleep 1; ssh -J <username>@orcd-login.mit.edu -L 18790:localhost:18790 <username>@<node> -N -f
+  lsof -ti:18790 | xargs kill -9 2>/dev/null; sleep 1; ssh -f -N -J <username>@orcd-login.mit.edu -L 18790:localhost:18790 <username>@<node>
 
 Dashboard URL:
   http://localhost:18790/?token=<your-token>
@@ -212,7 +221,7 @@ Dashboard URL:
 On your **local machine**, run the SSH tunnel command from the output:
 
 ```bash
-lsof -ti:18790 | xargs kill -9 2>/dev/null; sleep 1; ssh -J <username>@orcd-login.mit.edu -L 18790:localhost:18790 <username>@<node> -N -f
+lsof -ti:18790 | xargs kill -9 2>/dev/null; sleep 1; ssh -f -N -J <username>@orcd-login.mit.edu -L 18790:localhost:18790 <username>@<node>
 ```
 
 The `lsof ... | xargs kill` clears any stale tunnel on that port. The
@@ -263,8 +272,7 @@ With this enabled, your agent can write batch scripts, submit them with
 `sbatch`, and monitor job status — all within the same conversation:
 
 ```bash
-OPENCLAW_SLURM_BINDS=1 openclaw agent --local --agent main \
-  -m "Write a SLURM batch script for my analysis and submit it"
+OPENCLAW_SLURM_BINDS=1 openclaw agent --local --agent main -m "Write a SLURM batch script for my analysis and submit it"
 ```
 
 !!! warning "SLURM binds and container boundaries"
@@ -287,15 +295,13 @@ Since `--containall` is enabled by default, the agent can only see the repo
 directory and `/tmp`. To grant access to your data, use `APPTAINER_BIND`:
 
 ```bash
-APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local \
-  --agent main -m "Analyze the datasets in ~/orcd/scratch/oclaw/workdata/"
+APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local --agent main -m "Analyze the datasets in ~/orcd/scratch/oclaw/workdata/"
 ```
 
 You can bind multiple paths:
 
 ```bash
-APPTAINER_BIND="/pool/lab-data,~/orcd/scratch/results" openclaw agent \
-  --local --agent main -m "Compare data in /pool/lab-data/ with ~/orcd/scratch/results/"
+APPTAINER_BIND="/pool/lab-data,~/orcd/scratch/results" openclaw agent --local --agent main -m "Compare data in /pool/lab-data/ with ~/orcd/scratch/results/"
 ```
 
 ### GPU Compute
@@ -307,9 +313,7 @@ separate SLURM job that requests its own GPU. Enable
 `OPENCLAW_SLURM_BINDS=1` so the agent can use `sbatch` directly:
 
 ```bash
-OPENCLAW_SLURM_BINDS=1 APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" \
-  openclaw agent --local --agent main \
-  -m "Submit a SLURM job on a GPU node to train my model in ~/orcd/scratch/oclaw/workdata/"
+OPENCLAW_SLURM_BINDS=1 APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local --agent main -m "Submit a SLURM job on a GPU node to train my model in ~/orcd/scratch/oclaw/workdata/"
 ```
 
 The submitted job runs outside the container on a GPU node with full
@@ -382,8 +386,7 @@ By default, all scripts run with `--containall` enabled. This means:
 To grant the agent access to a data directory, use `APPTAINER_BIND`:
 
 ```bash
-APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local \
-  --agent main -m "Analyze the data in ~/orcd/scratch/oclaw/workdata/"
+APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local --agent main -m "Analyze the data in ~/orcd/scratch/oclaw/workdata/"
 ```
 
 !!! warning
@@ -483,8 +486,7 @@ rebuild the container:
 
 ```bash
 module load apptainer/1.4.2
-srun --mem=8G --time=01:00:00 --cpus-per-task=2 \
-  apptainer build apptainer/openclaw.sif apptainer/openclaw.def
+srun --mem=8G --time=01:00:00 --cpus-per-task=2 apptainer build apptainer/openclaw.sif apptainer/openclaw.def
 ```
 
 ## HPC vs. Cloud Differences
