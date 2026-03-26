@@ -36,6 +36,12 @@ access to your research data and cluster compute resources.
       container with your full user permissions. See
       [SLURM Job Management](#slurm-job-management-from-the-agent).
 
+!!! note "Detailed guide"
+    For full details including troubleshooting, advanced configuration, gateway
+    setup, and session persistence, see the
+    [OpenClaw Engaging guide](https://github.com/qsimeon/openclaw-engaging/blob/main/docs/engaging-apptainer-guide.md).
+    This recipe is the quick-start; the guide is the reference manual.
+
 The code and Apptainer configuration for this recipe can be found in the
 [openclaw-engaging](https://github.com/qsimeon/openclaw-engaging) GitHub
 repository, which is a fork of the upstream
@@ -511,3 +517,8 @@ srun --mem=8G --time=01:00:00 --cpus-per-task=2 apptainer build apptainer/opencl
     These are fundamental HPC constraints, not Apptainer limitations. The
     `openclaw` shortcut and persistent state directory keep the experience
     close to the cloud deployment.
+
+!!! note "Detailed guide"
+    For full details including troubleshooting, advanced configuration, gateway
+    setup, and session persistence, see the
+    [OpenClaw Engaging guide](https://github.com/qsimeon/openclaw-engaging/blob/main/docs/engaging-apptainer-guide.md).
