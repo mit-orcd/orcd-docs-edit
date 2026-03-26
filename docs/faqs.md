@@ -126,7 +126,13 @@ The `mit_preemptable` partition allows you to run programs on lab-owned nodes wh
 
 ### I got locked out of my Engaging account. How do I restore my access?
 
-People often get locked out of their accounts due to repeated failed authentication attempts, specifically from Duo two-factor authentication. This is usually caused by third-party software that connects to Engaging over SSH, such as [VS Code](recipes/vscode.md#other-vscode-best-practices-tips-and-tricks). Your account will be automatically reactivated after a bit of time.
+People sometimes get locked out of their accounts due to repeated failed authentication attempts, specifically from Duo two-factor authentication. When this happens, they get the following message:
+
+```
+Your account is disabled and cannot access this application. Please contact your administrator.
+```
+
+This is usually caused by third-party software that connects to Engaging over SSH, such as [VS Code](recipes/vscode.md#other-vscode-best-practices-tips-and-tricks). Your account will be automatically reactivated after a bit of time.
 
 There are two things that can help:
 
