@@ -23,12 +23,10 @@ access to your research data and cluster compute resources.
     This recipe is the quick-start; the guide is the reference manual.
 
 !!! warning "Responsible Use and Data Privacy"
-    - **You are responsible for the actions of your agent.** Be sure you
-      and any of your agents follow the
+    - **You are responsible for the actions of your agent.** Follow the
       [Acceptable Use and Code of Conduct](https://orcd-docs.mit.edu/code-of-conduct/).
-    - **Only use low-risk data.** Prompts and file excerpts are sent to
-      cloud LLM APIs for processing. Do not use restricted or
-      export-controlled data. See
+    - **Data privacy.** Prompts and file excerpts go to cloud LLM APIs. Do
+      not use sensitive, restricted, or export-controlled data. See
       [MIT data classification](https://ist.mit.edu/security/data-classification).
     - **Limit access.** The agent runs in `--containall` mode by default,
       restricting it to the repo directory, `.openclaw/`, and `/tmp`. Use
@@ -90,9 +88,9 @@ Compute node (SLURM job)
     is needed for data processing, the agent can submit separate SLURM jobs
     that request their own GPUs (via `OPENCLAW_SLURM_BINDS=1`).
 
-## Step 1: Install
+## Step 1: Clone
 
-Log in to a login node and run the one-line installer:
+Log in to a login node and run the one-line installer (about 30 seconds):
 
 ```bash
 ssh <username>@orcd-login.mit.edu
@@ -100,8 +98,8 @@ curl -fsSL https://raw.githubusercontent.com/qsimeon/openclaw-engaging/main/inst
 cd ~/orcd/scratch/oclaw/openclaw-engaging
 ```
 
-The installer clones the repo to `~/orcd/scratch/oclaw/openclaw-engaging` and
-sets up the upstream remote automatically.
+The installer clones the repo to `~/orcd/scratch/oclaw/openclaw-engaging` (not
+your home directory) and sets up the upstream remote automatically.
 
 ??? note "Manual clone"
     If you prefer not to pipe to bash:
@@ -119,7 +117,7 @@ sets up the upstream remote automatically.
     repo (`~/orcd/scratch/oclaw/`). Agent state lives in
     `~/orcd/scratch/oclaw/.openclaw/` — off your home quota by default.
 
-## Step 2: Build + Setup (~15–20 min)
+## Step 2: Build + configure (~15–20 min)
 
 The setup script builds the container, checks for upstream updates, runs the
 interactive onboarding wizard, and applies HPC-specific settings — all in one
@@ -142,7 +140,7 @@ Run the build without a TTY (no prompts), then run onboarding interactively:
 
 ```bash
 srun --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh --build-only
-srun --pty --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh --onboard-only
+srun --pty --mem=4G --time=00:30:00 ./apptainer/setup.sh --onboard-only
 ```
 
 The `--build-only` step does not need `--pty` since it has no interactive
@@ -157,12 +155,11 @@ prompts. The `--onboard-only` step skips the container build.
 
 ## Step 3: Activate the `openclaw` Command (one-time)
 
-The setup script installs an Lmod modulefile to `~/modulefiles/openclaw.lua`.
-Add the module path to your shell and load the module:
+`setup.sh` installs the Lmod modulefile to `~/modulefiles/openclaw.lua`.
+Use the module only (there is no `source …/openclaw-env.sh` / `.bashrc` shortcut):
 
 ```bash
-echo 'module use ~/modulefiles' >> ~/.bashrc
-source ~/.bashrc
+echo 'module use ~/modulefiles' >> ~/.bashrc && source ~/.bashrc
 module load openclaw
 ```
 
@@ -522,9 +519,9 @@ srun --mem=8G --time=01:00:00 --cpus-per-task=2 apptainer build apptainer/opencl
       access to the dashboard.
     - **No systemd**: There is no service manager on compute nodes. The gateway
       runs as a foreground process inside the SLURM job.
-    - **GPU**: Not needed for the agent itself. When GPU compute is required,
-      the agent submits separate SLURM jobs that request their own GPUs
-      (via `OPENCLAW_SLURM_BINDS=1`).
+    - **GPU**: Not needed — agent submits GPU jobs via SLURM when compute is
+      required (`OPENCLAW_SLURM_BINDS=1`). Do not request GPU partitions for the
+      gateway or agent session.
 
     These are fundamental HPC constraints, not Apptainer limitations. The
     `openclaw` shortcut and persistent state directory keep the experience
@@ -532,5 +529,5 @@ srun --mem=8G --time=01:00:00 --cpus-per-task=2 apptainer build apptainer/opencl
 
 !!! note "Detailed guide"
     For full details — troubleshooting, advanced config, gateway setup, session
-    persistence — see the full
+    persistence — see the
     [OpenClaw Engaging guide](https://github.com/qsimeon/openclaw-engaging/blob/main/docs/engaging-apptainer-guide.md).
