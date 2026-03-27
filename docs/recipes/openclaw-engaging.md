@@ -16,6 +16,12 @@ Google Gemini, OpenRouter, etc.). This recipe deploys OpenClaw on the Engaging
 cluster using [Apptainer](../software/apptainer.md) so the agent has direct
 access to your research data and cluster compute resources.
 
+!!! note "Detailed guide"
+    For full details — troubleshooting, advanced config, gateway setup, session
+    persistence — see the full
+    [OpenClaw Engaging guide](https://github.com/qsimeon/openclaw-engaging/blob/main/docs/engaging-apptainer-guide.md).
+    This recipe is the quick-start; the guide is the reference manual.
+
 !!! warning "Responsible Use and Data Privacy"
     - **You are responsible for the actions of your agent.** Be sure you
       and any of your agents follow the
@@ -35,12 +41,6 @@ access to your research data and cluster compute resources.
       `OPENCLAW_SLURM_BINDS=1`, jobs submitted by the agent run outside the
       container with your full user permissions. See
       [SLURM Job Management](#slurm-job-management-from-the-agent).
-
-!!! note "Detailed guide"
-    For full details including troubleshooting, advanced configuration, gateway
-    setup, and session persistence, see the
-    [OpenClaw Engaging guide](https://github.com/qsimeon/openclaw-engaging/blob/main/docs/engaging-apptainer-guide.md).
-    This recipe is the quick-start; the guide is the reference manual.
 
 The code and Apptainer configuration for this recipe can be found in the
 [openclaw-engaging](https://github.com/qsimeon/openclaw-engaging) GitHub
@@ -135,16 +135,20 @@ selection, optional channels (Telegram, Slack, Discord), and skills. After the
 wizard, the script automatically configures sandbox, session timeout, and
 gateway settings for Engaging. You do not need to configure these manually.
 
-??? note "Split build and onboarding"
-    If you prefer to build the container and run onboarding separately:
+<details>
+<summary>Split into two steps (if you need to walk away during the build)</summary>
 
-    ```bash
-    srun --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh --build-only
-    srun --pty --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh --onboard-only
-    ```
+Run the build without a TTY (no prompts), then run onboarding interactively:
 
-    The `--build-only` step does not need `--pty` since it has no interactive
-    prompts. The `--onboard-only` step skips the container build.
+```bash
+srun --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh --build-only
+srun --pty --mem=8G --time=01:00:00 --cpus-per-task=2 ./apptainer/setup.sh --onboard-only
+```
+
+The `--build-only` step does not need `--pty` since it has no interactive
+prompts. The `--onboard-only` step skips the container build.
+
+</details>
 
 !!! note
     You may see skill install failures mentioning "brew not installed." These
@@ -298,7 +302,8 @@ OPENCLAW_SLURM_BINDS=1 openclaw agent --local --agent main -m "Write a SLURM bat
 ### Accessing Research Data
 
 Since `--containall` is enabled by default, the agent can only see the repo
-directory and `/tmp`. To grant access to your data, use `APPTAINER_BIND`:
+directory and `/tmp`. Grant access with `APPTAINER_BIND` in front of
+`openclaw` (not `apptainer exec -B`):
 
 ```bash
 APPTAINER_BIND="~/orcd/scratch/oclaw/workdata" openclaw agent --local --agent main -m "Analyze the datasets in ~/orcd/scratch/oclaw/workdata/"
@@ -308,6 +313,13 @@ You can bind multiple paths:
 
 ```bash
 APPTAINER_BIND="/pool/lab-data,~/orcd/scratch/results" openclaw agent --local --agent main -m "Compare data in /pool/lab-data/ with ~/orcd/scratch/results/"
+```
+
+For batch jobs, set `APPTAINER_BIND` on the same line as `sbatch` so the job
+inherits it:
+
+```bash
+APPTAINER_BIND="/orcd/data/your-group/datasets" sbatch apptainer/slurm-openclaw.sh
 ```
 
 ### GPU Compute
@@ -519,6 +531,6 @@ srun --mem=8G --time=01:00:00 --cpus-per-task=2 apptainer build apptainer/opencl
     close to the cloud deployment.
 
 !!! note "Detailed guide"
-    For full details including troubleshooting, advanced configuration, gateway
-    setup, and session persistence, see the
+    For full details — troubleshooting, advanced config, gateway setup, session
+    persistence — see the full
     [OpenClaw Engaging guide](https://github.com/qsimeon/openclaw-engaging/blob/main/docs/engaging-apptainer-guide.md).
