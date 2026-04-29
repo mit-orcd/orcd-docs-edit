@@ -99,7 +99,7 @@ installed to your Conda environment.
 
 **How do I run a Jupyter notebook with a GPU?**
 
-The cluster web portals offer an option to allocate a GPU to your Jupyter
+The ORCD OnDemand web portal offers an option to allocate a GPU to your Jupyter
 session.
 
 **Jupyter does not recognize the kernel for my environment. What do I do?**
