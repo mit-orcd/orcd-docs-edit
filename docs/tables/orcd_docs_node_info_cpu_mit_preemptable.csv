@@ -1,9 +1,27 @@
 Nodes,Cores,Memory,CPU model,Misc. features,Node list
+4,2x32,1006GB,AMD EPYC 7513 32-Core Processor,(null),node2632-2635
+1,2x64,1006GB,AMD EPYC 9554 64-Core Processor,(null),node2514
+1,2x64,1503GB,AMD EPYC 9575F 64-Core Processor,(null),node4117
 2,2x48,1510GB,AMD EPYC 9474F 48-Core Processor,(null),node3612-3613
-4,2x96,1510GB,AMD EPYC 9654 96-Core Processor,(null),node1620;node1623-1625
+6,2x96,1510GB,AMD EPYC 9654 96-Core Processor,(null),node1620;node1623-1625;node2437;node3618
 2,2x96,1510GB,AMD EPYC 9654 96-Core Processor,,node1621-1622
-19,2x48,375GB,AMD EPYC 9474F 48-Core Processor,(null),node1600-1601;node1603-1619
-1,,375GB,,(null),node1602
-27,2x48,376GB,AMD EPYC 9474F 48-Core Processor,(null),node1626-1631;node2503-2513;node2523-2524;node3602-3607;node3610-3611
-4,2x48,377GB,AMD EPYC 9474F 48-Core Processor,(null),node2525;node3621-3623
+8,2x32,187GB,AMD EPYC 7542 32-Core Processor,(null),node2404-2411
+8,2x32,2014GB,AMD EPYC 7513 32-Core Processor,(null),node2600-2603;node2628-2631
+8,1x32,250GB,AMD EPYC 7513 32-Core Processor,(null),node2024-2027;node2419-2422
+4,2x28,250GB,IntelR XeonR Gold 5420+,(null),node2805-2808
+8,2x32,250GB,AMD EPYC 7452 32-Core Processor,(null),node2006-2011;node2412-2413
+34,2x32,250GB,AMD EPYC 7513 32-Core Processor,(null),node1919-1926;node2012-2023;node2423-2432;node2519-2522
+1,2x48,371GB,AMD EPYC 9474F 48-Core Processor,(null),node4003
+2,2x32,375GB,AMD EPYC 9384X 32-Core Processor,high_l3,node2704-2705
+55,2x48,375GB,AMD EPYC 9474F 48-Core Processor,(null),node1600-1619;node3103-3114;node3303-3314;node4005-4006;node4405-4413
+9,2x32,376GB,AMD EPYC 7542 32-Core Processor,(null),node1410;node1432;node1434-1436;node1438-1441
+32,2x48,376GB,AMD EPYC 9474F 48-Core Processor,(null),node1626-1631;node2502-2513;node2523-2524;node3602-3607;node3610-3611;node4414-4416;node4512
+1,2x48,376GB,AMD EPYC 9474F 48-Core Processor,r9-pa-c14,node3601
+17,2x96,376GB,AMD EPYC 9654 96-Core Processor,(null),node1900-1916
+50,2x32,377GB,AMD EPYC 7542 32-Core Processor,(null),node1404-1409;node1411-1431;node1433;node1437;node1442-1462
+11,2x48,377GB,AMD EPYC 9474F 48-Core Processor,(null),node2525;node3616-3617;node3621-3623;node4509-4511;node4513-4514
+28,2x32,502GB,AMD EPYC 7513 32-Core Processor,(null),node2604-2627;node2636-2639
+28,2x32,502GB,AMD EPYC 7543 32-Core Processor,(null),node2105-2118;node2305-2318
+1,2x32,502GB,IntelR XeonR Gold 6448Y,(null),node2518
+7,2x64,751GB,AMD EPYC 9575F 64-Core Processor,(null),node4110-4116
 2,2x48,754GB,AMD EPYC 9474F 48-Core Processor,(null),node3608-3609
