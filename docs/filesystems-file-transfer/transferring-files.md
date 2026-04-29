@@ -8,7 +8,7 @@ We recommend using [OnDemand](#ondemand) for every-day file transfer and [Globus
 
 Engaging has an [Open OnDemand Portal](https://orcd-ood.mit.edu/).
 
-With the Engaging OnDemand portal you can do the following using the File Browser:
+With the ORCD OnDemand portal you can do the following using the File Browser:
 
 - Upload and download files and directories
 - Rename, move, and delete files and directories
