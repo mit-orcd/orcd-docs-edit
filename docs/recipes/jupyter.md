@@ -42,8 +42,8 @@ create a Jupyter notebook and select the language you would like to use.
 
 ### VS Code
 
-First, follow [these instructions](./vscode.md) to set up VS Code to run on a
-compute node.
+First, follow [these instructions](./vscode.md) to set up VS Code to run **on a
+compute node**.
 
 Open a Jupyter notebook and click the top right button to select a kernel. You
 can select "Python Environments" for any Conda environments or "Jupyter Kernel"
@@ -102,10 +102,7 @@ See our [Python documentation](../software/python.md) for more information.
 **How do I run a Jupyter notebook with a GPU?**
 
 The cluster web portals offer an option to allocate a GPU to your Jupyter
-session. If you would like to use a different partition, however, then follow
-the instructions for [VS Code](#vs-code) or [port forwarding](#port-forwarding)
-and request a GPU in your Slurm job. See [our documentation on requesting
-resources](../running-jobs/requesting-resources.md#gpus) for more information.
+session.
 
 **Jupyter does not recognize the kernel for my environment. What do I do?**
 
