@@ -18,7 +18,7 @@ familiarity with high performance computing environments.
 
 ### OnDemand Web Portal
 
-The most straightforward way to run a Jupyter notebook is to use Engaging's web portal. While this path is the easiest to set up, it can be limiting if you want more control over your environment or the resources allocated to your notebook.
+The most straightforward way to run a Jupyter notebook is to use Engaging's web portal.
 
 - Link to web portal:
 [https://orcd-ood.mit.edu/](https://orcd-ood.mit.edu/)
@@ -40,82 +40,14 @@ python -m ipykernel install --user --name $CONDA_DEFAULT_ENV
 
 ### VS Code
 
-First, follow [these instructions](./vscode.md) to set up VS Code to run on a
-compute node.
+First, follow [these instructions](./vscode.md) to set up VS Code to run **on a
+compute node**.
 
 Open a Jupyter notebook and click the top-right button to select a kernel. You
 can select "Python Environments" for any Conda environments or "Jupyter Kernel"
 to find Julia or R environments. If you have installed R with Conda, you can
 find your Conda environment under "Jupyter Kernel." `jupyterlab` must be
 installed to your Conda environment.
-
-### Port Forwarding
-
-Port forwarding offers the most flexibility in setting up your Jupyter notebook, but the setup is slightly more involved. With port forwarding, the rendering
-is handled through your internet browser while computation is done on the
-cluster. This method is more lightweight than VS Code and can be more reliable.
-
-Port forwarding consists of running the notebook on a compute node and then
-accessing the notebook on your local machine by SSH tunnelling through a login
-node.
-
-First, request a compute node with the resources you'll need for your Jupyter
-session (here we are requesting 1 node with 4 CPU cores):
-
-```bash
-salloc -N 1 -c 4 -p mit_normal
-```
-
-!!! note
-    See [Requesting Resources](../running-jobs/requesting-resources.md) for more
-    information.
-
-Make a note of the node that your job is running on by running `hostname` from
-the command line.
-
-Even if you are using a different language with Jupyter, Jupyter is tightly
-linked to Python, so you will need to use a Conda environment with
-`jupyterlab` installed:
-
-```bash
-module load miniforge
-conda create -n jupyter_env jupyterlab
-conda activate jupyter_env
-```
-
-Now, we can run the notebook. To be able to access it on our local machine, we
-need to add a few arguments:
-
-```bash
-port=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()')
-jupyter-lab --ip=0.0.0.0 --port=$port
-```
-
-The port can be any number between 1024 and 65535, and the first command above ensures getting an open port.
-
-When you run the notebook, the output will contain a link with a token that
-allows you to access the notebook, which will look like the following:
-
-![](../images/jupyter/jupyter_link.png)
-
-Make sure to select the second URL that is provided as outlined in yellow above. 
-We cannot use this link right away because that node is not available from our
-local machine. Through "tunneling," however, we can access this node through
-a login node, which is accessible from our local machine.
-
-In a second terminal window on your **local machine**, set up an SSH tunnel to your
-Jupyter notebook that's running on the compute node, filling in the node name,
-port number, and username as necessary. We will keep the local port and the remote port the same for simplicity.
-
-```bash
-ssh -L <port>:<node>:<port> <USER>@orcd-login.mit.edu
-```
-
-Now you can access Jupyter in an internet browser using the link we received above.
-
-Open a Jupyter notebook and select your kernel from the top right
-corner. The Python environment is the same environment you used to run the
-notebook.
 
 ## Language-Specific Instructions
 
@@ -167,11 +99,8 @@ notebook.
 
 **How do I run a Jupyter notebook with a GPU?**
 
-The cluster web portals offer an option to allocate a GPU to your Jupyter
-session. If you would like to use a different partition, however, then follow
-the instructions for [VS Code](#vs-code) or [port forwarding](#port-forwarding)
-and request a GPU in your Slurm job. See [our documentation on requesting
-resources](../running-jobs/requesting-resources.md#gpus) for more information.
+The ORCD OnDemand web portal offers an option to allocate a GPU to your Jupyter
+session.
 
 **Jupyter does not recognize the kernel for my environment. What do I do?**
 

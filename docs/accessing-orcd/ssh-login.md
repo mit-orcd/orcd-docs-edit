@@ -43,7 +43,7 @@ ssh [username]@orcd-login.mit.edu
 ```
 Replace `[username]` with your MIT Kerberos username.
 
-Connecting requires Two-Factor Authentication, your MIT Kerberos password and Duo. You can reduce the number of times you need to do Two-Factor Authentication by using [SSH Control Channels](control-channels.md).
+Connecting requires Two-Factor Authentication, your MIT Kerberos password and Duo. You can reduce the number of times you need to do Two-Factor Authentication either by logging into [ORCD OnDemand](https://orcd-ood.mit.edu) ([https://orcd-ood.mit.edu](https://orcd-ood.mit.edu)) or by using [SSH Control Channels](control-channels.md) (Mac/Linux only). Logging into [ORCD OnDemand](https://orcd-ood.mit.edu) will allow you to log in with an ssh key for a short period of time, without the need to enter your MIT Kerberos password and respond to a Duo push.
 
 If you are still using the older Centos 7 nodes you can ssh to `vlogin001` after you ssh to `orcd-login.mit.edu`:
 
@@ -55,4 +55,4 @@ Last login: Mon Feb 23 13:46:26 2026 from login005.inband
 ```
 
 !!! Note
-    You will be prompted to enter your MIT Kerberos password even if you have set up SSH keys. To set them up, please refer to our [SSH Key Setup Page](ssh-setup.md). You can reduce the number of times you need to do Two-Factor Authentication by using [SSH Control Channels](control-channels.md).
+    By default you will be prompted to enter your MIT Kerberos password even if you have set up SSH keys. Logging into [ORCD OnDemand](https://orcd-ood.mit.edu) will allow you to log in with an ssh key for a short period of time. To set them up, please refer to our [SSH Key Setup Page](ssh-setup.md).

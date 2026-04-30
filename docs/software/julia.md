@@ -118,7 +118,7 @@ export PATH="~/julia-1.9.0/bin:$PATH"
 ## Jupyter Notebooks
 
 While Jupyter is heavily integrated with Python, it supports compatibility with
-Julia. You can run Jupyter notebooks on [OnDemand](https://engaging-ood.mit.edu/). You
+Julia. You can run Jupyter notebooks on [OnDemand](https://orcd-ood.mit.edu/). You
 can create a Julia kernel using either one of the pre-installed Julia modules, or any other Julia version you've installed in your home directory.
 
 To create a kernel, add the `IJulia` package and build it in your Julia environment:

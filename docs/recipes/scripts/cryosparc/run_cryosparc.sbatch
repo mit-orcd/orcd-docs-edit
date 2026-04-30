@@ -44,7 +44,7 @@ cat 1>&2 <<END
 
 To open the CryoSPARC user interface, port forward to the compute node in a new shell window on your local computer:
 
-	ssh -L ${CRYOSPARC_BASE_PORT}:$(hostname):${CRYOSPARC_BASE_PORT} ${USER}@orcd-login001.mit.edu
+	ssh -L ${CRYOSPARC_BASE_PORT}:$(hostname):${CRYOSPARC_BASE_PORT} ${USER}@orcd-login.mit.edu
 
 Now, point your web browser to http://localhost:${CRYOSPARC_BASE_PORT}
 

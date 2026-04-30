@@ -108,7 +108,7 @@ If your compute node is `node1234` then your config file should look something l
 
 ```yaml title="config"
 Host orcd-login
-    HostName orcd-login001.mit.edu
+    HostName orcd-login.mit.edu
     User USERNAME
 
 Host orcd-compute
