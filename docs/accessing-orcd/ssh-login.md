@@ -55,4 +55,4 @@ Last login: Mon Feb 23 13:46:26 2026 from login005.inband
 ```
 
 !!! Note
-    By default you will be prompted to enter your MIT Kerberos password even if you have set up SSH keys. Logging into [ORCD OnDemand](https://orcd-ood.mit.edu) will allow you to log in with an ssh key for a short period of time. To set them up, please refer to our [SSH Key Setup Page](ssh-setup.md).
+    By default you will be prompted to enter your MIT Kerberos password even if you have set up SSH keys. Logging into [ORCD OnDemand](https://orcd-ood.mit.edu) will allow you to log in with an ssh key and without a password for a short period of time. To set them up, please refer to our [SSH Key Setup Page](ssh-setup.md).

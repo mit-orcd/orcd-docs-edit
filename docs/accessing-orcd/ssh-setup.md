@@ -19,6 +19,9 @@ Using the key and lock analogy, the private key is like your key, and the public
 !!! danger "Do Not Share Your Private Key" 
     Your private key should never be shared with anyone. If someone else obtains your private key, they could potentially gain unauthorized access to any system your key is associated with.
 
+!!! Note
+    By default you will be prompted to enter your MIT Kerberos password even if you have set up SSH keys. Logging into [ORCD OnDemand](https://orcd-ood.mit.edu) will allow you to log in with an ssh key and without a password for a short period of time.
+
 ## Checking for Existing SSH Keys
 
 Before you generate an SSH key, you should check for existing SSH keys.  
@@ -106,11 +109,5 @@ If your system is a MAC or Linux machine, you can use the `ssh-copy-id` command 
     !!! Note
         **Do not remove anything already present in the authorized_keys file. Be careful to append your key to the end of the file rather than replacing its contents.**
 
-## Testing your SSH Key Setup
-
-To ensure that your SSH key is correctly configured, follow these steps:
-
-1. Attempt to login on your terminal: `ssh your_username@cluster_address`. For more details, you can reference the [Getting Started Tutorial](../getting-started.md) page.
-2. If prompted for a password, the SSH key setup did not work. Recheck the steps and correct any issues.
 
 
