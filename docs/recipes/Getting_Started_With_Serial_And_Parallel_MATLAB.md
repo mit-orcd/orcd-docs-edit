@@ -1,3 +1,8 @@
+---
+tags:
+ - MATLAB
+ - Howto Recipes
+---
 
 <a id="M_1a8d"></a>
 
@@ -92,7 +97,7 @@ c.AdditionalProperties.AccountName = 'account-name';
 c.AdditionalProperties.Constraint = 'feature-name';
 
 % Request email notification of job status
-c.AdditionalProperties.EmailAddress = 'user-id@mit.edu';
+c.AdditionalProperties.EmailAddress = 'mit-kerberos@mit.edu';
 
 % Specify number of GPUs (default: 0)
 c.AdditionalProperties.GPUsPerNode = 1;
