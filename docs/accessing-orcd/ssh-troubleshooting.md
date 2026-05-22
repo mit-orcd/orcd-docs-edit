@@ -84,7 +84,7 @@ Host orcd-login.mit.edu
     - **Wi-Fi instability** — a flaky wireless connection will drop SSH sessions regardless of keepalive settings. Try a wired connection if you experience frequent drops.
     - **MIT VPN** — being connected to the MIT VPN can add latency depending on your network path.
     - **Server-side idle timeout** — the server may enforce its own idle timeout. Client-side keepalives help but are not a guarantee against disconnection.
-    - **Large data transfers** — running a file transfer in the same session can saturate the connection and make the session appear hung. Use a separate terminal window for transfers.
+    - **Large data transfers** — data transfers to or from your local machine can saturate your network connection and make your SSH session appear slow or unresponsive.
 
 ## Cannot Connect to a Compute Node
 
