@@ -36,6 +36,7 @@ nav:
 #    - How To Run Different Workloads: running/page3.md
   - ORCD Recipes:
     - AlphaFold 3: recipes/af3.md
+    - Checkpointing with Job Arrays: recipes/check-point-example.md
     - GROMACS: recipes/gromacs.md
     - Intel compiler: recipes/intel.md
     - Jupyter: recipes/jupyter.md
