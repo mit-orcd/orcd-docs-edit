@@ -18,7 +18,7 @@ If the connection hangs or times out, you may be on a network that blocks SSH. T
 
 ## Permission Denied
 
-**Check your username:** Make sure you are using your MIT Kerberos username, not your full email address.
+**Check your username:** Make sure you are using your MIT Kerberos username.
 
 **Check your SSH key permissions:** Run these commands on your laptop:
 ```bash
