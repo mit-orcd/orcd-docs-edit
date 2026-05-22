@@ -30,7 +30,7 @@ Checkpointing is the process of saving the progress of a running job at specific
 There are two common approaches: checking whether a checkpoint file **exists**, or checking the **contents** of a checkpoint file.
 
 !!! tip
-    As a best practice, write checkpoint files to your pool or scratch storage rather than your home directory. These storage areas are better suited for frequent writes during a running job. See the [Filesystems](../filesystems-file-transfer/filesystems.md) page for more information.
+    As a best practice, write checkpoint files to your scratch or home storage. Both are flash-based and better suited for frequent writes during a running job. See the [Filesystems](../filesystems-file-transfer/filesystems.md) page for more information.
 
 ## Example Slurm Script
 
