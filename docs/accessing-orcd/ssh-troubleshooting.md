@@ -72,13 +72,15 @@ Host orcd-login.mit.edu
     ServerAliveCountMax 10
 ```
 
-For slow initial connections, also add `GSSAPIAuthentication no`:
+If your connection is slow to establish — particularly when connecting from off-campus — also add `GSSAPIAuthentication no`:
 ```
 Host orcd-login.mit.edu
     ServerAliveInterval 60
     ServerAliveCountMax 10
     GSSAPIAuthentication no
 ```
+
+By default, SSH attempts Kerberos (GSSAPI) authentication before trying your password or SSH key. This requires a handshake with MIT's Kerberos infrastructure, which can add several seconds to your connection time if you are on a slow or off-campus network. Disabling it tells SSH to skip straight to password and key authentication. This has no effect on users who do not use Kerberos tickets to authenticate.
 
 ??? info "Other factors that can affect connection stability"
     - **Wi-Fi instability** — a flaky wireless connection will drop SSH sessions regardless of keepalive settings. Try a wired connection if you experience frequent drops.
