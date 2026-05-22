@@ -11,7 +11,7 @@ tags:
 
 Make sure you are using the correct login command:
 ```bash
-ssh [kerberos-username]@orcd-login.mit.edu
+ssh USERNAME@orcd-login.mit.edu
 ```
 
 If the connection hangs or times out, you may be on a network that blocks SSH. Try a different network or contact [orcd-help@mit.edu](mailto:orcd-help@mit.edu).
@@ -90,7 +90,7 @@ Host orcd-login.mit.edu
 
 Compute nodes are not directly accessible from outside the cluster, and you must have a running job on the node to connect to it. SSH to the login node first, then connect to the compute node:
 ```bash
-ssh [kerberos-username]@orcd-login.mit.edu
+ssh USERNAME@orcd-login.mit.edu
 ssh nodeXXXX
 ```
 
@@ -134,3 +134,11 @@ To prevent this from happening again:
 - If you use VS Code, adjust the [VS Code Remote SSH settings](../recipes/vscode.md#adjust-the-remotessh-extension-settings).
 
 If your account does not unlock after 90 minutes, contact [orcd-help@mit.edu](mailto:orcd-help@mit.edu).
+
+## Still Having Trouble?
+
+If you have worked through this guide and are still unable to connect, run the following command and include the output in your ticket to [orcd-help@mit.edu](mailto:orcd-help@mit.edu):
+```bash
+ssh -vvv USERNAME@orcd-login.mit.edu
+```
+The `-vvv` flag enables verbose output and gives the support team detailed information about where the connection is failing.
