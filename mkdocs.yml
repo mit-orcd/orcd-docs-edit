@@ -10,6 +10,7 @@ nav:
     - SSH Key Setup: accessing-orcd/ssh-setup.md
     - VSCode Remote SSH: recipes/vscode.md
     - SSH Control Channels: accessing-orcd/control-channels.md
+    - SSH Troubleshooting: accessing-orcd/ssh-troubleshooting.md
   - Filesystems and File Transfer:
     - General Use Filesystems:  filesystems-file-transfer/filesystems.md
 #    - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
