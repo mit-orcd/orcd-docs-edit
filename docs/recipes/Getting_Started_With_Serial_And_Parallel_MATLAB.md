@@ -4,7 +4,6 @@ tags:
  - Howto Recipes
 ---
 
-<a id="M_1a8d"></a>
 
 # <span style="color:rgb(213,80,0)">Parallel Computing with MATLAB on the Engaging HPC Cluster</span>
 
@@ -44,7 +43,6 @@ After logging into the cluster, start MATLAB.  On the Home tab, click `Parallel 
 
 Follow the prompts to create a new cluster profile.  Jobs will run across multiple nodes on the cluster rather than on the host machine.
 
-<a id="M_0dfa"></a>
 
 ## If Cluster Discovery Fails: Use Alternate Method
 
@@ -66,7 +64,6 @@ Start MATLAB and run `userpath`
 ```matlab
 userpath
 ```
-<a id="M_7364"></a>
 
 Download the MATLAB plugin scripts from [here](http://www.mathworks.com).  The contents of the ZIP file should be extracted into the folder returned by the call to `userpath`.
 
@@ -79,7 +76,6 @@ configCluster
 
 Jobs will now run on the cluster rather than on the local machine.
 
-<a id="M_60e5"></a>
 
 Submission to the cluster requires SSH credentials. You will be prompted for username and password or identity file (private key) upon submitting your first job. The username and location of the private key will be stored in MATLAB for future sessions.
 
@@ -90,7 +86,6 @@ Submission to the cluster requires SSH credentials. You will be prompted for use
 % Get a handle to the local resources
 c = parcluster('Processes');
 ```
-<a id="M_745e"></a>
 
 ## Configuring Jobs
 
@@ -104,7 +99,6 @@ c = parcluster;
 
 % OPTIONAL
 
-<a id="M_M_M_M_54b8"></a>
 % Specify an account
 c.AdditionalProperties.AccountName = 'account-name';
 
@@ -363,7 +357,6 @@ ans =
     25539
 ```
 ## Helper Functions
-<a id="M_3d65"></a>
 | Function <br>  | Description <br>  | Notes <br>   |
 | :-- | :-- | :-- |
 | clusterFeatures <br>  | Lists cluster features/constraints <br>  |   |
