@@ -22,6 +22,8 @@ See the table below for a description of each storage space.
     
     Pool, while meant for longer-term storage than Scratch, is also not backed up.
 
+To observe your current quota report, look at `~/orcd/.quota` file in your home directory. The `.quota` file is updated every 30 minutes.
+
 ## PI Shared Group Storage
 
 PIs can request 5TB of additional pool that can be shared with their group. We will set up a [Moira list](../services/accessing-group-resources.md) so PIs and their designated group admins can control access to the shared storage. To request a shared pool space send an email to <orcd-help-engaging@mit.edu>.
