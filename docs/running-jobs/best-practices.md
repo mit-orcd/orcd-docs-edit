@@ -26,7 +26,8 @@ The following recommendations will help you make efficient use of the available 
 
 - Request no more than 4 CPU cores per GPU when possible. Our Slurm configuration reserves 4 CPU cores per GPU for GPU jobs, so requesting more than that can delay scheduling.
 
-    > **Note:** Many deep learning workloads need more than 4 CPU cores per GPU, since data loading and preprocessing (for example, PyTorch `DataLoader` workers) are CPU-bound and can otherwise starve the GPU. In that case, request 6–8 CPU cores per GPU as a good starting point, and increase only if you confirm the data pipeline is still the bottleneck. Keep in mind that nodes provide roughly 16 CPU cores per GPU, so try to stay below that limit to avoid being blocked by a shortage of available CPU cores and delaying scheduling.
+    !!! note "CPU cores per GPU for deep learning applications"
+        Many deep learning workloads need more than 4 CPU cores per GPU, since data loading and preprocessing (for example, PyTorch `DataLoader` workers) are CPU-bound and can otherwise starve the GPU. In that case, request 6–8 CPU cores per GPU as a good starting point, and increase only if you confirm the data pipeline is still the bottleneck. Keep in mind that nodes provide roughly 16 CPU cores per GPU, so try to stay below that limit to avoid being blocked by a shortage of available CPU cores and delaying scheduling.
 
 - For multi-GPU jobs, verify that your code actually scales before requesting more GPUs — extra GPUs that aren't used will just delay scheduling without speeding up your job.
 
