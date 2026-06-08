@@ -39,13 +39,13 @@ The following recommendations will help you make efficient use of the available 
 
 - Set a realistic `--time` limit — just long enough to cover your job's expected run time. Shorter walltimes can backfill into scheduling gaps and start sooner.
 
-- Release interactive sessions when you step away. For both CPU and GPU jobs, an idle interactive session still holds its allocated resources, counts against your allocation, lowers your fair-share factor, and blocks other users.
+- Release interactive sessions when you don't need it. For both CPU and GPU jobs, an idle interactive session still holds its allocated resources, counts against your allocation, lowers your fair-share factor, and blocks other users.
 
 ## Check job info
 
 - While a job is pending, run `squeue --me` and check the `NODELIST(REASON)` column to see why it is waiting (for example, `Priority`, `Resources`, or a QOS limit). This tells you whether the delay comes from your request or from cluster load.
 
-- After a job finishes, run `jobstats <jobid>` to see the actual CPU, memory, and GPU usage. Use that information to tune your next submission — over-requesting resources keeps your jobs in the queue longer and blocks others.
+- After a job finishes, **run `jobstats <jobid>` to see the actual CPU, memory, and GPU usage.** Use that information to tune your next submission — over-requesting resources keeps your jobs in the queue longer and blocks others.
 
 ## Structure your jobs efficiently
 
