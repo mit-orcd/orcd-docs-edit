@@ -8,7 +8,7 @@ The following recommendations will help you make efficient use of the available 
 
 - Make sure your program actually uses the cores you request. For multithreading programs, such as OpenMP or NumPy programs, set thread counts such as `OMP_NUM_THREADS` to match `--cpus-per-task` so you neither under-use nor oversubscribe your cores. For distributed jobs, launch tasks with `mpirun` or `srun` so they land on the allocated resources.
 
-- **Request only as much memory as your program actually needs, since requesting more than necessary can delay scheduling.** Note that `--mem` specifies the memory per node, so when scaling on multiple cores, prefer `--mem-per-cpu` over `--mem` so that memory scales with the CPU count.
+- **Request only as much memory as your program actually needs, since requesting more than necessary can delay scheduling.** Note that `--mem` specifies the memory per node, so when scaling on multiple cores, prefer `--mem-per-cpu` over `--mem` so that memory scales with the CPU count. Each `mit_normal` node has 96 cores and 377 GB of RAM (roughly 4 GB per core), so keep your request within that per-node limit.
 
 - Submit to as many eligible partitions as possible to maximize your usage up to your per-user limit, for example: `-p mit_normal,mit_preemptable`.
 
@@ -27,7 +27,21 @@ The following recommendations will help you make efficient use of the available 
 - Request no more than 4 CPU cores per GPU when possible. Our Slurm configuration reserves 4 CPU cores per GPU for GPU jobs, so requesting more than that can delay scheduling.
 
     !!! note "CPU cores per GPU for deep learning applications"
-        Many deep learning workloads need more than 4 CPU cores per GPU, since data loading and preprocessing (for example, PyTorch `DataLoader` workers) are CPU-bound and can otherwise starve the GPU. In that case, request 6–8 CPU cores per GPU as a good starting point, and increase only if you confirm the data pipeline is still the bottleneck. Keep in mind that nodes provide roughly 16 CPU cores per GPU, so try to stay below that limit to avoid being blocked by a shortage of available CPU cores and delaying scheduling.
+        Many deep learning workloads need more than 4 CPU cores per GPU, since data loading and preprocessing (for example, PyTorch `DataLoader` workers) are CPU-bound and can otherwise starve the GPU. In that case, request 6–8 CPU cores per GPU as a good starting point, and increase only if you confirm the data pipeline is still the bottleneck. Keep in mind that GPU nodes provide 16 CPU cores per GPU (L40S nodes have 64 cores and 4 GPUs; H200 nodes have 128 cores and 8 GPUs), so try to stay below that limit to avoid being blocked by a shortage of available CPU cores and delaying scheduling.
+
+- Request enough host (system) memory for your GPU job, but no more than you need.
+
+    !!! note "Host memory per GPU for deep learning applications"
+        A good starting point is about 1.5–2× the GPU memory per GPU. In the `mit_normal_gpu` partition, each L40S node has 1 TB of RAM (256 GB per GPU) and each H200 node has 2 TB (256 GB per GPU). For an L40S, it is best to request 2 × 48 GB = 96 GB per GPU, up to the 256 GB available per GPU. For an H200, 2 × 144 GB = 288 GB exceeds the 256 GB available per GPU, so it is best to request 256 GB per H200. Use `--mem-per-gpu` to scale memory with the number of GPUs and stay within the node's limit.
+
+??? note "Host memory is used for the following"
+
+    - Data loading and prefetching — more `DataLoader` workers and larger prefetch need more RAM.
+    - Pinned (page-locked) memory for fast host→device transfers.
+    - CPU offloading (e.g., DeepSpeed ZeRO-Offload, FSDP) — can need several times the GPU memory.
+    - Checkpointing, dataset caching, and framework/CUDA overhead.
+
+    Small-batch on-GPU training can run fine with less than the GPU memory, but the safe default is host RAM ≥ GPU memory.
 
 - For multi-GPU jobs, verify that your code actually scales before requesting more GPUs — extra GPUs that aren't used will just delay scheduling without speeding up your job.
 
