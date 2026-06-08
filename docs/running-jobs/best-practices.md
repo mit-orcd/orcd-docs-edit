@@ -32,7 +32,7 @@ The following recommendations will help you make efficient use of the available 
 - Request enough host (system) memory for your GPU job, but no more than you need.
 
     !!! note "Host memory per GPU for deep learning applications"
-        A good starting point is about 1.5–2× the GPU memory per GPU. In the `mit_normal_gpu` partition, each L40S node has 1 TB of RAM (256 GB per GPU) and each H200 node has 2 TB (256 GB per GPU). For an L40S, it is best to request 2 × 48 GB = 96 GB per GPU, up to the 256 GB available per GPU. For an H200, 2 × 144 GB = 288 GB exceeds the 256 GB available per GPU, so it is best to request 256 GB per H200. Use `--mem-per-gpu` to scale memory with the number of GPUs and stay within the node's limit.
+        Small-batch on-GPU training can run fine with less than the GPU memory, but the safe default is host RAM ≥ GPU memory. A good starting point is about 1.5–2× the GPU memory per GPU. In the `mit_normal_gpu` partition, each L40S node has 1 TB of RAM (256 GB per GPU) and each H200 node has 2 TB (256 GB per GPU). For an L40S, it is best to request 2 × 48 GB = 96 GB per GPU, up to the 256 GB available per GPU. For an H200, 2 × 144 GB = 288 GB exceeds the 256 GB available per GPU, so it is best to request 256 GB per H200. Use `--mem-per-gpu` to scale memory with the number of GPUs and stay within the node's limit.
 
 ??? note "Host memory is used for the following"
 
@@ -40,8 +40,6 @@ The following recommendations will help you make efficient use of the available 
     - Pinned (page-locked) memory for fast host→device transfers.
     - CPU offloading (e.g., DeepSpeed ZeRO-Offload, FSDP) — can need several times the GPU memory.
     - Checkpointing, dataset caching, and framework/CUDA overhead.
-
-    Small-batch on-GPU training can run fine with less than the GPU memory, but the safe default is host RAM ≥ GPU memory.
 
 - For multi-GPU jobs, verify that your code actually scales before requesting more GPUs — extra GPUs that aren't used will just delay scheduling without speeding up your job.
 
