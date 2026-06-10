@@ -49,7 +49,7 @@ Follow the prompts to create a new cluster profile.  Jobs will run across multip
 After logging into the cluster, start MATLAB. Call `configCluster` to create a new cluster profile.
 
 ```matlab
->>> configCluster
+>> configCluster
 ```
 
 Jobs will run across multiple nodes on the cluster rather than on the host machine.
@@ -62,7 +62,7 @@ This setup is intended for job submission when MATLAB is installed on your machi
 Start MATLAB and run `userpath`
 
 ```matlab
->>> userpath
+>> userpath
 ```
 
 Download the MATLAB plugin scripts from [here](http://www.mathworks.com).  The contents of the ZIP file should be extracted into the folder returned by the call to `userpath`.
@@ -71,7 +71,7 @@ Download the MATLAB plugin scripts from [here](http://www.mathworks.com).  The c
 Create a new cluster profile
 
 ```matlab
->>> configCluster
+>> configCluster
 ```
 
 Jobs will now run on the cluster rather than on the local machine.
@@ -84,7 +84,7 @@ Submission to the cluster requires SSH credentials. You will be prompted for use
 
 ```matlab
 % Get a handle to the local resources
->>> c = parcluster('Processes');
+>> c = parcluster('Processes');
 ```
 
 ## Configuring Jobs
@@ -93,69 +93,69 @@ Prior to submitting the job, various scheduler flags can be assigned, such as qu
 
 ```matlab
 % Get a handle to the cluster
->>> c = parcluster;
+>> c = parcluster;
 
 % REQUIRED
 
 % OPTIONAL
 
 % Specify an account
->>> c.AdditionalProperties.AccountName = 'account-name';
+>> c.AdditionalProperties.AccountName = 'account-name';
 
 % Specify a constraint
->>> c.AdditionalProperties.Constraint = 'feature-name';
+>> c.AdditionalProperties.Constraint = 'feature-name';
 
 % Request email notification of job status
->>> c.AdditionalProperties.EmailAddress = 'mit-kerberos@mit.edu';
+>> c.AdditionalProperties.EmailAddress = 'mit-kerberos@mit.edu';
 
 % Specify number of GPUs (default: 0)
->>> c.AdditionalProperties.GPUsPerNode = 1;
+>> c.AdditionalProperties.GPUsPerNode = 1;
 
 % Specify a particular GPU card
->>> c.AdditionalProperties.GPUCard = 'gpu-card';
+>> c.AdditionalProperties.GPUCard = 'gpu-card';
 
 % Specify memory to use, per core (default: 4GB)
->>> c.AdditionalProperties.MemPerCPU = '6GB';
+>> c.AdditionalProperties.MemPerCPU = '6GB';
 
 % Specify the partition
->>> c.AdditionalProperties.Partition = 'partition-name';
+>> c.AdditionalProperties.Partition = 'partition-name';
 
 % Specify cores per node (default: 0)
->>> c.AdditionalProperties.ProcsPerNode = 4;
+>> c.AdditionalProperties.ProcsPerNode = 4;
 
 % Specify Quality of Service (QoS)
->>> c.AdditionalProperties.QoS = 'quality-of-service-value';
+>> c.AdditionalProperties.QoS = 'quality-of-service-value';
 
 % Set node exclusivity (default: false)
->>> c.AdditionalProperties.RequireExclusiveNode = true;
+>> c.AdditionalProperties.RequireExclusiveNode = true;
 
 % Specify a reservation
->>> c.AdditionalProperties.Reservation = 'reservation-name';
+>> c.AdditionalProperties.Reservation = 'reservation-name';
 
 % Specify the wall time (e.g., 1 day, 5 hours, 30 minutes)
->>> c.AdditionalProperties.WallTime = '1-05:30';
+>> c.AdditionalProperties.WallTime = '1-05:30';
 ```
 
 To persist changes made to `AdditionalProperties` between MATLAB sessions, save the profile
 
 ```matlab
->>> c.saveProfile
+>> c.saveProfile
 ```
 
  To see the values of the current configuration options, display `AdditionalProperties`.
 
 ```matlab
->>> c.AdditionalProperties
+>> c.AdditionalProperties
 ```
 
  Unset a value when no longer needed.
 
 ```matlab
 % Turn off email notifications
->>> c.AdditionalProperties.EmailAddress = '';
+>> c.AdditionalProperties.EmailAddress = '';
 
 % Don't request an entire node
->>> c.AdditionalProperties.RequireExclusiveNode = false;
+>> c.AdditionalProperties.RequireExclusiveNode = false;
 ```
 ## **Interactive Jobs**
 
@@ -166,26 +166,26 @@ To run an interactive pool job on the cluster, continue to use `parpool` as befo
 
 ```matlab
 % Get a handle to the cluster
->>> c = parcluster;
+>> c = parcluster;
 
 % Open a pool of 64 workers on the cluster
->>> pool = c.parpool(64);
+>> pool = c.parpool(64);
 ```
 
  Rather than running a local pool on the host machine, the pool can now run across multiple nodes on the cluster.
 
 ```matlab
 % Run a parfor over 1000 iterations
->>> parfor idx = 1:1000
->>>     a(idx) = rand;
->>> end
+>> parfor idx = 1:1000
+>>     a(idx) = rand;
+>> end
 ```
 
  Delete the pool when it’s no longer needed.
 
 ```matlab
 % Delete the pool
->>> pool.delete
+>> pool.delete
 ```
 ## Independent Batch Job
 
@@ -196,7 +196,7 @@ Use the `batch` command to submit asynchronous jobs to the cluster. The `batch` 
 
 ```matlab
 % Get a handle to the cluster
->>> c = parcluster;
+>> c = parcluster;
 
 % Submit a batch job to the cluster:
 %   @pwd              - function handle for the function to run
@@ -205,26 +205,26 @@ Use the `batch` command to submit asynchronous jobs to the cluster. The `batch` 
 %   {}                - cell array of input arguments to the function
 %                       (empty, since pwd takes no arguments)
 %   'CurrentFolder', '.' - run the job in the current working directory
->>> job = c.batch(@pwd, 1, {}, 'CurrentFolder', '.');
+>> job = c.batch(@pwd, 1, {}, 'CurrentFolder', '.');
 
 % Query job for state
->>> job.State
+>> job.State
 
 % If job is finished, fetch the results
->>> job.fetchOutputs{1}
+>> job.fetchOutputs{1}
 
 % Delete the job after results are no longer needed
->>> job.delete
+>> job.delete
 ```
 
 To retrieve a list of running or completed jobs, call `parcluster` to return the cluster object. The cluster object stores an array of jobs that are listed as *queued*, *running*, *finished*, or *failed*. Retrieve and view the list of jobs as shown below.
 
 ```matlab
->>> c = parcluster;
->>> jobs = c.Jobs
+>> c = parcluster;
+>> jobs = c.Jobs
 
 % Get a handle to the second job in the list
->>> job2 = c.Jobs(2);
+>> job2 = c.Jobs(2);
 ```
 
 Once the job has been selected, fetch the results as previously done.
@@ -234,10 +234,10 @@ Once the job has been selected, fetch the results as previously done.
 
 ```matlab
 % Fetch all results from the second job in the list
->>> job2.fetchOutputs{:}
+>> job2.fetchOutputs{:}
 
 % Alternate: Load results if job was a script instead of a function
->>> job2.load
+>> job2.load
 ```
 ## Parallel Batch Job
 
@@ -275,16 +275,16 @@ This time when using the `batch` command, specify a Pool argument.
 
 ```matlab
 % Get a handle to the cluster
->>> c = parcluster;
+>> c = parcluster;
 
 % Submit a batch pool job using 4 workers for 16 simulations
->>> job = c.batch(@parallel_example, 1, {16}, 'CurrentFolder','.', 'Pool', 4);
+>> job = c.batch(@parallel_example, 1, {16}, 'CurrentFolder','.', 'Pool', 4);
 
 % View current job status
->>> job.State
+>> job.State
 
 % Fetch the results after a finished state is retrieved
->>> job.fetchOutputs{1}
+>> job.fetchOutputs{1}
 ans =
     8.8872
 ```
@@ -302,36 +302,36 @@ Run the same simulation again but increase the Pool size. This time, to retrieve
 
 ```matlab
 % Get a handle to the cluster
->>> c = parcluster;
+>> c = parcluster;
 
 % Submit a batch pool job using 8 workers for 16 simulations
->>> job = c.batch(@parallel_example, 1, {16}, 'CurrentFolder','.', 'Pool', 8);
+>> job = c.batch(@parallel_example, 1, {16}, 'CurrentFolder','.', 'Pool', 8);
 
 % Get the job ID
->>> id = job.ID
+>> id = job.ID
 id =
     4
 
 % Clear job from workspace (as though MATLAB exited)
->>> clear job
+>> clear job
 ```
 
 With a handle to the cluster, the `findJob` method searches for the job with the specified job ID.
 
 ```matlab
 % Get a handle to the cluster
->>> c = parcluster;
+>> c = parcluster;
 
 % Find the old job
->>> job = c.findJob('ID', 4);
+>> job = c.findJob('ID', 4);
 
 % Retrieve the state of the job
->>> job.State
+>> job.State
 ans =
     finished
 
 % Fetch the results
->>> job.fetchOutputs{1};
+>> job.fetchOutputs{1};
 ans =
     4.7270
 ```
@@ -358,19 +358,19 @@ If a serial job produces an error, call the `getDebugLog` method to view the err
 When submitting an independent job, specify the task.
 
 ```matlab
->>> c.getDebugLog(job.Tasks)
+>> c.getDebugLog(job.Tasks)
 ```
 
 For Pool jobs, only specify the job object.
 
 ```matlab
->>> c.getDebugLog(job)
+>> c.getDebugLog(job)
 ```
 
 When troubleshooting a job, the cluster admin may request the scheduler ID of the job. This can be derived by calling `getTaskSchedulerIDs` (call `schedID(job)` before R2019b).
 
 ```matlab
->>> job.getTaskSchedulerIDs()
+>> job.getTaskSchedulerIDs()
 ans =
     25539
 ```
