@@ -247,28 +247,28 @@ Once the job has been selected, fetch the results as previously done.
 The `batch` command can also support parallel workflows. Let’s use the following example for a parallel job, which you should save separately as `parallel_example.m`.
 
 ```matlab
->>> function [sim_t, A] = parallel_example(iter)
+function [sim_t, A] = parallel_example(iter)
 
->>> if nargin==0
->>>     iter = 8;
->>> end
+if nargin==0
+    iter = 8;
+end
 
->>> disp('Start sim')
+disp('Start sim')
 
->>> A = nan(iter,1);
->>> t0 = tic;
->>> parfor idx = 1:iter
->>>     A(idx) = idx;
->>>     pause(2)
->>>     idx
->>> end
->>> sim_t = toc(t0);
+A = nan(iter,1);
+t0 = tic;
+parfor idx = 1:iter
+    A(idx) = idx;
+    pause(2)
+    idx
+end
+sim_t = toc(t0);
 
->>> disp('Sim completed')
+disp('Sim completed')
 
->>> save RESULTS A
+save RESULTS A
 
->>> end
+end
 ```
 
 This time when using the `batch` command, specify a Pool argument.
