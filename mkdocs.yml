@@ -43,6 +43,7 @@ nav:
     - GROMACS: recipes/gromacs.md
     - Intel compiler: recipes/intel.md
     - Jupyter: recipes/jupyter.md
+    - MATLAB Parallel Server: recipes/Getting_Started_With_Serial_And_Parallel_MATLAB.md
     - MPI for Python: recipes/mpi4py.md
     - MPI Jobs: recipes/mpi.md
     - NVHPC with CUDA aware MPI: recipes/nvhpc-a100-with-cuda-and-mpi-example.md
