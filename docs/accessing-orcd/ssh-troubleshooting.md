@@ -133,7 +133,7 @@ To prevent this from happening again:
 
 - Log into [ORCD OnDemand](https://orcd-ood.mit.edu) — this satisfies Duo authentication and removes the Duo requirement for SSH for a few hours.
 - Use [SSH Control Channels](control-channels.md) to reduce how often you need to authenticate with Duo.
-- If you use VS Code, adjust the [VS Code Remote SSH settings](../recipes/vscode.md#adjust-the-remotessh-extension-settings).
+- If you use VS Code, adjust the [VS Code Remote SSH settings](../recipes/vscode.md#adjust-the-remotessh-extension-settings) to limit reconnection attempts.
 
 If your account does not unlock after 90 minutes, contact [orcd-help@mit.edu](mailto:orcd-help@mit.edu).
 
