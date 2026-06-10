@@ -37,7 +37,7 @@ If you see a message like `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED` or `
 ```bash
 ssh-keygen -R orcd-login.mit.edu
 ```
-Then reconnect and type `yes` when prompted. This is common after system maintenance.
+Then reconnect and type `yes` when prompted. This is sometimes happens after system maintenance.
 
 !!! warning
     If this happens repeatedly without any maintenance, contact [orcd-help@mit.edu](mailto:orcd-help@mit.edu).
