@@ -14,7 +14,7 @@ Make sure you are using the correct login command:
 ssh USERNAME@orcd-login.mit.edu
 ```
 
-If the connection hangs or times out, you may be on a network that blocks SSH. Try a different network or contact [orcd-help@mit.edu](mailto:orcd-help@mit.edu).
+If the connection hangs or times out, you may be on a network that blocks SSH, or your IP address has been blocked (see [below](#ip-address-blocked)). Try a different network or contact [orcd-help@mit.edu](mailto:orcd-help@mit.edu).
 
 ## Permission Denied
 
