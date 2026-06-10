@@ -176,9 +176,9 @@ To run an interactive pool job on the cluster, continue to use `parpool` as befo
 
 ```matlab
 % Run a parfor over 1000 iterations
->> parfor idx = 1:1000
->>     a(idx) = rand;
->> end
+parfor idx = 1:1000
+    a(idx) = rand;
+end
 ```
 
  Delete the pool when it’s no longer needed.
