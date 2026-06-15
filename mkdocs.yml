@@ -73,6 +73,7 @@ nav:
 
 theme: 
   name: material
+  variant: classic
   logo: images/ORCD_logo_icononly.png
   features:
     - content.code.copy
