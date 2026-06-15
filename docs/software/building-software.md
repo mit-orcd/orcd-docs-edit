@@ -15,12 +15,12 @@ Software compilation workflows will vary based on the software and its dependenc
     There can be a lot of moving parts when building software, and it's easy to forget where or what you installed, so it is helpful to stay organized. We recommend a directory structure that looks like this:
 
     - $HOME/software - A directory called "software" to keep all your builds
-        - [software_name] - The name of the software
-            - [source_code] - The directory of source code you downloaded
+        - \[software_name] - The name of the software
+            - \[source_code] - The directory of source code you downloaded
             - install - For the installation files
             - deps - For any dependencies needed to build your software
-                - [dep1_src] - Downloaded source for dependency 1
-                - [dep2_src] - Downloaded source for dependency 2
+                - \[dep1_src] - Downloaded source for dependency 1
+                - \[dep2_src] - Downloaded source for dependency 2
                 - install - Directory for all dependency installs so they are in one place
 
 
@@ -51,7 +51,7 @@ Builds are not too computationally heavy, but tend to run more slowly on the log
 ```bash
 salloc -p mit_normal -c 4
 ```
-This will allocate 1 node from the `mit_normal` partition with 4 CPUs for compiling your software. You will receive output that your request for allocation has been submitted, and when a node has been allocated for you to use, it will say “[Node_name] are ready for job”.
+This will allocate 1 node from the `mit_normal` partition with 4 CPUs for compiling your software. You will receive output that your request for allocation has been submitted, and when a node has been allocated for you to use, it will say “\[Node_name] are ready for job”.
 
 !!! Note
     Be sure to request the partition you intend to run your jobs on. The node you build on will need to match the operating system of the nodes you plan to run your jobs on.
@@ -84,7 +84,7 @@ First go to the directory that contains the `configure` script. When you run `co
 ./configure --prefix=$HOME/[install_directory]
 ```
 
-where ‘install_directory’ is the directory where you would like the software to be installed to. If you plan to install multiple pieces of personal software, we recommend making a folder entitled ``software` in your home directory and installing software there. We like to use the path `/home/$USER/software/[software_name]/install` where `[software_name]` is the name of your software. The `install` directory is there to differentiate from any source code that may be stored in the same location. If you keep the source code elsewhere you can leave off `install` from the path.
+where ‘install_directory’ is the directory where you would like the software to be installed to. If you plan to install multiple pieces of personal software, we recommend making a folder entitled `software` in your home directory and installing software there. We like to use the path `/home/$USER/software/[software_name]/install` where `[software_name]` is the name of your software. The `install` directory is there to differentiate from any source code that may be stored in the same location. If you keep the source code elsewhere you can leave off `install` from the path.
 
 ### Running `cmake`
 
