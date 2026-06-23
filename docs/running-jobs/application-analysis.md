@@ -105,6 +105,25 @@ We can also look at GPU metrics:
 
 The above output shows solid GPU utilization but lower CPU utilization, so we might consider lowering our CPU request for future runs.
 
+### Jobstats on Open OnDemand
+
+If you prefer to use a web-based interface, we have a jobstats tool on the [Engaging Open OnDemand web portal](https://orcd-ood.mit.edu). You can find this tool by clicking "Engaging" > "Job Statistics".
+
+!!! note
+    You may need to click "Initialize App" the first time you use the tool.
+
+You will first see a summary of your 5 most recent jobs:
+
+<!-- insert screenshot here -->
+
+You can click on any job to see more detailed information about it, or you can manually enter a job ID to view its details. The details pane will contain two tabs: "Summary" and "Plots". The "Summary" tab contains the same output that you would see if you ran the `jobstats` command from the terminal:
+
+<!-- insert screenshot here -->
+
+The "Plots" tab will show you visualizations of the job's resource usage over time:
+
+<!-- insert screenshot here -->
+
 ## htop
 
 You can get a lot of information about your running jobs through the ```htop``` command. It sort of gives you a way to watch the compute node your job is running on work on your job. It will show you your current instantaneous CPU and Memory utilization, how many cores are being used, how many threads are running, and a list of your processes running on the node, among other things. If you are familiar with the top Linux command, it is similar but shows more information.
