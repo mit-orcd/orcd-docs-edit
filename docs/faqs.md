@@ -155,7 +155,7 @@ It sometimes takes an extra bit of time for your account to be set up properly s
 
 ### I submitted a job to `mit_normal_gpu` and it's still pending in the queue. Why is it taking so long?
 
-This is most likely because there aren't enough resources available or other jobs are ahead of yours in the queue (see [Checking Job Status](running-jobs/overview/#checking-job-status)). To check what resources are available, use the `sinfo` command. This variation will show what GPU resources exist and are in use on each node in mit_normal_gpu:
+This is most likely because there aren't enough resources available or other jobs are ahead of yours in the queue (see [Checking Job Status](running-jobs/overview.md#checking-job-status)). To check what resources are available, use the `sinfo` command. This variation will show what GPU resources exist and are in use on each node in mit_normal_gpu:
 
 ```
 sinfo -O "Partition,Nodes:10,CPUsState,Gres:30,GresUsed:30,StateCompact" -e -p mit_normal_gpu
