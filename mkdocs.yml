@@ -33,6 +33,7 @@ nav:
     - Scheduler Overview: running-jobs/overview.md
     - Requesting Resources: running-jobs/requesting-resources.md
     - Job Arrays: running-jobs/job-arrays.md
+    - Checkpointing: running-jobs/checkpointing.md
     - Available Resources: running-jobs/available-resources.md
     - Application Analysis: running-jobs/application-analysis.md
 #    - Slurm Partitions: running-jobs/
