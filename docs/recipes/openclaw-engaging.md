@@ -56,7 +56,7 @@ directory. All agent state is stored in `.openclaw/` next to the repo, so it
 survives job preemptions.
 
 You access the web dashboard from your laptop via an SSH tunnel through a login
-node, similar to the [port forwarding approach used for Jupyter](jupyter.md#port-forwarding).
+node.
 
 ```
 Your laptop (browser)

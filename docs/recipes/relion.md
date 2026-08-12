@@ -41,6 +41,8 @@ tar -xf tiff-4.7.1rc1.tar.gz
 mkdir tiff-4.7.1/install
 cd tiff-4.7.1/build
 cmake .. -DCMAKE_INSTALL_PREFIX=$WORKDIR/tiff-4.7.1/install
+make -j $SLURM_NPROCS
+make install
 ```
 
 **`libpng`**:
