@@ -45,4 +45,4 @@ For [Python](python.md), [Julia](julia.md), and [R](R.md) packages, each of thes
 
 ### Ask for Help
 
-If you are having trouble installing software you can reach out to <orcd-help@mit.edu> or one of the other lists on [Getting Help](../getting-help.md#email) for help. You can also stop by [office hours](../getting-help.md/#office-hours) if you prefer. Depending on the software and the system you are using, we may help walk you through installing it for yourself or install it in a community location.
+If you are having trouble installing software you can reach out to <orcd-help@mit.edu> or one of the other lists on [Getting Help](../getting-help.md#email) for help. You can also stop by [office hours](../getting-help.md#office-hours) if you prefer. Depending on the software and the system you are using, we may help walk you through installing it for yourself or install it in a community location.

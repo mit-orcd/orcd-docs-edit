@@ -35,7 +35,7 @@ If you are using older Centos 7 nodes you can use one of the Centos 7 login node
 - `orcd-vlogin003`
 - `orcd-vlogin004`
 
-See [Logging in with SSH](accessing-orcd/ssh-login.md/#logging-in-via-ssh) for more information.
+See [Logging in with SSH](accessing-orcd/ssh-login.md) for more information.
 
 ### OnDemand
 
