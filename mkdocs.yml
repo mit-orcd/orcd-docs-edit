@@ -35,6 +35,7 @@ nav:
     - Job Arrays: running-jobs/job-arrays.md
     - Available Resources: running-jobs/available-resources.md
     - Application Analysis: running-jobs/application-analysis.md
+    - Best Practices: running-jobs/best-practices.md
 #    - Slurm Partitions: running-jobs/
 #    - How To Run Different Workloads: running/page3.md
   - ORCD Recipes:
