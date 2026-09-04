@@ -64,7 +64,7 @@ Instructions for checking job status can be found
 ### How do I increase the time limit for my job?
 
 Use the `-t` flag in your job script. If you do not specify, Slurm will give
-you the maximum time limit for that partition. You can check the maximum time
+you the default time limit for that partition. You can check the maximum time
 limit by running `sinfo -p <partition name>`.
 
 For public partitions on Engaging, such as `mit_normal`, we cannot increase the
@@ -72,15 +72,14 @@ maximum job time limit, as these resources are shared. For jobs that
 need to run longer than the time limit, we encourage
 checkpointing, which is a way of periodically saving progress so that subsequent
 jobs can pick up where previous jobs left off. The implementation of checkpointing
-is domain-specific and can vary greatly. You can find more information on
-checkpointing [here](https://rc-docs.northeastern.edu/en/latest/best-practices/checkpointing.html).
+is domain-specific and can vary greatly. The Northeastern Research Computing group has a good page on checkpointing [here](https://rc-docs.northeastern.edu/en/latest/best-practices/checkpointing.html).
 
-For increasing the maximum time limit on partitions owned by other groups,
-please email <orcd-help-engaging@mit.edu>.
+For increasing the maximum time limit on partitions owned by your group,
+please email <orcd-help-engaging@mit.edu>. Changing the time limit requires group admin approval.
 
 ### What is the `mit_preemptable` partition? What is preemption?
 
-The `mit_preemptable` partition allows you to run programs on lab-owned nodes while they're not being used. While this partition has higher resource limits and longer runtimes than other public partitions like `mit_normal` and `mit_normal_gpu`, jobs submitted to `mit_preemptable` are **low priority** and **preemptable**. See [Preemptable Jobs](running-jobs/overview.md#preemptable-jobs) for more information.
+The `mit_preemptable` partition allows you to run programs on lab-owned nodes while they're not being used. While this partition has higher resource limits and longer runtimes than other public partitions like `mit_normal` and `mit_normal_gpu`, jobs submitted to `mit_preemptable` are **low priority** and **preemptable**, which means they may be stopped and requeued. See [Preemptable Jobs](running-jobs/overview.md#preemptable-jobs) for more information.
 
 ### Why won't my application run on a different partition?
 
