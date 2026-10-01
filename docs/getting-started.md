@@ -8,7 +8,7 @@ tags:
 
 This page contains the most common steps for setting up and getting
 started with your Engaging account. We provide this page as a
-convenient reference to get started. Each system has its own in-depth documentation which can be found on the [Engaging System](orcd-systems.md) page.
+convenient reference to get started. This site has more in-depth documentation which we refer to throughout this tutorial. Following along with this tutorial and reading through the suggested pages will give you a good introduction to using Engaging.
 
 ## Getting an Account
 
@@ -28,7 +28,7 @@ ssh USERNAME@orcd-login.mit.edu
 ```
 By default you will be prompted for your Kerberos password and then for Duo two-factor authentication.
 
-You can also [create SSH keys](accessing-orcd/ssh-setup.md) and log in with those. Once you create and install your keys, first log into the [ORCD OnDemand site](https://orcd-ood.mit.edu). After this you should be able to SSH into Engaging with SSH keys only, without supplying a password or Duo authentication. Logging into OnDemand satisfies the two-factor authentication requirement for about a day.
+You can also [create SSH keys](accessing-orcd/ssh-setup.md) and use those to authenticate in place of a password and Duo. Once you create and install your keys, log into the [ORCD OnDemand site](https://orcd-ood.mit.edu). After this you should be able to SSH into Engaging with SSH keys only, without supplying a password or Duo authentication. Logging into OnDemand satisfies the two-factor authentication requirement for about a day. Anytime you get prompted for a password, log into [ORCD OnDemand](https://orcd-ood.mit.edu) and you should then be able to log in with your SSH keys.
 
 See [Logging in with SSH](accessing-orcd/ssh-login.md/#logging-in-via-ssh) for more information.
 
@@ -66,13 +66,14 @@ software and packages you need. We have installed a lot of software and
 packages on the system already, even though it may not be immediately
 obvious that it is there. There are several pages in the "Software" section of this site.  We recommend reading through both the [Overview](software/overview.md) and [Modules](software/modules.md) pages, and then select the additional pages most relevant to you.
 
-If you are ever unsure if we have a particular
+If you are ever unsure whether we have a particular
 software, and you cannot find it, please send us an email and ask before
 you spend a lot of time trying to install it. If we have it, we can
 point you to it, provide advice on how to use it, and if we don't have
 it we can often give pointers on how to install it. Further, if a lot of
-people request the same software, we may consider adding it to the
-system image.
+people request the same software, we may consider adding it to out modules.
+
+Python is available through any of the `miniforge` modules. The `miniforge` modules each contain a version of Python, conda, mamba, pip, venv, and uv. Wee the [Python](software/python.md) page for more information.
 
 ## Linux Command Line
 
@@ -166,6 +167,7 @@ One of the first tasks is to get your code, data, and any other files
 you need into your home directory on the system. If your code is in
 GitHub you can use git commands on the system to clone your repository
 to your home directory. You can also transfer your files to one of your Engaging directories from your computer by using:
+
 - [OnDemand File browser](filesystems-file-transfer/transferring-files.md#ondemand)
 - [Globus](filesystems-file-transfer/transferring-files.md#globus)
 - The `scp` or `rsync` commands in your terminal
