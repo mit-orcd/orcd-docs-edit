@@ -17,7 +17,7 @@ If you don't already have an account, login into the ORCD OnDemand Portal [https
 ## Logging In
 
 The first thing you should do when you get a new account is verify that
-you can log in. Engaging provides multiple ways to log in, including both ssh and OnDemand.
+you can log in. Engaging provides multiple ways to log in, including both SSH and OnDemand.
 
 ### Terminal with SSH
 
@@ -28,7 +28,7 @@ ssh USERNAME@orcd-login.mit.edu
 ```
 By default you will be prompted for your Kerberos password and then for Duo two-factor authentication.
 
-You can also [create SSH keys](accessing-orcd/ssh-setup.md) and log in with those. Once you create and install your keys, first log into the [ORCD OnDemand site](https://orcd-ood.mit.edu). After this you should be able to ssh into Engaging with ssh keys only, without supplying a password or Duo authentication. Logging into OnDemand satisfies the two-factor authentication requirement for about a day.
+You can also [create SSH keys](accessing-orcd/ssh-setup.md) and log in with those. Once you create and install your keys, first log into the [ORCD OnDemand site](https://orcd-ood.mit.edu). After this you should be able to SSH into Engaging with SSH keys only, without supplying a password or Duo authentication. Logging into OnDemand satisfies the two-factor authentication requirement for about a day.
 
 See [Logging in with SSH](accessing-orcd/ssh-login.md/#logging-in-via-ssh) for more information.
 
@@ -45,7 +45,7 @@ is important that you read this page and use the system as intended.
 Being a cluster, there are several machines connected together with a
 network. We refer to these as **nodes**. Most nodes in the cluster are
 referred to as **compute nodes**, this is where the computation is done
-on the system (where you will run your code). When you ssh into the
+on the system (where you will run your code). When you SSH into the
 system you are on a special purpose node called the **login node**. The
 login node, as its name suggests, is where you log in and is for editing
 code and files, installing packages and software, downloading data, and
