@@ -30,7 +30,7 @@ By default you will be prompted for your Kerberos password and then for Duo two-
 
 You can also [create SSH keys](accessing-orcd/ssh-setup.md) and use those to authenticate in place of a password and Duo. Once you create and install your keys, log into the [ORCD OnDemand site](https://orcd-ood.mit.edu). After this you should be able to SSH into Engaging with SSH keys only, without supplying a password or Duo authentication. Logging into OnDemand satisfies the two-factor authentication requirement for about a day. Anytime you get prompted for a password, log into [ORCD OnDemand](https://orcd-ood.mit.edu) and you should then be able to log in with your SSH keys.
 
-See [Logging in with SSH](accessing-orcd/ssh-login.md/#logging-in-via-ssh) for more information.
+See [Logging in with SSH](accessing-orcd/ssh-login.md#logging-in-via-ssh) for more information.
 
 ### OnDemand
 
