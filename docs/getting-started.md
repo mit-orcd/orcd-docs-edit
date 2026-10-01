@@ -26,14 +26,9 @@ Log into Engaging with the following command in a terminal window. Replace `USER
 ```bash
 ssh USERNAME@orcd-login.mit.edu
 ```
-You will be prompted for your Kerberos password and then for Duo two-factor authentication.
+By default you will be prompted for your Kerberos password and then for Duo two-factor authentication.
 
-If you are using older Centos 7 nodes you can use one of the Centos 7 login nodes instead:
-
-- `orcd-vlogin001`
-- `orcd-vlogin002`
-- `orcd-vlogin003`
-- `orcd-vlogin004`
+You can also [create SSH keys](accessing-orcd/ssh-setup.md) and log in with those. Once you create and install your keys, first log into the [ORCD OnDemand site](https://orcd-ood.mit.edu). After this you should be able to ssh into Engaging with ssh keys only, without supplying a password or Duo authentication. Logging into OnDemand satisfies the two-factor authentication requirement for about a day.
 
 See [Logging in with SSH](accessing-orcd/ssh-login.md/#logging-in-via-ssh) for more information.
 
@@ -194,6 +189,6 @@ salloc -t 01:00:00 -p mit_normal
 After you run this command you will be on a compute node and you can do
 a test-run of your code. This command will allocate one core to your
 job. If your test code is multithreaded or parallel, uses a lot of
-memory, or requires a GPU you should request [additional resources](running-jobs/requesting-resources.md) as needed. Not requesting the resources you will be using can negatively impact others on the system.
+memory, or requires a GPU you should request [additional resources](running-jobs/requesting-resources.md) as needed.
 
 Review the "Running Jobs" section of this site. We recommend reading through both the [Overview](running-jobs/overview.md) and [Requesting Resources](running-jobs/requesting-resources.md) pages, and then select any additional pages most relevant to you.
