@@ -12,7 +12,7 @@ convenient reference to get started. This site has more in-depth documentation w
 
 ## Getting an Account
 
-If you don't already have an account, login into the ORCD OnDemand Portal [https://orcd-ood.mit.edu](https://orcd-ood.mit.edu) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait a few minutes for the system to create all the pieces for your account before submitting your first job. On rare occasions this could take up to an hour.
+If you don't already have an account, log in to the ORCD OnDemand Portal [https://orcd-ood.mit.edu](https://orcd-ood.mit.edu) using your MIT kerberos credentials. The system will then automatically create your account. Wait a few minutes for the system to create all the pieces for your account before submitting your first job. On rare occasions this could take up to an hour.
 
 ## Logging In
 
@@ -38,7 +38,7 @@ You can log into OnDemand Web Portal with the link: [https://orcd-ood.mit.edu](h
 
 ## Shared HPC Clusters
 
-Engaging is a shared HPC cluster. You are sharing this
+Engaging is a shared HPC cluster. You are sharing these
 resources with a number of other researchers, staff, and students, so it
 is important that you read this page and use the system as intended.
 
@@ -71,9 +71,9 @@ software, and you cannot find it, please send us an email and ask before
 you spend a lot of time trying to install it. If we have it, we can
 point you to it, provide advice on how to use it, and if we don't have
 it we can often give pointers on how to install it. Further, if a lot of
-people request the same software, we may consider adding it to out modules.
+people request the same software, we may consider adding it to our modules.
 
-Python is available through any of the `miniforge` modules. The `miniforge` modules each contain a version of Python, conda, mamba, pip, venv, and uv. Wee the [Python](software/python.md) page for more information.
+Python is available through any of the `miniforge` modules. The `miniforge` modules each contain a version of Python, conda, mamba, pip, venv, and uv. See the [Python](software/python.md) page for more information.
 
 ## Linux Command Line
 
@@ -99,7 +99,7 @@ users, let us know and we can make a shared **group directory** for you.
 The path to your home directory on Engaging is `/home/<USERNAME>`, where `<USERNAME>` is your username. The character `~` is also shorthand for your home directory in any Linux commands.
 
 Anytime after you start typing a Linux command you can press the "Tab"
-button your your keyboard. This called tab-complete, and will try to
+button your keyboard. This is called tab-complete, and will try to
 autocomplete what you are typing. This is particularly helpful when
 typing out long directory paths and file names. Pressing "Tab" once
 will complete if there is a single completion, pressing it twice will
