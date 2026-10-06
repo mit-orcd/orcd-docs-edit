@@ -8,16 +8,16 @@ tags:
 
 This page contains the most common steps for setting up and getting
 started with your Engaging account. We provide this page as a
-convenient reference to get started. Each system has its own in-depth documentation which can be found on the [Engaging System](orcd-systems.md) page.
+convenient reference to get started. This site has more in-depth documentation which we refer to throughout this tutorial. Following along with this tutorial and reading through the suggested pages will give you a good introduction to using Engaging.
 
 ## Getting an Account
 
-If you don't already have an account, login into the ORCD OnDemand Portal [https://orcd-ood.mit.edu](https://orcd-ood.mit.edu) using your MIT kerberos credentials. The system will then be prompted to create your account automatically. Wait a few minutes for the system to create all the pieces for your account before submitting your first job. On rare occasions this could take up to an hour.
+If you don't already have an account, log in to the ORCD OnDemand Portal [https://orcd-ood.mit.edu](https://orcd-ood.mit.edu) using your MIT kerberos credentials. The system will then automatically create your account. Wait a few minutes for the system to create all the pieces for your account before submitting your first job. On rare occasions this could take up to an hour.
 
 ## Logging In
 
 The first thing you should do when you get a new account is verify that
-you can log in. Engaging provides multiple ways to log in, including both ssh and OnDemand.
+you can log in. Engaging provides multiple ways to log in, including both SSH and OnDemand.
 
 ### Terminal with SSH
 
@@ -26,16 +26,11 @@ Log into Engaging with the following command in a terminal window. Replace `USER
 ```bash
 ssh USERNAME@orcd-login.mit.edu
 ```
-You will be prompted for your Kerberos password and then for Duo two-factor authentication.
+By default you will be prompted for your Kerberos password and then for Duo two-factor authentication.
 
-If you are using older Centos 7 nodes you can use one of the Centos 7 login nodes instead:
+You can also [create SSH keys](accessing-orcd/ssh-setup.md) and use those to authenticate in place of a password and Duo. Once you create and install your keys, log into the [ORCD OnDemand site](https://orcd-ood.mit.edu). After this you should be able to SSH into Engaging with SSH keys only, without supplying a password or Duo authentication. Logging into OnDemand satisfies the two-factor authentication requirement for about a day. Anytime you get prompted for a password, log into [ORCD OnDemand](https://orcd-ood.mit.edu) and you should then be able to log in with your SSH keys.
 
-- `orcd-vlogin001`
-- `orcd-vlogin002`
-- `orcd-vlogin003`
-- `orcd-vlogin004`
-
-See [Logging in with SSH](accessing-orcd/ssh-login.md/#logging-in-via-ssh) for more information.
+See [Logging in with SSH](accessing-orcd/ssh-login.md#logging-in-via-ssh) for more information.
 
 ### OnDemand
 
@@ -43,14 +38,14 @@ You can log into OnDemand Web Portal with the link: [https://orcd-ood.mit.edu](h
 
 ## Shared HPC Clusters
 
-Engaging is a shared HPC cluster. You are sharing this
+Engaging is a shared HPC cluster. You are sharing these
 resources with a number of other researchers, staff, and students, so it
 is important that you read this page and use the system as intended.
 
 Being a cluster, there are several machines connected together with a
 network. We refer to these as **nodes**. Most nodes in the cluster are
 referred to as **compute nodes**, this is where the computation is done
-on the system (where you will run your code). When you ssh into the
+on the system (where you will run your code). When you SSH into the
 system you are on a special purpose node called the **login node**. The
 login node, as its name suggests, is where you log in and is for editing
 code and files, installing packages and software, downloading data, and
@@ -71,13 +66,14 @@ software and packages you need. We have installed a lot of software and
 packages on the system already, even though it may not be immediately
 obvious that it is there. There are several pages in the "Software" section of this site.  We recommend reading through both the [Overview](software/overview.md) and [Modules](software/modules.md) pages, and then select the additional pages most relevant to you.
 
-If you are ever unsure if we have a particular
+If you are ever unsure whether we have a particular
 software, and you cannot find it, please send us an email and ask before
 you spend a lot of time trying to install it. If we have it, we can
 point you to it, provide advice on how to use it, and if we don't have
 it we can often give pointers on how to install it. Further, if a lot of
-people request the same software, we may consider adding it to the
-system image.
+people request the same software, we may consider adding it to our modules.
+
+Python is available through any of the `miniforge` modules. The `miniforge` modules each contain a version of Python, conda, mamba, pip, venv, and uv. See the [Python](software/python.md) page for more information.
 
 ## Linux Command Line
 
@@ -103,7 +99,7 @@ users, let us know and we can make a shared **group directory** for you.
 The path to your home directory on Engaging is `/home/<USERNAME>`, where `<USERNAME>` is your username. The character `~` is also shorthand for your home directory in any Linux commands.
 
 Anytime after you start typing a Linux command you can press the "Tab"
-button your your keyboard. This called tab-complete, and will try to
+button your keyboard. This is called tab-complete, and will try to
 autocomplete what you are typing. This is particularly helpful when
 typing out long directory paths and file names. Pressing "Tab" once
 will complete if there is a single completion, pressing it twice will
@@ -171,6 +167,7 @@ One of the first tasks is to get your code, data, and any other files
 you need into your home directory on the system. If your code is in
 GitHub you can use git commands on the system to clone your repository
 to your home directory. You can also transfer your files to one of your Engaging directories from your computer by using:
+
 - [OnDemand File browser](filesystems-file-transfer/transferring-files.md#ondemand)
 - [Globus](filesystems-file-transfer/transferring-files.md#globus)
 - The `scp` or `rsync` commands in your terminal
@@ -194,6 +191,6 @@ salloc -t 01:00:00 -p mit_normal
 After you run this command you will be on a compute node and you can do
 a test-run of your code. This command will allocate one core to your
 job. If your test code is multithreaded or parallel, uses a lot of
-memory, or requires a GPU you should request [additional resources](running-jobs/requesting-resources.md) as needed. Not requesting the resources you will be using can negatively impact others on the system.
+memory, or requires a GPU you should request [additional resources](running-jobs/requesting-resources.md) as needed.
 
 Review the "Running Jobs" section of this site. We recommend reading through both the [Overview](running-jobs/overview.md) and [Requesting Resources](running-jobs/requesting-resources.md) pages, and then select any additional pages most relevant to you.
