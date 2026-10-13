@@ -11,7 +11,7 @@ There are three ways you can run VSCode on Engaging:
 - Connecting to a compute node with the [RemoteSSH](#remotessh) VSCode Extension
 - Connecting to a compute node with the [RemoteTunnel](#remote-tunnel) VSCode Extension
 
-The easiest and least error-prone is to use the Code Server OnDemand app. If for some reason this doesn't work with you, another option is to connect your desktop VSCode to a compute node on Engaging with either the RemoteSSH or RemoteTunnel VSCode extension. If you are using Cursor you will have to connect with RemoteSSH.
+The easiest and least error-prone is to use the Code Server OnDemand app. If for some reason this doesn't work for you, another option is to connect your desktop VSCode to a compute node on Engaging with either the RemoteSSH or RemoteTunnel VSCode extension. If you are using Cursor you will have to connect with RemoteSSH.
 
 !!! Warning "Do not run VSCode on the login nodes"
     Please do not run VSCode or Cursor on the login nodes. The login nodes have resource limits that may cause VSCode or Cursor to disconnect. Instead, follow the instructions below to run VSCode or Cursor on a compute node.
@@ -52,7 +52,7 @@ Before you start, it is helpful to adjust VSCode's [RemoteSSH Extension settings
 
 You will need an SSH Key to run VSCode or Cursor on a compute node. If you haven't set up SSH keys yet, refer to the [SSH Key Setup guide](../accessing-orcd/ssh-setup.md).
 
-To set up your SSH Config file, click the "Open a Remote Window" button in the bottom left corner of your VSCode window (It is a small blue rectangle labeled with `><`). In the bar at the top of the page select "Connect to Host...", then "Configure SSH Hosts", and select first option, which will differ depending on your operating system. This will open your config file in a VSCode tab.
+To set up your SSH Config file, click the "Open a Remote Window" button in the bottom left corner of your VSCode window (It is a small blue rectangle labeled with `><`). In the bar at the top of the page select "Connect to Host...", then "Configure SSH Hosts", and select the first option, which will differ depending on your operating system. This will open your config file in a VSCode tab.
 
 To run on a compute node you will need at least 2 entries in this file. The first will be a login node that you'll "jump" through and the second will be the compute node that is your final destination.
 
@@ -109,7 +109,7 @@ The screenshot below shows requesting a single interactive core for 1 hour on En
 salloc -t 1:00:00 -p mit_normal
 ```
 
-Note that the scheduler will also tell you which node you are allocated in its output. In this screenshot my node name is `node2704`.
+Note that the scheduler will also tell you which node you have been allocated in its output. In this screenshot my node name is `node2704`.
 
 #### Step 2: Update your Config File
 
@@ -148,7 +148,7 @@ Here is what this might look like:
 
 ## Remote Tunnel
 
-The Remote Tunnel extension allows you fairly easily start VSCode as a job on Engaging and connect to it with VSCode running on your own computer. While it works well for VSCode, it is unavailable in Cursor.
+The Remote Tunnel extension allows you to fairly easily start VSCode as a job on Engaging and connect to it with VSCode running on your own computer. While it works well for VSCode, it is unavailable in Cursor.
 
 ### Step 1: Create a Job Script and Submit as a Job
 
@@ -188,11 +188,11 @@ sbatch vscode_tunnel.sh
 
 ### Step 2: Check the Log File
 
-Once the job is running, check the bottom of the log file `vscode_tunnel.out`. There will be a code it'll instruct you to enter at [https://login.microsoft.com/device](https://login.microsoft.com/device). After you enter the code log in with your MIT Kerberos.
+Once the job is running, check the bottom of the log file `vscode_tunnel.out`. The log will contain a code that it'll instruct you to enter at [https://login.microsoft.com/device](https://login.microsoft.com/device). After you enter the code log in with your MIT Kerberos.
 
 ### Step 3: Connect To Your Tunnel
 
-Open VSCode on your desktop. Click the "Open a Remote Window" button in the bottom left corner of your VSCode window. It is a small blue rectangle labeled with `><`, the same to open a RemoteSSH session. Choose "Connect to Tunnel" and select "Microsoft Account" for authentication. You'll be prompted to log in through your browser.
+Open VSCode on your desktop. Click the "Open a Remote Window" button in the bottom left corner of your VSCode window. It is a small blue rectangle labeled with `><`, the same button used to open a RemoteSSH session. Choose "Connect to Tunnel" and select "Microsoft Account" for authentication. You'll be prompted to log in through your browser.
 
 After that you should see an option for `engagingtunnel`.
 
