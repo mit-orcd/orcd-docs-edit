@@ -96,7 +96,7 @@ ssh USERNAME@orcd-login.mit.edu
 ssh nodeXXXX
 ```
 
-To connect directly from your laptop in one step using ProxyJump, see [Setting up your Config File](../recipes/vscode.md#setting-up-your-config-file) in the VS Code recipe for an example config.
+To connect directly from your laptop in one step using ProxyJump, see [Setting up your Config File](../recipes/vscode.md#setting-up-your-ssh-key-and-config-file) in the VS Code recipe for an example config.
 
 ## IP Address Blocked
 
