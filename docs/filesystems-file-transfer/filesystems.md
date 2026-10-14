@@ -10,12 +10,12 @@ Both Pool and Scratch are **not backed up**. Any files that cannot be easily rep
 
 See the table below for a description of each storage space.
 
-| Storage Type      | <div style="width:18em">Path</div> | Quota | Backed up | Purpose/Notes |
-| ----------- | ----------- |----------- |----------- |----------- |
-| Home Directory <br> Flash  | `/home/<username>` | 200 GB | Backed up with snapshots | Use for important files and software |
-| Pool <br> Hard Disk | `/home/<username>/orcd/pool` | 1 TB | **Not backed up** | Storing larger datasets |
-| PI Shared Pool <br> Hard Disk | `/orcd/pool/<number>/<pikerb>_shared` | 5 TB | **Not backed up** | Storing larger datasets, shared group storage |
-| Scratch <br> Flash | `/home/<username>/orcd/scratch` | 1 TB | **Not backed up** | Scratch space for I/O heavy jobs |
+| Storage Type      | <div style="width:18em">Path</div> | Size <br> Quota | Files <br> Quota | Backed up | Purpose/Notes |
+| ----------- | ----------- |----------- |----------- |----------- |----------- |
+| Home Directory <br> Flash  | `/home/<username>` | 200 GB | 1M | Yes <br> (snapshots) | Important files and software |
+| Pool <br> Hard Disk | `/home/<username>/orcd/pool` | 1 TB | 1M | **No** | Larger datasets |
+| PI Shared Pool <br> Hard Disk | `/orcd/pool/<number>/<pikerb>_shared` | 5 TB | | **No** | Larger datasets, <br> shared group storage |
+| Scratch <br> Flash | `/home/<username>/orcd/scratch` | 1 TB | 1M | **No** | I/O heavy jobs |
 
 !!! warning  "Scratch and Pool are Not Backed Up"
     Scratch is meant for temporary storage while running compute jobs. It is not meant for long term storage and **is not backed up**. **If you have not logged in for 6 months files in scratch will be deleted**. Any files that you would like to keep long-term should be copied onto another storage location with backup.
