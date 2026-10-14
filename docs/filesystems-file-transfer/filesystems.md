@@ -14,7 +14,7 @@ See the table below for a description of each storage space.
 | ----------- | ----------- |----------- |----------- |----------- |----------- |
 | Home Directory <br> Flash  | `/home/<username>` | 200 GB | 1M | Yes <br> (snapshots) | Important files and software |
 | Pool <br> Hard Disk | `/home/<username>/orcd/pool` | 1 TB | 1M | **No** | Larger datasets |
-| PI Shared Pool <br> Hard Disk | `/orcd/pool/<number>/<pikerb>_shared` | 5 TB | | **No** | Larger datasets, <br> shared group storage |
+| PI Shared Pool <br> Hard Disk | `/orcd/pool/<number>/<pikerb>_shared` | 5 TB | 1.5M | **No** | Larger datasets, <br> shared group storage |
 | Scratch <br> Flash | `/home/<username>/orcd/scratch` | 1 TB | 1M | **No** | I/O heavy jobs |
 
 !!! warning  "Scratch and Pool are Not Backed Up"
