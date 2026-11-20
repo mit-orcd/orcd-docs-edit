@@ -157,19 +157,19 @@ mpirun -n $SLURM_NTASKS python $SLURM_SUBMIT_DIR/parallel_h5.py
 
 ## Archive Example
 
-Pack a directory of small files into one tar file before storing it on archive storage:
+Pack a directory of small files into one tar file for long-term storage. The same approach applies before copying data to archive storage.
 
 ```bash
-tar -czf mydata.tar.gz mydata/          # pack and compress the directory into one file
-tar -tzf mydata.tar.gz | head           # list the contents to check
-cp mydata.tar.gz /orcd/archive/<group>/ # copy one large file to archive storage
+cd ~/orcd/pool
+tar -czf mydata.tar.gz mydata/   # pack and compress the directory into one file
+tar -tzf mydata.tar.gz | head    # list the contents to check
+rm -r mydata/                    # remove the small files after checking
 ```
 
-Before running a job, copy the archive to scratch storage and extract it there:
+Before running a job, extract the archive to scratch storage:
 
 ```bash
-cp /orcd/archive/<group>/mydata.tar.gz ~/orcd/scratch/
-tar -xzf ~/orcd/scratch/mydata.tar.gz -C ~/orcd/scratch/
+tar -xzf ~/orcd/pool/mydata.tar.gz -C ~/orcd/scratch/
 ```
 
 For data that is already compressed (such as images or `.gz` files), omit `-z` (use `tar -cf`) to save time.
