@@ -110,7 +110,7 @@ Each file also counts against the per-user file count (inode) quota. See [Genera
 
 Typical cases that create many small files, and how to avoid them:
 
-- **Saving output in a loop**, with one file per step, iteration, or sample. Write all results into one file, such as an HDF5 file (see the [HDF5 Example](#hdf5-example)).
+- **Saving output in a loop**, with one file per step, iteration, or sample (see the [Bad Example](#bad-example-many-small-files)). Write all results into one file, such as an HDF5 file (see the [HDF5 Example](#hdf5-example)).
 - **Writing a separate output or log file for each task** in a job array or each MPI rank. Write to one shared file (see [Parallel I/O](#parallel-io)), or combine the files when the job is done.
 - **Saving a new checkpoint file at every checkpoint.** Keep only the latest few checkpoints and delete the old ones.
 - **Storing a dataset as many individual files**, such as images, text documents, or training samples. Pack the files into HDF5 files or tar archives (see the [Archive Example](#archive-example)).
