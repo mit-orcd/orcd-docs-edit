@@ -19,7 +19,7 @@ Path: `/home/<username>`
 
 - Use only for documents, source code, software installations, and small test data.
 - I/O performance is the same as compute storage.
-- Do not store large datasets here. Use data storage instead.
+- Do not store large datasets here. Use data or compute storage instead.
 
 ## Data Storage
 
