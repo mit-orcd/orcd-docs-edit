@@ -72,6 +72,9 @@ For this reason, use archive storage only for long-term storage of data that is 
 
 Every file uses one inode. Every file operation such as open, close, or `stat` is a metadata operation handled by the metadata server of the filesystem. Millions of small files overload the metadata server.
 
+!!! note "What is an inode?"
+    An inode is a data structure that the filesystem uses to store information about a file, such as its size, owner, permissions, and location on disk. Each file or directory uses one inode, regardless of its size.
+
 !!! warning "Too many small files slow down the filesystem"
     Creating or accessing very large numbers of small files substantially slows down the filesystem. This affects not only your jobs but also other users' jobs.
 
