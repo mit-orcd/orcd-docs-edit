@@ -8,7 +8,7 @@ tags:
 
 Engaging provides several types of storage. Each type is designed for a specific purpose and I/O pattern. Choosing the right storage keeps your jobs running efficiently and prevents your jobs from slowing down other users' jobs.
 
-This page has three parts. First, it describes the storage types on Engaging (home, data, scratch, compute, and archive storage) and the purpose of each type. Second, it explains the small-files problem: why a large number of small files slows down the filesystem, and how to avoid it. Third, it gives examples that show how to combine small files into HDF5 files and tar archives.
+This page has three parts. First, it describes the storage types on Engaging (home, data, scratch, compute, and archive storage) and the purpose of each type. Second, it explains the small-files problem: why a large number of small files slows down the filesystem, and how to avoid it. Third, it gives examples of HDF5 files, which store large datasets efficiently, and tar archives, which pack many files into one.
 
 ## Storage Types
 
@@ -121,7 +121,7 @@ To keep the number of files low, follow these tips:
 
 ### HDF5 Example
 
-HDF5 stores many arrays in a single file. Use one HDF5 file instead of thousands of small files.
+HDF5 is a file format for large numerical datasets. One file holds many arrays in a hierarchy, you can read part of an array without loading the whole file, and many MPI processes can read and write the same file in parallel. Use one HDF5 file instead of thousands of small files, and as an efficient format for large arrays.
 
 Load the newest Miniforge module and create Conda environments for the examples:
 
