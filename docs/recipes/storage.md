@@ -121,7 +121,7 @@ To keep the number of files low, follow these tips:
 
 ### HDF5 Example
 
-HDF5 is a file format for large numerical datasets. One file holds many arrays (such as NumPy arrays) in a hierarchy. A program can read part of an array without loading the whole file, and many MPI processes can read and write the same file in parallel. Use one HDF5 file instead of thousands of small files, and also to store a single large array efficiently.
+HDF5 is a file format for large numerical datasets. One file holds many arrays (such as NumPy arrays) in a hierarchy. A program can read part of an array without loading the whole file, and many MPI processes can read and write the same file in parallel. Use HDF5 to replace thousands of small files with one file, or to store a single large array efficiently.
 
 Load the newest Miniforge module and create Conda environments for the examples:
 
