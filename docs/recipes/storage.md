@@ -17,28 +17,25 @@ To choose a storage type, first determine the I/O load of your job. The sections
 
 Path: `/home/<username>`
 
-- Use only for documents, source code, software installations, and small test data.
-- I/O performance is the same as compute storage.
-- Do not store large datasets here. Use data or compute storage instead.
+Your home directory is the place for documents, source code, software installations, and small test data. Its I/O performance is the same as compute storage. Do not store large datasets in your home directory; use data or compute storage instead.
 
 ## Data Storage
 
 Paths: `~/orcd/pool` (per user) and `/orcd/data` (lab or department)
 
-- Both paths have the same performance.
-- Use for long-term storage of datasets, code outputs, and results.
-- Light I/O is fine. Do not run heavy I/O jobs here: they slow down both your job and other users' jobs. Run heavy I/O jobs on scratch or compute storage instead.
+Data storage is designed for long-term storage of datasets, code outputs, and results. The per-user path and the lab or department path have the same performance.
+
+Jobs with light I/O can run on data storage. Do not run heavy I/O jobs here, because they slow down both your job and other users' jobs. Run heavy I/O jobs on scratch or compute storage instead.
 
 ## Scratch Storage
 
 Paths: `~/orcd/scratch` (per user) and `/orcd/scratch` (lab or department)
 
-- Both paths have the same performance.
-- Use for heavy I/O jobs and for temporary or intermediate files.
-- Scratch storage is not backed up and is not purged automatically.
-- Delete files you no longer need when your job is done.
+Scratch storage is designed for heavy I/O jobs and for temporary or intermediate files. The per-user path and the lab or department path have the same performance.
 
-A typical workflow:
+Scratch storage is not backed up and is not purged automatically. Delete files you no longer need when your job is done, so that space remains available for active work.
+
+A typical workflow uses data storage and scratch storage together:
 
 1. Copy input data from data storage to scratch storage.
 2. Run the job on scratch storage.
@@ -49,20 +46,15 @@ A typical workflow:
 
 Path: `/orcd/compute` (lab or department)
 
-- Use for running heavy I/O jobs.
-- Can also be used for long-term storage.
-- It costs much more than data storage, so keep only data that needs high I/O performance here.
+Compute storage is designed for running heavy I/O jobs, and it can also be used for long-term storage. However, it costs much more than data storage. Keep only data that needs high I/O performance on compute storage, and keep other data on data storage.
 
 ## Archive Storage
 
 Path: `/orcd/archive` (lab or department)
 
-- Archive storage is provided by the Northeast Storage Exchange (NESE). NESE is a storage system hosted on a Harvard cluster at the MGHPCC and mounted on Engaging.
-- The network connection between NESE and Engaging has low bandwidth, even though both are in the same building. Reading and writing NESE from Engaging is slow.
-- Use only for long-term storage of data that is not actively used.
-- Archive storage is not backed up.
-- Do not run jobs on archive storage. Copy the data to data, scratch, or compute storage before running jobs.
-- Pack small files into large archive files (see [Archive Example](#archive-example)) before copying them to archive storage.
+Archive storage is provided by the Northeast Storage Exchange (NESE). NESE is a storage system hosted on a Harvard cluster at the MGHPCC and mounted on Engaging. Although both clusters are in the same building, the network connection between them has low bandwidth, so reading and writing NESE from Engaging is slow.
+
+For this reason, use archive storage only for long-term storage of data that is not actively used. Archive storage is not backed up. Do not run jobs on archive storage; copy the data to data, scratch, or compute storage before running jobs. Before copying data to archive storage, pack small files into large archive files (see [Archive Example](#archive-example)).
 
 !!! note "Policies"
 
@@ -85,7 +77,7 @@ Every file uses one inode. Every file operation such as open, close, or `stat` i
 
 Each file also counts against the per-user file count (inode) quota. See [General Use Filesystems](../filesystems-file-transfer/filesystems.md) for the quota.
 
-Tips:
+To keep the number of files low, follow these tips:
 
 - Combine many small files into a few large files, such as HDF5 files or tar archives.
 - Do not write one output file per step or per sample.
