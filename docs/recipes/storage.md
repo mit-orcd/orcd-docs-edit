@@ -8,7 +8,7 @@ tags:
 
 Engaging provides several types of storage. Each type is designed for a specific purpose and I/O pattern. Choosing the right storage keeps your jobs running efficiently and prevents your jobs from slowing down other users' jobs.
 
-In this page, the I/O load of a job is described as follows:
+To choose a storage type, first determine the I/O load of your job. The sections below use two levels of I/O load:
 
 - **Heavy I/O**: reading or writing large volumes of data, or many files, repeatedly during a job. Examples: writing checkpoints frequently, many small writes, or many tasks accessing files at the same time.
 - **Light I/O**: occasional reads and writes. Examples: loading input data once at the start of a job, or writing final results at the end.
