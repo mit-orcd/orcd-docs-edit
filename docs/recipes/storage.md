@@ -8,6 +8,8 @@ tags:
 
 Engaging provides several types of storage. Each type is designed for a specific purpose and I/O pattern. Choosing the right storage keeps your jobs running efficiently and prevents your jobs from slowing down other users' jobs.
 
+This page has three parts. First, it describes the storage types on Engaging (home, data, scratch, compute, and archive storage) and the purpose of each type. Second, it explains the small-files problem: why a large number of small files slows down the filesystem, and how to avoid it. Third, it gives examples that show how to combine small files into HDF5 files and tar archives.
+
 To choose a storage type, first determine the I/O load of your job. The sections below use two levels of I/O load:
 
 - **Heavy I/O**: reading or writing large volumes of data, or many files, repeatedly during a job. Examples: writing checkpoints frequently, many small writes, or many tasks accessing files at the same time.
