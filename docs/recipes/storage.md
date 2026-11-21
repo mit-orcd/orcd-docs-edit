@@ -70,7 +70,15 @@ For this reason, use archive storage only for long-term storage of data that is 
 
 ## Small Files
 
-Every file uses one inode, which stores the metadata of the file. File operations such as open, close, or `stat` read or update this metadata, and the metadata server of the filesystem handles each of these operations. As a result, millions of small files overload the metadata server.
+Every file uses one inode, which stores the metadata of the file. File operations such as opening, closing, listing, or deleting files read or update this metadata, and the metadata server of the filesystem handles each of these operations. As a result, millions of small files overload the metadata server.
+
+Common commands that perform metadata operations include:
+
+- `ls`: reads the list of files in a directory.
+- `ls -l`: also reads the metadata (size, owner, permissions, and timestamps) of every file in the list.
+- `rm`: removes a file and frees its inode, one metadata operation for each file.
+
+On a directory with millions of files, each of these commands runs slowly and adds load to the metadata server.
 
 !!! note "What is an inode?"
     An inode is a data structure that the filesystem uses to store information about a file, such as its size, owner, permissions, and location on disk. Each file or directory uses one inode, regardless of its size.
