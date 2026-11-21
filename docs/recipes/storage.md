@@ -136,7 +136,18 @@ conda create -n h5mpi -c conda-forge "h5py=*=mpi_openmpi*" mpi4py   # h5py built
 
 #### Serial I/O
 
-Store 1000 samples in one dataset of one file, instead of 1000 files. Save the code as `serial_h5.py`:
+**Bad example (do not do this):** this code saves each sample to a separate file, so 1000 samples create 1000 small files:
+
+```python
+import numpy as np
+
+for i in range(1000):
+    np.save(f"sample_{i}.npy", np.random.rand(100))  # one file per sample
+```
+
+Each file uses one inode and needs its own metadata operations to create, open, and delete. With larger numbers of samples, this overloads the metadata server.
+
+**With HDF5:** this code stores the same 1000 samples in one dataset of one file. Only one file is created, and a program can read a single sample without reading the others. Save the code as `serial_h5.py`:
 
 ```python
 import h5py
