@@ -8,13 +8,6 @@ tags:
 
 Engaging provides several types of storage. Each type is designed for a specific purpose and I/O pattern. Choosing the right storage keeps your jobs running efficiently and prevents your jobs from slowing down other users' jobs.
 
-Policies (backup, quota, purge, and purchase) are described on these pages and are not repeated here:
-
-- Home directory, `~/orcd/pool`, and `~/orcd/scratch`: [General Use Filesystems](../filesystems-file-transfer/filesystems.md)
-- `/orcd/data` and `/orcd/compute`: [Storage Services](../services/storage-services.md)
-
-Storage under `/home/<username>` and `~/orcd` is provided to each user. Storage under `/orcd/data`, `/orcd/scratch`, `/orcd/compute`, and `/orcd/archive` is purchased by labs or departments and shared by their members.
-
 In this page, the I/O load of a job is described as follows:
 
 - **Heavy I/O**: reading or writing large volumes of data, or many files, repeatedly during a job. Examples: writing checkpoints frequently, many small writes, or many tasks accessing files at the same time.
@@ -70,6 +63,18 @@ Path: `/orcd/archive` (lab or department)
 - Archive storage is not backed up.
 - Do not run jobs on archive storage. Copy the data to data, scratch, or compute storage before running jobs.
 - Pack small files into large archive files (see [Archive Example](#archive-example)) before copying them to archive storage.
+
+!!! note "Policies"
+
+    Policies (backup, quota, purge, and purchase) are described on these pages and are not repeated here:
+
+    * Home directory, per-user data storage, and per-user scratch storage: [General Use Filesystems](../filesystems-file-transfer/filesystems.md)
+    * Lab or department data storage and compute storage: [Storage Services](../services/storage-services.md)
+
+!!! note "Ownership"
+
+    * The home directory, per-user data storage, and per-user scratch storage are provided to each user.
+    * Lab or department data storage, scratch storage, compute storage, and archive storage are purchased by labs or departments and shared by their members.
 
 ## Small Files
 
