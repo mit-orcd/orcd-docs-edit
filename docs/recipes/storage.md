@@ -121,14 +121,14 @@ To keep the number of files low, follow these tips:
 
 ### Bad Example: Many Small Files
 
-Typical cases that create many small files:
+Typical cases that create many small files, and how to avoid them:
 
-- Saving output in a loop, with one file per step, iteration, or sample.
-- Writing a separate output or log file for each task in a job array or each MPI rank.
-- Saving a new checkpoint file at every checkpoint, without deleting old ones.
-- Storing a dataset as many individual files, such as images, text documents, or training samples.
-- Extracting a large archive into a directory of many small files.
-- Creating Conda environments or installing Python packages, which can produce tens of thousands of files.
+- **Saving output in a loop**, with one file per step, iteration, or sample. Write all results into one file, such as an HDF5 file (see the [HDF5 Example](#hdf5-example)).
+- **Writing a separate output or log file for each task** in a job array or each MPI rank. Write to one shared file (see [Parallel I/O](#parallel-io)), or combine the files when the job is done.
+- **Saving a new checkpoint file at every checkpoint.** Keep only the latest few checkpoints and delete the old ones.
+- **Storing a dataset as many individual files**, such as images, text documents, or training samples. Pack the files into HDF5 files or tar archives (see the [Archive Example](#archive-example)).
+- **Extracting a large archive into many small files.** Extract it to scratch storage only when a job needs the files, and delete them when the job is done.
+- **Creating Conda environments or installing Python packages.** These create tens of thousands of files, and this cannot be avoided. Install them in your home directory, remove environments you no longer use (`conda env remove -n <name>`), and delete cached package files (`conda clean --all`).
 
 The code below shows the first case. It saves each sample to a separate file, so 1000 samples create 1000 small files:
 
