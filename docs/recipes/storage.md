@@ -10,18 +10,20 @@ Engaging provides several types of storage. Each type is designed for a specific
 
 This page has three parts. First, it describes the storage types on Engaging (home, data, scratch, compute, and archive storage) and the purpose of each type. Second, it explains the small-files problem: why a large number of small files slows down the filesystem, and how to avoid it. Third, it gives examples that show how to combine small files into HDF5 files and tar archives.
 
+## Storage Types
+
 To choose a storage type, first determine the I/O load of your job. The sections below use two levels of I/O load:
 
 - **Heavy I/O**: reading or writing large volumes of data, or many files, repeatedly during a job. Examples: writing checkpoints frequently, many small writes, or many tasks accessing files at the same time.
 - **Light I/O**: occasional reads and writes. Examples: loading input data once at the start of a job, or writing final results at the end.
 
-## Home Directory
+### Home Directory
 
 Path: `/home/<username>`
 
 Your home directory is the place for documents, source code, software installations, and small test data. Its I/O performance is the same as compute storage. Do not store large datasets in your home directory; use data or compute storage instead.
 
-## Data Storage
+### Data Storage
 
 Paths: `~/orcd/pool` (per user) and `/orcd/data` (lab or department)
 
@@ -29,7 +31,7 @@ Data storage is designed for long-term storage of datasets, code outputs, and re
 
 Jobs with light I/O can run on data storage. Do not run heavy I/O jobs here, because they slow down both your job and other users' jobs. Run heavy I/O jobs on scratch or compute storage instead.
 
-## Scratch Storage
+### Scratch Storage
 
 Paths: `~/orcd/scratch` (per user) and `/orcd/scratch` (lab or department)
 
@@ -44,19 +46,21 @@ A typical workflow uses data storage and scratch storage together:
 3. Copy the results back to data storage.
 4. Delete the files on scratch storage.
 
-## Compute Storage
+### Compute Storage
 
 Path: `/orcd/compute` (lab or department)
 
 Compute storage is designed for running heavy I/O jobs, and it can also be used for long-term storage. However, it costs much more than data storage. Keep only data that needs high I/O performance on compute storage, and keep other data on data storage.
 
-## Archive Storage
+### Archive Storage
 
 Path: `/orcd/archive` (lab or department)
 
 Archive storage is provided by the Northeast Storage Exchange (NESE). NESE is a storage system hosted on a Harvard cluster at the MGHPCC and mounted on Engaging. Although both clusters are in the same building, the network connection between them has low bandwidth, so reading and writing NESE from Engaging is slow.
 
 For this reason, use archive storage only for long-term storage of data that is not actively used. Do not run jobs on archive storage; copy the data to scratch or compute storage before running jobs. Before copying data to archive storage, pack small files into large archive files (see [Archive Example](#archive-example)).
+
+### Policies and Ownership
 
 !!! note "Policies"
 
@@ -70,7 +74,19 @@ For this reason, use archive storage only for long-term storage of data that is 
     * The home directory, per-user data storage, and per-user scratch storage are provided to each user.
     * Lab or department data storage, scratch storage, compute storage, and archive storage are purchased by labs or departments and shared by their members.
 
+### Summary
+
+| Storage | Paths | Use for | Run jobs here? |
+| ------- | ----- | ------- | -------------- |
+| Home | `/home/<username>` | Documents, source code, software, small test data | Small tests only |
+| Data | `~/orcd/pool`, `/orcd/data` | Long-term datasets and results | Light I/O only |
+| Scratch | `~/orcd/scratch`, `/orcd/scratch` | Heavy I/O, temporary files | Yes; delete files when done |
+| Compute | `/orcd/compute` | Heavy I/O, long-term storage (higher cost) | Yes |
+| Archive | `/orcd/archive` | Long-term storage of inactive data | No; copy data out first |
+
 ## Small Files
+
+### Why Small Files Are a Problem
 
 Every file uses one inode, which stores the metadata of the file. File operations such as opening, closing, listing, or deleting files read or update this metadata, and the metadata server of the filesystem handles each of these operations. As a result, millions of small files overload the metadata server.
 
@@ -90,6 +106,8 @@ On a directory with millions of files, each of these commands can hang and add h
 
 Each file also counts against the per-user file count (inode) quota. See [General Use Filesystems](../filesystems-file-transfer/filesystems.md) for the quota.
 
+### Tips to Reduce the Number of Files
+
 To keep the number of files low, follow these tips:
 
 - Combine many small files into a few large files, such as HDF5 files or tar archives. See the [HDF5 Example](#hdf5-example) and [Archive Example](#archive-example) below.
@@ -99,7 +117,9 @@ To keep the number of files low, follow these tips:
   find <dir> -type f | wc -l
   ```
 
-## HDF5 Example
+## Examples
+
+### HDF5 Example
 
 HDF5 stores many arrays in a single file. Use one HDF5 file instead of thousands of small files.
 
@@ -111,7 +131,7 @@ conda create -n h5 -c conda-forge h5py                              # serial h5p
 conda create -n h5mpi -c conda-forge "h5py=*=mpi_openmpi*" mpi4py   # h5py built with MPI
 ```
 
-### Serial I/O
+#### Serial I/O
 
 Store 1000 samples in one dataset of one file, instead of 1000 files. Save the code as `serial_h5.py`:
 
@@ -134,7 +154,7 @@ conda activate h5
 python serial_h5.py
 ```
 
-### Parallel I/O
+#### Parallel I/O
 
 Each MPI rank writes its own rows into one shared file. Save the code as `parallel_h5.py`:
 
@@ -165,7 +185,7 @@ cd ~/orcd/scratch                      # run heavy I/O on scratch storage
 mpirun -n $SLURM_NTASKS python $SLURM_SUBMIT_DIR/parallel_h5.py
 ```
 
-## Archive Example
+### Archive Example
 
 Pack a directory of small files into one tar file for long-term storage. The same approach applies before copying data to archive storage.
 
@@ -183,13 +203,3 @@ tar -xzf ~/orcd/pool/mydata.tar.gz -C ~/orcd/scratch/
 ```
 
 For data that is already compressed (such as images or `.gz` files), omit `-z` (use `tar -cf`) to save time.
-
-## Summary
-
-| Storage | Paths | Use for | Run jobs here? |
-| ------- | ----- | ------- | -------------- |
-| Home | `/home/<username>` | Documents, source code, software, small test data | Small tests only |
-| Data | `~/orcd/pool`, `/orcd/data` | Long-term datasets and results | Light I/O only |
-| Scratch | `~/orcd/scratch`, `/orcd/scratch` | Heavy I/O, temporary files | Yes; delete files when done |
-| Compute | `/orcd/compute` | Heavy I/O, long-term storage (higher cost) | Yes |
-| Archive | `/orcd/archive` | Long-term storage of inactive data | No; copy data out first |
