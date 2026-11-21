@@ -80,7 +80,7 @@ Common commands that perform metadata operations include:
 
 On a directory with millions of files, each of these commands can hang and add heavy load to the metadata server.
 
-!!! note "What is an inode?"
+??? note "What is an inode?"
     An inode is a data structure that the filesystem uses to store information about a file, such as its size, owner, permissions, and location on disk. Each file or directory uses one inode, regardless of its size.
 
 !!! warning "Too many small files slow down the filesystem"
