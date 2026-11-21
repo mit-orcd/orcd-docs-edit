@@ -108,19 +108,6 @@ Each file also counts against the per-user file count (inode) quota. See [Genera
 
 ### Tips to Reduce the Number of Files
 
-To keep the number of files low, follow these tips:
-
-- Combine many small files into a few large files, such as HDF5 files or tar archives. See the [HDF5 Example](#hdf5-example) and [Archive Example](#archive-example) below.
-- Do not write one output file per step or per sample.
-- Check the number of files in a directory:
-  ```bash
-  find <dir> -type f | wc -l
-  ```
-
-## Examples
-
-### Bad Example: Many Small Files
-
 Typical cases that create many small files, and how to avoid them:
 
 - **Saving output in a loop**, with one file per step, iteration, or sample. Write all results into one file, such as an HDF5 file (see the [HDF5 Example](#hdf5-example)).
@@ -130,7 +117,17 @@ Typical cases that create many small files, and how to avoid them:
 - **Extracting a large archive into many small files.** Extract it to scratch storage only when a job needs the files, and delete them when the job is done.
 - **Creating Conda environments or installing Python packages.** These create tens of thousands of files, and this cannot be avoided. Install them in your home directory, remove environments you no longer use (`conda env remove -n <name>`), and delete cached package files (`conda clean --all`).
 
-The code below shows the first case. It saves each sample to a separate file, so 1000 samples create 1000 small files:
+To check the number of files in a directory, run:
+
+```bash
+find <dir> -type f | wc -l
+```
+
+## Examples
+
+### Bad Example: Many Small Files
+
+This code saves each sample to a separate file, so 1000 samples create 1000 small files. It is the first case in [Tips to Reduce the Number of Files](#tips-to-reduce-the-number-of-files):
 
 ```python
 import numpy as np
