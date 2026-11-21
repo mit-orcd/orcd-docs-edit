@@ -33,7 +33,7 @@ Paths: `~/orcd/scratch` (per user) and `/orcd/scratch` (lab or department)
 
 Scratch storage is designed for heavy I/O jobs and for temporary or intermediate files. The per-user path and the lab or department path have the same performance.
 
-Scratch storage is not backed up and is not purged automatically. Delete files you no longer need when your job is done, so that space remains available for active work.
+Scratch storage is not purged automatically. Delete files you no longer need when your job is done, so that space remains available for active work.
 
 A typical workflow uses data storage and scratch storage together:
 
@@ -54,7 +54,7 @@ Path: `/orcd/archive` (lab or department)
 
 Archive storage is provided by the Northeast Storage Exchange (NESE). NESE is a storage system hosted on a Harvard cluster at the MGHPCC and mounted on Engaging. Although both clusters are in the same building, the network connection between them has low bandwidth, so reading and writing NESE from Engaging is slow.
 
-For this reason, use archive storage only for long-term storage of data that is not actively used. Archive storage is not backed up. Do not run jobs on archive storage; copy the data to data, scratch, or compute storage before running jobs. Before copying data to archive storage, pack small files into large archive files (see [Archive Example](#archive-example)).
+For this reason, use archive storage only for long-term storage of data that is not actively used. Do not run jobs on archive storage; copy the data to data, scratch, or compute storage before running jobs. Before copying data to archive storage, pack small files into large archive files (see [Archive Example](#archive-example)).
 
 !!! note "Policies"
 
