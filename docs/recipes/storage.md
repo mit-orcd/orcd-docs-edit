@@ -90,7 +90,7 @@ Each file also counts against the per-user file count (inode) quota. See [Genera
 
 To keep the number of files low, follow these tips:
 
-- Combine many small files into a few large files, such as HDF5 files or tar archives.
+- Combine many small files into a few large files, such as HDF5 files or tar archives. See the [HDF5 Example](#hdf5-example) and [Archive Example](#archive-example) below.
 - Do not write one output file per step or per sample.
 - Check the number of files in a directory:
   ```bash
