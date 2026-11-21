@@ -126,7 +126,7 @@ HDF5 is a file format for large numerical datasets. One file holds many arrays (
 Load the newest Miniforge module and create Conda environments for the examples:
 
 ```bash
-module load miniforge/25.11.0-0
+module load miniforge/26.7.2-0
 conda create -n h5 -c conda-forge h5py                              # serial h5py
 conda create -n h5mpi -c conda-forge "h5py=*=mpi_openmpi*" mpi4py   # h5py built with MPI
 ```
@@ -149,7 +149,7 @@ with h5py.File("samples.h5", "r") as f:
 Run it:
 
 ```bash
-module load miniforge/25.11.0-0
+module load miniforge/26.7.2-0
 conda activate h5
 python serial_h5.py
 ```
@@ -179,7 +179,7 @@ Submit it with this job script:
 #SBATCH -n 4
 #SBATCH -t 00:10:00
 
-module load miniforge/25.11.0-0
+module load miniforge/26.7.2-0
 conda activate h5mpi
 cd ~/orcd/scratch                      # run heavy I/O on scratch storage
 mpirun -n $SLURM_NTASKS python $SLURM_SUBMIT_DIR/parallel_h5.py
