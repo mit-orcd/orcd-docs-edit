@@ -121,7 +121,16 @@ To keep the number of files low, follow these tips:
 
 ### Bad Example: Many Small Files
 
-Do not write one file per sample. This code saves each sample to a separate file, so 1000 samples create 1000 small files:
+Typical cases that create many small files:
+
+- Saving output in a loop, with one file per step, iteration, or sample.
+- Writing a separate output or log file for each task in a job array or each MPI rank.
+- Saving a new checkpoint file at every checkpoint, without deleting old ones.
+- Storing a dataset as many individual files, such as images, text documents, or training samples.
+- Extracting a large archive into a directory of many small files.
+- Creating Conda environments or installing Python packages, which can produce tens of thousands of files.
+
+The code below shows the first case. It saves each sample to a separate file, so 1000 samples create 1000 small files:
 
 ```python
 import numpy as np
