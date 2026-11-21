@@ -35,7 +35,7 @@ Paths: `~/orcd/scratch` (per user) and `/orcd/scratch` (lab or department)
 
 - Both paths have the same performance.
 - Use for heavy I/O jobs and for temporary or intermediate files.
-- The lab or department scratch storage is not backed up and is not purged automatically.
+- Scratch storage is not backed up and is not purged automatically.
 - Delete files you no longer need when your job is done.
 
 A typical workflow:
