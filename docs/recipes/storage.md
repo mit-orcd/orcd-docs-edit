@@ -56,7 +56,7 @@ The following workflow uses data storage and scratch storage together. It is rec
 
 Path: `/orcd/compute` (lab or department)
 
-Compute storage is designed for running heavy I/O jobs, and it can also be used for long-term storage. It is useful when jobs use the same data frequently over a long period, for example daily for several months, because copying the data to and from scratch storage for every job is inconvenient. However, it costs much more than data storage. Keep only data that needs high I/O performance on compute storage, and keep other data on data storage.
+Compute storage is designed for running heavy I/O jobs, and it can also be used for long-term storage. It is useful when jobs use the same data frequently over a long period, for example daily for several months, because repeatedly copying large datasets to and from scratch storage is inconvenient and may slow down your jobs. However, it costs much more than data storage. Keep only data that needs high I/O performance on compute storage, and keep other data on data storage.
 
 ### Archive Storage
 
