@@ -68,7 +68,7 @@ For this reason, use archive storage only for long-term storage of data that is 
 
 ### Policies
 
-Policies for backup, quota, purge, and purchase are described on these pages and are not repeated here:
+Policies for backup, quota, purge, and purchase are described on the following pages and are not repeated here:
 
 - The home directory, per-user data storage, and per-user scratch storage are provided to each user. Refer to [General Use Filesystems](../filesystems-file-transfer/filesystems.md)
 - Lab or department data storage, scratch storage, compute storage, and archive storage are purchased by labs or departments and shared by their members. Refer to [Storage Services](../services/storage-services.md)
