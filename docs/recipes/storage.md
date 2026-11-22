@@ -125,7 +125,7 @@ Typical cases that create many small files, and how to avoid them:
 
 ### Bad Example: Many Small Files
 
-In the examples on this page, a sample is a small NumPy array, such as the output of one step. This code saves each sample of 100 values to its own file, so 1000 samples create 1000 small files. It is the first case in [Tips to Reduce the Number of Files](#tips-to-reduce-the-number-of-files):
+This code saves each sample of 100 values to its own file, so 1000 samples create 1000 small files. It is the first case in [Tips to Reduce the Number of Files](#tips-to-reduce-the-number-of-files). In the examples on this page, a sample is a small NumPy array:
 
 ```python
 import numpy as np
@@ -141,7 +141,7 @@ Each file uses one inode and needs its own metadata operations to create, open, 
 HDF5 is a file format for numerical data, such as NumPy arrays. Use HDF5 for two purposes:
 
 - **Replace many small files with one file.** One HDF5 file holds many samples, so thousands of small files become one file. This reduces the load on the metadata server.
-- **Store a large NumPy array efficiently.** A program can read part of the NumPy array without loading the whole file, and many MPI processes can write to the same file in parallel.
+- **Read and write large data efficiently.** A program can read part of a dataset without loading the whole file, and many MPI processes can write to the same file in parallel.
 
 Create Conda environments for the examples. In the `h5mpi` environment, mpi4py and h5py are built against the Open MPI and parallel HDF5 modules on Engaging, which use the InfiniBand network:
 
@@ -189,7 +189,7 @@ In these cases, use parallel I/O, in which multiple processes read and write dat
 
 #### Parallel I/O with Job Array
 
-Each task of a job array reads its own samples from one shared input file and writes its results into its own output file. Each task is an independent process that uses serial HDF5, the same `h5` environment as in the serial I/O example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own output file. This creates one file per task instead of one file per NumPy array. In this example, the job array has only 4 tasks, so it creates 4 output files. This works well when the job array has a small number of tasks.
+Each task of a job array reads its own samples from one shared input file and writes its results into its own output file. Each task is an independent process that uses serial HDF5, the same `h5` environment as in the serial I/O example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own output file. This creates one file per task instead of one file per sample. In this example, the job array has only 4 tasks, so it creates 4 output files. This works well when the job array has a small number of tasks.
 
 This code reads `samples.h5` from the [Serial I/O](#serial-io) example. Save it as `array_h5.py`:
 
