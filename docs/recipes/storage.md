@@ -10,12 +10,6 @@ Engaging provides several types of storage. Each type is designed for a specific
 
 This page has three parts. First, it describes the storage types on Engaging (home, data, scratch, compute, and archive storage) and the purpose of each type. Second, it explains the small-files problem: why a large number of small files slows down the filesystem, and how to avoid it. Third, it gives examples of three formats: HDF5 files, which store large datasets efficiently; WebDataset shards, which pack datasets for PyTorch; and tar archives, which pack many files into one.
 
-Contents:
-
-- [Storage Types](#storage-types)
-- [Avoiding Many Small Files](#avoiding-many-small-files)
-- [Examples: HDF5, WebDataset, and Archives](#examples-hdf5-webdataset-and-archives)
-
 ## Storage Types
 
 To choose a storage type, first determine the I/O load of your job. The sections below use two levels of I/O load:
