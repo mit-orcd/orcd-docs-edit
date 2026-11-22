@@ -143,12 +143,17 @@ HDF5 is a file format for numerical data, such as NumPy arrays. Use HDF5 for two
 - **Replace many small files with one file.** One HDF5 file holds many NumPy arrays, so thousands of small outputs fit in one file. This reduces the load on the metadata server.
 - **Store a large NumPy array efficiently.** A program can read part of the NumPy array without loading the whole file, and many MPI processes can write to the same file in parallel.
 
-Create Conda environments for the examples. The `h5mpi` environment installs its own Open MPI, so do not load an Open MPI module with it:
+Create Conda environments for the examples. In the `h5mpi` environment, mpi4py and h5py are built against the Open MPI and parallel HDF5 modules on Engaging, which use the InfiniBand network:
 
 ```bash
 module load miniforge/26.7.2-0
-conda create -n h5 -c conda-forge h5py                                    # serial h5py
-conda create -n h5mpi -c conda-forge "h5py=*=mpi_openmpi*" mpi4py         # h5py built with MPI
+conda create -n h5 -c conda-forge h5py   # serial h5py
+
+module load openmpi/4.1.4 hdf5/1.14.3    # Open MPI and parallel HDF5 modules
+conda create -n h5mpi -c conda-forge python numpy pip
+conda activate h5mpi
+pip install --no-binary=mpi4py mpi4py    # build mpi4py with the Open MPI module
+HDF5_MPI=ON HDF5_DIR=$(dirname $(dirname $(which h5pcc))) CC=mpicc pip install --no-binary=h5py h5py   # build h5py with the HDF5 module
 ```
 
 #### Serial I/O
@@ -315,8 +320,9 @@ Submit both with this job script:
 #SBATCH -n 4
 #SBATCH -t 00:10:00
 
+module load openmpi/4.1.4 hdf5/1.14.3
 module load miniforge/26.7.2-0
-conda activate h5mpi                   # provides its own mpirun
+conda activate h5mpi
 cd ~/orcd/scratch                      # run heavy I/O on scratch storage
 mpirun -n $SLURM_NTASKS python $SLURM_SUBMIT_DIR/write_mpi_h5.py   # write the file
 mpirun -n $SLURM_NTASKS python $SLURM_SUBMIT_DIR/read_mpi_h5.py    # read the file
