@@ -143,12 +143,19 @@ HDF5 is a file format for numerical data, such as NumPy arrays. Use HDF5 for two
 - **Replace many small files with one file.** One HDF5 file holds many samples, so thousands of small files become one file. This reduces the load on the metadata server.
 - **Read and write large data efficiently.** A program can read part of a dataset without loading the whole file, and many MPI processes can write to the same file in parallel.
 
-Create Conda environments for the examples. In the `h5mpi` environment, mpi4py and h5py are built against the Open MPI and parallel HDF5 modules on Engaging, which use the InfiniBand network:
+First, create Conda environments for the examples.
+
+For serial HDF5, create the `h5` environment with h5py from conda-forge:
 
 ```bash
 module load miniforge/26.7.2-0
-conda create -n h5 -c conda-forge h5py   # serial h5py
+conda create -n h5 -c conda-forge h5py
+```
 
+For parallel HDF5, create the `h5mpi` environment. Its mpi4py and h5py are built against the Open MPI and parallel HDF5 modules on Engaging:
+
+```bash
+module load miniforge/26.7.2-0
 module load openmpi/4.1.4 hdf5/1.14.3    # Open MPI and parallel HDF5 modules
 conda create -n h5mpi -c conda-forge python numpy pip
 conda activate h5mpi
