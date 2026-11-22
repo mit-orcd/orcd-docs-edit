@@ -196,9 +196,9 @@ python write_h5.py   # write the file
 python read_h5.py    # read the file
 ```
 
-In the example above, one process reads and writes all the data. This serial I/O works well for small data, but it becomes a limitation when:
+In the example above, one process reads and writes all the data, that is, all 1000 samples. This serial I/O works well for small data, but it becomes a limitation when:
 
-- The data is large, and one process reads or writes it too slowly.
+- The data is large, such as many GB or TB, and one process reads or writes it too slowly.
 - The data is too large to fit in the memory of one node.
 - The computation runs in parallel, and collecting all the data in one process for I/O is slow.
 
