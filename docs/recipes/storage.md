@@ -33,7 +33,7 @@ Your home directory is the place for documents, source code, software installati
 
 Paths: `~/orcd/pool` (per user) and `/orcd/data` (lab or department)
 
-Data storage is designed for long-term storage of datasets, code outputs, and results. The per-user path and the lab or department path have the same performance.
+Data storage is designed for long-term storage of datasets, code outputs, and results.
 
 Jobs with light I/O can run on data storage. Do not run heavy I/O jobs here, because they slow down both your job and other users' jobs. Run heavy I/O jobs on scratch or compute storage instead.
 
@@ -41,11 +41,11 @@ Jobs with light I/O can run on data storage. Do not run heavy I/O jobs here, bec
 
 Paths: `~/orcd/scratch` (per user) and `/orcd/scratch` (lab or department)
 
-Scratch storage is designed for heavy I/O jobs and for temporary or intermediate files. The per-user path and the lab or department path have the same performance.
+Scratch storage is designed for heavy I/O jobs and for temporary or intermediate files.
 
-Scratch storage is not purged automatically. Delete files you no longer need when your job is done, so that space remains available for active work.
+Currently, scratch storage is not purged automatically. Per-user scratch storage can also be used for long-term storage, but it is limited to 1 TB. For lab or department scratch storage, each lab or department decides how long files are kept. It is good practice to delete files you no longer need when your job is done, so that space remains available for active work.
 
-A typical workflow uses data storage and scratch storage together:
+The following workflow uses data storage and scratch storage together. It is recommended but not required:
 
 1. Copy input data from data storage to scratch storage.
 2. Run the job on scratch storage.
