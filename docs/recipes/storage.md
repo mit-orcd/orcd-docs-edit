@@ -104,6 +104,12 @@ These tips focus on data files, such as job outputs, checkpoints, and datasets, 
 
 Keep your data files larger than 1 MB; larger files are better. As a guideline, keep no more than 1 million files per TB of data.
 
+To check the number of files in a directory, run:
+
+```bash
+find <dir> -type f | wc -l
+```
+
 Typical cases that create many small files, and how to avoid them:
 
 - Saving output in a loop, with one file per step, iteration, or NumPy array (see the [Bad Example](#bad-example-many-small-files)). **Solution:** Write all results into one file, such as an HDF5 file (see the [HDF5 Example](#hdf5-example)).
@@ -111,15 +117,9 @@ Typical cases that create many small files, and how to avoid them:
 - Running a job array with many tasks, which creates many output files even with one file per task. **Solution:** Merge the output files into one file after the job array finishes (see [Merging Outputs of Large Job Array](#merging-outputs-of-large-job-array)).
 - Writing a separate output file from each MPI rank. **Solution:** Write the data of all ranks into one shared HDF5 file with parallel HDF5 (see [Parallel I/O with MPI](#parallel-io-with-mpi)).
 - Saving a checkpoint file at every step and keeping all of them. **Solution:** Save a checkpoint every *n* steps, keep only the latest one, and delete the previous ones.
-- Storing a dataset as many individual files, such as images, text documents, or training samples. **Solution:** Pack the files into HDF5 files (see the [HDF5 Example](#hdf5-example)), WebDataset shards for PyTorch (see the [WebDataset Example](#webdataset-example)), or tar archives (see the [Archive Example](#archive-example)).
+- Storing a dataset as many individual files, such as images, text documents, or training samples. **Solution:** Pack the files into WebDataset shards for PyTorch (see the [WebDataset Example](#webdataset-example)) or tar archives (see the [Archive Example](#archive-example)).
 - Extracting a large archive into many small files and keeping them. **Solution:** Extract it to scratch storage only when a job needs the files, and delete them when the job is done (see the [Archive Example](#archive-example)).
 - Creating Conda environments or installing Python packages, which creates tens of thousands of files that cannot be avoided. **Solution:** Install them in your home directory, remove environments you no longer use (`conda env remove -n <name>`), and delete cached package files (`conda clean --all`).
-
-To check the number of files in a directory, run:
-
-```bash
-find <dir> -type f | wc -l
-```
 
 ## Examples: HDF5, WebDataset, and Archives
 
@@ -164,10 +164,10 @@ This code stores the same 1000 NumPy arrays as the rows of one 2-D dataset in on
 import h5py
 import numpy as np
 
-with h5py.File("arrays.h5", "w") as f:
+with h5py.File("samples.h5", "w") as f:
     f.create_dataset("data", data=np.random.rand(1000, 100))  # 1000 NumPy arrays of 100 values, stored as rows of one dataset
 
-with h5py.File("arrays.h5", "r") as f:
+with h5py.File("samples.h5", "r") as f:
     x = f["data"][32]  # read only row 32 from disk
 ```
 
@@ -191,7 +191,7 @@ In these cases, use parallel I/O, in which multiple processes read and write dat
 
 Each task of a job array reads its own rows from one shared input file and writes its results into its own output file. Each task is an independent process that uses serial HDF5, the same `h5` environment as in the serial I/O example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own output file. This creates one file per task instead of one file per NumPy array. In this example, the job array has only 4 tasks, so it creates 4 output files. This works well when the job array has a small number of tasks.
 
-This code reads `arrays.h5` from the [Serial I/O](#serial-io) example. Save it as `array_h5.py`:
+This code reads `samples.h5` from the [Serial I/O](#serial-io) example. Save it as `array_h5.py`:
 
 ```python
 import os
@@ -200,7 +200,7 @@ import h5py
 task = int(os.environ["SLURM_ARRAY_TASK_ID"])  # 0, 1, 2, or 3
 n = 250                                         # rows per task
 
-with h5py.File("arrays.h5", "r") as f:          # all tasks read the same file
+with h5py.File("samples.h5", "r") as f:          # all tasks read the same file
     x = f["data"][task * n:(task + 1) * n]       # read only this task's rows
 
 result = x.mean(axis=1)                          # example computation: mean of each row
@@ -209,7 +209,7 @@ with h5py.File(f"result_{task}.h5", "w") as f:   # one output file per task
     f.create_dataset("result", data=result)      # all results of the task in one dataset
 ```
 
-Copy `arrays.h5` to `~/orcd/scratch`, and use this job script for the job array:
+Copy `samples.h5` to `~/orcd/scratch`, and use this job script for the job array:
 
 ```bash
 #!/bin/bash
@@ -343,7 +343,7 @@ pip install webdataset
 
 On a node without a GPU, this installs a CPU build of PyTorch, which is sufficient for this example. To install PyTorch for GPUs, see [Deep Learning with PyTorch on GPUs](torch-gpu.md#installing-pytorch).
 
-Write 10,000 samples into 10 shards. Save the code as `write_wds.py`:
+Write 10,000 samples into 10 shards. In this example, a sample is a small NumPy array of 100 values with a class label. Save the code as `write_wds.py`:
 
 ```python
 import numpy as np
@@ -353,7 +353,7 @@ import webdataset as wds
 with wds.ShardWriter("shard-%03d.tar", maxcount=1000) as sink:
     for i in range(10000):
         sink.write({"__key__": f"sample{i:06d}",              # unique name of the sample
-                    "npy": np.random.rand(100).astype("float32"),  # input NumPy array
+                    "npy": np.random.rand(100).astype("float32"),  # the sample: a small NumPy array
                     "cls": i % 10})                            # class label
 ```
 
@@ -367,7 +367,7 @@ import webdataset as wds
 
 dataset = (wds.WebDataset("shard-{000..009}.tar", shardshuffle=False)  # the 10 shards
            .decode()                  # decode .npy and .cls files
-           .to_tuple("npy", "cls"))   # yield (input, label) pairs
+           .to_tuple("npy", "cls"))   # yield (sample, label) pairs
 
 if __name__ == "__main__":  # required for DataLoader workers
     loader = torch.utils.data.DataLoader(dataset, batch_size=64, num_workers=2)  # 2 workers, 5 shards each
