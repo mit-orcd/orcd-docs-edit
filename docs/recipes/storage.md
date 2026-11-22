@@ -113,7 +113,7 @@ Keep your data files larger than 1 MB; larger files are better. As a guideline, 
 Typical cases that create many small files, and how to avoid them:
 
 - Saving output in a loop, with one file per step, iteration, or sample (see the [Bad Example](#bad-example-many-small-files)). **Solution:** Write all results into one file, such as an HDF5 file (see the [HDF5 Example](#hdf5-example)).
-- Writing many output files from each task in a job array, such as one file per sample. **Solution:** Write all results of a task into one HDF5 file, so that the job array creates one file per task (see [Parallel I/O with Small Job Array](#parallel-io-with-small-job-array)).
+- Writing many output files from each task in a job array, such as one file per sample. **Solution:** Write all results of a task into one HDF5 file, so that the job array creates one file per task (see [Parallel I/O with Job Array](#parallel-io-with-job-array)).
 - Running a job array with many tasks, which creates many output files even with one file per task. **Solution:** Merge the output files into one file after the array finishes (see [Merging Outputs of Large Job Array](#merging-outputs-of-large-job-array)).
 - Writing a separate output file from each MPI rank. **Solution:** Write the data of all ranks into one shared HDF5 file with parallel HDF5 (see [Parallel I/O with MPI](#parallel-io-with-mpi)).
 - Saving a checkpoint file at every step and keeping all of them. **Solution:** Save a checkpoint every *n* steps, keep only the latest one, and delete the previous ones.
@@ -188,9 +188,9 @@ In the example above, one process reads and writes all the data. This serial I/O
 - The data is too large to fit in the memory of one node.
 - The computation runs in parallel, and collecting all the data in one process for I/O is slow.
 
-In these cases, use parallel I/O, in which multiple processes read and write data at the same time. Each process handles only its own part of the data, and together the processes use more of the bandwidth of the parallel filesystem. The next sections show parallel I/O with a small job array, how to merge the outputs of a large job array, and parallel I/O with MPI.
+In these cases, use parallel I/O, in which multiple processes read and write data at the same time. Each process handles only its own part of the data, and together the processes use more of the bandwidth of the parallel filesystem. The next sections show parallel I/O with a job array, how to merge the outputs of a large job array, and parallel I/O with MPI.
 
-#### Parallel I/O with Small Job Array
+#### Parallel I/O with Job Array
 
 Each task of a job array reads its own rows from one shared input file and writes its results into its own output file. Each task is an independent process that uses serial HDF5, the same `h5` environment as in the serial I/O example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own output file. This creates one file per task instead of one file per sample. In this example, the job array has only 4 tasks, so it creates 4 output files. This works well when the array has a small number of tasks.
 
@@ -236,7 +236,7 @@ sbatch array_h5.sh
 
 Some workloads need a job array with many tasks, such as a parameter sweep or the processing of many independent inputs. Such a job array creates many output files. To avoid keeping too many files, merge the output files into one file in a follow-up job that runs after the array finishes.
 
-The following example shows how to merge the output files. For simplicity, it uses the 4 output files from the [small job array](#parallel-io-with-small-job-array) example. The code merges them into one file and then deletes them. Save it as `merge_h5.py`:
+The following example shows how to merge the output files. For simplicity, it uses the 4 output files from the [job array](#parallel-io-with-job-array) example. The code merges them into one file and then deletes them. Save it as `merge_h5.py`:
 
 ```python
 import os
@@ -273,10 +273,10 @@ Submit the job array, then submit the merge job so that it starts only after all
 
 ```bash
 jid=$(sbatch --parsable array_h5.sh)          # job ID of the array
-sbatch --dependency=afterok:$jid merge_h5.sh  # start after all array tasks succeed
+sbatch --dependency=afterok:$jid --kill-on-invalid-dep=yes merge_h5.sh  # start after all array tasks succeed
 ```
 
-If any array task fails, the merge job never starts and stays pending with the reason `DependencyNeverSatisfied`. In this case, cancel it with `scancel`, fix the problem, and submit both jobs again.
+If any array task fails, the option `--kill-on-invalid-dep=yes` cancels the merge job automatically.
 
 Slurm also writes one log file for each array task, named `slurm-<jobid>_<task>.out` by default. These log files are small files too, so delete them after you check them.
 
