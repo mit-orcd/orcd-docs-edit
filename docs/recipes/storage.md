@@ -206,27 +206,37 @@ In these cases, use parallel I/O, in which multiple processes read and write dat
 
 #### Parallel I/O with Job Array
 
-Each task of a job array reads its own samples from one shared input file and writes its results into its own output file. Each task is an independent process that uses serial HDF5, the same `h5` environment as in the serial I/O example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own output file. This creates one file per task instead of one file per sample. In this example, the job array has only 4 tasks, so it creates 4 output files. This works well when the job array has a small number of tasks.
+In this example, each task of a job array writes 1000 samples to its own file, the same size as the file in the [Serial I/O](#serial-io) example. Then each task of a second job array reads one of these files and computes the mean of each sample. Each task is an independent process that uses serial HDF5, the same `h5` environment as in the serial I/O example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own file. This creates one file per task instead of one file per sample. In this example, the job array has only 4 tasks, so it creates 4 files. This works well when the job array has a small number of tasks.
 
-This code reads `samples.h5` from the [Serial I/O](#serial-io) example. Save it as `array_h5.py`:
+This code writes the files. Save it as `write_array_h5.py`:
+
+```python
+import os
+import h5py
+import numpy as np
+
+task = int(os.environ["SLURM_ARRAY_TASK_ID"])  # 0, 1, 2, or 3
+
+with h5py.File(f"samples_{task}.h5", "w") as f:  # one file per task
+    f.create_dataset("data", data=np.random.rand(1000, 100))  # 1000 samples of 100 values, as in the serial example
+```
+
+This code reads the files. Save it as `read_array_h5.py`:
 
 ```python
 import os
 import h5py
 
 task = int(os.environ["SLURM_ARRAY_TASK_ID"])  # 0, 1, 2, or 3
-n = 250                                         # samples per task
 
-with h5py.File("samples.h5", "r") as f:          # all tasks read the same file
-    x = f["data"][task * n:(task + 1) * n]       # read only this task's samples
+with h5py.File(f"samples_{task}.h5", "r") as f:  # each task reads its own file
+    x = f["data"][:]  # read all samples of the file
 
-result = x.mean(axis=1)                          # example computation: mean of each sample
-
-with h5py.File(f"result_{task}.h5", "w") as f:   # one output file per task
-    f.create_dataset("result", data=result)      # all results of the task in one dataset
+result = x.mean(axis=1)  # example computation: mean of each sample
+print(result.shape)      # (1000,)
 ```
 
-Copy `samples.h5` to `~/orcd/scratch`, and use this job script for the job array:
+Use this job script for both job arrays. Save it as `array_h5.sh`:
 
 ```bash
 #!/bin/bash
@@ -237,34 +247,37 @@ Copy `samples.h5` to `~/orcd/scratch`, and use this job script for the job array
 module load miniforge/26.7.2-0
 conda activate h5
 cd ~/orcd/scratch                      # run heavy I/O on scratch storage
-python $SLURM_SUBMIT_DIR/array_h5.py
+python $SLURM_SUBMIT_DIR/$1            # $1: the Python script to run
 ```
 
-Save the job script as `array_h5.sh` and submit it:
+Submit the write job array, then submit the read job array so that it starts only after all write tasks succeed:
 
 ```bash
-sbatch array_h5.sh
+jid=$(sbatch --parsable array_h5.sh write_array_h5.py)   # job ID of the write job array
+sbatch --dependency=afterok:$jid --kill-on-invalid-dep=yes array_h5.sh read_array_h5.py
 ```
+
+If any write task fails, the option `--kill-on-invalid-dep=yes` cancels the read job array automatically.
 
 #### Merging Outputs of Large Job Array
 
 Some workloads need a job array with many tasks, such as a parameter sweep or the processing of many independent inputs. Such a job array creates many output files. To avoid keeping too many files, merge the output files into one file in a follow-up job that runs after the job array finishes.
 
-The following example shows how to merge the output files. For simplicity, it uses the 4 output files from the [job array](#parallel-io-with-job-array) example. The code merges them into one file and then deletes them. Save it as `merge_h5.py`:
+The following example shows how to merge the output files. For simplicity, it uses the 4 files from the write job array in the [job array](#parallel-io-with-job-array) example. The code merges them into one file and then deletes them. Save it as `merge_h5.py`:
 
 ```python
 import os
 import h5py
 import numpy as np
 
-names = [f"result_{t}.h5" for t in range(4)]   # one file per job array task
+names = [f"samples_{t}.h5" for t in range(4)]  # one file per job array task
 x = []
 for name in names:
     with h5py.File(name, "r") as f:
-        x.append(f["result"][:])               # read the result of each task
+        x.append(f["data"][:])                 # read the samples of each task
 
-with h5py.File("merged.h5", "w") as f:
-    f.create_dataset("result", data=np.concatenate(x))  # all results in one dataset
+with h5py.File("samples_all.h5", "w") as f:
+    f.create_dataset("data", data=np.concatenate(x))  # all 4000 samples in one dataset
 
 for name in names:
     os.remove(name)                            # delete the per-task files
@@ -283,14 +296,12 @@ cd ~/orcd/scratch                      # the output files of the job array
 python $SLURM_SUBMIT_DIR/merge_h5.py
 ```
 
-Submit the job array, then submit the merge job so that it starts only after all job array tasks succeed:
+Submit the write job array, then submit the merge job so that it starts only after all job array tasks succeed:
 
 ```bash
-jid=$(sbatch --parsable array_h5.sh)          # job ID of the job array
+jid=$(sbatch --parsable array_h5.sh write_array_h5.py)  # job ID of the write job array
 sbatch --dependency=afterok:$jid --kill-on-invalid-dep=yes merge_h5.sh  # start after all job array tasks succeed
 ```
-
-If any job array task fails, the option `--kill-on-invalid-dep=yes` cancels the merge job automatically.
 
 Slurm also writes one log file for each job array task, named `slurm-<jobid>_<task>.out` by default. These log files are small files too, so delete them after you check them.
 
@@ -298,20 +309,21 @@ Slurm also writes one log file for each job array task, named `slurm-<jobid>_<ta
 
 Parallel HDF5 uses MPI-IO, the parallel I/O layer of MPI. All MPI ranks of a job open the same file together, and each rank reads or writes only its own part of the file at the same time. Operations that change the file structure, such as creating a dataset, are collective: all ranks must call them. Unlike the job array examples, MPI-IO creates one output file, no matter how many ranks the job uses. It requires h5py built with parallel HDF5, which the `h5mpi` environment provides.
 
-In this example, each MPI rank writes its own rows into one shared file, and then reads them back.
+In this example, each MPI rank writes 1000 samples, the same size as the file in the [Serial I/O](#serial-io) example, into one shared file. Then each rank reads its own samples back and computes the mean of each sample.
 
 This code writes the file. Save it as `write_mpi_h5.py`:
 
 ```python
 from mpi4py import MPI
 import h5py
+import numpy as np
 
 comm = MPI.COMM_WORLD
-n = 100  # rows per rank
+n = 1000  # samples per rank, as in the serial example
 
 with h5py.File("parallel.h5", "w", driver="mpio", comm=comm) as f:  # all ranks open the same file
-    dset = f.create_dataset("data", (comm.size * n, 10), dtype="f4")  # collective: all ranks create it
-    dset[comm.rank * n:(comm.rank + 1) * n] = comm.rank             # each rank writes its own rows
+    dset = f.create_dataset("data", (comm.size * n, 100), dtype="f8")  # collective: all ranks create it
+    dset[comm.rank * n:(comm.rank + 1) * n] = np.random.rand(n, 100)  # each rank writes its own samples
 ```
 
 This code reads the file. Save it as `read_mpi_h5.py`:
@@ -321,12 +333,13 @@ from mpi4py import MPI
 import h5py
 
 comm = MPI.COMM_WORLD
-n = 100  # rows per rank
+n = 1000  # samples per rank
 
 with h5py.File("parallel.h5", "r", driver="mpio", comm=comm) as f:  # all ranks open the same file
-    x = f["data"][comm.rank * n:(comm.rank + 1) * n]                # each rank reads its own rows
+    x = f["data"][comm.rank * n:(comm.rank + 1) * n]                # each rank reads its own samples
 
-# do some computation on x here
+result = x.mean(axis=1)         # example computation: mean of each sample
+print(comm.rank, result.shape)  # (1000,)
 ```
 
 Submit both with this job script:
