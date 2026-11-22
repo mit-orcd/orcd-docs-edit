@@ -21,7 +21,7 @@ To choose a storage type, first determine the I/O load of your job. The sections
 
 Path: `/home/<username>`
 
-Your home directory is the place for documents, source code, software installations, and small test data. Its I/O performance is the same as that of compute storage. Do not store large datasets in your home directory; use data or compute storage instead.
+Your home directory is the place for documents, source code, software installations, and small test data. Its I/O performance is the same as that of scratch and compute storage. Do not store large datasets in your home directory; use data or compute storage instead.
 
 ### Data Storage
 
@@ -50,7 +50,7 @@ The following workflow uses data storage and scratch storage together. It is rec
 
 Path: `/orcd/compute` (lab or department)
 
-Compute storage is designed for running heavy I/O jobs, and it can also be used for long-term storage. It is useful when jobs use the same data frequently over a long period, for example daily for several months, because repeatedly copying large datasets to and from scratch storage is inconvenient and may slow down your jobs. However, it costs much more than data storage. Keep only data that needs high I/O performance on compute storage, and keep other data on data storage.
+Compute storage is designed for running heavy I/O jobs, and it can also be used for long-term storage. Its I/O performance is the same as that of scratch storage. It is useful when jobs use the same data frequently over a long period, for example daily for several months, because repeatedly copying large datasets to and from scratch storage is inconvenient and may slow down your jobs. However, it costs much more than data storage. Keep only data that needs high I/O performance on compute storage, and keep other data on data storage.
 
 ### Archive Storage
 
@@ -106,9 +106,9 @@ Keep your data files larger than 1 MB; larger files are better. As a guideline, 
 
 Typical cases that create many small files, and how to avoid them:
 
-- Saving output in a loop, with one file per step, iteration, or output array (see the [Bad Example](#bad-example-many-small-files)). **Solution:** Write all results into one file, such as an HDF5 file (see the [HDF5 Example](#hdf5-example)).
-- Writing many output files from each task in a job array, such as one file per output array. **Solution:** Write all results of a task into one HDF5 file, so that the job array creates one file per task (see [Parallel I/O with Job Array](#parallel-io-with-job-array)).
-- Running a job array with many tasks, which creates many output files even with one file per task. **Solution:** Merge the output files into one file after the array finishes (see [Merging Outputs of Large Job Array](#merging-outputs-of-large-job-array)).
+- Saving output in a loop, with one file per step, iteration, or NumPy array (see the [Bad Example](#bad-example-many-small-files)). **Solution:** Write all results into one file, such as an HDF5 file (see the [HDF5 Example](#hdf5-example)).
+- Writing many output files from each task in a job array. **Solution:** Write all results of a task into one HDF5 file, so that the job array creates one file per task (see [Parallel I/O with Job Array](#parallel-io-with-job-array)).
+- Running a job array with many tasks, which creates many output files even with one file per task. **Solution:** Merge the output files into one file after the job array finishes (see [Merging Outputs of Large Job Array](#merging-outputs-of-large-job-array)).
 - Writing a separate output file from each MPI rank. **Solution:** Write the data of all ranks into one shared HDF5 file with parallel HDF5 (see [Parallel I/O with MPI](#parallel-io-with-mpi)).
 - Saving a checkpoint file at every step and keeping all of them. **Solution:** Save a checkpoint every *n* steps, keep only the latest one, and delete the previous ones.
 - Storing a dataset as many individual files, such as images, text documents, or training samples. **Solution:** Pack the files into HDF5 files (see the [HDF5 Example](#hdf5-example)), WebDataset shards for PyTorch (see the [WebDataset Example](#webdataset-example)), or tar archives (see the [Archive Example](#archive-example)).
@@ -125,44 +125,42 @@ find <dir> -type f | wc -l
 
 ### Bad Example: Many Small Files
 
-This code saves each small array of 100 values to its own file, so 1000 arrays create 1000 small files. It is the first case in [Tips to Reduce the Number of Files](#tips-to-reduce-the-number-of-files):
+This code saves each small NumPy array of 100 values to its own file, so 1000 NumPy arrays create 1000 small files. It is the first case in [Tips to Reduce the Number of Files](#tips-to-reduce-the-number-of-files):
 
 ```python
 import numpy as np
 
 for i in range(1000):
-    np.save(f"array_{i}.npy", np.random.rand(100))  # one small array per file
+    np.save(f"array_{i}.npy", np.random.rand(100))  # one small NumPy array per file
 ```
 
-Each file uses one inode and needs its own metadata operations to create, open, and delete. With more arrays, this overloads the metadata server.
+Each file uses one inode and needs its own metadata operations to create, open, and delete. With more NumPy arrays, this overloads the metadata server.
 
 ### HDF5 Example
 
 HDF5 is a file format for numerical data, such as NumPy arrays. Use HDF5 for two purposes:
 
-- **Replace many small files with one file.** One HDF5 file holds many arrays, so thousands of small outputs fit in one file. This reduces the load on the metadata server.
-- **Store a large array efficiently.** A program can read part of an array without loading the whole file, and many MPI processes can write to the same file in parallel.
+- **Replace many small files with one file.** One HDF5 file holds many NumPy arrays, so thousands of small outputs fit in one file. This reduces the load on the metadata server.
+- **Store a large NumPy array efficiently.** A program can read part of the NumPy array without loading the whole file, and many MPI processes can write to the same file in parallel.
 
-Create Conda environments for the examples. The `h5mpi` environment uses the Open MPI module on Engaging (`external_*` build) instead of installing its own Open MPI:
+Create Conda environments for the examples. The `h5mpi` environment installs its own Open MPI, so do not load an Open MPI module with it:
 
 ```bash
 module load miniforge/26.7.2-0
-conda create -n h5 -c conda-forge h5py   # serial h5py
-
-module load openmpi/5.0.8
-conda create -n h5mpi -c conda-forge "h5py=*=mpi_openmpi*" mpi4py "openmpi=5.*=external_*"   # h5py built with MPI
+conda create -n h5 -c conda-forge h5py                                    # serial h5py
+conda create -n h5mpi -c conda-forge "h5py=*=mpi_openmpi*" mpi4py         # h5py built with MPI
 ```
 
 #### Serial I/O
 
-This code stores the same 1000 arrays as the rows of one 2-D dataset in one file. Only one file is created, and a program can read a single row without reading the others. Save the code as `serial_h5.py`:
+This code stores the same 1000 NumPy arrays as the rows of one 2-D dataset in one file. Only one file is created, and a program can read a single row without reading the others. Save the code as `serial_h5.py`:
 
 ```python
 import h5py
 import numpy as np
 
 with h5py.File("arrays.h5", "w") as f:
-    f.create_dataset("data", data=np.random.rand(1000, 100))  # 1000 arrays of 100 values, stored as rows of one dataset
+    f.create_dataset("data", data=np.random.rand(1000, 100))  # 1000 NumPy arrays of 100 values, stored as rows of one dataset
 
 with h5py.File("arrays.h5", "r") as f:
     x = f["data"][32]  # read only row 32 from disk
@@ -186,7 +184,7 @@ In these cases, use parallel I/O, in which multiple processes read and write dat
 
 #### Parallel I/O with Job Array
 
-Each task of a job array reads its own rows from one shared input file and writes its results into its own output file. Each task is an independent process that uses serial HDF5, the same `h5` environment as in the serial I/O example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own output file. This creates one file per task instead of one file per output array. In this example, the job array has only 4 tasks, so it creates 4 output files. This works well when the array has a small number of tasks.
+Each task of a job array reads its own rows from one shared input file and writes its results into its own output file. Each task is an independent process that uses serial HDF5, the same `h5` environment as in the serial I/O example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own output file. This creates one file per task instead of one file per NumPy array. In this example, the job array has only 4 tasks, so it creates 4 output files. This works well when the job array has a small number of tasks.
 
 This code reads `arrays.h5` from the [Serial I/O](#serial-io) example. Save it as `array_h5.py`:
 
@@ -228,7 +226,7 @@ sbatch array_h5.sh
 
 #### Merging Outputs of Large Job Array
 
-Some workloads need a job array with many tasks, such as a parameter sweep or the processing of many independent inputs. Such a job array creates many output files. To avoid keeping too many files, merge the output files into one file in a follow-up job that runs after the array finishes.
+Some workloads need a job array with many tasks, such as a parameter sweep or the processing of many independent inputs. Such a job array creates many output files. To avoid keeping too many files, merge the output files into one file in a follow-up job that runs after the job array finishes.
 
 The following example shows how to merge the output files. For simplicity, it uses the 4 output files from the [job array](#parallel-io-with-job-array) example. The code merges them into one file and then deletes them. Save it as `merge_h5.py`:
 
@@ -237,7 +235,7 @@ import os
 import h5py
 import numpy as np
 
-names = [f"result_{t}.h5" for t in range(4)]   # one file per array task
+names = [f"result_{t}.h5" for t in range(4)]   # one file per job array task
 x = []
 for name in names:
     with h5py.File(name, "r") as f:
@@ -263,16 +261,16 @@ cd ~/orcd/scratch                      # the output files of the job array
 python $SLURM_SUBMIT_DIR/merge_h5.py
 ```
 
-Submit the job array, then submit the merge job so that it starts only after all array tasks succeed:
+Submit the job array, then submit the merge job so that it starts only after all job array tasks succeed:
 
 ```bash
-jid=$(sbatch --parsable array_h5.sh)          # job ID of the array
-sbatch --dependency=afterok:$jid --kill-on-invalid-dep=yes merge_h5.sh  # start after all array tasks succeed
+jid=$(sbatch --parsable array_h5.sh)          # job ID of the job array
+sbatch --dependency=afterok:$jid --kill-on-invalid-dep=yes merge_h5.sh  # start after all job array tasks succeed
 ```
 
-If any array task fails, the option `--kill-on-invalid-dep=yes` cancels the merge job automatically.
+If any job array task fails, the option `--kill-on-invalid-dep=yes` cancels the merge job automatically.
 
-Slurm also writes one log file for each array task, named `slurm-<jobid>_<task>.out` by default. These log files are small files too, so delete them after you check them.
+Slurm also writes one log file for each job array task, named `slurm-<jobid>_<task>.out` by default. These log files are small files too, so delete them after you check them.
 
 #### Parallel I/O with MPI
 
@@ -290,7 +288,7 @@ comm = MPI.COMM_WORLD
 n = 100  # rows per rank
 
 with h5py.File("parallel.h5", "w", driver="mpio", comm=comm) as f:  # all ranks open the same file
-    dset = f.create_dataset("data", (comm.size * n, 10))           # collective: all ranks create it
+    dset = f.create_dataset("data", (comm.size * n, 10), dtype="f4")  # collective: all ranks create it
     dset[comm.rank * n:(comm.rank + 1) * n] = comm.rank             # each rank writes its own rows
 ```
 
@@ -317,9 +315,8 @@ Submit both with this job script:
 #SBATCH -n 4
 #SBATCH -t 00:10:00
 
-module load openmpi/5.0.8
 module load miniforge/26.7.2-0
-conda activate h5mpi
+conda activate h5mpi                   # provides its own mpirun
 cd ~/orcd/scratch                      # run heavy I/O on scratch storage
 mpirun -n $SLURM_NTASKS python $SLURM_SUBMIT_DIR/write_mpi_h5.py   # write the file
 mpirun -n $SLURM_NTASKS python $SLURM_SUBMIT_DIR/read_mpi_h5.py    # read the file
@@ -350,7 +347,7 @@ import webdataset as wds
 with wds.ShardWriter("shard-%03d.tar", maxcount=1000) as sink:
     for i in range(10000):
         sink.write({"__key__": f"sample{i:06d}",              # unique name of the sample
-                    "npy": np.random.rand(100).astype("float32"),  # input array
+                    "npy": np.random.rand(100).astype("float32"),  # input NumPy array
                     "cls": i % 10})                            # class label
 ```
 
@@ -365,11 +362,12 @@ import webdataset as wds
 dataset = (wds.WebDataset("shard-{000..009}.tar", shardshuffle=False)  # the 10 shards
            .decode()                  # decode .npy and .cls files
            .to_tuple("npy", "cls"))   # yield (input, label) pairs
-loader = torch.utils.data.DataLoader(dataset, batch_size=64, num_workers=2)  # 2 workers, 5 shards each
 
-for x, y in loader:
-    print(x.shape, y.shape)  # torch.Size([64, 100]) torch.Size([64])
-    break
+if __name__ == "__main__":  # required for DataLoader workers
+    loader = torch.utils.data.DataLoader(dataset, batch_size=64, num_workers=2)  # 2 workers, 5 shards each
+    for x, y in loader:
+        print(x.shape, y.shape)  # torch.Size([64, 100]) torch.Size([64])
+        break
 ```
 
 Run both scripts with this job script. It requests 2 CPU cores, one for each worker:
