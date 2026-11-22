@@ -8,7 +8,7 @@ tags:
 
 Engaging provides several types of storage. Each type is designed for a specific purpose and I/O pattern. Choosing the right storage keeps your jobs running efficiently and prevents your jobs from slowing down other users' jobs.
 
-This page has three parts. First, it describes the storage types on Engaging (home, data, scratch, compute, and archive storage) and the purpose of each type. Second, it explains the small-files problem: why a large number of small files slows down the filesystem, and how to avoid it. Third, it gives examples of three formats: HDF5 files, which store large datasets efficiently; WebDataset shards, which pack datasets for PyTorch; and tar archives, which pack many files into one.
+This page has three parts. First, it describes the storage types on Engaging (home, data, scratch, compute, and archive storage) and the purpose of each type. Second, it explains the small-files problem: why a large number of small files slows down the filesystem, and how to avoid it. Third, it gives examples of three formats: HDF5 files, which store large numerical data efficiently; WebDataset shards, which pack datasets for PyTorch; and tar archives, which pack many files into one.
 
 ## Storage Types
 
@@ -121,11 +121,11 @@ Typical cases that create many small files, and how to avoid them:
 - Extracting a large archive into many small files and keeping them. **Solution:** Extract it to scratch storage only when a job needs the files, and delete them when the job is done (see the [Archive Example](#archive-example)).
 - Creating Conda environments or installing Python packages, which creates tens of thousands of files that cannot be avoided. **Solution:** Install them in your home directory, remove environments you no longer use (`conda env remove -n <name>`), and delete cached package files (`conda clean --all`).
 
-## Examples: HDF5, WebDataset, and Archives
+## Examples: Fewer Files and Efficient I/O
 
 ### Bad Example: Many Small Files
 
-This code saves each sample of 100 values to its own file, so 1000 samples create 1000 small files. It is the first case in [Tips to Reduce the Number of Files](#tips-to-reduce-the-number-of-files). In the examples on this page, a sample is a small NumPy array:
+This code saves each sample of 100 values to its own file, so 1000 samples create 1000 small files. It is the first case in [Tips to Reduce the Number of Files](#tips-to-reduce-the-number-of-files). Here, a sample is a small NumPy array:
 
 ```python
 import numpy as np
@@ -138,10 +138,10 @@ Each file uses one inode and needs its own metadata operations to create, open, 
 
 ### HDF5 Example
 
-HDF5 is a file format for large numerical data. Use HDF5 for two purposes:
+HDF5 is a file format for large numerical data. An HDF5 file holds one or more *HDF5 datasets*; an HDF5 dataset is a named array, such as `data` in the examples. Use HDF5 for two purposes:
 
 - **Replace many small files with one file.** One HDF5 file holds many samples, so thousands of small files become one file. This reduces the load on the metadata server.
-- **Read and write large data efficiently.** A program can read part of a dataset without loading the whole file, and many MPI processes can write to the same file in parallel.
+- **Read and write large data efficiently.** A program can read part of the data without loading the whole file, and many MPI processes can write to the same file in parallel.
 
 First, create Conda environments for the examples.
 
@@ -165,14 +165,14 @@ HDF5_MPI=ON HDF5_DIR=$(dirname $(dirname $(which h5pcc))) CC=mpicc pip install -
 
 #### Serial I/O
 
-This code stores the same 1000 samples as the rows of one 2-D dataset in one file. Only one file is created. Save the code as `write_h5.py`:
+This code stores the same 1000 samples as the rows of one 2-D HDF5 dataset in one file. Only one file is created. Save the code as `write_h5.py`:
 
 ```python
 import h5py
 import numpy as np
 
 with h5py.File("samples.h5", "w") as f:
-    f.create_dataset("data", data=np.random.rand(1000, 100))  # 1000 samples of 100 values, stored as rows of one dataset
+    f.create_dataset("data", data=np.random.rand(1000, 100))  # 1000 samples of 100 values, stored as rows of one HDF5 dataset
 ```
 
 This code reads all samples and computes the mean of each sample. Save the code as `read_h5.py`:
@@ -277,7 +277,7 @@ for name in names:
         x.append(f["data"][:])                 # read the samples of each task
 
 with h5py.File("samples_all.h5", "w") as f:
-    f.create_dataset("data", data=np.concatenate(x))  # all 4000 samples in one dataset
+    f.create_dataset("data", data=np.concatenate(x))  # all 4000 samples in one HDF5 dataset
 
 for name in names:
     os.remove(name)                            # delete the per-task files
@@ -307,7 +307,7 @@ Slurm also writes one log file for each job array task, named `slurm-<jobid>_<ta
 
 #### Parallel I/O with MPI
 
-Parallel HDF5 uses MPI-IO, the parallel I/O layer of MPI. All MPI ranks of a job open the same file together, and each rank reads or writes only its own part of the file at the same time. Operations that change the file structure, such as creating a dataset, are collective: all ranks must call them. Unlike the job array examples, MPI-IO creates one output file, no matter how many ranks the job uses. It requires h5py built with parallel HDF5, which the `h5mpi` environment provides.
+Parallel HDF5 uses MPI-IO, the parallel I/O layer of MPI. All MPI ranks of a job open the same file together, and each rank reads or writes only its own part of the file at the same time. Operations that change the file structure, such as creating an HDF5 dataset, are collective: all ranks must call them. Unlike the job array examples, MPI-IO creates one output file, no matter how many ranks the job uses. It requires h5py built with parallel HDF5, which the `h5mpi` environment provides.
 
 In this example, each MPI rank writes 1000 samples, the same size as the file in the [Serial I/O](#serial-io) example, into one shared file. Then each rank reads its own samples back and computes the mean of each sample.
 
