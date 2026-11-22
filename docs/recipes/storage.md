@@ -175,15 +175,16 @@ with h5py.File("samples.h5", "w") as f:
     f.create_dataset("data", data=np.random.rand(1000, 100))  # 1000 samples of 100 values, stored as rows of one dataset
 ```
 
-A program can read a single sample without reading the others. This code reads one sample and computes its mean. Save the code as `read_h5.py`:
+This code reads all samples and computes the mean of each sample. Save the code as `read_h5.py`:
 
 ```python
 import h5py
 
 with h5py.File("samples.h5", "r") as f:
-    x = f["data"][32]  # read only sample 32 from disk
+    x = f["data"][:]  # read all samples
 
-print(x.mean())  # example computation: mean of the sample
+result = x.mean(axis=1)  # example computation: mean of each sample
+print(result.shape)      # (1000,)
 ```
 
 Run them:
