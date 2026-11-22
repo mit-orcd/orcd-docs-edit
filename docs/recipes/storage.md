@@ -138,7 +138,7 @@ Each file uses one inode and needs its own metadata operations to create, open, 
 
 ### HDF5 Example
 
-HDF5 is a file format for numerical data, such as NumPy arrays. Use HDF5 for two purposes:
+HDF5 is a file format for large numerical data. Use HDF5 for two purposes:
 
 - **Replace many small files with one file.** One HDF5 file holds many samples, so thousands of small files become one file. This reduces the load on the metadata server.
 - **Read and write large data efficiently.** A program can read part of a dataset without loading the whole file, and many MPI processes can write to the same file in parallel.
@@ -165,7 +165,7 @@ HDF5_MPI=ON HDF5_DIR=$(dirname $(dirname $(which h5pcc))) CC=mpicc pip install -
 
 #### Serial I/O
 
-This code stores the same 1000 samples as the rows of one 2-D dataset in one file. Only one file is created, and a program can read a single sample without reading the others. Save the code as `serial_h5.py`:
+This code stores the same 1000 samples as the rows of one 2-D dataset in one file. Only one file is created. Save the code as `write_h5.py`:
 
 ```python
 import h5py
@@ -173,17 +173,26 @@ import numpy as np
 
 with h5py.File("samples.h5", "w") as f:
     f.create_dataset("data", data=np.random.rand(1000, 100))  # 1000 samples of 100 values, stored as rows of one dataset
+```
+
+A program can read a single sample without reading the others. This code reads one sample and computes its mean. Save the code as `read_h5.py`:
+
+```python
+import h5py
 
 with h5py.File("samples.h5", "r") as f:
     x = f["data"][32]  # read only sample 32 from disk
+
+print(x.mean())  # example computation: mean of the sample
 ```
 
-Run it:
+Run them:
 
 ```bash
 module load miniforge/26.7.2-0
 conda activate h5
-python serial_h5.py
+python write_h5.py   # write the file
+python read_h5.py    # read the file
 ```
 
 In the example above, one process reads and writes all the data. This serial I/O works well for small data, but it becomes a limitation when:
