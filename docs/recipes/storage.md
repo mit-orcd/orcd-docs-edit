@@ -112,8 +112,8 @@ Keep your data files larger than 1 MB; larger files are better. As a guideline, 
 
 Typical cases that create many small files, and how to avoid them:
 
-- Saving output in a loop, with one file per step, iteration, or sample (see the [Bad Example](#bad-example-many-small-files)). **Solution:** Write all results into one file, such as an HDF5 file (see the [HDF5 Example](#hdf5-example)).
-- Writing many output files from each task in a job array, such as one file per sample. **Solution:** Write all results of a task into one HDF5 file, so that the job array creates one file per task (see [Parallel I/O with Job Array](#parallel-io-with-job-array)).
+- Saving output in a loop, with one file per step, iteration, or output array (see the [Bad Example](#bad-example-many-small-files)). **Solution:** Write all results into one file, such as an HDF5 file (see the [HDF5 Example](#hdf5-example)).
+- Writing many output files from each task in a job array, such as one file per output array. **Solution:** Write all results of a task into one HDF5 file, so that the job array creates one file per task (see [Parallel I/O with Job Array](#parallel-io-with-job-array)).
 - Running a job array with many tasks, which creates many output files even with one file per task. **Solution:** Merge the output files into one file after the array finishes (see [Merging Outputs of Large Job Array](#merging-outputs-of-large-job-array)).
 - Writing a separate output file from each MPI rank. **Solution:** Write the data of all ranks into one shared HDF5 file with parallel HDF5 (see [Parallel I/O with MPI](#parallel-io-with-mpi)).
 - Saving a checkpoint file at every step and keeping all of them. **Solution:** Save a checkpoint every *n* steps, keep only the latest one, and delete the previous ones.
@@ -131,16 +131,16 @@ find <dir> -type f | wc -l
 
 ### Bad Example: Many Small Files
 
-This code saves each sample to a separate file, so 1000 samples create 1000 small files. It is the first case in [Tips to Reduce the Number of Files](#tips-to-reduce-the-number-of-files):
+This code saves each small array of 100 values to its own file, so 1000 arrays create 1000 small files. It is the first case in [Tips to Reduce the Number of Files](#tips-to-reduce-the-number-of-files):
 
 ```python
 import numpy as np
 
 for i in range(1000):
-    np.save(f"sample_{i}.npy", np.random.rand(100))  # one file per sample
+    np.save(f"array_{i}.npy", np.random.rand(100))  # one small array per file
 ```
 
-Each file uses one inode and needs its own metadata operations to create, open, and delete. With larger numbers of samples, this overloads the metadata server.
+Each file uses one inode and needs its own metadata operations to create, open, and delete. With more arrays, this overloads the metadata server.
 
 ### HDF5 Example
 
@@ -161,17 +161,17 @@ conda create -n h5mpi -c conda-forge "h5py=*=mpi_openmpi*" mpi4py "openmpi=5.*=e
 
 #### Serial I/O
 
-This code stores 1000 samples in one dataset of one file. Only one file is created, and a program can read a single sample without reading the others. Save the code as `serial_h5.py`:
+This code stores the same 1000 arrays as the rows of one 2-D dataset in one file. Only one file is created, and a program can read a single row without reading the others. Save the code as `serial_h5.py`:
 
 ```python
 import h5py
 import numpy as np
 
-with h5py.File("samples.h5", "w") as f:
-    f.create_dataset("samples", data=np.random.rand(1000, 100))  # 1000 samples in one dataset
+with h5py.File("arrays.h5", "w") as f:
+    f.create_dataset("data", data=np.random.rand(1000, 100))  # 1000 arrays of 100 values, stored as rows of one dataset
 
-with h5py.File("samples.h5", "r") as f:
-    x = f["samples"][32]  # read only sample 32 from disk
+with h5py.File("arrays.h5", "r") as f:
+    x = f["data"][32]  # read only row 32 from disk
 ```
 
 Run it:
@@ -192,9 +192,9 @@ In these cases, use parallel I/O, in which multiple processes read and write dat
 
 #### Parallel I/O with Job Array
 
-Each task of a job array reads its own rows from one shared input file and writes its results into its own output file. Each task is an independent process that uses serial HDF5, the same `h5` environment as in the serial I/O example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own output file. This creates one file per task instead of one file per sample. In this example, the job array has only 4 tasks, so it creates 4 output files. This works well when the array has a small number of tasks.
+Each task of a job array reads its own rows from one shared input file and writes its results into its own output file. Each task is an independent process that uses serial HDF5, the same `h5` environment as in the serial I/O example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own output file. This creates one file per task instead of one file per output array. In this example, the job array has only 4 tasks, so it creates 4 output files. This works well when the array has a small number of tasks.
 
-This code reads `samples.h5` from the [Serial I/O](#serial-io) example. Save it as `array_h5.py`:
+This code reads `arrays.h5` from the [Serial I/O](#serial-io) example. Save it as `array_h5.py`:
 
 ```python
 import os
@@ -203,16 +203,16 @@ import h5py
 task = int(os.environ["SLURM_ARRAY_TASK_ID"])  # 0, 1, 2, or 3
 n = 250                                         # rows per task
 
-with h5py.File("samples.h5", "r") as f:              # all tasks read the same file
-    x = f["samples"][task * n:(task + 1) * n]        # read only this task's rows
+with h5py.File("arrays.h5", "r") as f:          # all tasks read the same file
+    x = f["data"][task * n:(task + 1) * n]       # read only this task's rows
 
-result = x.mean(axis=1)                          # example computation: mean of each sample
+result = x.mean(axis=1)                          # example computation: mean of each row
 
 with h5py.File(f"result_{task}.h5", "w") as f:   # one output file per task
     f.create_dataset("result", data=result)      # all results of the task in one dataset
 ```
 
-Copy `samples.h5` to `~/orcd/scratch`, and use this job script for the job array:
+Copy `arrays.h5` to `~/orcd/scratch`, and use this job script for the job array:
 
 ```bash
 #!/bin/bash
