@@ -56,7 +56,7 @@ A typical workflow uses data storage and scratch storage together:
 
 Path: `/orcd/compute` (lab or department)
 
-Compute storage is designed for running heavy I/O jobs, and it can also be used for long-term storage. However, it costs much more than data storage. Keep only data that needs high I/O performance on compute storage, and keep other data on data storage.
+Compute storage is designed for running heavy I/O jobs, and it can also be used for long-term storage. It is useful when jobs use the same data frequently over a long period, for example daily for several months, because copying the data to and from scratch storage for every job is inconvenient. However, it costs much more than data storage. Keep only data that needs high I/O performance on compute storage, and keep other data on data storage.
 
 ### Archive Storage
 
@@ -70,8 +70,8 @@ For this reason, use archive storage only for long-term storage of data that is 
 
 Policies for backup, quota, purge, and purchase are described on these pages and are not repeated here:
 
-- The home directory, per-user data storage, and per-user scratch storage are provided to each user: [General Use Filesystems](../filesystems-file-transfer/filesystems.md)
-- Lab or department data storage, scratch storage, compute storage, and archive storage are purchased by labs or departments and shared by their members: [Storage Services](../services/storage-services.md)
+- The home directory, per-user data storage, and per-user scratch storage are provided to each user. Refer to [General Use Filesystems](../filesystems-file-transfer/filesystems.md)
+- Lab or department data storage, scratch storage, compute storage, and archive storage are purchased by labs or departments and shared by their members. Refer to [Storage Services](../services/storage-services.md)
 
 ### Summary
 
