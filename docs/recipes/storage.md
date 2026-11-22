@@ -152,7 +152,7 @@ module load miniforge/26.7.2-0
 conda create -n h5 -c conda-forge h5py
 ```
 
-For parallel HDF5, create the `h5mpi` environment. Its mpi4py and h5py are built against the Open MPI and parallel HDF5 modules on Engaging:
+For parallel HDF5, create the `h5mpi` environment. In this environment, the mpi4py and h5py packages are built from source against the Open MPI and parallel HDF5 modules on Engaging:
 
 ```bash
 module load miniforge/26.7.2-0
