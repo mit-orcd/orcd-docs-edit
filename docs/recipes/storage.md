@@ -112,7 +112,7 @@ find <dir> -type f | wc -l
 
 Typical cases that create many small files, and how to avoid them:
 
-- Saving output in a loop, with one file per step, iteration, or NumPy array (see the [Bad Example](#bad-example-many-small-files)). **Solution:** Write all results into one file, such as an HDF5 file (see the [HDF5 Example](#hdf5-example)).
+- Saving output in a loop, with one file per step, iteration, or sample (see the [Bad Example](#bad-example-many-small-files)). **Solution:** Write all results into one file, such as an HDF5 file (see the [HDF5 Example](#hdf5-example)).
 - Writing many output files from each task in a job array. **Solution:** Write all results of a task into one HDF5 file, so that the job array creates one file per task (see [Parallel I/O with Job Array](#parallel-io-with-job-array)).
 - Running a job array with many tasks, which creates many output files even with one file per task. **Solution:** Merge the output files into one file after the job array finishes (see [Merging Outputs of Large Job Array](#merging-outputs-of-large-job-array)).
 - Writing a separate output file from each MPI rank. **Solution:** Write the data of all ranks into one shared HDF5 file with parallel HDF5 (see [Parallel I/O with MPI](#parallel-io-with-mpi)).
@@ -125,22 +125,22 @@ Typical cases that create many small files, and how to avoid them:
 
 ### Bad Example: Many Small Files
 
-This code saves each small NumPy array of 100 values to its own file, so 1000 NumPy arrays create 1000 small files. It is the first case in [Tips to Reduce the Number of Files](#tips-to-reduce-the-number-of-files):
+In the examples on this page, a sample is a small NumPy array, such as the output of one step. This code saves each sample of 100 values to its own file, so 1000 samples create 1000 small files. It is the first case in [Tips to Reduce the Number of Files](#tips-to-reduce-the-number-of-files):
 
 ```python
 import numpy as np
 
 for i in range(1000):
-    np.save(f"array_{i}.npy", np.random.rand(100))  # one small NumPy array per file
+    np.save(f"sample_{i}.npy", np.random.rand(100))  # one sample per file
 ```
 
-Each file uses one inode and needs its own metadata operations to create, open, and delete. With more NumPy arrays, this overloads the metadata server.
+Each file uses one inode and needs its own metadata operations to create, open, and delete. With more samples, this overloads the metadata server.
 
 ### HDF5 Example
 
 HDF5 is a file format for numerical data, such as NumPy arrays. Use HDF5 for two purposes:
 
-- **Replace many small files with one file.** One HDF5 file holds many NumPy arrays, so thousands of small outputs fit in one file. This reduces the load on the metadata server.
+- **Replace many small files with one file.** One HDF5 file holds many samples, so thousands of small files become one file. This reduces the load on the metadata server.
 - **Store a large NumPy array efficiently.** A program can read part of the NumPy array without loading the whole file, and many MPI processes can write to the same file in parallel.
 
 Create Conda environments for the examples. In the `h5mpi` environment, mpi4py and h5py are built against the Open MPI and parallel HDF5 modules on Engaging, which use the InfiniBand network:
@@ -158,17 +158,17 @@ HDF5_MPI=ON HDF5_DIR=$(dirname $(dirname $(which h5pcc))) CC=mpicc pip install -
 
 #### Serial I/O
 
-This code stores the same 1000 NumPy arrays as the rows of one 2-D dataset in one file. Only one file is created, and a program can read a single row without reading the others. Save the code as `serial_h5.py`:
+This code stores the same 1000 samples as the rows of one 2-D dataset in one file. Only one file is created, and a program can read a single sample without reading the others. Save the code as `serial_h5.py`:
 
 ```python
 import h5py
 import numpy as np
 
 with h5py.File("samples.h5", "w") as f:
-    f.create_dataset("data", data=np.random.rand(1000, 100))  # 1000 NumPy arrays of 100 values, stored as rows of one dataset
+    f.create_dataset("data", data=np.random.rand(1000, 100))  # 1000 samples of 100 values, stored as rows of one dataset
 
 with h5py.File("samples.h5", "r") as f:
-    x = f["data"][32]  # read only row 32 from disk
+    x = f["data"][32]  # read only sample 32 from disk
 ```
 
 Run it:
@@ -189,7 +189,7 @@ In these cases, use parallel I/O, in which multiple processes read and write dat
 
 #### Parallel I/O with Job Array
 
-Each task of a job array reads its own rows from one shared input file and writes its results into its own output file. Each task is an independent process that uses serial HDF5, the same `h5` environment as in the serial I/O example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own output file. This creates one file per task instead of one file per NumPy array. In this example, the job array has only 4 tasks, so it creates 4 output files. This works well when the job array has a small number of tasks.
+Each task of a job array reads its own samples from one shared input file and writes its results into its own output file. Each task is an independent process that uses serial HDF5, the same `h5` environment as in the serial I/O example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own output file. This creates one file per task instead of one file per NumPy array. In this example, the job array has only 4 tasks, so it creates 4 output files. This works well when the job array has a small number of tasks.
 
 This code reads `samples.h5` from the [Serial I/O](#serial-io) example. Save it as `array_h5.py`:
 
@@ -198,12 +198,12 @@ import os
 import h5py
 
 task = int(os.environ["SLURM_ARRAY_TASK_ID"])  # 0, 1, 2, or 3
-n = 250                                         # rows per task
+n = 250                                         # samples per task
 
 with h5py.File("samples.h5", "r") as f:          # all tasks read the same file
-    x = f["data"][task * n:(task + 1) * n]       # read only this task's rows
+    x = f["data"][task * n:(task + 1) * n]       # read only this task's samples
 
-result = x.mean(axis=1)                          # example computation: mean of each row
+result = x.mean(axis=1)                          # example computation: mean of each sample
 
 with h5py.File(f"result_{task}.h5", "w") as f:   # one output file per task
     f.create_dataset("result", data=result)      # all results of the task in one dataset
