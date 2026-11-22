@@ -20,7 +20,7 @@ Contents:
 
 To choose a storage type, first determine the I/O load of your job. The sections below use two levels of I/O load:
 
-- **Heavy I/O**: reading or writing large volumes of data, or many files, repeatedly during a job. Examples: writing checkpoints frequently, many small writes, or many tasks accessing files at the same time.
+- **Heavy I/O**: reading or writing large volumes of data, or many files, repeatedly during a job. Examples: reading a large dataset repeatedly, writing large checkpoints frequently, many small writes, or many tasks accessing files at the same time.
 - **Light I/O**: occasional reads and writes. Examples: loading input data once at the start of a job, or writing final results at the end.
 
 ### Home Directory
@@ -106,7 +106,9 @@ Each file also counts against the per-user file count (inode) quota. See [Genera
 
 ### Tips to Reduce the Number of Files
 
-Keep your files larger than 1 MB; larger files are better. As a guideline, keep no more than 1 million files per TB of data.
+These tips focus on data files, such as job outputs, checkpoints, and datasets, which usually account for most of the files. Source code and documents are usually small in number and do not need to be packed.
+
+Keep your data files larger than 1 MB; larger files are better. As a guideline, keep no more than 1 million files per TB of data.
 
 Typical cases that create many small files, and how to avoid them:
 
