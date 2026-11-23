@@ -412,14 +412,17 @@ Read the shards with a PyTorch `DataLoader`. Save the code as `read_wds.py`:
 ```python
 import torch, webdataset as wds
 
-dataset = (wds.WebDataset("shard-{00..03}.tar", shardshuffle=False)  # the 4 shards, in this order
-           .decode()                  # decode the "npy" and "cls" fields
-           .to_tuple("npy", "cls"))   # yield each sample as a pair: ("npy", "cls")
+dataset = wds.DataPipeline(
+    wds.SimpleShardList("shard-{00..03}.tar"),  # list the 4 shards
+    wds.split_by_worker,                        # give each worker its own shards
+    wds.tarfile_to_samples(),                   # read the tar members and group them into samples
+    wds.decode(),                               # decode the "npy" and "cls" fields
+    wds.to_tuple("npy", "cls"))                 # yield each sample as a pair: ("npy", "cls")
 
 if __name__ == "__main__":  # run this block only in the main process, not in the workers
     loader = torch.utils.data.DataLoader(
         dataset,
-        batch_size=64,   # up to 64 samples per batch
+        batch_size=64,   # each worker groups up to 64 consecutive samples into a batch
         num_workers=4)   # 4 workers read in parallel, one shard each
     count = 0
     for x, y in loader:  # x: a batch of "npy" arrays, y: their "cls" labels; loop through all samples
@@ -430,8 +433,8 @@ if __name__ == "__main__":  # run this block only in the main process, not in th
 ??? note "How the shards are read and the batches are formed"
     The `DataLoader` reads the shards in three steps:
 
-    1. **Assign shards to workers.** The `DataLoader` starts 4 worker processes (`num_workers=4`), and WebDataset gives each worker one shard: worker 0 reads `shard-00.tar`, worker 1 reads `shard-01.tar`, and so on.
-    2. **Decode and form batches in each worker.** Each worker reads its shard from start to end, decodes each sample into a NumPy array and a label, and groups every 64 consecutive samples into a batch, so a batch contains samples from only one shard. The 4 workers do this at the same time.
+    1. **Assign shards to workers.** The `DataLoader` starts 4 worker processes (`num_workers=4`), and `wds.split_by_worker` gives each worker one shard: worker 0 reads `shard-00.tar`, worker 1 reads `shard-01.tar`, and so on.
+    2. **Decode and form batches in each worker.** Each worker reads its shard from start to end (`wds.tarfile_to_samples`), decodes each sample into a NumPy array and a label (`wds.decode`), and groups every 64 consecutive samples into a batch (`batch_size=64`), so a batch contains samples from only one shard. The 4 workers do this at the same time.
     3. **Collect batches in the main process.** The main process takes one batch from each worker in turn, so the loop receives the batches in this order:
 
     | Batch | Worker | Shard | Samples |
