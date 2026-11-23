@@ -102,7 +102,7 @@ Each file also counts against the per-user file count (inode) quota. See [Genera
 
 These tips focus on data files, such as job outputs, checkpoints, and datasets, which usually account for most of the files. Source code and documents are usually small in number and do not need to be packed.
 
-Keep your data files larger than 1 MB; larger files are better. As a guideline, keep no more than 1 million files per TB of data.
+<span style="color: black;">Keep your data files larger than 1 MB; larger files are better. As a guideline, keep no more than 1 million files per TB of data.</span>
 
 To check the number of files in a directory, run:
 
@@ -422,7 +422,7 @@ if __name__ == "__main__":  # run this block only in the main process, not in th
         batch_size=64,   # up to 64 samples per batch
         num_workers=4)   # 4 workers read in parallel, one shard each
     count = 0
-    for x, y in loader:  # x: a batch of "npy" arrays, y: their "cls" labels; ends after the last batch
+    for x, y in loader:  # x: a batch of "npy" arrays, y: their "cls" labels; loop through all samples
         count += len(y)  # count the samples; a real job would train here
     print(count)         # 4000
 ```
@@ -431,7 +431,7 @@ if __name__ == "__main__":  # run this block only in the main process, not in th
     The `DataLoader` reads the shards in three steps:
 
     1. **Assign shards to workers.** The `DataLoader` starts 4 worker processes (`num_workers=4`), and WebDataset gives each worker one shard: worker 0 reads `shard-00.tar`, worker 1 reads `shard-01.tar`, and so on.
-    2. **Form batches in each worker.** Each worker reads its shard from start to end and groups every 64 consecutive samples into a batch, so a batch contains samples from only one shard. The 4 workers do this at the same time.
+    2. **Decode and form batches in each worker.** Each worker reads its shard from start to end, decodes each sample into a NumPy array and a label, and groups every 64 consecutive samples into a batch, so a batch contains samples from only one shard. The 4 workers do this at the same time.
     3. **Collect batches in the main process.** The main process takes one batch from each worker in turn, so the loop receives the batches in this order:
 
     | Batch | Worker | Shard | Samples |
@@ -442,7 +442,9 @@ if __name__ == "__main__":  # run this block only in the main process, not in th
     | 4 | 3 | `shard-03.tar` | 3000-3063 |
     | 5 | 0 | `shard-00.tar` | 64-127 |
 
-    Each shard has 1000 samples, so each worker forms 15 batches of 64 samples and one last batch of 40 samples. The loop ends after 64 batches (16 from each worker), when all 4000 samples are read. This example does not shuffle the samples.
+    Each shard has 1000 samples, so each worker forms 15 batches of 64 samples and one last batch of 40 samples. The loop ends after 64 batches (16 from each worker), when all 4000 samples are read. This example does not shuffle the samples, but a real training process should shuffle them.
+
+    In real training, step 2 takes most of the time: workers read large amounts of data from storage, decode compressed data such as images or audio, and apply transforms such as cropping and resizing. Running several workers in parallel speeds up this step. Steps 1 and 3 are cheap: step 1 assigns the shards once at the start, and in step 3 the main process only receives finished batches, one at a time.
 
 Run both scripts with the following job script. It requests 4 CPU cores, one for each worker:
 
