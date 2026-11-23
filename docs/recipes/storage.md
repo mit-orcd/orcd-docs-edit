@@ -217,7 +217,7 @@ In these cases, use parallel I/O, in which multiple processes read and write dat
 
 #### Parallel I/O with Job Array
 
-In this example, each task of a job array uses serial HDF5 to write 1000 samples, the same size as the file in the [Serial I/O](#serial-io) example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own file. Then each task of a second job array reads one of these files and computes the mean of each sample. The job array has only 4 tasks, so it creates 4 files. Because the 4 tasks write at the same time, the job array can write these 4000 samples up to 4 times faster than serial I/O.
+In this example, each task of a job array uses serial HDF5 to write 1000 samples, the same size as the file in the [Serial I/O](#serial-io) example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own file. Then each task of a second job array reads one of these files and computes the mean of each sample. The job array has only 4 tasks, so it creates 4 files. Because the 4 tasks of each job array run at the same time, the job arrays can write and read these 4000 samples up to 4 times faster than serial I/O.
 
 The following code writes the files. Save it as `write_array_h5.py`:
 
