@@ -123,6 +123,8 @@ Typical cases that create many small files, and how to avoid them:
 
 ## Examples: Fewer Files and Efficient I/O
 
+Each HDF5 and WebDataset example first writes data and then reads it back, to show how to do both.
+
 ### Bad Example: Many Small Files
 
 The following code saves each sample of 100 values to its own file, so 1000 samples create 1000 small files. It is the first case in [Tips to Reduce the Number of Files](#tips-to-reduce-the-number-of-files). Here, a sample is a small NumPy array:
@@ -333,7 +335,7 @@ n = 4000              # total number of samples
 m = n // comm.size    # samples per rank: 1000 with 4 ranks
 
 with h5py.File("parallel.h5", "w", driver="mpio", comm=comm) as f:  # all ranks open the same file
-    dset = f.create_dataset("samples", (n, 100), dtype="f8")  # collective: all ranks must call this
+    dset = f.create_dataset("samples", (n, 100), dtype="f8")  # collective: all ranks must make this declaration
     dset[comm.rank * m:(comm.rank + 1) * m] = np.random.rand(m, 100)  # each rank writes its own samples
 ```
 
