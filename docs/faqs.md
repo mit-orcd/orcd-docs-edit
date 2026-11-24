@@ -83,9 +83,7 @@ The `mit_preemptable` partition allows you to run programs on lab-owned nodes wh
 
 ### Why won't my application run on a different partition?
 
-On Engaging, the older nodes (such as the `sched_mit_hill` and `newnodes`
-partitions) run on CentOS 7 while the newer nodes (such as `mit_normal` and
-`mit_preemptable`) run on the Rocky 8 operating system (OS). Each set of nodes
+On Engaging, some older nodes (those in partitions with names that start with `sched_mit`) run on CentOS 7 while all other nodes on Engaging run on the Rocky 8 operating system (OS). Each set of nodes
 has a different set of modules, so if you have set up software to run on one OS,
 it will probably not work on the other OS.
 
