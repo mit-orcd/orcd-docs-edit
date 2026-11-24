@@ -36,10 +36,6 @@ application can run more quickly. Request more resources as required by your cod
 ```bash
 salloc -N 1 -n 4 --mem-per-cpu=4G -p mit_normal
 ```
-
-!!! note
-    PyCharm is not supported on Centos7 nodes.
-
 ## Editing your SSH Config File
 
 Once you are in the interactive session, make a note of the node you are running
