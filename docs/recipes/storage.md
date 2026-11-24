@@ -455,7 +455,7 @@ if __name__ == "__main__":  # run this block only in the main process, not in th
     The `DataLoader` reads the shards in three steps:
 
     1. **Assign shards to workers.** The `DataLoader` starts 4 worker processes (`num_workers=4`), and `wds.split_by_worker` gives each worker one shard: worker 0 reads `shard-00.tar`, worker 1 reads `shard-01.tar`, and so on.
-    2. **Decode and form batches in each worker.** Each worker reads its shard from start to end (`wds.tarfile_to_samples`), decodes each sample into a NumPy array and a label (`wds.decode`), and groups every 64 consecutive samples into a batch (`batch_size=64`), so a batch contains samples from only one shard. The 4 workers do this at the same time.
+    2. **Read, decode, and form batches in each worker.** Each worker goes through its shard from start to end, one sample at a time. For each sample, the worker reads its member files (`wds.tarfile_to_samples`), decodes the `.npy` file into a NumPy array and the `.cls` file into an integer label (`wds.decode`), and adds the sample to the current batch. When the batch has 64 samples (`batch_size=64`), the worker passes it to the main process and starts the next batch. Therefore, a batch contains samples from only one shard, and a worker keeps only its current batch and up to 2 finished batches in memory (`prefetch_factor=2` by default), never the whole shard. The 4 workers do this at the same time.
     3. **Collect batches in the main process.** The main process takes one batch from each worker in turn, so the loop receives the batches in this order:
 
     | Batch | Worker | Shard | Samples |
@@ -468,7 +468,13 @@ if __name__ == "__main__":  # run this block only in the main process, not in th
 
     Each shard has 1000 samples, so each worker forms 15 batches of 64 samples and one last batch of 40 samples. The loop ends after 64 batches (16 from each worker), when all 4000 samples are read. This example does not shuffle the samples, but a real training process should shuffle them.
 
-    In real training, step 2 takes most of the time: workers read large amounts of data from storage, decode compressed data such as images or audio, and apply transforms such as cropping and resizing. Running several workers in parallel speeds up this step. Steps 1 and 3 are cheap: step 1 assigns the shards once at the start, and in step 3 the main process only receives finished batches, one at a time.
+    In real training, the main process trains on each batch it receives in step 3. The three steps take very different amounts of time:
+
+    - Step 1 runs only once, at the start.
+    - Step 2 takes most of the time: workers read large amounts of data from storage, decode compressed data such as images or audio, and apply transforms such as cropping and resizing.
+    - Step 3 is fast, because the main process only receives a finished batch.
+
+    A training step on a GPU is usually faster than step 2 for one batch. For example, suppose one worker needs 0.4 seconds to prepare a batch and a training step takes 0.1 seconds. Then a single worker delivers a batch only every 0.4 seconds, and the GPU is idle 75% of the time. With 4 workers preparing batches in parallel, a new batch is ready about every 0.1 seconds. While the main process trains on one batch, the workers already prepare the next ones, so the training step does not wait for data.
 
 Use the following job script for both the write job array and the read job. Save it as `wds.sh`:
 
