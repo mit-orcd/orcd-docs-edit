@@ -13,19 +13,7 @@ You can learn about `mpi4py` here: [https://mpi4py.readthedocs.io/en/stable/](ht
 
 ## Installation 
 
-If you are using a Rocky 8 node (orcd-login), then `mpi4py` is already installed in the `miniforge/24.3.0-0` module.
-
-If you are using CentOS 7 (such as orcd-vlogin001 or orcd-vlogin002), then you need to create a new Conda environment using the `miniforge` module:
-
-```
---8<-- "docs/recipes/scripts/mpi4py/p2p-engaging-setup.sh:module"
-```
-
-And install `mpi4py`:
-
-```
---8<-- "docs/recipes/scripts/mpi4py/p2p-engaging-setup.sh:install"
-```
+The `mpi4py` package is installed in the `miniforge` modules. If you are using your own conda, mamba, or virtual environment, you can install `mpi4py` in that environment.
 
 ## Example codes
 
