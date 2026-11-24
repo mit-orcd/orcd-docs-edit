@@ -395,7 +395,7 @@ This example runs all 4 ranks on one node, but MPI-IO also works across nodes. T
 
 ### WebDataset Example
 
-PyTorch is widely used for deep learning, and its training datasets often consist of a large number of small files, such as images or text samples. [WebDataset](https://github.com/webdataset/webdataset) is a dataset format designed to avoid storing many small files. It packs many samples into a few large tar files, called shards. Each data loader worker reads its shards sequentially, and multiple workers read different shards in parallel.
+PyTorch is widely used for deep learning, and its training datasets often consist of a large number of small files, such as images or text samples. [WebDataset](https://github.com/webdataset/webdataset) is a dataset format designed to avoid storing many small files. It packs many samples into a few large tar files, called shards. Each data loader worker reads its shards one at a time, each from start to end, and multiple workers read different shards in parallel.
 
 Create a Conda environment with PyTorch and WebDataset:
 
@@ -409,14 +409,15 @@ pip install webdataset
 ??? note "Installing PyTorch on GPUs"
     On a node without a GPU, this installs a CPU build of PyTorch, which is sufficient for this example. To install PyTorch for GPUs, see [Deep Learning with PyTorch on GPUs](torch-gpu.md#installing-pytorch).
 
-Write 4000 samples into 4 shards. In this example, a sample is a small NumPy array of 100 values with a class label. Save the code as `write_wds.py`:
+In this example, a sample is a small NumPy array of 100 values with a class label. The following code writes 4000 samples into 4 shards in parallel. It runs as a job array with 4 tasks, and each task writes one shard of 1000 samples. Only one process can write a tar file, so each task writes its own shard, as in the [Parallel I/O with Job Array](#parallel-io-with-job-array) example. Save the code as `write_wds.py`:
 
 ```python
-import numpy as np, webdataset as wds
+import os, numpy as np, webdataset as wds
 
-# A new shard starts after every 1000 samples: shard-00.tar, shard-01.tar, ...
-with wds.ShardWriter("shard-%02d.tar", maxcount=1000) as writer:  # %02d: 2-digit shard number
-    for i in range(4000):  # 4000 samples in total
+task = int(os.environ["SLURM_ARRAY_TASK_ID"])  # 0, 1, 2, or 3
+
+with wds.TarWriter("shard-%02d.tar" % task) as writer:  # one shard per task: shard-00.tar to shard-03.tar
+    for i in range(task * 1000, (task + 1) * 1000):    # 1000 samples per task, 4000 in total
         writer.write({"__key__": "sample" + str(i),                  # unique name of the sample
                       "npy": np.random.rand(100).astype("float32"),  # saved as sample<i>.npy: 100 values
                       "cls": i % 10})                                # saved as sample<i>.cls: label 0 to 9
@@ -469,7 +470,7 @@ if __name__ == "__main__":  # run this block only in the main process, not in th
 
     In real training, step 2 takes most of the time: workers read large amounts of data from storage, decode compressed data such as images or audio, and apply transforms such as cropping and resizing. Running several workers in parallel speeds up this step. Steps 1 and 3 are cheap: step 1 assigns the shards once at the start, and in step 3 the main process only receives finished batches, one at a time.
 
-Use the following job script for both jobs. It requests 4 CPU cores, one for each worker. Save it as `wds.sh`:
+Use the following job script for both the write job array and the read job. It requests 4 CPU cores for the read job, one for each data loader worker. Save it as `wds.sh`:
 
 ```bash
 #!/bin/bash
@@ -483,13 +484,13 @@ cd ~/orcd/scratch                      # run heavy I/O on scratch storage
 python $SLURM_SUBMIT_DIR/$1            # $1: the Python script to run
 ```
 
-Submit the write job:
+Submit the write job as a job array with 4 tasks. Each task is serial and needs only 1 CPU core. On the command line, `-a 0-3` creates the job array, and `-c 1` overrides `#SBATCH -c 4` in the job script:
 
 ```bash
-sbatch wds.sh write_wds.py
+sbatch -a 0-3 -c 1 wds.sh write_wds.py
 ```
 
-After the write job finishes, submit the read job:
+After all write tasks finish, submit the read job:
 
 ```bash
 sbatch wds.sh read_wds.py
