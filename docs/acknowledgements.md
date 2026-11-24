@@ -4,6 +4,6 @@ If have used our system or consultation services and you would like to acknowled
 
 !!! quote "Acknowledgement Statement"
 
-    The authors acknowledge the MIT Office of Research Computing and Data for providing [high performance computing, consultation, data] resources that have contributed to the research results reported within this paper.
+    The authors acknowledge the MIT Office of Research Computing and Data for providing \[high performance computing, consultation, data] resources that have contributed to the research results reported within this paper.
 
 Thank you for acknowledging us – we appreciate it.

@@ -74,34 +74,59 @@ nav:
 
 theme: 
   name: material
+  variant: classic
   logo: images/ORCD_logo_icononly.png
   features:
     - content.code.copy
     - content.tabs.link
+    - content.tooltips
   palette:
-    primary: blue grey
+
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: lucide/sun-moon
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      primary: blue grey
+      toggle:
+        icon: lucide/sun
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      primary: blue grey
+      scheme: slate
+      toggle:
+        icon: lucide/moon
+        name: Switch to system preference
 plugins:
   - search
-  - tags:
-      tags_file: tags.md
+  - tags
   - git-revision-date-localized
   - open-in-new-tab
   - table-reader
 markdown_extensions:
+  - def_list
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - zensical.extensions.macros
+  #    on_error_fail: true
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
-  - pymdownx.inlinehilite
   - pymdownx.snippets:
       url_download: true
-  - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true 
-  - admonition
-  - pymdownx.details
   - toc:
       permalink: True
-  - attr_list
-  - admonition
+
 copyright: <a href="https://accessibility.mit.edu/">Accessibility</a>
