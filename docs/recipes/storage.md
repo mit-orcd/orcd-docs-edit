@@ -424,7 +424,7 @@ with wds.TarWriter("shard-%02d.tar" % task) as writer:  # one shard per task: sh
 ```
 
 ??? note "How samples are stored in a shard"
-    A shard is a tar file. Each field of a sample is stored in the shard as a separate member file named `key.extension`, for example `sample0.npy` and `sample0.cls`. The extension tells WebDataset how to decode the member: `.npy` is a NumPy array, and `.cls` is an integer class label.
+    A shard is a tar file. Each field of a sample is stored in the shard as a separate file, called a *member*, named `key.extension`, for example `sample0.npy` and `sample0.cls`. The extension tells WebDataset how to decode the member: `.npy` is a NumPy array, and `.cls` is an integer class label.
 
 Put many samples in each shard, so that the dataset has only a small number of shards. In this example, 1000 samples per shard give 4 shards for 4000 samples, instead of 4000 files. A typical shard size is 100 MB to 1 GB. The shards in this example are smaller, only for demonstration.
 
@@ -436,9 +436,9 @@ import torch, webdataset as wds
 dataset = wds.DataPipeline(
     wds.SimpleShardList("shard-{00..03}.tar"),  # list the 4 shards
     wds.split_by_worker,                        # give each worker its own shards
-    wds.tarfile_to_samples(),                   # read the tar members and group them into samples
+    wds.tarfile_to_samples(),                   # read the member files of each shard and group them into samples
     wds.decode(),                               # decode the "npy" and "cls" fields
-    wds.to_tuple("npy", "cls"))                 # yield each sample as a pair: ("npy", "cls")
+    wds.to_tuple("npy", "cls"))                 # yield each sample as a tuple: (.npy array, .cls label)
 
 if __name__ == "__main__":  # run this block only in the main process, not in the workers
     loader = torch.utils.data.DataLoader(
@@ -446,7 +446,7 @@ if __name__ == "__main__":  # run this block only in the main process, not in th
         batch_size=64,   # each worker groups up to 64 consecutive samples into a batch
         num_workers=4)   # 4 workers read in parallel, one shard each
     count = 0
-    for x, y in loader:  # x: a batch of "npy" arrays, y: their "cls" labels; loop through all samples
+    for x, y in loader:  # x: a batch of .npy arrays, y: their .cls labels; loop through all samples
         count += len(y)  # count the samples; a real job would train here
     print(count)         # 4000
 ```
