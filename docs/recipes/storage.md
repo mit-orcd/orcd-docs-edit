@@ -102,7 +102,7 @@ Each file also counts against the per-user file count (inode) quota. See [Genera
 
 These tips focus on data files, such as job outputs, checkpoints, and datasets, which usually account for most of the files. Source code and documents are usually small in number and do not need to be packed.
 
-<span style="color: black;">Keep your data files larger than 1 MB; larger files are better. As a guideline, keep no more than 1 million files per TB of data.</span>
+<span style="color: black;">**Keep your data files larger than 1 MB; larger files are better. As a guideline, keep no more than 1 million files per TB of data.**</span>
 
 To check the number of files in a directory, run:
 
@@ -138,7 +138,7 @@ Each file uses one inode and needs its own metadata operations to create, open, 
 
 ### HDF5 Example
 
-HDF5 is a file format for large numerical data. An HDF5 file holds one or more *HDF5 datasets*; an HDF5 dataset is a named array, such as `samples` in the examples. Use HDF5 for two purposes:
+HDF5 is a file format for large numerical data. An HDF5 file holds one or more *HDF5 datasets*; an HDF5 dataset is an array, such as `samples` in the examples. Use HDF5 for two purposes:
 
 - **Replace many small files with one file.** One HDF5 file holds many samples, so thousands of small files become one file. This reduces the load on the metadata server. The [Serial I/O](#serial-io) example writes all samples into one file. The [Parallel I/O with Job Array](#parallel-io-with-job-array) example writes one file per task instead of one file per sample, and the [merging](#merging-outputs-of-large-job-array) example combines these files into one file.
 - **Read and write large data efficiently.** A program can read only the part of the data it needs, without loading the whole file into memory. With parallel HDF5, many MPI processes can read and write their own parts of the same file at the same time, as in the [Parallel I/O with MPI](#parallel-io-with-mpi) example.
@@ -217,7 +217,7 @@ In these cases, use parallel I/O, in which multiple processes read and write dat
 
 #### Parallel I/O with Job Array
 
-In this example, each task of a job array uses serial HDF5 to write 1000 samples, the same size as the file in the [Serial I/O](#serial-io) example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own file. Then each task of a second job array reads one of these files and computes the mean of each sample. The job array has only 4 tasks, so it creates 4 files. Because the 4 tasks of each job array run at the same time, the job arrays can write and read these 4000 samples up to 4 times faster than serial I/O.
+In this example, a job array with 4 tasks writes 4000 samples. Each task uses serial HDF5 to write 1000 samples, the same size as the file in the [Serial I/O](#serial-io) example. Serial HDF5 does not support writing to one file from independent processes, so each task writes its own file, and the job array creates 4 files. Then a second job array, also with 4 tasks, reads these files: each task reads one file and computes the mean of each sample. Because the 4 tasks of each job array run at the same time, the two job arrays can write and read these 4000 samples up to 4 times faster than serial I/O.
 
 The following code writes the files. Save it as `write_array_h5.py`:
 
