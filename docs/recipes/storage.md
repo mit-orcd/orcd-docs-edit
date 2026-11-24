@@ -188,7 +188,7 @@ result = x.mean(axis=1)  # example computation: mean of each sample
 print(result[:5])        # means of the first 5 samples
 ```
 
-Use the following job script to run both scripts. Save it as `serial_h5.sh`:
+Use the following job script for both jobs. Save it as `serial_h5.sh`:
 
 ```bash
 #!/bin/bash
@@ -198,14 +198,19 @@ Use the following job script to run both scripts. Save it as `serial_h5.sh`:
 module load miniforge/26.7.2-0
 conda activate hdf5
 cd ~/orcd/scratch                      # run heavy I/O on scratch storage
-python $SLURM_SUBMIT_DIR/write_h5.py   # write the file
-python $SLURM_SUBMIT_DIR/read_h5.py    # read the file
+python $SLURM_SUBMIT_DIR/$1            # $1: the Python script to run
 ```
 
-Submit the job:
+Submit the write job:
 
 ```bash
-sbatch serial_h5.sh
+sbatch serial_h5.sh write_h5.py
+```
+
+After the write job finishes, submit the read job:
+
+```bash
+sbatch serial_h5.sh read_h5.py
 ```
 
 One HDF5 file can also hold several datasets with different names, shapes and data types. For example, the same file could also store a `labels` dataset of 1000 integers, one label per sample. Storing related datasets in one file instead of separate files further reduces the number of files.
@@ -322,7 +327,7 @@ A job array writes one file per task, and a large job array needs a merge job, w
 
 Parallel HDF5 uses MPI-IO, the parallel I/O layer of MPI. All MPI ranks of a job open the same file together, and each rank reads or writes only its own part of the file at the same time.
 
-In this example, 4 MPI ranks write 4000 samples into one shared file, 1000 samples per rank. Then each rank reads its own samples back and computes the mean of each sample. Because the 4 ranks read and write at the same time, the job can handle these 4000 samples up to 4 times faster than a serial code.
+In this example, 4 MPI ranks write 4000 samples into one shared file, 1000 samples per rank. Then each rank reads its own samples back and computes the mean of each sample. Because the 4 ranks of each job run at the same time, the two jobs can write and read these 4000 samples up to 4 times faster than serial I/O.
 
 The following code writes the file. Save it as `write_mpi_h5.py`:
 
@@ -359,7 +364,7 @@ result = x.mean(axis=1)         # example computation: mean of each sample
 print(comm.rank, result[:5])    # means of the first 5 samples of this rank
 ```
 
-Submit both with the following job script:
+Use the following job script for both jobs. Save it as `mpi_h5.sh`:
 
 ```bash
 #!/bin/bash
@@ -370,9 +375,20 @@ Submit both with the following job script:
 module load openmpi/4.1.4 hdf5/1.14.3
 module load miniforge/26.7.2-0
 conda activate hdf5mpi
-cd ~/orcd/scratch                      # run heavy I/O on scratch storage
-mpirun -n $SLURM_NTASKS python $SLURM_SUBMIT_DIR/write_mpi_h5.py   # write the file
-mpirun -n $SLURM_NTASKS python $SLURM_SUBMIT_DIR/read_mpi_h5.py    # read the file
+cd ~/orcd/scratch                                    # run heavy I/O on scratch storage
+mpirun -n $SLURM_NTASKS python $SLURM_SUBMIT_DIR/$1  # $1: the Python script to run
+```
+
+Submit the write job:
+
+```bash
+sbatch mpi_h5.sh write_mpi_h5.py
+```
+
+After the write job finishes, submit the read job:
+
+```bash
+sbatch mpi_h5.sh read_mpi_h5.py
 ```
 
 This example runs all 4 ranks on one node, but MPI-IO also works across nodes. To run more ranks than one node can hold, or to use more of the filesystem bandwidth, request more nodes in the job script, for example `#SBATCH -N 2` and `#SBATCH -n 8`. The Python code does not need to change.
@@ -453,7 +469,7 @@ if __name__ == "__main__":  # run this block only in the main process, not in th
 
     In real training, step 2 takes most of the time: workers read large amounts of data from storage, decode compressed data such as images or audio, and apply transforms such as cropping and resizing. Running several workers in parallel speeds up this step. Steps 1 and 3 are cheap: step 1 assigns the shards once at the start, and in step 3 the main process only receives finished batches, one at a time.
 
-Run both scripts with the following job script. It requests 4 CPU cores, one for each worker:
+Use the following job script for both jobs. It requests 4 CPU cores, one for each worker. Save it as `wds.sh`:
 
 ```bash
 #!/bin/bash
@@ -464,14 +480,19 @@ Run both scripts with the following job script. It requests 4 CPU cores, one for
 module load miniforge/26.7.2-0
 conda activate pytorch
 cd ~/orcd/scratch                      # run heavy I/O on scratch storage
-python $SLURM_SUBMIT_DIR/write_wds.py  # write the shards
-python $SLURM_SUBMIT_DIR/read_wds.py   # read the shards
+python $SLURM_SUBMIT_DIR/$1            # $1: the Python script to run
 ```
 
-Save the job script as `wds.sh` and submit it:
+Submit the write job:
 
 ```bash
-sbatch wds.sh
+sbatch wds.sh write_wds.py
+```
+
+After the write job finishes, submit the read job:
+
+```bash
+sbatch wds.sh read_wds.py
 ```
 
 ### Archive Example
