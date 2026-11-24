@@ -71,7 +71,7 @@ Deep learning programs can be further accelerated on multiple GPUs.
 
 There are various parallelisms to enable distributed deep learning on multiple GPUs, including data parallel and model parallel. We will focus on data parallel on this page.   
 
-Data parallel allows training a model with multiple batches of data simultaneously. The model has to fit into the GPU memory.
+Data parallel allows for training a model using multiple batches of data simultaneously. Note that the model has to fit into the GPU memory.
 
 On a cluster, there are many nodes and multiple GPUs on each node. We will first introduce a recipe to run PyTorch programs with multiple GPUs within one node, and then extend it to multiple nodes. 
 
@@ -109,9 +109,9 @@ The `-N 1 -n 2 --gres=gpu:2` flags request 2 CPU cores and 2 GPUs on one node. F
 
 As is set up in the code `multigpu.py`, it will run on all of the GPUs requested in Slurm, which means 2 GPUs within one node in this case. The training process happens on 2 batches of data simultaneously. 
 
-You can try to check if the program runs on multiple GPUs using the `nvtop` command as described in the previous section, but the program runs so fast that this might be challenging. You can also check in the Slurm out file that GPUs with different IDs were utilized.
+You can try to check if the program runs on multiple GPUs using the `nvtop` command as described in the previous section, but the program runs so fast that this might be challenging. Alternatively, you can check the Slurm output file, which should indicate that GPUs with different IDs were used.
 
-There is another way to run a PyTorch prgram with multiple GPUs, that is to use the `torchrun` command. The program for this purpose is `multigpu_torchrun.py`. In the above job script, change the last line to this, 
+Another way to run a PyTorch program with multiple GPUs is to use the `torchrun` command. The program for this purpose is `multigpu_torchrun.py`. In the above job script, change the last line to this, 
 ```
 torchrun --nnodes=1 --nproc_per_node=2 \
          --rdzv_id=$SLURM_JOB_ID \
@@ -123,7 +123,7 @@ With the flags `--nnodes=1 --nproc-per-node=2`, the `torchrun` command will run 
 
 The flags with `rdzv` (meaning the Rendezvous protocol) are required by `torchrun` to coordinate multiple processes. The flag `--rdzv-id=$SLURM_JOB_ID` sets to the `rdzv` ID be the job ID, but it can be any random number. The flag `--rdzv-endpoint=localhost:1234 ` is to set the host and the port. Use `localhost` when there is only one node. The port can be any 4- or 5-digit number larger than 1024. 
 
-The `torchrun` command will be useful for running the program across multiple nodes in the next section. 
+The `torchrun` command will be especially useful for running the program across multiple nodes in the next section.
 
 ??? "GPU communication within one node"
     The NVIDIA Collective Communications Library (NCCL) is set as the backend in the PyTorch programs `multigpu.py` and `multigpu_torchrun.py`, so that the data communication between GPUs within one node benefits from the high bandwidth of NVLinks.  
@@ -133,8 +133,7 @@ The `torchrun` command will be useful for running the program across multiple no
 
 Now we extend the above example to multi-node multi-GPU data parallel. The program `multinode.py` is set up for this purpose.
 
-There are two key points in this approach.
-
+There are two key points in this approach:
 1. Use the `srun` command in Slurm to launch a `torchrun` command on each node.
 
 2. Set up `torchrun` to coordinate processes on different nodes.
@@ -160,7 +159,7 @@ master_node_ip=$(srun --nodes=1 --ntasks=1 -w "$master_node" hostname --ip-addre
 
 echo "======== Run on multiple GPUs across multiple nodes ======"     
 srun torchrun --nnodes=$SLURM_NNODES \
-     --nproc-per-node=$SLURM_CPUS_PER_TASK \
+     --nproc-per-node=$SLURM_GPUS_PER_NODE \
      --rdzv-id=$SLURM_JOB_ID   \
      --rdzv-backend=c10d \
      --rdzv-endpoint=$master_node_ip:1234 \
@@ -171,9 +170,9 @@ then submit it,
 sbatch job.sh
 ```
 
-As the `#SBATCH` flags `-N 2` and `--ntasks-per-node=1` request for two nodes with one task per node, the `srun` command launches a `torchrun` command on each of the two nodes.
+As the `#SBATCH` flags `-N 2` and `--ntasks-per-node=1` request for two nodes with one task per node, the `srun` command launches one `torchrun` command on each of the two nodes.
 
-The `#SBATCH` flags `--cpus-per-task=2` and `--gpus-per-node=2` request 2 GPU cores and 2 GPUs on each node. Accordingly, the `torchrun` flags are set as `--nnodes=$SLURM_NNODES --nproc-per-node=$SLURM_CPUS_PER_TASK`, so that the `torchrun` command runs the program on 2 GPUs on each of the two nodes. That says the program runs on 4 GPUs, and thus the training process happens on 4 batches of data simultaneously. 
+The `#SBATCH` flags `--cpus-per-task=2` and `--gpus-per-node=2` request 2 CPU cores and 2 GPUs on each node, respectively. Accordingly, the `torchrun` flags are set as `--nnodes=$SLURM_NNODES` and  `--nproc-per-node=$SLURM_GPUS_PER_NODE`, so that the `torchrun` command runs the program on 2 GPUs on each of the two nodes. That means the program runs on 4 GPUs, and thus the training process happens on 4 batches of data simultaneously. 
 
 The flags with `rdzv` are required by `torchrun` to coordinate processes across nodes. The `--rdzv-backend=c10d` is to use a C10d store (by default TCPStore) as the rendezvous backend, the advantage of which is that it requires no 3rd-party dependency. The `--rdzv-endpoint=$master_node_ip:1234` is to set up the IP address and the port of the master node. The IP address is obtained in a previous part of the job script.
 

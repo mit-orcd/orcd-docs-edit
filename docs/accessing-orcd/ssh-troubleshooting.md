@@ -72,6 +72,8 @@ Host orcd-login.mit.edu
     ServerAliveCountMax 10
 ```
 
+This configuration tells your computer to periodically check that its SSH connection to `orcd-login.mit.edu` is still responsive. Specifically, `ServerAliveInterval 60` sends a keepalive message every 60 seconds and `ServerAliveCountMax 10` allows up to 10 unanswered messages before SSH closes the connection.
+
 If your connection is slow to establish — particularly when connecting from off-campus — also add `GSSAPIAuthentication no`:
 ```
 Host orcd-login.mit.edu
@@ -96,7 +98,7 @@ ssh USERNAME@orcd-login.mit.edu
 ssh nodeXXXX
 ```
 
-To connect directly from your laptop in one step using ProxyJump, see [Setting up your Config File](../recipes/vscode.md#setting-up-your-config-file) in the VS Code recipe for an example config.
+To connect directly from your laptop in one step using ProxyJump, see [Setting up your Config File](../recipes/vscode.md#setting-up-your-ssh-key-and-config-file) in the VS Code recipe for an example config.
 
 ## IP Address Blocked
 

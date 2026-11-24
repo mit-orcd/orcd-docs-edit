@@ -31,8 +31,8 @@ If you are moving more than a few files, or your files are particularly large, w
 Some advantages of using Globus are:
 
 - It is easy to initiate transfers through the Globus webpage
-- You don't need to stay logged into Globus through the entire transfer
-- If your transfer is interrupted it will continue automatically where it left off once the connection is re-established
+- You don't need to stay logged into Globus or Engaging through the entire transfer
+- If your transfer is interrupted, it will continue automatically where it left off once the connection is re-established
 
 The Engaging collection on Globus is called [MIT ORCD Engaging Collection](https://app.globus.org/file-manager?origin_id=ec54b570-cac5-47f7-b2a1-100c2078686f).
 
@@ -48,6 +48,12 @@ To transfer data:
 The Globus Documentation has a [tutorial](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/) with screenshots to demonstrate this process.
 
 More documentation on transferring files through Globus can be found on the [Globus Documentation Pages](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/). Globus also has an [FAQ](https://docs.globus.org/faq/transfer-sharing/) that is helpful for answering any questions you might have.
+
+### Additional Globus Collections
+
+Under MIT's Globus subscription, it is possible to transfer files to other locations, such as AWS S3, Google Drive, or Dropbox. Currently, we have a Dropbox collection set up that allows you to transfer files to and from your MIT Dropbox account. To use this, navigate to the [MIT Dropbox Collection](https://app.globus.org/file-manager?origin_id=cab0a45f-daeb-41a5-be27-1f14c1f2428a) and follow the prompts to connect your account.
+
+If you're interested in using Globus to transfer files to other locations, please [reach out to us](mailto:orcd-help@mit.edu) for guidance.
 
 ## Command Line
 

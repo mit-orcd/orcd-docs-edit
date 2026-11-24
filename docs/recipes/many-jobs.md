@@ -7,20 +7,20 @@ tags:
 
 # Advanced Job Array
 
-Users often need to submit many jobs to run a program many times with different input parameters or files.  
+Users often need to run the same program many times with different input parameters or files.
 
-It is straightforward to execute the command `sbatch` in a loop, but this approach is inefficient for job scheduling. When the iteration number is large, it will slow down the Slurm scheduler and affect all users.
+It is straightforward to submit multiple jobs by executing the command `sbatch` in a loop, but this approach is inefficient for job scheduling. When the number of iterations is large, it will slow down the Slurm scheduler and affect all users.
 
-A good practice is to use a job array, which is much more efficient. Refer to [this page](https://orcd-docs.mit.edu/running-jobs/job-arrays/) for details of job array. 
+A better practice is to use a job array, which is much more efficient. Refer to [this page](https://orcd-docs.mit.edu/running-jobs/job-arrays/) for details on running job arrays.
 
-However, if a user submits too many jobs in a short time, even with a job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user is set to be 500, so that there are not too many jobs queuing in a given time period. A user can submit up to 500 jobs with a job array.
+However, if a user submits too many jobs in a short time, even with a job array, it will still slow down the Slurm scheduler. The maximum number of jobs per user is set to be 500 to prevent too many jobs from queuing in a given time period. A user can submit up to 500 jobs with a job array.
 
 ??? "Terminology: job and job array"
-    On this page, the word job means either an individual job or a task in a job array. For example, submitting a job array with 100 tasks means submitting 100 jobs. 
+    On this page, the word job means either an individual job or a task in a job array. For example, submitting a job array with 100 tasks means submitting 100 jobs.
 
 When a user needs to run a program more than 500 times, it is recommended to combine serial execution and/or parallel execution with a job array.
 
-On this page, we will introduce serial execution and parallel execution, and how to integrate them with a job array. A simple Python code named [mycode.py](./scripts/many-jobs/mycode.py) is used for all examples. 
+On this page, we will introduce serial execution and parallel execution, and how to integrate them with a job array. A simple Python code named [mycode.py](./scripts/many-jobs/mycode.py) is used for all examples.
 
 ## Serial execution
 
@@ -44,7 +44,7 @@ done
 
 Each program uses 2 CPU cores and 2 GB of memory.
 
-The program is executed 10 times with different input parameters (i.e. the loop index ) each time. The next execution will start after the current execution is completed. 
+The program is executed 10 times with different input parameters (i.e. the loop index) each time. The next execution will start after the current execution is completed.
 
 Note that the serial execution increases the total run time. Request a wall time that is long enough for all the programs to complete. 
 
@@ -55,7 +55,7 @@ Note that the serial execution increases the total run time. Request a wall time
 
 ## Integrate serial execution and job array
 
-To scale up the number of programs, use a job array together with serial execution. Here is an example job script.
+To scale up the number of program executions, use a job array combined with serial execution. Here is an example job script.
  
 ```
 #!/bin/bash
@@ -80,7 +80,7 @@ done
 
 The number of jobs (tasks) of the array is 100 and each job runs 10 programs serially, so `10 * 100 = 1,000` programs are submitted.
 
-The array task ID (`$SLURM_ARRAY_TASK_ID`) and total number of tasks in the array (`$SLURM_ARRAY_TASK_COUNT`) are used to calculate the global index. Use the global index as the input parameter for the program.
+The `--array=0-99` option tells Slurm to create a job array with array task IDs 0 through 99. The array task ID (`$SLURM_ARRAY_TASK_ID`) and total number of tasks in the array (`$SLURM_ARRAY_TASK_COUNT`) are used to calculate the global index. Use the global index as the input parameter for the program.
 
 !!! Note
     **This approach is useful for submitting a large number of short-run-time programs.**
