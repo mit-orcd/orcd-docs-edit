@@ -14,9 +14,7 @@ module avail
 ```
 
 !!! Note
-    Engaging's newest hardware is running with the Rocky 8 operating system, whereas older hardware is using CentOS 7. You will see different module lists depending on whether you are on Rocky 8 or CentOS 7 node.
-
-    By default you will only see the modules for [core and community software](overview.md#software-landscape). All CentOS 7 software is considered deprecated.
+    By default you will only see the modules for [core and community software](overview.md#software-landscape).
     
     To show deprecated modules on Rocky 8 load the `deprecated-modules` module:
     ```bash

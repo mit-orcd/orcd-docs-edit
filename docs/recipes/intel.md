@@ -7,140 +7,65 @@ tags:
 
 # Intel compiler
 
-The Intel compiler is optimized for Intel CPUs. It provides the Math Kernel Library (MKL) in which linear algebra computations are optimized. The performance of C and Fortran codes can be improved on Intel CPUs if compiled with the Intel compiler. It provides an MPI implemetation for MPI programs that run on multipe nodes. Users should choose the Intel compiler for Intel CPUs when possible. 
+The Intel compiler is optimized for Intel CPUs. It provides the Math Kernel Library (MKL) in which linear algebra computations are optimized. The performance of C and Fortran codes can be improved on Intel CPUs if compiled with the Intel compiler. It provides an MPI implementation for MPI programs that run on multiple nodes. Users should choose the Intel compiler for Intel CPUs when possible. 
 
 
 ## Set up environment 
 
-=== "Rocky 8 nodes" 
+First load an Intel module:
 
-    If you use Rocky 8 nodes, log in to an appropriate head node first:
+```
+module load intel/2024.2.1
+```
 
-    ```
-    ssh <user>@orcd-login.mit.edu
-    ```
+Check commands for the Intel compiler and MPI and environment variables for MKL are ready for use:
 
-    Load an Intel module:
-
-    ```
-    module load intel/2024.2.1
-    ```
-
-    Check commands for the Intel compiler and MPI and environment variables for MKL are ready for use:
-
-    ```
-    $ which icx
-    /orcd/software/community/001/rocky8/intel/2024.2.1/compiler/2024.2/bin/icx
-    $ which ifort
-    /orcd/software/community/001/rocky8/intel/2024.2.1/compiler/2024.2/bin/ifort
-    $ which mpiicx
-    /orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpiicx
-    $ which mpiifort
-    /orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpiifort
-    $ echo $MKLROOT
-    /orcd/software/community/001/rocky8/intel/2024.2.1/mkl/2024.2
-    ```
-
-=== "CentOS 7 nodes" 
-
-    If you use CentOS 7 nodes, log in to an appropriate head node first:
-
-    ```
-    ssh <user>@orcd-vlogin003.mit.edu
-    ```
-
-    Load the modules for the Intel compiler, Intel MPI and MKL:
-
-    ```
-    module load intel/2018-01
-    module load impi/2018-01
-    module load mkl/2018-01 
-    ```
-
-    Check commands for the Intel compiler and MPI and environment variables for MKL are ready for use:
-
-    ```
-    $ which icc
-    /home/software/intel/2018-01/bin/icc
-    $ which ifort
-    /home/software/intel/2018-01/bin/ifort
-    $ which mpiicc
-    /home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mpi/intel64/bin/mpiicc
-    $ which mpiifort
-    /home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mpi/intel64/bin/mpiifort
-    $ echo $MKLROOT
-    /home/software/intel/2018-01/compilers_and_libraries_2018.1.163/linux/mkl/
-    ```
+```
+$ which icx
+/orcd/software/community/001/rocky8/intel/2024.2.1/compiler/2024.2/bin/icx
+$ which ifort
+/orcd/software/community/001/rocky8/intel/2024.2.1/compiler/2024.2/bin/ifort
+$ which mpiicx
+/orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpiicx
+$ which mpiifort
+/orcd/software/community/001/rocky8/intel/2024.2.1/mpi/2021.13/bin/mpiifort
+$ echo $MKLROOT
+/orcd/software/community/001/rocky8/intel/2024.2.1/mkl/2024.2
+```
 
 ## Compile and run programs with Intel compiler
 
-=== "Rocky 8 nodes" 
-    Once the environment is set up, you can compile your C or Fortran codes like this:
 
-    ```
-    icx -O3 name.c -o name
-    ifort -O3 name.f90 -o name
-    ```
-    
-    or MPI codes:
+Once the environment is set up, you can compile your C or Fortran codes like this:
 
-    ```
-    mpiicx -O3 name.c -o name
-    mpiifort -O3 name.f90 -o name
-    ```
+```
+icx -O3 name.c -o name
+ifort -O3 name.f90 -o name
+```
 
-    If you use GNU Make to build your program, set up the varialbes in the Makefile:
+or MPI codes:
 
-    ```
-    CC=icx
-    FC=ifort
-    MPICC=mpiicx
-    MPIFC=mpiifort
-    ```
+```
+mpiicx -O3 name.c -o name
+mpiifort -O3 name.f90 -o name
+```
 
-    Use the variable `MKLROOT` in the Makefile when needed.
+If you use GNU Make to build your program, set up the varialbes in the Makefile:
 
-    Finally, submit a job script specifying a partition with `-p <partition-name>` and loading the Intel module:
+```
+CC=icx
+FC=ifort
+MPICC=mpiicx
+MPIFC=mpiifort
+```
 
-    ```
-    module load intel/2024.2.1
-    ``` 
+Use the variable `MKLROOT` in the Makefile when needed.
 
-=== "CentOS 7 nodes"
+Finally, submit a job script specifying a partition with `-p <partition-name>` and loading the Intel module:
 
-    Once the environment is set up, you can compile your C or Fortran codes like this:
-
-    ```
-    icc -O3 name.c -o name
-    ifort -O3 name.f90 -o name
-    ```
-
-    or MPI codes:
-
-    ```
-    mpiicc -O3 name.c -o name
-    mpiifort -O3 name.f90 -o name
-    ```
-
-    If you use GNU Make to build your program, set up the varialbes in the Makefile:
-
-    ```
-    CC=icc
-    FC=ifort
-    MPICC=mpiicc
-    MPIFC=mpiifort
-    ```
-
-    Use the variable `MKLROOT` in the Makefile when needed.
-
-    Finally submit a job script specifying a partition with `-p <partition-name>` and loading the Intel module:
-
-    ```
-    module load intel/2018-01
-    module load impi/2018-01
-    module load mkl/2018-01 
-    ``` 
-
+```
+module load intel/2024.2.1
+``` 
 
 ## References
 

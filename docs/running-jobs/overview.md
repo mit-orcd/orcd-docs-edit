@@ -18,7 +18,7 @@ The standard partitions that the full MIT community has access to are:
 To see a summary of the nodes in each of these partitions, take a look at our [Available Resources](available-resources.md) page.
 
 !!! note "Older Partitions"
-    There are a few additional partitions that contain older nodes. These nodes run on a different operating system (Centos 7) than the ones above and therefore have a different software stack. Software built or installed on Rocky 8 or newer nodes will most likely not work on these older nodes. These partitions include `sched_mit_hill`, `newnodes`, `sched_any`, `sched_engaging_default`, and `sched_quicktest`.
+    There are a few additional partitions that contain older nodes. These partitions use an older naming scheme and start with `sched_mit`. These nodes run on a different operating system (Centos 7) than the ones above and therefore have a different software stack. Software built or installed on Rocky 8 or newer nodes will most likely not work on these older nodes.
 
 If you are part of a group that has purchased nodes you may see additional partitions. They will be named based on your PI's Kerberos or your group's name, depending on who purchased the nodes.
 

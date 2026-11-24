@@ -112,10 +112,6 @@ export LD_LIBRARY_PATH=/path/to/orca_6_0_1_linux_x86-64_shared_openmpi416/lib:$L
 export LD_LIBRARY_PATH=/orcd/software/core/001/spack/pkg/openmpi/4.1.4/zahpnmk/lib:$LD_LIBRARY_PATH
 ```
 
-!!! note
-    This example is for Engaging Rocky 8 nodes. For Engaging CentOS 7 nodes or
-    other clusters, you'll need to change the path to your OpenMPI library.
-
 We will also need to edit our input file to specify the number of processes:
 
 ```title="water.inp"

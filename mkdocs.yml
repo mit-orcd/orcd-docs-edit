@@ -13,7 +13,6 @@ nav:
     - VSCode: recipes/vscode.md
   - Filesystems and File Transfer:
     - General Use Filesystems:  filesystems-file-transfer/filesystems.md
-#    - Project Specific Filesystems: filesystems-file-transfer/project-filesystems.md
     - Transferring Files:  filesystems-file-transfer/transferring-files.md
 #    - Best Practices:  filesystems-file-transfer/filesystem-best-practices.md
   - Software:
@@ -26,9 +25,6 @@ nav:
     - Containers: software/apptainer.md
     - Licensed Software: software/licensed.md
     - Other Software: software/building-software.md
-#    - Installing Software: 
-#    - Singularity/Apptainer: 
-#    - Licensed Software: 
   - Running Jobs:
     - Scheduler Overview: running-jobs/overview.md
     - Requesting Resources: running-jobs/requesting-resources.md
@@ -36,13 +32,10 @@ nav:
     - Available Resources: running-jobs/available-resources.md
     - Application Analysis: running-jobs/application-analysis.md
     - Best Practices: running-jobs/best-practices.md
-#    - Slurm Partitions: running-jobs/
-#    - How To Run Different Workloads: running/page3.md
   - ORCD Recipes:
     - Advanced Job Array: recipes/many-jobs.md
     - AlphaFold 3: recipes/af3.md
     - CryoSPARC: recipes/cryosparc.md
-    - GROMACS: recipes/gromacs.md
     - Intel compiler: recipes/intel.md
     - Jupyter: recipes/jupyter.md
     - MATLAB Parallel Server: recipes/Getting_Started_With_Serial_And_Parallel_MATLAB.md
