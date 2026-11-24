@@ -373,6 +373,8 @@ mpirun -n $SLURM_NTASKS python $SLURM_SUBMIT_DIR/write_mpi_h5.py   # write the f
 mpirun -n $SLURM_NTASKS python $SLURM_SUBMIT_DIR/read_mpi_h5.py    # read the file
 ```
 
+This example runs all 4 ranks on one node, but MPI-IO also works across nodes. To run more ranks than one node can hold, or to use more of the filesystem bandwidth, request more nodes in the job script, for example `#SBATCH -N 2` and `#SBATCH -n 8`. The Python code does not need to change.
+
 ### WebDataset Example
 
 PyTorch is widely used for deep learning, and its training datasets often consist of a large number of small files, such as images or text samples. [WebDataset](https://github.com/webdataset/webdataset) is a dataset format designed to avoid storing many small files. It packs many samples into a few large tar files, called shards. Each data loader worker reads its shards sequentially, and multiple workers read different shards in parallel.
