@@ -7,6 +7,10 @@ tags:
  - Install Recipe
 ---
 
+!!! note "Legacy Page
+
+    This page describes how to install and run Gromacs on the oldest hardware in the cluster (partitions that start with `sched_mit`). For all other hardware load a Gromacs module.
+
 # Installing and Using GROMACS
 
 GROMACS is a free and open-source software suite for high-performance molecular dynamics and output analysis.

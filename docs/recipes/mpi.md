@@ -14,28 +14,28 @@ There are several MPI implementations, such as `OpenMPI`, `MPICH`, `MVAPICH`, an
 
 ## MPI modules
 
- There are OpenMPI modules available on the cluster. Before building or runrning your MPI programs, load the modules of a `gcc` compiler and an `openmpi` libraries to set up environment varialbes.
+There are OpenMPI modules available on the cluster. Before building or runrning your MPI programs, load the modules of a `gcc` compiler and an `openmpi` libraries to set up environment variables.
 
- There are two different operations systems (OS) on the cluster: CentOS 7 and Rocky 8. For CentOS 7 nodes, load these modules,
+To see which MPI versions are available:
+
 ```
-module load gcc/6.2.0 openmpi/3.0.4
+module avail openmpi
 ```
-or
+
+To load OpenMPI 4.1.4, run:
+
 ```
-module load gcc/9.3.0 openmpi/4.0.5
+module load openmpi/4.1.4
 ```
-For Rocky 8 nodes, load these modules,
+
+If you need to run MPI programs with GPUs, use one of the nvhpc modules instead. This module includes a version of MPI that supports Cuda. In this example we'll load `nvhpc/26.1`:
+
 ```
-module use /orcd/software/community/001/modulefiles
-module load gcc/12.2.0 openmpi/4.1.4-pmi-ucx-x86_64
-```
-If you need to run MPI programs with GPUs, load these modules instead,
-```
-module load gcc/12.2.0 openmpi/4.1.4-pmi-cuda-ucx-x86_64
+module load nvhpc/26.1
 ```
 
 !!! Note
-    Load a `gcc` module first, then the openmpi modules built with this `gcc` will be shown in the output of `module avail` and can be loaded. 
+    If you unload the default `gcc` module or run `module purge` you may not see an MPI module available. Load a `gcc` module to get access to the MPI modules.
 
 
 ## Build MPI programs
@@ -76,23 +76,20 @@ MPI programs are suitable to run on multiple CPU cores of a single node or on mu
 Here is an example script (e.g. named `job.sh`) to run an MPI job using multiple cores on a single node. 
 ```
 #!/bin/bash
-#SBATCH -p sched_mit_hill
+#SBATCH -p mit_normal
 #SBATCH -t 30
 #SBATCH -N 1
 #SBATCH -n 8
 #SBATCH --mem=10GB   
 
 srun hostname
-module load gcc/6.2.0 openmpi/3.0.4
+module load openmpi/4.1.4
 mpirun -n $SLURM_NTASKS my_program
 ```
 
 This job requests 8 cores (with `-n`) and 10 GB of memory (with `--mem`) on 1 node (with `-N`) for 30 minutes (with `-t 30`). The `-n` flag is the same as `--ntasks`. The specified value is saved to the variable `SLURM_NTASKS`. In this case, the requested number of cores is equal to `SLURM_NTASKS`. The command `mpirun -n $SLURM_NTASKS` ensures that each MPI task runs on one core. 
 
 The command `srun hostname` is to check if the correct number of cores and nodes are assigned to the job. It is not needed in production runs. 
-
-??? "Side note: partitions and modules"
-    The modules used in the above example is for the CentOS 7 OS, which works for these partitions: `sched_mit_hill`, `newnodes`, and `sched_any`. If using a partition with the Rocky 8 OS, such as `sched_mit_orcd`, change the modules accrodingly (see the first session). These are public partitions that are avaiable to most users. Many labs have partitions for their purchased nodes. 
 
 Submit the job with the `sbatch` command,
 ```
@@ -102,14 +99,14 @@ sbatch job.sh
 To run an MPI job on multiple nodes, refer to the following exmaple script.
 ```
 #!/bin/bash
-#SBATCH -p sched_mit_hill
+#SBATCH -p mit_normal
 #SBATCH -t 30
 #SBATCH -N 2
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=10GB
 
 srun hostname
-module load gcc/6.2.0 openmpi/3.0.4
+module load openmpi/4.1.4
 mpirun -n $SLURM_NTASKS my_program
 ```
 
@@ -126,11 +123,12 @@ To get a better idea on how many nodes, cores and memory should be requested, us
 
 First, what resources are available on the cluster? Use this command to check node and job info on the cluster, including the constraint associated with OS (`%f`), the nubmer of CPU cores (`%c`), the memory size (`%m`), the wall time limit (`%l`), and the current usage status (`%t`). 
 ```
- sinfo -N -p sched_mit_hill,newnodes,sched_any,sched_mit_orcd -o %f,%c,%m,%l,%t |grep -v drain
+ sinfo -N -p mit_normal,mit_preemptable -o %f,%c,%m,%l,%t |grep -v drain
 ```
-On typical nodes of the cluster, the number of cores per node varies from 16 to 128, and the memory per node varies from 63 GB to 515 GB.
+On typical nodes of the cluster, the number of cores per node varies from 16 to 128, and the memory per node varies from 384 GB to 515 GB.
 
-***To obtain a good performance of MPI programs, it is recommended to request all physical CPU cores and memory on each node.*** For example, request two nodes with 16 physical cores per node and all of the memory like this,
+***To obtain a good performance of MPI programs, it is recommended to request all physical CPU cores and memory on each node.*** For example, request two nodes with 16 physical cores per node and all of the memory like this:
+
 ```
 #SBATCH -N 2
 #SBATCH --ntasks-per-node=16
@@ -163,14 +161,14 @@ Some programs are designed in a hybrid scheme such that MPI and OpenMP are combi
 One way to run hybrid progmrams in Slurm jobs is to use the `-n` flag for the number of MPI tasks and the `-c` flag for the number of threads. The follwing is a job script that runs a program with 2 MPI tasks and 8 threads per task on a node with 16 cores.  
 ```
 #!/bin/bash
-#SBATCH -p sched_mit_hill
+#SBATCH -p mit_normal
 #SBATCH -t 30
 #SBATCH -N 1
 #SBATCH -n 2
 #SBATCH -c 8
 #SBATCH --mem=10GB
 
-module load gcc/6.2.0 openmpi/3.0.4
+module load openmpi/4.1.4
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 mpirun -n $SLURM_NTASKS my_program
 ```
@@ -183,14 +181,14 @@ Users only need to specify the numbers following Slurm flags `-n` and `-c`, for 
 Similarly, here is an exmple script to request two nodes, 
 ```
 #!/bin/bash
-#SBATCH -p sched_mit_hill
+#SBATCH -p mit_normal
 #SBATCH -t 30
 #SBATCH -N 2
 #SBATCH --ntasks-per-node=2
 #SBATCH -c 8
 #SBATCH --mem=0
 
-module load gcc/6.2.0 openmpi/3.0.4
+module load openmpi/4.1.4
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 mpirun -n $SLURM_NTASKS my_program
 ```
@@ -201,13 +199,13 @@ As mentioned in the previous section, it is recommended to run testing cases to 
 There is another way to submit jobs for hybrid programs, in which the `-c` flag is not used at all. For example, it also works like this,
 ```
 #!/bin/bash
-#SBATCH -p sched_mit_hill
+#SBATCH -p mit_normal
 #SBATCH -t 30
 #SBATCH -N 1
 #SBATCH -n 16
 #SBATCH --mem=10GB
 
-module load gcc/6.2.0 openmpi/3.0.4
+module load openmpi/4.1.4
 export OMP_NUM_THREADS=8
 MPI_NTASKS=$((SLURM_NTASK / $OMP_NUM_THREADS))
 mpirun -n $MPI_NTASKS my_program
