@@ -426,7 +426,7 @@ with wds.TarWriter("shard-%02d.tar" % task) as writer:  # one shard per task: sh
 ??? note "How samples are stored in a shard"
     A shard is a tar file. Each field of a sample is stored in the shard as a separate member file named `key.extension`, for example `sample0.npy` and `sample0.cls`. The extension tells WebDataset how to decode the member: `.npy` is a NumPy array, and `.cls` is an integer class label.
 
-Put many samples in each shard, so that the dataset has only a small number of shards. In this example, 1000 samples per shard give 4 shards for 4000 samples, instead of 4000 files. A typical shard size is 100 MB to 1 GB. The shards in this example are smaller, only for demonstration. Use at least as many shards as data loader workers, so that every worker has a shard to read.
+Put many samples in each shard, so that the dataset has only a small number of shards. In this example, 1000 samples per shard give 4 shards for 4000 samples, instead of 4000 files. A typical shard size is 100 MB to 1 GB. The shards in this example are smaller, only for demonstration.
 
 Read the shards with a PyTorch `DataLoader`. Save the code as `read_wds.py`:
 
@@ -470,12 +470,11 @@ if __name__ == "__main__":  # run this block only in the main process, not in th
 
     In real training, step 2 takes most of the time: workers read large amounts of data from storage, decode compressed data such as images or audio, and apply transforms such as cropping and resizing. Running several workers in parallel speeds up this step. Steps 1 and 3 are cheap: step 1 assigns the shards once at the start, and in step 3 the main process only receives finished batches, one at a time.
 
-Use the following job script for both the write job array and the read job. It requests 4 CPU cores for the read job, one for each data loader worker. Save it as `wds.sh`:
+Use the following job script for both the write job array and the read job. Save it as `wds.sh`:
 
 ```bash
 #!/bin/bash
 #SBATCH -p mit_normal
-#SBATCH -c 4  # 4 CPU cores, one for each worker
 #SBATCH -t 00:10:00
 
 module load miniforge/26.7.2-0
@@ -484,16 +483,16 @@ cd ~/orcd/scratch                      # run heavy I/O on scratch storage
 python $SLURM_SUBMIT_DIR/$1            # $1: the Python script to run
 ```
 
-Submit the write job as a job array with 4 tasks. Each task is serial and needs only 1 CPU core. On the command line, `-a 0-3` creates the job array, and `-c 1` overrides `#SBATCH -c 4` in the job script:
+Submit the write job as a job array with 4 tasks. Each task is serial, so it needs only 1 CPU core:
 
 ```bash
 sbatch -a 0-3 -c 1 wds.sh write_wds.py
 ```
 
-After all write tasks finish, submit the read job:
+After all write tasks finish, submit the read job with 4 CPU cores, one for each data loader worker:
 
 ```bash
-sbatch wds.sh read_wds.py
+sbatch -c 4 wds.sh read_wds.py
 ```
 
 ### Archive Example
