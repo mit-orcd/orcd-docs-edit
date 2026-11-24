@@ -56,6 +56,7 @@ nav:
     - PyTorch on GPUs - II: recipes/torch-gpu-intermediate.md
     - RAG: recipes/rag.md
     - RELION: recipes/relion.md
+    - Using Storage: recipes/storage.md
     - VASP: recipes/build-vasp-gcc-cpu.md
     - VSCode: recipes/vscode.md
     - X11: recipes/X11.md
