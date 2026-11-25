@@ -126,19 +126,21 @@ The **Plots** tab will show you visualizations of the job's resource usage over 
 
 ## htop
 
-You can get a lot of information about your running jobs through the ```htop``` command. It sort of gives you a way to watch the compute node your job is running on work on your job. It will show you your current instantaneous CPU and Memory utilization, how many cores are being used, how many threads are running, and a list of your processes running on the node, among other things. If you are familiar with the top Linux command, it is similar but shows more information.
+You can get a lot of information about your running jobs through the ```htop``` command. It lets you watch the compute node as it works on your job. It will show you your current instantaneous CPU and memory utilization, how many cores are being used, how many threads are running, and a list of your processes running on the node, among other things. If you are familiar with the Linux `top` command, it is similar but shows more information.
 
 ### How to Run htop
 
-The key thing to know is you need to run the ```htop``` command on the node where your job is running. First, get the name of the node your job is running on. You can do this by running the ```squeue --me``` command. The last column has the node name. If you are running in an interactive job, the node name will also be at your command prompt.
+The key thing to know is you need to run the ```htop``` command on the node where your job is running. First, get the name of the node your job is running on. You can do this by running the ```squeue --me``` command. The last column has the node name. If you are running an interactive job, the node name will also be at your command prompt.
 
-The next step is to SSH to the node where your job is running. Run the command ```ssh NODENAME```, where NODENAME is the name of the node you just found. If you are running an interactive job, open a new terminal tab or window and log into Engaging. Note that you can only SSH to nodes where you have a job running, and you should exit the node once you are done monitoring your job with the exit command.
+The next step is to SSH to the node where your job is running. Run the command ```ssh NODENAME```, where NODENAME is the name of the node you just found. If you are running an interactive job, open a new terminal tab or window and log into Engaging. Note that you can only SSH to nodes where you have a job running, and you should exit the node once you are done monitoring your job with the `exit` command.
 
 ![htop ssh](../images/application-analysis/htop_ssh.png)
 
 In the above image, you can see we have run ```ssh node1600```, and the command prompt now indicates we are on that node. From here, we can run:
 
-```htop -u USERNAME```
+```bash
+htop -u USERNAME
+```
 
 where USERNAME is your username. Specifying your username filters out processes that don't belong to you and makes it easier to interpret the output.
 
@@ -154,7 +156,7 @@ If you are on a node with a lot of cores, it may be difficult to see the full ou
 
 ![](../images/application-analysis/htop_cpuutil.png)
 
-In the top half, you'll see numbered bars with percentages. These represent the cores on the node. You'll see twice the number of bars as cores. This is due to hyperthreading: each physical core has two "virtual" cores. This display gives you a rough idea of how hard the CPUs on the node are working. If a CPU is at 100%, it is fully utilized. If there isn't much activity, not much is going on on the node. If you are expecting multiple processes or threads to be working, and you only see one bar fill up, you have an indication that you might need to change a setting. Alternatively, maybe you haven't explicitly asked your program to use multiple cores and you expect it to use only one, but you see multiple CPUs at 100%, even when you are the only person on the node. In that case, you may need to tell the package you are using how many threads or CPUs to use.
+In the top half, you'll see numbered bars with percentages. These represent the cores on the node. You'll see twice the number of bars as cores. This is due to hyperthreading: each physical core has two "virtual" cores. This display gives you a rough idea of how hard the CPUs on the node are working. If a CPU is at 100%, it is fully utilized. If the bars are mostly empty, the node is mostly idle. If you are expecting multiple processes or threads to be working, and you only see one bar fill up, you have an indication that you might need to change a setting. Alternatively, maybe you haven't explicitly asked your program to use multiple cores and you expect it to use only one, but you see multiple CPUs at 100%, even when you are the only person on the node. In that case, you may need to tell the package you are using how many threads or CPUs to use.
 
 ![](../images/application-analysis/htop_memory.png)
 
@@ -162,25 +164,25 @@ In the top half, you'll also see a bar labeled **Mem** under the CPU bars. This 
 
 ![](../images/application-analysis/htop_tasksthreads.png)
 
-Next to the **Mem** bar, you'll see some text labeled **Tasks**. This lists running processes (tasks), threads, and running processes or threads. You generally don't want more running processes or threads than the number of cores on the node. Again, this number may reflect another user's threads or processes running on the node. In the screenshot above, it shows that there are 43 running threads. I requested 16 cores for the job, and with hyperthreading, the application created 32 threads. There was another user running on the node who was running their own job that added a few more threads.
+Next to the **Mem** bar, you'll see some text labeled **Tasks**. This shows the total number of processes (tasks), the number of threads, and how many are currently running. You generally don't want more running processes or threads than the number of cores on the node. Again, this number may reflect another user's threads or processes running on the node. In the screenshot above, it shows that there are 43 running threads. We requested 16 cores for the job, and with hyperthreading, the application created 32 threads. There was another user running on the node who was running their own job that added a few more threads.
 
 ![](../images/application-analysis/htop_load.png)
 
-Below the **Tasks** is a line that shows **Load average**. It shows three numbers: the load average for the past 1, 5, and 15 minutes. The load is roughly the number of running processes, the load average over the last X minutes. This number is somewhat related to CPU utilization, as each CPU is realistically capable of running a single process at a time. It therefore gives you roughly a single-number condensed view of the CPU utilization image at the top. If this number is high in relation to the number of cores on the node, then you know those cores are working hard. If, for some reason, this number is over the number of cores, you are likely overworking the node and should scale back on the number of threads or processes you have running on that node. Engaging is configured to prevent this, but it is a good thing to keep an eye on. You may find that with fewer threads or processes, your application will actually run faster in this case, as they are no longer competing for resources.
+Below the **Tasks** is a line that shows **Load average**. It shows three numbers: the load average for the past 1, 5, and 15 minutes. The load is roughly the number of running processes; the load average is that number averaged over the last 1, 5, or 15 minutes. This number is somewhat related to CPU utilization, as each CPU is realistically capable of running a single process at a time. It therefore gives you roughly a single-number condensed view of the CPU utilization image at the top. If this number is high in relation to the number of cores on the node, then you know those cores are working hard. If, for some reason, this number is over the number of cores, you are likely overworking the node and should scale back on the number of threads or processes you have running on that node. Engaging is configured to prevent this, but it is a good thing to keep an eye on. You may find that with fewer threads or processes, your application will actually run faster in this case, as they are no longer competing for resources.
 
 ![](../images/application-analysis/htop_output_bottom.png)
 
-Now let's take a quick look at the bottom half. As mentioned above, this shows all of your processes and threads running on the node. You can see the PID (process ID), username (you'll only see your own processes), state, CPU utilization %, memory usage %, and the command that initiated the process, among other things. Clicking on the different headers re-sorts the list by that column, here I have it sorted by CPU%. In this case, I started one Python process, and that Python application created many threads. The main process happens to be at the top in this case, since I have it sorted by CPU%. When you have a multithreaded application, the CPU usage for the individual threads is included in the number for the main process. Each thread is currently using about 100% of a CPU (100% is full usage of a single CPU), so the total for the entire application is 3092%, meaning my application is using the equivalent of 30-31 full cores across all its threads. So even though I have 43 total running threads and/or processes, they aren't all using the full power of a CPU. All of the numbers on this bottom chart are instantaneous, rather than an average, but you can see the CPU% for the main task matches up somewhat with the load average above, when taking into account another user running on the node.
+Now let's take a quick look at the bottom half. As mentioned above, this shows all of your processes and threads running on the node. You can see the PID (process ID), username (you'll only see your own processes), state, CPU utilization %, memory usage %, and the command that initiated the process, among other things. Clicking on the different headers re-sorts the list by that column. Here we have it sorted by CPU%. In this case, we started one Python process, and that Python application created many threads. The main process happens to be at the top in this case, since we have it sorted by CPU%. When you have a multithreaded application, the CPU usage for the individual threads is included in the number for the main process. Each thread is currently using about 100% of a CPU (100% is full usage of a single CPU), so the total for the entire application is 3092%, meaning our application is using the equivalent of 30-31 full cores across all its threads. So even though we have 43 total running threads and/or processes, they aren't all using the full power of a CPU. All of the numbers on this bottom chart are instantaneous, rather than an average, but you can see the CPU% for the main task matches up somewhat with the load average above, when taking into account another user running on the node.
 
 ## nvidia-smi
 
-The nvidia-smi command is useful for evaluating how your GPU-accelerated applications are making use of the GPU(s) that they are using. It will give you information about GPU utilization, GPU Memory utilization, and processes using the GPU.
+The nvidia-smi command is useful for evaluating how your GPU-accelerated applications are making use of their GPU(s). It will give you information about GPU utilization, GPU memory utilization, and processes using the GPU.
 
 ### How to Run nvidia-smi
-Like htop in the previous unit, you must be on the same node as your job to run nvidia-smi to monitor it. Further, because it is a GPU utility, if you try to run nvidia-smi on a node without a GPU, you will get a "command not found" error. And, similar to htop, you will only see statistics for the GPU(s) you have allocated to your job, so if you are on a node with GPUs but didn't request any, you won't see any listed. For more information about how to request GPUs for your job, see the pages on [Requesting Resources](https://orcd-docs.mit.edu/running-jobs/requesting-resources/#gpus) and [Scheduler Overview](https://orcd-docs.mit.edu/running-jobs/overview).
+Like htop in the previous section, you must be on the same node as your job to run nvidia-smi to monitor it. Further, because it is a GPU utility, if you try to run nvidia-smi on a node without a GPU, you will get a "command not found" error. And, similar to nvtop, you will only see statistics for the GPU(s) you have allocated to your job, so if you are on a node with GPUs but didn't request any, you won't see any listed. For more information about how to request GPUs for your job, see the pages on [Requesting Resources](https://orcd-docs.mit.edu/running-jobs/requesting-resources/#gpus) and [Scheduler Overview](https://orcd-docs.mit.edu/running-jobs/overview).
 
 
-First, get the name of the node your job is running on. You can do this by running the ```squeue --me``` command. The last column has the node name. In the image below, you can see the node name, node2804, in the last line of the squeue output. The next step is to SSH to the node where your job is running. Run the command ```ssh NODENAME```, where NODENAME is the name of the node you just found. If you are running an interactive job, open a new terminal tab or window and log into Engaging and ssh to the node from there. Note that you can only ssh to nodes where you have a job running, and you should exit the node once you are done monitoring your job with the exit command.
+First, get the name of the node your job is running on. You can do this by running the ```squeue --me``` command. The last column has the node name. In the image below, you can see the node name, node2804, in the last line of the squeue output. The next step is to SSH to the node where your job is running. Run the command ```ssh NODENAME```, where NODENAME is the name of the node you just found. If you are running an interactive job, open a new terminal tab or window, log into Engaging, and SSH to the node from there. Note that you can only SSH to nodes where you have a job running, and you should exit the node once you are done monitoring your job with the `exit` command.
 
 ![](../images/application-analysis/nvidia-smi_ssh.png)
 
@@ -188,7 +190,7 @@ In the above image, you can see we have run ```ssh node2804```, and the command 
 
 ### Using nvidia-smi
 
-When you run `nvidia-smi`, you will get a single snapshot. If you would like this to continuously refresh, which is a bit more useful in practice, you can use the -l flag, which prints a refresh to the screen at a regular interval. By default, this interval is 5 seconds, or you can specify an interval yourself. For example, if you want it to refresh every 10 seconds, you would run ```nvidia-smi -l 10```. Pressing Control+C on your keyboard will stop the continuous refresh.
+When you run `nvidia-smi`, you will get a single snapshot. If you would like this to continuously refresh, which is a bit more useful in practice, you can use the `-l` flag, which prints a refresh to the screen at a regular interval. By default, this interval is 5 seconds, or you can specify an interval yourself. For example, if you want it to refresh every 10 seconds, you would run ```nvidia-smi -l 10```. Pressing Control+C on your keyboard will stop the continuous refresh.
 
 ![](../images/application-analysis/nvidia-smi_output.png)
 
@@ -196,7 +198,7 @@ Similar to htop, the top half of nvidia-smi shows you information about the GPU(
 
 ![](../images/application-analysis/nvidia-smi_output_box1.png)
 
-The first box, circled above, tells you about the GPU, its state, and some of its physical properties. You can see the GPU name (L40S), its current temperature (38 ºC), and current power usage and power cap (using 184W, capped at 350W). This is more informational than anything, but knowing how much power your GPU is using might be something you want to think about, especially if you are using them often.
+The first box, circled above, tells you about the GPU, its state, and some of its physical properties. You can see the GPU name (L40S), its current temperature (38 °C), and current power usage and power cap (using 184W, capped at 350W). This is more informational than anything, but knowing how much power your GPU is using might be something you want to think about, especially if you are using GPUs often.
 
 ![](../images/application-analysis/nvidia-smi_output_box2.png)
 
@@ -204,7 +206,7 @@ The most useful part of the second box is the memory usage. It shows both the me
 
 ![](../images/application-analysis/nvidia-smi_output_box3.png)
 
-The final box at the top shows the GPU utilization. You can think of this as how much you are making use of the GPU. You want to aim for 100% utilization, which is when you are getting the most out of it. If your utilization is low and if the memory allows, you may want to give the GPU more data to work on. You could also train multiple models on the same GPU. If your GPU utilization is low, it may also be a sign that your application doesn't have enough work for the GPU to do, and you should check the speedup you are getting with the GPU vs CPUs. If it is modest, say 2x or 4x, then it may not be worth using GPUs, and you can likely get more performance by scaling out to more CPUs.
+The last box in the top section shows the GPU utilization. You can think of this as how much you are making use of the GPU. You want to aim for 100% utilization, which is when you are getting the most out of it. If your utilization is low and if the memory allows, you may want to give the GPU more data to work on. You could also train multiple models on the same GPU. If your GPU utilization is low, it may also be a sign that your application doesn't have enough work for the GPU to do, and you should check the speedup you are getting with the GPU vs CPUs. If it is modest, say 2x or 4x, then it may not be worth using GPUs, and you can likely get more performance by scaling out to more CPUs.
 
 ![](../images/application-analysis/nvidia-smi_output_box4.png)
 
@@ -215,7 +217,7 @@ The final table at the bottom shows the process(es) running on the GPU(s) you ha
 
 ### How to Run nvtop
 
-The principles of usage are very similar to those of [htop](#htop), and we will outline them here. First, ssh into the node on which you are running a job using a GPU (```ssh NODENAME```) and run ```nvtop```. You can refer to the htop section [above](#how-to-run-htop) for more details on finding the nodename as well as the SSH process. 
+The principles of usage are very similar to those of [htop](#htop). First, SSH into the node on which you are running a job using a GPU (```ssh NODENAME```) and run ```nvtop```. You can refer to the htop section [above](#how-to-run-htop) for more details on finding the node name as well as the SSH process. 
 
 ### Using nvtop
 
@@ -239,6 +241,6 @@ In addition to the GPU's compute running at 99%, the CPU is also running at 99%.
 
 ![](../images/application-analysis/nvtop-dynamic.png)
 
-On the top right, we see that "RX", data reception rate, and "TX", data transmission rate, have increased after querying the RAG model. These metrics are for data transfer between the CPU and GPU. We can also notice that the power and temperature of the system have shot up from our first look at the nvtop output. The metrics outlined in this snapshot are ones the user has less direct control over, but they can be useful for getting a better idea of how the GPU is operating.
+On the top right, we see that "RX", data reception rate, and "TX", data transmission rate, have increased after querying the RAG model. These metrics are for data transfer between the CPU and GPU. We can also notice that the power and temperature of the GPU have shot up from our first look at the nvtop output. The metrics outlined in this snapshot are ones the user has less direct control over, but they can be useful for getting a better idea of how the GPU is operating.
 
 After taking a look at all the metrics above, you could evaluate whether you want to request more or less memory in the future and whether the job can be modified to use the GPU's compute more efficiently.
