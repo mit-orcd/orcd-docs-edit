@@ -1,6 +1,7 @@
 ---
 tags:
  - Howto Recipes
+ - Apptainer
 ---
 
 # Running AlphaFold 3 on Engaging
@@ -45,7 +46,7 @@ rm af3.bin.zst
 Google DeepMind provides instructions in their repository on running AlphaFold 3 with Docker. Docker is not compatible with most HPC environments, so we need to run a pre-built container using Apptainer. We have an image saved globally on Engaging, located at:
 
 ```
-/orcd/software/community/001/container_images/alphafold3/20260318/alphafold3.sif
+/orcd/software/community/001/container_images/alphafold3/20261110/alphafold3.sif
 ```
 
 !!! note
@@ -101,16 +102,15 @@ You can either run this in an interactive session or in a batch job:
 
     # Enter the path to the AF3 dataset and container image:
     DATABASES_DIR=/orcd/datasets/001/alphafold3
-    IMAGE_PATH=/orcd/software/community/001/container_images/alphafold3/20260318/alphafold3.sif
+    IMAGE_PATH=/orcd/software/community/001/container_images/alphafold3/20261110/alphafold3.sif
 
     # Enter the directory of the AF3 material:
     WORKDIR=~/af3
 
-    apptainer exec \
+    apptainer run \
         --bind $DATABASES_DIR:/root/public_databases \
         --nv \
         $IMAGE_PATH \
-        python /app/alphafold/run_alphafold.py \
         --json_path=$WORKDIR/af_input/fold_input.json \
         --model_dir=$WORKDIR/models \
         --output_dir=$WORKDIR/af_output \
@@ -133,16 +133,15 @@ You can either run this in an interactive session or in a batch job:
 
     # Enter the path to the AF3 dataset and container image:
     DATABASES_DIR=/orcd/datasets/001/alphafold3
-    IMAGE_PATH=/orcd/software/community/001/container_images/alphafold3/20260318/alphafold3.sif
+    IMAGE_PATH=/orcd/software/community/001/container_images/alphafold3/20261110/alphafold3.sif
 
     # Enter the directory of the AF3 material:
     WORKDIR=~/af3
 
-    apptainer exec \
+    apptainer run \
         --bind $DATABASES_DIR:/root/public_databases \
         --nv \
         $IMAGE_PATH \
-        python /app/alphafold/run_alphafold.py \
         --json_path=$WORKDIR/af_input/fold_input.json \
         --model_dir=$WORKDIR/models \
         --output_dir=$WORKDIR/af_output \
@@ -158,4 +157,4 @@ You can either run this in an interactive session or in a batch job:
 Output is saved to the `af_output` directory.
 
 !!! note
-    Apptainer only binds your home directory by default. If your working directory is set to somewhere that is not in your home directory, then you will need to explicitly tell Apptainer to bind mount that directory. You can do this by adding `--bind $WORKDIR` to your `apptainer` command (after `exec` but before `$IMAGE_PATH`)
+    Apptainer only binds your home directory by default. If your working directory is set to somewhere that is not in your home directory, then you will need to explicitly tell Apptainer to bind mount that directory. You can do this by adding `--bind $WORKDIR` to your `apptainer` command (after `exec` but before `$IMAGE_PATH`).
