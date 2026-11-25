@@ -62,4 +62,5 @@ module purge
 
 This command is helpful when you want to ensure a clean environment. You can include it at the start of your job scripts to make sure your jobs all have a consistent environment. Loaded modules may carry over into your jobs, and sometimes can interfere with the work you are doing in unexpected ways.
 
-
+!!! tip
+    It is also possible to create your own module that points to software that you have installed on your own. If you're interested in how to do this, refer to our [recipe on module creation](../recipes/create_modules.md).
