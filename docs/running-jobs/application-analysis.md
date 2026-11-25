@@ -4,99 +4,99 @@ Here we provide an overview of how to analyze the resources your jobs use, utili
 
 ## Jobstats
 
-[Jobstats](https://github.com/PrincetonUniversity/jobstats) is a tool developed by [Princeton Research Computing](https://researchcomputing.princeton.edu/home) that allows users to easily check CPU, GPU, and memory efficiency of their jobs. On Engaging, we currently have the `jobstats` command installed on login nodes, with job data being collected on most of our compute nodes. This means that, if you have a job running, you can run `jobstats <JOB ID>` from a login node and get basic efficiency information about your job.
+[Jobstats](https://github.com/PrincetonUniversity/jobstats) is a tool developed by [Princeton Research Computing](https://researchcomputing.princeton.edu/home) that allows users to easily check CPU, GPU, and memory efficiency of their jobs. On Engaging, we currently have the `jobstats` command installed on login nodes, with job data being collected on most of our compute nodes. This means that, if you have an actively running or completed job, you can run `jobstats <JOB ID>` from a login node and get basic efficiency information about your job.
 
 One key difference between `jobstats` and other tools like `nvtop` is that `jobstats` shows utilization in aggregate rather than real-time. For example:
 
 ```
-[secorey@login007 ~]$ jobstats 9358523
+[secorey@login007 ~]$ jobstats 30453354
 
 ================================================================================
                               Slurm Job Statistics                              
 ================================================================================
-         Job ID: 9358523
-   User/Account: secorey/mit_general
+         Job ID: 30453354
+   User/Account: secorey/mit_amf_advanced_cpu
        Job Name: submit_mnist.sh
           State: RUNNING
           Nodes: 1
       CPU Cores: 1
-     CPU Memory: 4GB (4GB per CPU-core)
-  QOS/Partition: normal/mit_normal
+     CPU Memory: 1GB
+  QOS/Partition: mit_amf_advanced_cpu/mit_normal
         Cluster: eofe7
-     Start Time: Wed Feb 18, 2026 at 11:29 AM
-       Run Time: 00:02:30 (in progress)
-     Time Limit: 12:00:00
+     Start Time: Wed Nov 25, 2026 at 6:22 AM
+       Run Time: 00:03:37 (in progress)
+     Time Limit: 00:15:00
 
                               Overall Utilization                               
 ================================================================================
-  CPU utilization  [||||||||||||||||||||||||                       48%]
-  CPU memory usage [|||||||||                                      19%]
+  CPU utilization  [|||||||||||||||||||||||||||||||||||||||||||||| 92%]
+  CPU memory usage [|||||||||||||||||||||||||||||||||||||          74%]
 
                               Detailed Utilization                              
 ================================================================================
   CPU utilization per node (CPU time used/run time)
-      node3310.inband: 00:02:24/00:05:01 (efficiency=47.8%)
+      node2705.inband: 00:03:18/00:03:37 (efficiency=91.5%)
 
   CPU memory usage per node - used/allocated
-   node3310.inband: 779.2MB/4GB (389.6MB/2GB per core of 2)
+      node2705.inband: 745.0MB/1000.0MB 
 
                                      Notes                                      
 ================================================================================
-  * The overall CPU utilization of this job is 48%. This value is low compared
-    to the target range of 90% and above. Please investigate the reason for
-    the low efficiency. For more info:
-      https://orcd-docs.mit.edu/running-jobs/application-analysis/
-
   * Have a nice day!
 ```
 
 CPU utilization is calculated by dividing the total active CPU time by the total CPU wall time for the job, while memory usage is shown as the peak memory utilization over the course of the job.
 
-!!! note
-    Sometimes Jobstats may report CPU utilization that does not go higher than 50% even if the CPU cores have been active during the majority of your job. This is due to an underlying bug where the number of CPU cores is reported as double the allocated amount.
-
 We can also look at GPU metrics:
 
 ```
-[secorey@login006 ~]$ jobstats 9580918
+[secorey@login007 ~]$ jobstats 30451572
 
 ================================================================================
                               Slurm Job Statistics                              
 ================================================================================
-         Job ID: 9580918
-   User/Account: secorey/mit_general
-       Job Name: sys/dashboard/sys/jupyter
-          State: RUNNING
+         Job ID: 30451572
+   User/Account: secorey/mit_amf_advanced_gpu
+       Job Name: train_gpt.sbatch
+          State: COMPLETED
           Nodes: 1
       CPU Cores: 4
-     CPU Memory: 32GB (8GB per CPU-core)
+     CPU Memory: 16GB (4GB per CPU-core)
            GPUs: 1
-  QOS/Partition: normal/mit_normal_gpu
+  QOS/Partition: mit_amf_advanced_gpu/mit_normal_gpu
         Cluster: eofe7
-     Start Time: Mon Feb 23, 2026 at 9:53 AM
-       Run Time: 00:05:15 (in progress)
-     Time Limit: 02:00:00
+     Start Time: Wed Nov 25, 2026 at 5:56 AM
+       Run Time: 00:07:08
+     Time Limit: 01:00:00
 
                               Overall Utilization                               
 ================================================================================
-  CPU utilization  [||||||                                         13%]
+  CPU utilization  [||||||||||||                                   24%]
   CPU memory usage [|||                                             6%]
-  GPU utilization  [||||||||||||||||||||||||||||                   56%]
-  GPU memory usage [|||||||||||||||||||||||||||||||||||||||||||||||96%]
+  GPU utilization  [|||||||||||||||||||||||||||||||||||||||||||||||99%]
+  GPU memory usage [|||||                                          11%]
 
                               Detailed Utilization                              
 ================================================================================
   CPU utilization per node (CPU time used/run time)
-      node2804.inband: 00:05:20/00:42:01 (efficiency=12.7%)
+      node3002.inband: 00:06:52/00:28:32 (efficiency=24.1%)
 
   CPU memory usage per node - used/allocated
-   node2804.inband: 1.9GB/32GB (249.0MB/4GB per core of 8)
+      node3002.inband: 908.7MB/16GB (227.2MB/4GB per core of 4.0)
 
   GPU utilization per node
-      node2804.inband (GPU 1): 55.7%
+      node3002.inband (GPU 3): 98.9%
 
   GPU memory usage per node - maximum used/total
-      node2804.inband (GPU 1): 43.0GB/45GB (95.5%)
+      node3002.inband (GPU 3): 4.8GB/45GB (10.7%)
+
+  GPU Power Usage per node
+      node3002.inband (GPU 3): 338 W
+
+  GPU Temperature per node
+      node3002.inband (GPU 3): 62°C
+
+  https://orcd-docs.mit.edu/running-jobs/overview/#retrieving-job-stats/
 
                                      Notes                                      
 ================================================================================
@@ -204,7 +204,7 @@ The most useful part of the second box is the memory usage. It shows both the me
 
 ![](../images/application-analysis/nvidia-smi_output_box3.png)
 
-The final box at the top shows the GPU utilization. You can think of this as how much you are making use of the GPU. You want to aim for 100% utilization, which is when you are getting the most out of it. If your utilization is low and if the memory allows, you may want to give the GPU more data to work on. You could also train multiple models on the same GPU. If your GPU utilization is low, it may also be a sign that your application doesn't have enough work for the GPU to do, and you should check the speedup you are getting with the GPU vs CPUs. If it is modest, say 2x or 4x, then it isn't worth using GPUs, and you can likely get more performance by scaling out to more CPUs.
+The final box at the top shows the GPU utilization. You can think of this as how much you are making use of the GPU. You want to aim for 100% utilization, which is when you are getting the most out of it. If your utilization is low and if the memory allows, you may want to give the GPU more data to work on. You could also train multiple models on the same GPU. If your GPU utilization is low, it may also be a sign that your application doesn't have enough work for the GPU to do, and you should check the speedup you are getting with the GPU vs CPUs. If it is modest, say 2x or 4x, then it may not be worth using GPUs, and you can likely get more performance by scaling out to more CPUs.
 
 ![](../images/application-analysis/nvidia-smi_output_box4.png)
 
@@ -227,7 +227,7 @@ Above, we see a display that comes up after running ```nvtop```. Highlighted in 
 
 ![](../images/application-analysis/nvtop-compute.png)
 
-In the image above, we have only loaded the model and have not yet asked a prompt, which kicks off computation. As we expect, we see that the model takes considerable memory (31GB out of the possible 45GB), but the computing power of the GPU is not being used. These can be seen in two places on the screen, highlighted in yellow. Note, however, that some applications, like JAX, artificially fill the memory of a GPU even if that memory is not needed. This can lead to an inaccurate picture of GPU utilization, and it would be good to check whether your application could be doing this.
+In the image above, we have only loaded the model and have not yet asked a prompt, which kicks off computation. As we expect, we see that the model takes considerable memory (31GB out of the possible 45GB), but the computing power of the GPU is not being used. These can be seen in two places on the screen, highlighted in yellow. Note, however, that some applications, like JAX, preallocate the memory of a GPU even if that memory is not needed. This can lead to an inaccurate picture of GPU utilization, and it would be good to check whether your application could be doing this.
 
 ![](../images/application-analysis/nvtop-history.png)
 
